@@ -1,0 +1,1 @@
+import{gO as n,dN as i,fd as u,a2 as l,bF as e,dG as p,a3 as f}from"./entry.a7f8609d.js";const y=n(()=>{const s=i("auth.session-token").value,t=u();if(s){const o=l();return o&&t?e("/employer/interview"):o?void 0:e("/")}const r=p("pathBefore",""),a=f();return r.value=a.fullPath,e("/employer/login")});export{y as default};

@@ -1,0 +1,1 @@
+import{aW as e}from"./entry.a7f8609d.js";const s=e("inquiry",{state:()=>({name:"",email:"",phoneNumber:"",content:"",isConfirm:null}),actions:{setSystemData(t){this.name=t.name,this.email=t.email,this.phoneNumber=t.phoneNumber,this.content=t.content,this.isConfirm=t.isConfirm}}});export{s as u};

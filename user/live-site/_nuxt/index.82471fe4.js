@@ -1,0 +1,1 @@
+import{_ as n}from"./NoticeDetail.vue.41f99f12.js";import{z as r,H as t,X as a,L as s,eE as i}from"./entry.a7f8609d.js";import"./useDevice.26f8f470.js";import"./icon-keyboard-arrow-right-black.76fc5f2a.js";const u=r({__name:"index",setup(l){return(e,m)=>{const o=n;return t(),a(o,{role:("ERole"in e?e.ERole:s(i)).EMPLOYER},null,8,["role"])}}});export{u as default};

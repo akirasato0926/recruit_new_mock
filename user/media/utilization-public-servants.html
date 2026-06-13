@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>公務員転職サイトの活用法 ── 効率よく募集を見つける｜PUBLIC CONNECT MEDIA</title><meta name="description" content="情報が分散しがちな公務員採用では、専門の求人サイトの活用が効率的です。"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet"><style>
+:root{--ink:#0e1714;--ink-2:#39423e;--sub:#717b76;--line:#e7ebe9;--bg-soft:#f5f7f6;
+  --g-700:#0c472a;--g-600:#115A36;--g-500:#1d8b56;--g-400:#51b883;
+  --blue:#115a36;--accent:#FE4B28;
+  --grad:#115A36;--content:1280px;}
+*{box-sizing:border-box;} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:#fff;line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:var(--content);margin:0 auto;padding:0 32px;} .en{font-family:"Outfit",sans-serif;}
+/* header */
+.m-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);}
+.m-header .wrap{display:flex;align-items:center;gap:32px;height:72px;}
+.m-brand{font-family:"Outfit",sans-serif;font-weight:800;font-size:21px;letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+.m-nav{display:flex;gap:26px;margin-left:6px;}
+.m-nav a{font-size:14px;font-weight:700;color:var(--ink-2);} .m-nav a:hover{color:var(--g-700);}
+.m-actions{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.m-searchbox{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg-soft);}
+.m-searchbox svg{width:17px;height:17px;stroke:var(--sub);flex:none;}
+.m-searchbox input{border:none;background:transparent;outline:none;font-size:14px;width:170px;font-family:"Noto Sans JP",sans-serif;}
+.m-back{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;color:#fff;background:var(--ink);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+.m-back:hover{background:var(--g-700);}
+/* 共通の記事ラッパ（この幅にカバー・本文＋関連を揃える） */
+.a-wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+.crumb{font-size:12px;color:var(--sub);font-weight:700;margin:30px 0 22px;display:flex;gap:8px;flex-wrap:wrap;}
+.crumb a:hover{color:var(--g-700);}
+.a-cat{display:inline-block;background:var(--grad);color:#fff;font-weight:900;font-size:11px;letter-spacing:.08em;padding:6px 13px;border-radius:4px;}
+.a-title{font-size:33px;font-weight:900;line-height:1.55;letter-spacing:.01em;margin:18px 0 20px;}
+.a-meta{display:flex;align-items:center;gap:12px;color:var(--sub);font-size:13px;}
+.a-meta img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
+.a-meta b{color:var(--ink);font-weight:700;} .a-meta .date{font-family:"Outfit",sans-serif;margin-left:auto;}
+/* タイトル直下：フォロー促進バナー */
+.follow-banner{display:flex;align-items:center;gap:20px;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:22px 0 4px;}
+.fb-av{width:58px;height:58px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.fb-info{flex:1;min-width:0;}
+.fb-name{font-size:18px;font-weight:900;text-decoration:underline;text-underline-offset:3px;}
+.fb-desc{font-size:13px;color:var(--ink-2);line-height:1.7;margin:5px 0 0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fb-cta{flex:none;width:300px;text-align:center;}
+.fc-follow{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--grad);color:#fff;border:none;
+  border-radius:10px;font-size:16px;font-weight:900;padding:14px;transition:.15s;}
+.fc-follow:hover{filter:brightness(1.06);} .fc-follow svg{width:19px;height:19px;}
+.fb-note{font-size:12px;font-weight:700;line-height:1.7;margin:9px 0 0;} .fb-note .ac{color:var(--accent);}
+/* カバー（a-wrap全幅 = 本文＋関連 と同幅） */
+.a-cover{margin:26px 0 8px;}
+.a-cover img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;}
+/* 2カラム：本文 + 関連 */
+.a-cols{display:flex;gap:40px;align-items:flex-start;padding:34px 0 24px;}
+.a-main{flex:1;min-width:0;}
+.a-right{flex:none;width:320px;}
+.sticky{position:sticky;top:96px;}
+/* body */
+.a-body{font-size:16.5px;line-height:2.05;}
+.a-body p{margin:0 0 26px;} .a-body .lead{font-size:17.5px;font-weight:500;}
+.a-body .q{font-size:19px;font-weight:900;line-height:1.6;margin:44px 0 18px;padding-left:16px;border-left:4px solid var(--g-500);}
+.a-body .speak .sp{display:inline-block;font-weight:900;color:var(--g-700);margin-right:8px;}
+.a-body .credit{color:var(--sub);font-size:13px;margin-top:40px;}
+.pull{margin:40px 0;padding:0;}
+.pull blockquote{margin:0;font-size:23px;font-weight:900;line-height:1.7;color:var(--g-700);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:26px 0;}
+.org-box{background:var(--bg-soft);border-radius:10px;padding:24px 26px;margin:44px 0;}
+.org-box h4{margin:0 0 10px;font-size:15px;font-weight:900;} .org-box p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.9;}
+.share{display:flex;align-items:center;gap:12px;margin:40px 0 10px;border-top:1px solid var(--line);padding-top:28px;}
+.share span{font-family:"Outfit",sans-serif;font-weight:700;font-size:13px;color:var(--sub);margin-right:4px;}
+.share a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;}
+.share a:hover{border-color:var(--g-500);} .share svg{width:17px;height:17px;}
+/* right: related & events */
+.rel-block{margin-bottom:34px;}
+.rel-block h3{font-family:"Outfit",sans-serif;font-size:17px;font-weight:800;letter-spacing:.04em;border-bottom:2px solid var(--ink);padding-bottom:10px;margin:0 0 14px;display:flex;align-items:baseline;gap:10px;}
+.rel-block h3 .ja{font-family:"Noto Sans JP",sans-serif;font-size:12px;font-weight:700;color:var(--sub);}
+.rel-art{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.rel-art img{width:96px;height:64px;border-radius:6px;object-fit:cover;flex:none;background:#dceee4;}
+.rel-art p{margin:0;font-size:13px;font-weight:700;line-height:1.55;}
+.rel-art:hover p{color:var(--g-700);}
+.event{display:block;padding:14px 0;border-bottom:1px solid var(--line);}
+.event .ev-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.event .ev-av{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.event .ev-org{font-size:12px;color:var(--sub);font-weight:700;}
+.event .ev-date{display:inline-block;background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;padding:2px 8px;margin-bottom:6px;}
+.event .ev-t{font-size:13px;font-weight:700;line-height:1.55;margin:0;}
+.event:hover .ev-t{color:var(--g-700);}
+/* ダミーサムネイル（AD枠と同じストライプ意匠） */
+.thumb-dummy{display:grid;place-items:center;width:100%;height:100%;
+  background:repeating-linear-gradient(45deg,#f6faf8,#f6faf8 11px,#f1f6f3 11px,#f1f6f3 22px);
+  color:#9bb3a8;font-family:"Outfit",sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;}
+.thumb-dummy::after{content:"DUMMY";}
+.a-cover .thumb-dummy{width:100%;aspect-ratio:16/9;height:auto;border-radius:8px;}
+.rel-art .thumb-dummy{width:96px;height:64px;border-radius:6px;flex:none;}
+/* footer */
+.m-footer{background:var(--ink);color:#cfd8d4;}
+.m-footer .top{padding:48px 0 36px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;}
+.m-footer .bt{font-family:"Outfit",sans-serif;font-weight:800;font-size:22px;color:#fff;}
+.m-footer nav{display:flex;gap:24px;font-size:13px;font-weight:700;margin-left:auto;flex-wrap:wrap;}
+.m-footer nav a:hover{color:#fff;}
+.m-footer .copy{border-top:1px solid rgba(255,255,255,.12);padding:18px 0;font-size:12px;opacity:.6;font-family:"Outfit",sans-serif;}
+@media(max-width:920px){
+  .a-cols{flex-direction:column;} .a-right{width:100%;} .sticky{position:static;}
+  .follow-banner{flex-direction:column;align-items:flex-start;} .fb-cta{width:100%;}
+}
+@media(max-width:760px){ .a-title{font-size:25px;} .m-nav,.m-searchbox{display:none;} }
+</style><style>.a-body h2{font-size:21px;font-weight:900;line-height:1.6;margin:38px 0 14px;padding-left:13px;border-left:4px solid var(--g-600);}.a-body h2:first-child{margin-top:8px;}.a-toc{background:var(--bg-soft);border:1px solid var(--line);border-radius:12px;padding:20px 24px;margin:8px 0 28px;}.a-toc p{font-weight:900;font-size:13px;letter-spacing:.06em;color:var(--sub);margin:0 0 10px;}.a-toc ol{margin:0;padding-left:1.3em;} .a-toc li{font-size:14px;margin:0 0 6px;}.a-toc a:hover{color:var(--g-700);text-decoration:underline;}</style><style id="media-resp-css">
+@media(max-width:1024px) and (min-width:641px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  html,body{overflow-x:clip;max-width:100%;}
+  .wrap{padding:0 16px !important;}
+  .a-wrap{padding:0 16px !important;}
+  /* レイアウト: 縦積み時に main-col がコンテンツ幅へ伸びる(align-items:flex-start)のを是正し全幅固定。
+     これを怠ると KEYWORD横スクロールや3列gridが main-col を押し広げ、ページ全体が横溢する。 */
+  .layout{flex-direction:column !important;align-items:stretch !important;}
+  .main-col,.side-col,.side{width:100% !important;min-width:0 !important;max-width:100% !important;}
+
+  /* ===== ヘッダー: 2段コンパクト(ブランド+求人サイト / ナビ横スクロール) ===== */
+  .m-header .wrap{flex-wrap:wrap !important;height:auto !important;gap:8px 12px !important;padding:8px 14px !important;}
+  .m-brand{order:1;font-size:15px !important;letter-spacing:0 !important;}
+  .m-actions{order:2;margin-left:auto !important;gap:8px !important;display:flex !important;align-items:center;}
+  .m-searchbox{display:none !important;}
+  .m-register{display:none !important;}            /* トップ/詳細で1段目を統一: モバイルは会員登録を隠してコンパクト化 */
+  /* 求人サイト戻りボタンをトップ/詳細で統一(基本CSSの差異・var未定義でも必ず見えるよう明示指定) */
+  .m-back{display:inline-flex !important;align-items:center;gap:4px;background:#1a1a1a !important;color:#fff !important;
+    font-size:12px !important;font-weight:700 !important;padding:8px 14px !important;border-radius:999px !important;white-space:nowrap !important;letter-spacing:0 !important;}
+  .m-back svg{width:12px !important;height:12px !important;stroke:#fff !important;fill:none;}
+  .m-nav{order:3;display:flex !important;flex-basis:100% !important;margin:0 !important;gap:20px !important;
+    overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;white-space:nowrap !important;
+    border-top:1px solid var(--line);padding-top:8px !important;}
+  .m-nav::-webkit-scrollbar{display:none;}
+  .m-nav a{font-size:13px !important;flex:none;}
+
+  /* ===== 記事: フォロー促進バナーを縦積み(右見切れの主犯 fb-cta 392px固定を解除) ===== */
+  .follow-banner{flex-direction:column !important;align-items:stretch !important;gap:14px !important;padding:16px !important;}
+  .fb-cta{width:100% !important;text-align:left;}
+  .fb-info{max-width:none !important;flex:1 1 auto !important;}
+  .mj-btnrow{flex-direction:column !important;}
+  .mj-btnrow .fc-follow,.mj-btnrow .mj-recruit{width:100% !important;flex:1 1 auto !important;}
+  .fb-note{text-align:center;}
+
+  /* ===== 記事/動画 本文: 2カラム解除・見出し可読化 ===== */
+  .a-cols,.m-cols{flex-direction:column !important;gap:24px !important;}
+  .a-main,.m-main{width:100% !important;min-width:0 !important;flex:1 1 auto !important;}
+  .a-right,.m-side{width:100% !important;}
+  /* 動画プレイヤーが固定幅でmainを押し広げないように */
+  .player,.player .thumb-dummy,.m-main video,.m-main iframe{width:100% !important;max-width:100% !important;}
+  .a-title,.m-title{font-size:22px !important;line-height:1.5 !important;}
+  .a-body{font-size:15.5px !important;}
+  .a-toc{padding:16px 18px !important;}
+  .a-meta{flex-wrap:wrap;}
+
+  /* タブ(概要/書き起こし/チャプター等)は横スクロール */
+  .tabs,.m-tabs,.tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .tabs::-webkit-scrollbar,.m-tabs::-webkit-scrollbar{display:none;}
+
+  /* MEDIA内 求人カード */
+  #mj-jobs{padding:16px !important;margin:24px 0 8px !important;}
+
+  /* ===== セクションカード: タグ折返し・画像比率・可読サイズ ===== */
+  .card{width:auto !important;}
+  .card-thumb{aspect-ratio:16/9;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;}
+  .card-title{font-size:15px !important;line-height:1.6 !important;}
+  .card-tags{flex-wrap:wrap !important;}
+  .card-tags span,.card-tags a{margin-bottom:4px;}
+
+  /* ===== フィルタ/キーワード: コンパクト化(KEYWORDは1行横スクロールでビジー感を解消) ===== */
+  .filter-bar{flex-wrap:nowrap !important;align-items:center !important;gap:8px !important;margin:0 0 10px !important;}
+  .filter-bar .fl-label,.kw-bar .fl-label{width:auto !important;flex:none !important;padding-top:0 !important;font-size:11px !important;letter-spacing:.1em !important;}
+  .filter-btn{font-size:12px !important;padding:7px 14px !important;}
+  .kw-bar{flex-direction:row !important;align-items:center !important;gap:8px !important;flex-wrap:nowrap !important;margin:0 0 28px !important;}
+  .kw-pills{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch;
+    gap:7px !important;width:100% !important;min-width:0 !important;padding-bottom:2px;}
+  .kw-pills::-webkit-scrollbar{display:none;}
+  .kw{font-size:12px !important;padding:6px 12px !important;flex:none !important;}
+  .kw-pills a,.kw-pills button{white-space:nowrap;}
+
+  /* ===== トップのインタビュー/コラムを 2行×3列(3カラム)のコンパクトグリッドに ===== */
+  #interview .grid,#column .grid{grid-template-columns:repeat(3,1fr) !important;gap:14px 8px !important;}
+  /* grid item の min-width:auto を解除しないと、カード内容で1fr列が膨張し横溢する */
+  #interview .grid>.card,#column .grid>.card{min-width:0 !important;width:auto !important;overflow:hidden;}
+  #interview .card-cat,#column .card-cat,#interview .card-foot,#column .card-foot{display:none !important;}
+  #interview .card-tags,#column .card-tags{display:none !important;}
+  #interview .card-body,#column .card-body{padding:8px 2px 0 !important;min-width:0 !important;}
+  #interview .card-title,#column .card-title{font-size:11px !important;line-height:1.45 !important;margin:0 !important;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;word-break:break-word;}
+  #interview .card-thumb,#column .card-thumb{aspect-ratio:16/9 !important;border-radius:6px;width:100% !important;}
+  #interview .card-thumb img,#column .card-thumb img{width:100% !important;height:100% !important;object-fit:cover;}
+  #interview .card-thumb .thumb-dummy::after,#column .card-thumb .thumb-dummy::after{content:"" !important;}
+
+  /* RELATED/サイドのダミー画像が縦に伸びすぎないよう抑制 */
+  .rel-art .thumb-dummy,.rv .thumb-dummy{flex:none;}
+}
+</style>
+</head><body><header class="m-header"><div class="wrap">
+  <a class="m-brand" href="index.html">PUBLIC CONNECT MEDIA</a>
+  <nav class="m-nav"><a href="index.html#feature">特集</a><a href="index.html#interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a></nav>
+  <div class="m-actions">
+    <form class="m-searchbox" role="search" onsubmit="return false;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input type="search" placeholder="記事を検索" aria-label="記事を検索"></form>
+    <a class="m-back" href="../index-2.html">求人サイト</a>
+  </div>
+</div></header><article><div class="a-wrap"><div class="crumb"><a href="index.html">HOME</a> <span>/</span> <a href="list.html?cat=column" class="en">COLUMN</a> <span>/</span> <span>転職・キャリア</span></div><span class="a-cat">転職・キャリア</span><h1 class="a-title">公務員転職サイトの活用法 ── 効率よく募集を見つける</h1><div class="a-meta"><span>PUBLIC CONNECT 編集部</span><span class="date">2026.05.30</span></div><div class="a-cols"><div class="a-main"><div class="a-body"><p class="lead">情報が分散しがちな公務員採用では、専門の求人サイトの活用が効率的です。</p><div class="a-toc"><p>目次</p><ol><li><a href="#s0">条件で絞り込む</a></li><li><a href="#s1">フォローと通知</a></li><li><a href="#s2">メディアで理解を深める</a></li></ol></div><h2 id="s0">条件で絞り込む</h2><p>職種・勤務地・勤務形態・特徴などで絞り込み、自分に合う求人を素早く見つけられます。</p><h2 id="s1">フォローと通知</h2><p>気になる自治体をフォローしておけば、新着求人の通知を受け取れます。</p><h2 id="s2">メディアで理解を深める</h2><p>記事や動画で職場の雰囲気を知ることで、志望動機の解像度が上がります。</p><p class="credit">文：パブリックコネクト編集部 ／ 本記事は公務員採用に関する一般的な情報をまとめたものです。最新かつ正確な情報は各自治体の募集要項をご確認ください。</p></div></div><aside class="a-right"><div class="sticky"><div class="rel-block"><h3>RELATED <span class="ja">関連記事</span></h3><a class="rel-art" href="thirties-public-servants.html"><span class="thumb-dummy"></span><p>30代の公務員転職 ── 経験を強みに変える</p></a><a class="rel-art" href="fourties-public-servants.html"><span class="thumb-dummy"></span><p>40代の公務員転職 ── 専門性を活かす道</p></a><a class="rel-art" href="change-public-officer-job-site.html"><span class="thumb-dummy"></span><p>公務員保育士への転職 ── 公立保育の働き方</p></a><a class="rel-art" href="health-public-officer-job-site.html"><span class="thumb-dummy"></span><p>公務員保健師への転職 ── 地域保健の最前線</p></a></div></div></aside></div></div></article><footer class="m-footer"><div class="wrap">
+  <div class="top"><span class="bt en">PUBLIC CONNECT MEDIA</span>
+    <nav><a href="../index-2.html">求人サイト</a><a href="index.html#feature">特集</a><a href="index.html#interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a><a href="#">編集方針</a><a href="#">お問い合わせ</a></nav>
+  </div>
+  <div class="copy">© PUBLIC CONNECT Inc. All rights reserved.</div>
+</div></footer></body></html>

@@ -1,0 +1,1 @@
+import{z as o,H as a,I as n,J as s,K as c,a7 as l,O as r,b5 as u,a4 as _,$ as d}from"./entry.a7f8609d.js";const i=r("p",null,"top admin",-1),x=o({__name:"index",setup(p){const e=()=>{u(),_("/admin/login")};return(m,f)=>{const t=d;return a(),n("div",null,[i,s(t,{onClick:e},{default:c(()=>[l("click to logout")]),_:1})])}}});export{x as default};

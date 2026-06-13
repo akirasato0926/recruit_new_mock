@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>三田市役所の情報 | 官公庁・自治体で働くならパブリックコネクト</title>
+<meta name="description" content="兵庫県三田市役所" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  /* =========================================================
+     三田市役所ページ (/employer/36611) 忠実再現 — クリーン版
+     全寸法を本番サイト(win1601 / dpr2)から実測して反映。
+       コンテンツ列 1120px / ヘッダーpad64 / サイドバー256・#F8F8F8
+       バナー1120×296・角丸12 / 組織名32px / CTA・フッター#F8F8F8
+     ========================================================= */
+  :root {
+    --text: #333333;
+    --text-sub: #6b7177;
+    --blue: #115A36;
+    --accent: #FE4B28;          /* 「新着求人の通知」リンク */
+    --logo-green: #06281a;
+    --chip-bg: #F1F2F3;         /* すべて見る / カテゴリタグ */
+    --card-bg: #F8F8F8;         /* サイドバー・CTA・フッターのカード */
+    --nav-bg: rgba(217, 219, 221, 0.6);
+    --nav-active: rgba(51, 51, 51, 0.8);
+    --line: #e6e8ea;
+    --content: 1120px;          /* 中央コンテンツ列（実測） */
+    --header-pad: 64px;         /* ヘッダー左右padding（実測） */
+    --sidebar-w: 256px;         /* サイドバー幅（実測） */
+    --col-gap: 32px;            /* サイドバー↔リスト間 */
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Noto Sans JP", sans-serif;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    background: #fff;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ===== Header (sticky, full width) ===== */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 16px var(--header-pad);
+  }
+  .header-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .logo-mark { width: 32px; height: 32px; flex: none; }
+  .logo-mark svg { width: 100%; height: 100%; display: block; }
+  /* ブランドロゴ（実サイトと同じ横ロゴ画像 logo-service-horizontal）。フッター等で使用 */
+  .site-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-logo { height: 32px; width: auto; display: block; }
+  .sf-brand .brand-logo { height: 34px; }
+  /* 自治体ブランド（市章アイコン＋「○○職員採用サイト」） */
+  .brand-city-icon { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; flex: none;
+    border: 1px solid var(--line); }
+  .brand-city-text { font-size: 18px; font-weight: 700; color: var(--text-color); white-space: nowrap; letter-spacing: .02em; }
+
+  /* centered nav pill group */
+  .nav-tabs {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: var(--nav-bg);
+    border-radius: 8px;
+    padding: 8px;
+  }
+  .nav-tabs a {
+    font-size: 14px;
+    font-weight: 700;
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: var(--text);
+    line-height: 1;
+    white-space: nowrap;
+    transition: background .15s;
+  }
+  .nav-tabs a.active { background: var(--nav-active); color: #fff; }
+  .nav-tabs a:not(.active):hover { background: rgba(255,255,255,.55); }
+
+  .follow-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 24px;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .follow-btn svg { width: 17px; height: 17px; fill: #fff; }
+  .follow-btn:hover { filter: brightness(1.05); }
+
+  /* ===== Layout: centered 1120px column ===== */
+  main { padding: 0 24px; }
+  .wrap { max-width: var(--content); margin: 0 auto; }
+
+  /* ===== Hero ===== */
+  .banner {
+    width: 100%;
+    aspect-ratio: 1120 / 296;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 32px;
+    background: #9ec3ad;
+  }
+  .org-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 28px 0 18px;
+  }
+  .org-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+  .org-name { font-size: 32px; font-weight: 700; margin: 0; letter-spacing: .02em; }
+  .org-desc { font-size: 15px; line-height: 1.9; margin: 0 0 28px; }
+
+  /* follow CTA bar */
+  .cta-bar {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 12px 12px 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .cta-bar p { margin: 0; font-size: 15px; }
+  .cta-bar .accent { color: var(--accent); font-weight: 700; }
+  .cta-bar .follow-btn { padding: 12px 24px; font-size: 15px; min-width: 220px; justify-content: center; }
+
+  /* social icons */
+  .socials { display: flex; gap: 16px; margin: 24px 0 28px; }
+  .socials a {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .socials svg { width: 32px; height: 32px; display: block; }
+
+  .divider { border: 0; border-top: 1px solid var(--line); margin: 0 0 56px; }
+
+  /* ===== Section heading ===== */
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .sec-head h2 { font-size: 24px; font-weight: 700; margin: 0; }
+  .sec-head .count { font-size: 14px; font-weight: 400; color: var(--text); }
+  .see-all {
+    margin-left: 4px;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--chip-bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text);
+    padding: 8px 8px 8px 16px;
+  }
+  .see-all svg { width: 14px; height: 14px; stroke: var(--text); }
+  .see-all:hover { background: #e6e8ea; }
+
+  section.block { margin-bottom: 64px; }
+
+  /* ===== 2-column (sidebar + list), flex ===== */
+  .two-col { display: flex; gap: var(--col-gap); align-items: flex-start; }
+  .two-col > .sidebar { flex: none; width: var(--sidebar-w); }
+  .two-col > .list-col { flex: 1; min-width: 0; }
+
+  .sidebar {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .sidebar h3 { font-size: 16px; font-weight: 700; margin: 0 0 4px; }
+  .sidebar ul { list-style: none; margin: 0; padding: 0; }
+  .sidebar li a {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0;
+    font-size: 15px;
+  }
+  .sidebar li a:hover { color: var(--blue); }
+  .sidebar li a svg { width: 14px; height: 14px; stroke: #9aa0a6; flex: none; }
+  .cat-list li a { color: var(--text); }
+
+  /* ===== News cards (採用案内) ===== */
+  .news-list { display: flex; flex-direction: column; }
+  .news-item { display: block; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .news-item:first-child { padding-top: 0; }
+  .news-item h3 { font-size: 16px; font-weight: 700; margin: 0 0 10px; line-height: 1.6; }
+  .news-meta { display: flex; align-items: center; gap: 12px; }
+  .tag {
+    display: inline-block;
+    background: var(--chip-bg);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 4px 10px;
+    line-height: 1.5;
+  }
+  .date { font-size: 13px; color: var(--text-sub); }
+
+  /* ===== Blog card ===== */
+  .blog-card { display: flex; gap: 28px; align-items: flex-start; }
+  .blog-thumb {
+    width: 300px; flex: none;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+    background: #2f3d4f;
+    object-fit: cover;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,.5); font-size: 12px;
+  }
+  .blog-body { flex: 1; min-width: 0; }
+  .blog-body h3 { font-size: 20px; font-weight: 700; margin: 0 0 12px; line-height: 1.55; }
+  .blog-tag { color: var(--text-sub); font-size: 13px; font-weight: 500; margin: 0 0 12px; }
+  .blog-excerpt {
+    font-size: 14px; line-height: 1.9; color: #4a4f55; margin: 0;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  /* ===== Job list (職員募集) ===== */
+  .job-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .job-item:first-child { padding-top: 0; }
+  .job-item .job-main h3 { font-size: 16px; font-weight: 700; margin: 0 0 10px; line-height: 1.5; }
+  .job-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .job-item > svg { width: 16px; height: 16px; stroke: #9aa0a6; flex: none; }
+
+  /* ===== Employer footer card (info + map) ===== */
+  .employer-footer { padding: 0 24px; margin: 0 0 64px; }
+  .ef-card {
+    max-width: var(--content); margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 32px;
+    display: flex; gap: 40px; align-items: flex-start;
+  }
+  .ef-info { flex: 1; min-width: 0; }
+  .ef-org { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .ef-org img { width: 48px; height: 48px; border-radius: 50%; }
+  .ef-org span { font-size: 22px; font-weight: 700; }
+  .ef-table { width: 100%; border-collapse: collapse; }
+  .ef-table th, .ef-table td {
+    text-align: left; vertical-align: top; padding: 16px 0; font-size: 14px;
+    border-top: 1px solid #e3e4e6;
+  }
+  .ef-table tr:first-child th, .ef-table tr:first-child td { border-top: 0; }
+  .ef-table th { width: 120px; font-weight: 700; }
+  .ef-table td a { color: var(--blue); word-break: break-all; }
+  .map-box { position: relative; border-radius: 10px; overflow: hidden; width: 672px; flex: none; height: 352px; background: #e8eaed; }
+  .map-box iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .map-open {
+    position: absolute; top: 14px; left: 14px;
+    background: #fff; border-radius: 8px;
+    font-size: 13px; font-weight: 500; color: var(--text);
+    padding: 8px 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  }
+  .map-open svg { width: 13px; height: 13px; stroke: var(--text); }
+
+  /* ===== Site footer ===== */
+  .site-footer { padding: 48px var(--header-pad) 32px; }
+  .sf-top {
+    max-width: var(--content); margin: 0 auto;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 40px;
+    flex-wrap: wrap;
+  }
+  .sf-brand { display: flex; align-items: center; gap: 14px; }
+  .sf-brand .logo-mark { width: 36px; height: 36px; }
+  .sf-brand .wordmark { font-size: 22px; font-weight: 700; color: var(--logo-green); letter-spacing: .04em; }
+  .sf-links { display: flex; gap: 40px; }
+  .sf-links a { font-size: 14px; color: var(--text); }
+  .sf-links a:hover { color: var(--blue); }
+  .copyright { max-width: var(--content); margin: 32px auto 0; font-size: 12px; color: var(--text-sub); }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1200px) {
+    :root { --header-pad: 24px; }
+  }
+  @media (max-width: 860px) {
+    .site-header { flex-direction: column; gap: 12px; }
+    .nav-tabs { position: static; transform: none; }
+    .header-inner { flex-wrap: wrap; gap: 12px; justify-content: center; }
+  }
+  @media (max-width: 760px) {
+    .two-col { flex-direction: column; }
+    .two-col > .sidebar { width: 100%; }
+    .blog-card { flex-direction: column; }
+    .blog-thumb { width: 100%; }
+    .ef-card { flex-direction: column; }
+    .map-box { width: 100%; }
+    .org-name { font-size: 26px; }
+    .sf-links { gap: 24px; flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index-2.html" class="site-brand" aria-label="三田市職員採用サイト">
+      <img src="assets/live/emp-21593-avatar.webp" alt="三田市" class="brand-city-icon" />
+      <span class="brand-city-text">三田市職員採用サイト</span>
+    </a>
+
+    <nav class="nav-tabs">
+      <a href="#" class="active">ホーム</a>
+      <a href="#">PR</a>
+      <a href="#">職員募集</a>
+      <a href="#">採用案内</a>
+    </nav>
+
+    <button class="follow-btn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a6 6 0 0 0-6 6c0 5-2 6-2 8h16c0-2-2-3-2-8a6 6 0 0 0-6-6zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z"/></svg>
+      三田市役所をフォロー
+    </button>
+  </div>
+</header>
+
+<!-- ===================== MAIN ===================== -->
+<main>
+  <div class="wrap">
+
+    <!-- Hero -->
+    <img class="banner" src="assets/live/emp-21593-bg.webp" alt="三田市の街並み" />
+
+    <div class="org-head">
+      <img class="org-avatar" src="assets/live/emp-21593-avatar.webp" alt="三田市役所" />
+      <h1 class="org-name">三田市役所</h1>
+    </div>
+
+    <p class="org-desc">兵庫県三田市役所</p>
+
+    <div class="cta-bar">
+      <p>三田市役所をフォローして、 <span class="accent">「新着求人の通知」</span> を受け取りましょう！</p>
+      <button class="follow-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a6 6 0 0 0-6 6c0 5-2 6-2 8h16c0-2-2-3-2-8a6 6 0 0 0-6-6zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z"/></svg>
+        フォロー
+      </button>
+    </div>
+
+    <div class="socials">
+      <a href="#" aria-label="X" title="X">
+        <svg viewBox="0 0 30 30"><rect width="30" height="30" rx="15" fill="#000"/><path d="M19.8 8.5h2.2l-4.8 5.5 5.7 7.5h-4.5l-3.5-4.6-4 4.6H8.4l5.2-5.9L8 8.5h4.6l3.2 4.2zm-.8 11.7h1.2L11.9 9.7h-1.3z" fill="#fff"/></svg>
+      </a>
+      <a href="#" aria-label="Facebook" title="Facebook">
+        <svg viewBox="0 0 30 30"><rect width="30" height="30" rx="15" fill="#1877F2"/><path d="M19 15.5h-2.4V23h-3v-7.5H10V13h1.6v-1.7c0-2 .8-3.3 3.2-3.3H19v2.5h-1.3c-.9 0-1.1.4-1.1 1.1V13H19z" fill="#fff"/></svg>
+      </a>
+      <a href="#" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 30 30"><defs><radialGradient id="ig" cx="30%" cy="100%" r="100%"><stop offset="0%" stop-color="#FFD776"/><stop offset="35%" stop-color="#F3736B"/><stop offset="70%" stop-color="#DE499D"/><stop offset="100%" stop-color="#8A3AB9"/></radialGradient></defs><rect width="30" height="30" rx="15" fill="url(#ig)"/><rect x="8.5" y="8.5" width="13" height="13" rx="4.2" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="15" cy="15" r="3.4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="19.2" cy="10.8" r="1" fill="#fff"/></svg>
+      </a>
+      <a href="#" aria-label="YouTube" title="YouTube">
+        <svg viewBox="0 0 30 30"><rect y="6" width="30" height="18" rx="6" fill="#FF0000"/><path d="M13 11.5l5 3.5-5 3.5z" fill="#fff"/></svg>
+      </a>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- ============ 職員募集 ============ -->
+    <section class="block">
+      <div class="sec-head">
+        <h2>職員募集</h2>
+        <span class="count">(8件)</span>
+        <button class="see-all">すべて見る <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+
+      <div class="two-col">
+        <aside class="sidebar">
+          <h3>勤務形態</h3>
+          <ul>
+            <li><a href="#">正規職員 <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">会計年度任用職員 <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">任期付職員 <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">業務委託 <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">インターンシップ <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">ボランティア <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+          </ul>
+        </aside>
+
+        <div class="list-col job-list"><a class="job-item" href="job_15463.html"><div class="job-main"><h3>社会福祉士：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">社会福祉職</span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15462.html"><div class="job-main"><h3>保健師：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">保健師 </span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15461.html"><div class="job-main"><h3>農業技師（茶）：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">農業職・農業技術職</span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15460.html"><div class="job-main"><h3>建築技師：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">建築職・建築技術者 </span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15458.html"><div class="job-main"><h3>土木技師：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">土木職・土木技術職・土木技師・農業土木職</span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15457.html"><div class="job-main"><h3>一般事務B：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">行政事務</span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15456.html"><div class="job-main"><h3>一般事務A：（令和９年４月採用予定）正規職員</h3><div class="job-tags"><span class="tag">行政事務</span><span class="tag">正規職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="job-item" href="job_15448.html"><div class="job-main"><h3>※2026/6/26締切【パートタイム・一般事務員】会計年度任用職員/2026年度</h3><div class="job-tags"><span class="tag">行政事務</span><span class="tag">会計年度任用職員</span></div></div><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- ===================== EMPLOYER FOOTER CARD (info + map) ===================== -->
+<section class="employer-footer">
+  <div class="ef-card">
+    <div class="ef-info">
+      <div class="ef-org">
+        <img src="assets/live/emp-21593-avatar.webp" alt="三田市役所" />
+        <span>三田市役所</span>
+      </div>
+      <table class="ef-table">
+        <tr>
+          <th>所在地</th>
+          <td>〒669-1595 兵庫県三田市三輪２－１－１</td>
+        </tr>
+        <tr>
+          <th>官公庁の種類</th>
+          <td>地方公共団体</td>
+        </tr>
+        <tr>
+          <th>URL</th>
+          <td><a href="https://www.city.sanda.lg.jp/index.html" target="_blank" rel="noopener">https://www.city.sanda.lg.jp/index.html</a></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="map-box">
+      <a class="map-open" href="https://www.google.com/maps/search/?api=1&query=%E5%85%B5%E5%BA%AB%E7%9C%8C%E4%B8%89%E7%94%B0%E5%B8%82%E4%B8%89%E8%BC%AA%EF%BC%92%EF%BC%8D%EF%BC%91%EF%BC%8D%EF%BC%91" target="_blank" rel="noopener">
+        マップで開く <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg>
+      </a>
+      <iframe
+        title="三田市役所 地図"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=%E5%85%B5%E5%BA%AB%E7%9C%8C%E4%B8%89%E7%94%B0%E5%B8%82%E4%B8%89%E8%BC%AA%EF%BC%92%EF%BC%8D%EF%BC%91%EF%BC%8D%EF%BC%91&t=m&z=15&output=embed&iwloc=near"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SITE FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="sf-top">
+    <div class="sf-brand">
+      <img src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="PUBLIC CONNECT" class="brand-logo" />
+    </div>
+    <nav class="sf-links">
+      <a href="#">お問い合わせ</a>
+      <a href="#">ご利用者様向け利用規約</a>
+      <a href="#">プライバシーポリシー</a>
+      <a href="#">運営会社</a>
+    </nav>
+  </div>
+  <p class="copyright">© PUBLIC CONNECT Inc. All rights reserved.</p>
+</footer>
+
+<style id="dads-align">
+/* ===== DADS寄せ（部分適用：完全準拠ではない） ===== */
+body{font-size:16px;line-height:1.7;letter-spacing:.02em;color:#333;}
+/* ボタン：角丸8px・ターゲット44px・16px/700 */
+.el-button{border-radius:8px !important;min-height:44px !important;font-size:16px !important;font-weight:700 !important;padding:10px 24px !important;}
+.el-button--primary{color:#fff !important;}
+.nav2-media{border-radius:8px !important;min-height:44px;padding:11px 20px;font-weight:700;}
+.nav2-register{min-height:45px;border-radius:8px !important;}
+.pd-btn{font-size:16px;}
+/* リンクは色＋下線（本文中のテキストリンク。ナビ/ボタン類は除外） */
+.rh-job:focus-visible{}
+/* フォーカスリング（DADSシグネチャ：黒outline＋黄box-shadow） */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[tabindex]:focus-visible,.cursor-pointer:focus-visible{
+  outline:4px solid #000 !important;outline-offset:2px !important;box-shadow:0 0 0 2px #FFD43D !important;border-radius:4px;}
+</style>
+<style id="emp-resp-css">
+@media(max-width:640px){
+  html{overflow-x:clip;}
+  .nav-tabs,.eh-tabs,nav.tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .nav-tabs::-webkit-scrollbar,.eh-tabs::-webkit-scrollbar{display:none;}
+}
+</style>
+<script id="emp-tabs-js">
+(function(){
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  ready(function(){
+    var nav=document.querySelector('.nav-tabs')||document.querySelector('.eh-tabs');
+    if(!nav) return;
+    var tabs=Array.prototype.slice.call(nav.querySelectorAll('a'));
+    var heads=Array.prototype.slice.call(document.querySelectorAll('h1,h2,h3,h4')).filter(function(h){return h.children.length<=2;});
+    function markActive(t){ tabs.forEach(function(x){x.classList.remove('active');}); t.classList.add('active'); }
+    function scroller(){ var n=nav; while(n){ var o=getComputedStyle(n).overflowY; if((o==='auto'||o==='scroll')&&n.scrollHeight>n.clientHeight+5) return n; n=n.parentElement; } return null; }
+    function toTop(){ var sc=scroller(); if(sc){ sc.scrollTop=0; } else { window.scrollTo(0,0); } }
+    tabs.forEach(function(t){
+      var href=t.getAttribute('href')||'';
+      var label=(t.textContent||'').replace(/\s+/g,'').trim();
+      if(href!=='#') return;                       // 実リンクのタブは触らない
+      if(!label || /^(ホーム|TOP)$/i.test(label)){
+        t.addEventListener('click',function(e){ e.preventDefault(); toTop(); markActive(t); });
+        return;
+      }
+      // ラベルに一致する見出しへスクロール(自分自身は除外)。Nuxtは内側コンテナがスクロールするため scrollIntoView を使用。
+      t.addEventListener('click',function(e){
+        e.preventDefault();
+        var target=null;
+        for(var i=0;i<heads.length;i++){ var ht=(heads[i].textContent||'').replace(/\s+/g,''); if(ht.indexOf(label)!==-1 && !nav.contains(heads[i])){ target=heads[i]; break; } }
+        if(target){ target.scrollIntoView({block:'start'}); }
+        else { toTop(); }
+        markActive(t);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

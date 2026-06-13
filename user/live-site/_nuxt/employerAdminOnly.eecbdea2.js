@@ -1,0 +1,1 @@
+import{gO as r,bF as o}from"./entry.a7f8609d.js";import{u as m}from"./typeMember.d4a37cbd.js";const n=r(()=>{const e=m();if(e.isBlogEmployer||e.isJobEmployer||e.isManagerEmployer||e.isInterviewEmployer)return o("/error")});export{n as default};

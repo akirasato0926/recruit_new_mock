@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=list.html?cat=column"><script>location.replace("list.html?cat=column");</script><title>コラム一覧</title><style id="media-resp-css">
+@media(max-width:1024px) and (min-width:641px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  html,body{overflow-x:clip;max-width:100%;}
+  .wrap{padding:0 16px !important;}
+  .a-wrap{padding:0 16px !important;}
+  /* レイアウト: 縦積み時に main-col がコンテンツ幅へ伸びる(align-items:flex-start)のを是正し全幅固定。
+     これを怠ると KEYWORD横スクロールや3列gridが main-col を押し広げ、ページ全体が横溢する。 */
+  .layout{flex-direction:column !important;align-items:stretch !important;}
+  .main-col,.side-col,.side{width:100% !important;min-width:0 !important;max-width:100% !important;}
+
+  /* ===== ヘッダー: 2段コンパクト(ブランド+求人サイト / ナビ横スクロール) ===== */
+  .m-header .wrap{flex-wrap:wrap !important;height:auto !important;gap:8px 12px !important;padding:8px 14px !important;}
+  .m-brand{order:1;font-size:15px !important;letter-spacing:0 !important;}
+  .m-actions{order:2;margin-left:auto !important;gap:8px !important;display:flex !important;align-items:center;}
+  .m-searchbox{display:none !important;}
+  .m-register{display:none !important;}            /* トップ/詳細で1段目を統一: モバイルは会員登録を隠してコンパクト化 */
+  /* 求人サイト戻りボタンをトップ/詳細で統一(基本CSSの差異・var未定義でも必ず見えるよう明示指定) */
+  .m-back{display:inline-flex !important;align-items:center;gap:4px;background:#1a1a1a !important;color:#fff !important;
+    font-size:12px !important;font-weight:700 !important;padding:8px 14px !important;border-radius:999px !important;white-space:nowrap !important;letter-spacing:0 !important;}
+  .m-back svg{width:12px !important;height:12px !important;stroke:#fff !important;fill:none;}
+  .m-nav{order:3;display:flex !important;flex-basis:100% !important;margin:0 !important;gap:20px !important;
+    overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;white-space:nowrap !important;
+    border-top:1px solid var(--line);padding-top:8px !important;}
+  .m-nav::-webkit-scrollbar{display:none;}
+  .m-nav a{font-size:13px !important;flex:none;}
+
+  /* ===== 記事: フォロー促進バナーを縦積み(右見切れの主犯 fb-cta 392px固定を解除) ===== */
+  .follow-banner{flex-direction:column !important;align-items:stretch !important;gap:14px !important;padding:16px !important;}
+  .fb-cta{width:100% !important;text-align:left;}
+  .fb-info{max-width:none !important;flex:1 1 auto !important;}
+  .mj-btnrow{flex-direction:column !important;}
+  .mj-btnrow .fc-follow,.mj-btnrow .mj-recruit{width:100% !important;flex:1 1 auto !important;}
+  .fb-note{text-align:center;}
+
+  /* ===== 記事/動画 本文: 2カラム解除・見出し可読化 ===== */
+  .a-cols,.m-cols{flex-direction:column !important;gap:24px !important;}
+  .a-main,.m-main{width:100% !important;min-width:0 !important;flex:1 1 auto !important;}
+  .a-right,.m-side{width:100% !important;}
+  /* 動画プレイヤーが固定幅でmainを押し広げないように */
+  .player,.player .thumb-dummy,.m-main video,.m-main iframe{width:100% !important;max-width:100% !important;}
+  .a-title,.m-title{font-size:22px !important;line-height:1.5 !important;}
+  .a-body{font-size:15.5px !important;}
+  .a-toc{padding:16px 18px !important;}
+  .a-meta{flex-wrap:wrap;}
+
+  /* タブ(概要/書き起こし/チャプター等)は横スクロール */
+  .tabs,.m-tabs,.tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .tabs::-webkit-scrollbar,.m-tabs::-webkit-scrollbar{display:none;}
+
+  /* MEDIA内 求人カード */
+  #mj-jobs{padding:16px !important;margin:24px 0 8px !important;}
+
+  /* ===== セクションカード: タグ折返し・画像比率・可読サイズ ===== */
+  .card{width:auto !important;}
+  .card-thumb{aspect-ratio:16/9;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;}
+  .card-title{font-size:15px !important;line-height:1.6 !important;}
+  .card-tags{flex-wrap:wrap !important;}
+  .card-tags span,.card-tags a{margin-bottom:4px;}
+
+  /* ===== フィルタ/キーワード: コンパクト化(KEYWORDは1行横スクロールでビジー感を解消) ===== */
+  .filter-bar{flex-wrap:nowrap !important;align-items:center !important;gap:8px !important;margin:0 0 10px !important;}
+  .filter-bar .fl-label,.kw-bar .fl-label{width:auto !important;flex:none !important;padding-top:0 !important;font-size:11px !important;letter-spacing:.1em !important;}
+  .filter-btn{font-size:12px !important;padding:7px 14px !important;}
+  .kw-bar{flex-direction:row !important;align-items:center !important;gap:8px !important;flex-wrap:nowrap !important;margin:0 0 28px !important;}
+  .kw-pills{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch;
+    gap:7px !important;width:100% !important;min-width:0 !important;padding-bottom:2px;}
+  .kw-pills::-webkit-scrollbar{display:none;}
+  .kw{font-size:12px !important;padding:6px 12px !important;flex:none !important;}
+  .kw-pills a,.kw-pills button{white-space:nowrap;}
+
+  /* ===== トップのインタビュー/コラムを 2行×3列(3カラム)のコンパクトグリッドに ===== */
+  #interview .grid,#column .grid{grid-template-columns:repeat(3,1fr) !important;gap:14px 8px !important;}
+  /* grid item の min-width:auto を解除しないと、カード内容で1fr列が膨張し横溢する */
+  #interview .grid>.card,#column .grid>.card{min-width:0 !important;width:auto !important;overflow:hidden;}
+  #interview .card-cat,#column .card-cat,#interview .card-foot,#column .card-foot{display:none !important;}
+  #interview .card-tags,#column .card-tags{display:none !important;}
+  #interview .card-body,#column .card-body{padding:8px 2px 0 !important;min-width:0 !important;}
+  #interview .card-title,#column .card-title{font-size:11px !important;line-height:1.45 !important;margin:0 !important;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;word-break:break-word;}
+  #interview .card-thumb,#column .card-thumb{aspect-ratio:16/9 !important;border-radius:6px;width:100% !important;}
+  #interview .card-thumb img,#column .card-thumb img{width:100% !important;height:100% !important;object-fit:cover;}
+  #interview .card-thumb .thumb-dummy::after,#column .card-thumb .thumb-dummy::after{content:"" !important;}
+
+  /* RELATED/サイドのダミー画像が縦に伸びすぎないよう抑制 */
+  .rel-art .thumb-dummy,.rv .thumb-dummy{flex:none;}
+}
+</style>
+</head><body><p>移動しています… <a href="list.html?cat=column">コラム一覧</a></p></body></html>

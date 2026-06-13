@@ -1,0 +1,1 @@
+import{W as s,I as r,Y as t,H as n}from"./entry.a7f8609d.js";const o={},c={class:"bg-gray-fourth min-h-screen"};function a(e,_){return n(),r("div",c,[t(e.$slots,"default")])}const f=s(o,[["render",a]]);export{f as default};

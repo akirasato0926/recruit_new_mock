@@ -1,0 +1,1 @@
+import{gO as n,dN as s,a1 as i,bF as o,a$ as l,dG as c,a3 as d}from"./entry.a7f8609d.js";const g=n(()=>{if(s("auth.session-token").value){if(!i())return o("/");const e=l("pathBeforeSignUp",""),u=s("jobIdWouldLike"),r=e.value;return e.value="",e.value&&!u.value?o(r):void 0}const t=c("pathBefore",""),a=d();return t.value=a.fullPath,o("/user/login")});export{g as default};

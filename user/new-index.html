@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>パブリックコネクト | 官公庁・自治体の求人サイト</title>
+<meta name="description" content="公務員の求人に特化した就職・転職サイト「パブリックコネクト」。日本中の自治体が求人やPR情報を掲載する採用情報サイトです。事務職・保育士・保健師・土木職などあらゆる公務員求人に応募できます。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DADS準拠ベースCSS（デジタル庁デザインシステム β v2.14 準拠）
+   出典: @digital-go-jp/design-tokens v2.0.1 (MIT) +
+         design-system-example-components-html の実装値
+   キーカラー: デフォルト = グリーン（--color-key-* を参照）
+   ============================================================ */
+
+:root {
+  /* --- プリミティブカラー（主要色相・全13段階） --- */
+  --color-primitive-blue-50: #e6f5ec; --color-primitive-blue-100: #cfded7;
+  --color-primitive-blue-200: #cfded7; --color-primitive-blue-300: #9ec3ad;
+  --color-primitive-blue-400: #4f8a6c; --color-primitive-blue-500: #115a36;
+  --color-primitive-blue-600: #115a36; --color-primitive-blue-700: #115a36;
+  --color-primitive-blue-800: #115a36; --color-primitive-blue-900: #08331e;
+  --color-primitive-blue-1000: #08331e; --color-primitive-blue-1100: #08331e;
+  --color-primitive-blue-1200: #08331e;
+
+  --color-primitive-green-50: #e6f5ec; --color-primitive-green-100: #c2e5d1;
+  --color-primitive-green-200: #9bd4b5; --color-primitive-green-300: #71c598;
+  --color-primitive-green-400: #51b883; --color-primitive-green-500: #2cac6e;
+  --color-primitive-green-600: #259d63; --color-primitive-green-700: #1d8b56;
+  --color-primitive-green-800: #197a4b; --color-primitive-green-900: #115a36;
+  --color-primitive-green-1000: #0c472a; --color-primitive-green-1100: #08351f;
+  --color-primitive-green-1200: #032213;
+
+  --color-primitive-light-blue-50: #e6f5ec; --color-primitive-light-blue-100: #cfded7;
+  --color-primitive-light-blue-200: #cfded7; --color-primitive-light-blue-300: #9ec3ad;
+  --color-primitive-light-blue-400: #4f8a6c; --color-primitive-light-blue-500: #4f8a6c;
+  --color-primitive-light-blue-600: #115a36; --color-primitive-light-blue-700: #115a36;
+  --color-primitive-light-blue-800: #115a36; --color-primitive-light-blue-900: #115a36;
+  --color-primitive-light-blue-1000: #115a36; --color-primitive-light-blue-1100: #08331e;
+  --color-primitive-light-blue-1200: #00234b;
+
+  --color-primitive-cyan-50: #e9f7f9; --color-primitive-cyan-100: #c8f8ff;
+  --color-primitive-cyan-200: #99f2ff; --color-primitive-cyan-300: #79e2f2;
+  --color-primitive-cyan-400: #2bc8e4; --color-primitive-cyan-500: #01b7d6;
+  --color-primitive-cyan-600: #00a3bf; --color-primitive-cyan-700: #008da6;
+  --color-primitive-cyan-800: #008299; --color-primitive-cyan-900: #006f83;
+  --color-primitive-cyan-1000: #006173; --color-primitive-cyan-1100: #004c59;
+  --color-primitive-cyan-1200: #003741;
+
+  --color-primitive-lime-50: #ebfad9; --color-primitive-lime-100: #d0f5a2;
+  --color-primitive-lime-200: #c0f354; --color-primitive-lime-300: #ade830;
+  --color-primitive-lime-400: #9ddd15; --color-primitive-lime-500: #8cc80c;
+  --color-primitive-lime-600: #7eb40d; --color-primitive-lime-700: #6fa104;
+  --color-primitive-lime-800: #618e00; --color-primitive-lime-900: #507500;
+  --color-primitive-lime-1000: #3e5a00; --color-primitive-lime-1100: #2c4100;
+  --color-primitive-lime-1200: #1e2d00;
+
+  --color-primitive-yellow-50: #fbf5e0; --color-primitive-yellow-100: #fff0b3;
+  --color-primitive-yellow-200: #ffe380; --color-primitive-yellow-300: #ffd43d;
+  --color-primitive-yellow-400: #ffc700; --color-primitive-yellow-500: #ebb700;
+  --color-primitive-yellow-600: #d2a400; --color-primitive-yellow-700: #b78f00;
+  --color-primitive-yellow-800: #a58000; --color-primitive-yellow-900: #927200;
+  --color-primitive-yellow-1000: #806300; --color-primitive-yellow-1100: #6e5600;
+  --color-primitive-yellow-1200: #604b00;
+
+  --color-primitive-orange-50: #ffeee2; --color-primitive-orange-100: #ffdfca;
+  --color-primitive-orange-200: #ffc199; --color-primitive-orange-300: #ffa66d;
+  --color-primitive-orange-400: #ff8d44; --color-primitive-orange-500: #ff7628;
+  --color-primitive-orange-600: #fb5b01; --color-primitive-orange-700: #e25100;
+  --color-primitive-orange-800: #c74700; --color-primitive-orange-900: #ac3e00;
+  --color-primitive-orange-1000: #8b3200; --color-primitive-orange-1100: #6d2700;
+  --color-primitive-orange-1200: #541e00;
+
+  --color-primitive-red-50: #fdeeee; --color-primitive-red-100: #ffdada;
+  --color-primitive-red-200: #ffbbbb; --color-primitive-red-300: #ff9696;
+  --color-primitive-red-400: #ff7171; --color-primitive-red-500: #ff5454;
+  --color-primitive-red-600: #fe3939; --color-primitive-red-700: #fa0000;
+  --color-primitive-red-800: #ec0000; --color-primitive-red-900: #ce0000;
+  --color-primitive-red-1000: #a90000; --color-primitive-red-1100: #850000;
+  --color-primitive-red-1200: #620000;
+
+  --color-primitive-magenta-50: #f3e5f4; --color-primitive-magenta-100: #ffd0ff;
+  --color-primitive-magenta-200: #ffaeff; --color-primitive-magenta-300: #ff8eff;
+  --color-primitive-magenta-400: #f661f6; --color-primitive-magenta-500: #f137f1;
+  --color-primitive-magenta-600: #db00db; --color-primitive-magenta-700: #c000c0;
+  --color-primitive-magenta-800: #aa00aa; --color-primitive-magenta-900: #8b008b;
+  --color-primitive-magenta-1000: #6c006c; --color-primitive-magenta-1100: #500050;
+  --color-primitive-magenta-1200: #3b003b;
+
+  --color-primitive-purple-50: #cfded7; --color-primitive-purple-100: #cfded7;
+  --color-primitive-purple-200: #9ec3ad; --color-primitive-purple-300: #9ec3ad;
+  --color-primitive-purple-400: #bb87ff; --color-primitive-purple-500: #a565f8;
+  --color-primitive-purple-600: #8843e1; --color-primitive-purple-700: #6f23d0;
+  --color-primitive-purple-800: #5c10be; --color-primitive-purple-900: #5109ad;
+  --color-primitive-purple-1000: #08331e; --color-primitive-purple-1100: #08331e;
+  --color-primitive-purple-1200: #21004b;
+
+  /* --- ニュートラル --- */
+  --color-neutral-white: #ffffff;
+  --color-neutral-black: #000000;
+  --color-neutral-solid-gray-50: #f2f2f2; --color-neutral-solid-gray-100: #e6e6e6;
+  --color-neutral-solid-gray-200: #cccccc; --color-neutral-solid-gray-300: #b3b3b3;
+  --color-neutral-solid-gray-400: #999999; --color-neutral-solid-gray-420: #949494;
+  --color-neutral-solid-gray-500: #7f7f7f; --color-neutral-solid-gray-536: #767676;
+  --color-neutral-solid-gray-600: #666666; --color-neutral-solid-gray-700: #4d4d4d;
+  --color-neutral-solid-gray-800: #333333; --color-neutral-solid-gray-900: #1a1a1a;
+
+  /* --- セマンティック（キーカラーに関わらず固定） --- */
+  --color-semantic-success-1: var(--color-primitive-green-600);
+  --color-semantic-success-2: var(--color-primitive-green-800);
+  --color-semantic-error-1: var(--color-primitive-red-800);
+  --color-semantic-error-2: var(--color-primitive-red-900);
+  --color-semantic-warning-yellow-1: var(--color-primitive-yellow-700);
+  --color-semantic-warning-yellow-2: var(--color-primitive-yellow-900);
+  --color-semantic-warning-orange-1: var(--color-primitive-orange-600);
+  --color-semantic-warning-orange-2: var(--color-primitive-orange-800);
+
+  /* --- キーカラー（デフォルト: グリーン。他色相にする場合はこの13行だけ差し替える） --- */
+  --color-key-50: var(--color-primitive-green-50);
+  --color-key-100: var(--color-primitive-green-100);
+  --color-key-200: var(--color-primitive-green-200);
+  --color-key-300: var(--color-primitive-green-300);
+  --color-key-400: var(--color-primitive-green-400);
+  --color-key-500: var(--color-primitive-green-500);
+  --color-key-600: var(--color-primitive-green-600);
+  --color-key-700: var(--color-primitive-green-700);
+  --color-key-800: var(--color-primitive-green-800);
+  --color-key-900: var(--color-primitive-green-900);
+  --color-key-1000: var(--color-primitive-green-1000);
+  --color-key-1100: var(--color-primitive-green-1100);
+  --color-key-1200: var(--color-primitive-green-1200);
+
+  /* --- タイポグラフィ --- */
+  --font-family-sans: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-mono: 'Noto Sans Mono', monospace;
+  --font-weight-400: 400;
+  --font-weight-700: 700;
+
+  /* --- 角丸 --- */
+  --border-radius-4: 0.25rem; --border-radius-6: 0.375rem;
+  --border-radius-8: 0.5rem; --border-radius-12: 0.75rem;
+  --border-radius-16: 1rem; --border-radius-24: 1.5rem;
+  --border-radius-32: 2rem; --border-radius-full: 624.9375rem;
+
+  /* --- エレベーション（デフォルトは影なし。オーバーレイ専用） --- */
+  --elevation-1: 0 2px 8px 1px rgba(0,0,0,.1), 0 1px 5px 0 rgba(0,0,0,.3);
+  --elevation-2: 0 2px 12px 2px rgba(0,0,0,.1), 0 1px 6px 0 rgba(0,0,0,.3);
+  --elevation-3: 0 4px 16px 3px rgba(0,0,0,.1), 0 1px 6px 0 rgba(0,0,0,.3);
+  --elevation-4: 0 6px 20px 4px rgba(0,0,0,.1), 0 2px 6px 0 rgba(0,0,0,.3);
+  --elevation-5: 0 8px 24px 5px rgba(0,0,0,.1), 0 2px 10px 0 rgba(0,0,0,.3);
+  --elevation-6: 0 10px 30px 6px rgba(0,0,0,.1), 0 3px 12px 0 rgba(0,0,0,.3);
+  --elevation-7: 0 12px 36px 7px rgba(0,0,0,.1), 0 3px 14px 0 rgba(0,0,0,.3);
+  --elevation-8: 0 14px 40px 7px rgba(0,0,0,.1), 0 3px 16px 0 rgba(0,0,0,.3);
+}
+
+/* ============ ベーススタイル ============ */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* モーション規定: ユーザーが「動きを減らす」設定時は動きを無効化（DADSのAA準拠方針／WCAG 2.3.3・2.2.2） */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-sans);
+  font-size: 1rem;                 /* 16px */
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--color-neutral-solid-gray-800);
+  background: var(--color-neutral-white);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-neutral-solid-gray-900);
+  font-weight: var(--font-weight-700);
+  margin: 0;
+}
+h1 { font-size: 2rem;     line-height: 1.5; letter-spacing: 0.01em; } /* 32px。LPヒーローは45pxまで可 */
+h2 { font-size: 1.75rem;  line-height: 1.5; letter-spacing: 0.01em; } /* 28px */
+h3 { font-size: 1.5rem;   line-height: 1.5; }                         /* 24px */
+h4 { font-size: 1.25rem;  line-height: 1.5; }                         /* 20px */
+h5 { font-size: 1.125rem; line-height: 1.6; }                         /* 18px */
+h6 { font-size: 1rem;     line-height: 1.7; }                         /* 16px */
+
+/* リンク（キーカラーに関わらずDADS固定仕様） */
+a { color: var(--color-primitive-blue-1000); text-decoration: underline; text-underline-offset: 0.1875rem; }
+a:visited { color: var(--color-primitive-magenta-900); }
+a:hover { color: var(--color-primitive-blue-900); text-decoration-thickness: 0.1875rem; }
+a:active { color: var(--color-primitive-orange-800); text-decoration-thickness: 1px; }
+
+/* フォーカスインジケーター（DADSシグネチャ: 黒4px＋黄2pxリング。絶対に消さない） */
+:focus-visible {
+  outline: 0.25rem solid var(--color-neutral-black);
+  outline-offset: 0.125rem;
+  border-radius: var(--border-radius-4);
+  box-shadow: 0 0 0 0.125rem var(--color-primitive-yellow-300);
+}
+a:focus-visible { background-color: var(--color-primitive-yellow-300); color: var(--color-primitive-blue-1000); }
+
+/* コンテナ（最大幅1120px、ブレークポイントは768pxの1つだけ） */
+.dads-container { max-width: 70rem; margin-inline: auto; padding-inline: 1rem; }
+@media (min-width: 48rem) { .dads-container { padding-inline: 1.5rem; } }
+
+/* ============ ボタン ============ */
+.dads-button {
+  --button-color: var(--color-key-900);
+  --button-hover-color: var(--color-key-1000);
+  --button-active-color: var(--color-key-1200);
+  --button-outline-hover-bg: var(--color-key-200);
+  --button-outline-active-bg: var(--color-key-300);
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: fit-content; cursor: pointer;
+  font-family: inherit; font-weight: var(--font-weight-700);
+  font-size: 1rem; line-height: 1; letter-spacing: 0.02em;
+  text-decoration: none; position: relative;
+}
+.dads-button[data-size="lg"] { min-width: 8.5rem; min-height: 3.5rem; padding: 0.75rem 1rem; border-radius: var(--border-radius-8); }
+.dads-button[data-size="md"], .dads-button:not([data-size]) { min-width: 6rem; min-height: 3rem; padding: 0.5rem 1rem; border-radius: var(--border-radius-8); }
+.dads-button[data-size="sm"] { min-width: 5rem; min-height: 2.25rem; padding: 0.125rem 0.75rem; border-radius: var(--border-radius-6); }
+.dads-button[data-size="xs"] { min-width: 4.5rem; min-height: 1.75rem; padding: 0.125rem 0.5rem; border-radius: var(--border-radius-4); font-size: 0.875rem; }
+/* sm/xs は44pxターゲット領域を擬似要素で確保 */
+.dads-button[data-size="sm"]::after, .dads-button[data-size="xs"]::after {
+  content: ""; position: absolute; inset: 50% auto auto 50%;
+  translate: -50% -50%; width: 100%; height: 2.75rem; min-width: 2.75rem;
+}
+.dads-button[data-type="solid-fill"], .dads-button:not([data-type]) {
+  background: var(--button-color); color: var(--color-neutral-white); border: 4px double transparent;
+}
+.dads-button[data-type="solid-fill"]:hover, .dads-button:not([data-type]):hover {
+  background: var(--button-hover-color); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.1875rem; color: var(--color-neutral-white);
+}
+.dads-button[data-type="solid-fill"]:active, .dads-button:not([data-type]):active { background: var(--button-active-color); color: var(--color-neutral-white); }
+.dads-button[data-type="outline"] {
+  background: var(--color-neutral-white); color: var(--button-color); border: 1px solid currentColor;
+}
+.dads-button[data-type="outline"]:hover { background: var(--button-outline-hover-bg); color: var(--button-hover-color); text-decoration: underline; }
+.dads-button[data-type="outline"]:active { background: var(--button-outline-active-bg); color: var(--button-active-color); }
+.dads-button[data-type="text"] {
+  background: transparent; color: var(--button-color); border: none;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.1875rem;
+}
+.dads-button[data-type="text"]:hover { background: var(--color-key-50); color: var(--button-hover-color); text-decoration-thickness: 0.1875rem; }
+.dads-button[data-type="text"]:active { background: var(--color-key-100); color: var(--button-active-color); }
+.dads-button:disabled { background: var(--color-neutral-solid-gray-300); color: var(--color-neutral-solid-gray-50); border-color: transparent; cursor: not-allowed; }
+.dads-button:focus-visible { outline: 0.25rem solid var(--color-neutral-black); outline-offset: 0.125rem; box-shadow: 0 0 0 0.125rem var(--color-primitive-yellow-300); }
+
+/* ============ 見出し装飾（DADS公式の2種のみ） ============ */
+/* チップ付き見出し: 左の縦バー（これはDADS公式仕様。アンチパターンのborder-left装飾とは別物として唯一許可） */
+.dads-heading-chip { border-left: calc(1em / 3) solid var(--color-key-900); padding-left: calc(1em / 3 + 0.5em); }
+/* 飾り罫付き見出し */
+.dads-heading-rule { border-bottom: 4px solid var(--color-key-900); padding-bottom: 1rem; }
+.dads-heading-rule[data-rule="2"] { border-bottom-width: 2px; padding-bottom: 0.5rem; }
+.dads-heading-rule[data-rule="8"] { border-bottom-width: 8px; padding-bottom: 2rem; }
+
+/* ============ カード ============ */
+.dads-card {
+  background: var(--color-neutral-white);
+  border: 1px solid var(--color-neutral-solid-gray-420);
+  border-radius: var(--border-radius-16);
+  padding: 1rem 1.5rem;
+  display: flex; flex-direction: column; row-gap: 1rem;
+}
+.dads-card__title { font-size: 1.25rem; font-weight: var(--font-weight-700); line-height: 1.5; color: var(--color-neutral-solid-gray-900); }
+.dads-card__img { aspect-ratio: 3 / 2; background: var(--color-neutral-solid-gray-100); border-radius: 0.9375rem 0.9375rem 0 0; margin: -1rem -1.5rem 0; }
+
+/* ============ ノティフィケーションバナー ============ */
+.dads-notification-banner {
+  background: var(--color-neutral-white);
+  border: 3px solid var(--banner-color, var(--color-primitive-blue-900));
+  border-radius: var(--border-radius-12);
+  padding: 0.5rem 1rem 1.5rem; display: flex; flex-direction: column; gap: 1rem;
+}
+@media (min-width: 48rem) { .dads-notification-banner { padding: 1.5rem 1.5rem 2rem; } }
+.dads-notification-banner[data-type="success"] { --banner-color: var(--color-semantic-success-2); }
+.dads-notification-banner[data-type="error"] { --banner-color: var(--color-semantic-error-1); }
+.dads-notification-banner[data-type="warning"] { --banner-color: var(--color-semantic-warning-yellow-2); }
+.dads-notification-banner[data-type="info"] { --banner-color: var(--color-primitive-blue-900); }
+.dads-notification-banner[data-type="info-neutral"] { --banner-color: var(--color-neutral-solid-gray-536); }
+.dads-notification-banner__title { color: var(--color-neutral-solid-gray-900); font-size: 1.0625rem; font-weight: var(--font-weight-700); }
+@media (min-width: 48rem) { .dads-notification-banner__title { font-size: 1.25rem; line-height: 1.5; } }
+
+/* ============ 緊急時バナー ============ */
+.dads-emergency-banner {
+  background: var(--color-neutral-white);
+  border: 6px solid var(--color-semantic-warning-orange-1);
+  padding: 0.875rem 0.625rem; display: flex; flex-direction: column; row-gap: 0.5rem;
+}
+@media (min-width: 48rem) { .dads-emergency-banner { padding: 1.625rem; row-gap: 1rem; } }
+.dads-emergency-banner__title { font-weight: var(--font-weight-700); font-size: 1.25rem; }
+@media (min-width: 48rem) { .dads-emergency-banner__title { font-size: 1.5rem; } }
+
+/* ============ フォームコントロール ============ */
+.dads-label { display: block; font-weight: var(--font-weight-700); font-size: 1.0625rem; margin-bottom: 0.5rem; color: var(--color-neutral-solid-gray-900); }
+.dads-label .required { color: var(--color-semantic-error-1); font-size: 1rem; font-weight: var(--font-weight-400); margin-left: 0.5rem; }
+.dads-support-text { font-size: 1rem; color: var(--color-neutral-solid-gray-700); margin: 0 0 0.5rem; }
+.dads-input, .dads-select, .dads-textarea {
+  font-family: inherit; font-size: 1rem; color: var(--color-neutral-solid-gray-900);
+  background: var(--color-neutral-white);
+  border: 1px solid var(--color-neutral-solid-gray-600);
+  border-radius: var(--border-radius-8);
+  padding: 0.75rem 1rem; min-height: 3rem; width: 100%; max-width: 30rem;
+}
+.dads-input:hover, .dads-select:hover, .dads-textarea:hover { border-color: var(--color-neutral-black); }
+.dads-input[aria-invalid="true"], .dads-select[aria-invalid="true"], .dads-textarea[aria-invalid="true"] { border-color: var(--color-semantic-error-1); }
+.dads-input:disabled, .dads-select:disabled, .dads-textarea:disabled {
+  border-color: var(--color-neutral-solid-gray-300); background: var(--color-neutral-solid-gray-50); color: var(--color-neutral-solid-gray-420);
+}
+.dads-error-text { color: var(--color-semantic-error-1); font-size: 1rem; margin-top: 0.5rem; }
+.dads-select { appearance: none; padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L2 5h12z' fill='%231a1a1a'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 1rem center; }
+.dads-textarea { min-height: 7.5rem; line-height: 1.7; }
+
+/* チェックボックス・ラジオ（簡易版: accent-colorでキーカラー適用） */
+.dads-checkbox, .dads-radio { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0; font-size: 1rem; }
+.dads-checkbox input, .dads-radio input { width: 1.5rem; height: 1.5rem; accent-color: var(--color-key-900); margin: 0; }
+
+/* ============ テーブル ============ */
+.dads-table { border-collapse: collapse; font-size: 1rem; line-height: 1.7; width: 100%; }
+.dads-table caption { font-size: 1.0625rem; font-weight: var(--font-weight-700); text-align: left; margin-bottom: 0.5rem; }
+.dads-table th {
+  background: var(--color-neutral-solid-gray-100); color: var(--color-neutral-solid-gray-900);
+  font-weight: var(--font-weight-700); border: 1px solid var(--color-neutral-solid-gray-500);
+  padding: 0.75rem 1rem; text-align: left;
+}
+.dads-table td { border: 1px solid var(--color-neutral-solid-gray-420); padding: 1.25rem 1rem; }
+.dads-table[data-dense] td { padding: 0.75rem 1rem; line-height: 1.3; }
+.dads-table[data-row-stripe] tbody tr:nth-child(even) { background: var(--color-neutral-solid-gray-50); }
+
+/* ============ パンくずリスト ============ */
+.dads-breadcrumb ol { list-style: none; margin: 0; padding: 0; }
+.dads-breadcrumb li { display: inline; font-size: 1rem; }
+.dads-breadcrumb li + li::before { content: ""; display: inline-block; width: 0.75rem; height: 0.75rem; margin: 0 0.5rem;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M4 1l5 5-5 5' fill='none' stroke='%231a1a1a' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat center; }
+
+/* ============ 水平メニュー ============ */
+.dads-horizontal-menu { border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
+.dads-horizontal-menu ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
+.dads-horizontal-menu a {
+  display: flex; align-items: center; min-height: 4rem; padding: 1rem 1.25rem;
+  font-weight: var(--font-weight-700); font-size: 1rem; line-height: 1.3;
+  color: var(--color-neutral-solid-gray-900); text-decoration: none; border-bottom: 4px solid transparent;
+}
+.dads-horizontal-menu a:visited { color: var(--color-neutral-solid-gray-900); }
+.dads-horizontal-menu a:hover { background: var(--color-neutral-solid-gray-50); border-bottom-color: var(--color-neutral-black); color: var(--color-neutral-solid-gray-900); }
+.dads-horizontal-menu a[aria-current] { color: var(--color-key-1000); border-bottom-color: var(--color-key-900); }
+
+/* ============ ハンバーガーメニュー / ドロワー / モバイルメニュー ============ */
+.dads-menu-toggle {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-width: 2.75rem; min-height: 2.75rem; padding: 0.5rem 0.75rem;
+  background: var(--color-neutral-white); color: var(--color-neutral-solid-gray-900);
+  border: 1px solid var(--color-neutral-solid-gray-600); border-radius: var(--border-radius-8);
+  font-family: inherit; font-size: 0.875rem; font-weight: var(--font-weight-700); cursor: pointer;
+}
+.dads-menu-toggle:hover { background: var(--color-neutral-solid-gray-50); }
+.dads-drawer-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 90;
+}
+.dads-drawer {
+  position: fixed; inset: 0 0 0 auto; width: min(20rem, 86vw); max-width: 86vw;
+  background: var(--color-neutral-white); z-index: 100; box-shadow: var(--elevation-6);
+  transform: translateX(100%); transition: transform 200ms ease-out;
+  display: flex; flex-direction: column; overflow-y: auto;
+}
+.dads-drawer[data-open] { transform: translateX(0); }
+.dads-drawer-overlay[data-open] { display: block; }
+.dads-drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
+.dads-drawer__close { min-width: 2.75rem; min-height: 2.75rem; background: none; border: none; cursor: pointer; color: var(--color-neutral-solid-gray-900); font-size: 1rem; }
+/* モバイルメニュー（ドロワー内の縦型メニューリスト） */
+.dads-mobile-menu { list-style: none; margin: 0; padding: 0.5rem 0; }
+.dads-mobile-menu a {
+  display: block; padding: 1rem; min-height: 2.75rem; font-size: 1rem; font-weight: var(--font-weight-700);
+  color: var(--color-neutral-solid-gray-900); text-decoration: none; border-bottom: 1px solid var(--color-neutral-solid-gray-200);
+}
+.dads-mobile-menu a:visited { color: var(--color-neutral-solid-gray-900); }
+.dads-mobile-menu a:hover { background: var(--color-neutral-solid-gray-50); }
+.dads-mobile-menu a[aria-current] { color: var(--color-key-1000); border-left: 4px solid var(--color-key-900); padding-left: calc(1rem - 4px); }
+
+/* 表示切替: 768px未満＝ハンバーガー、768px以上＝水平メニュー */
+.dads-horizontal-menu { display: none; }
+.dads-menu-toggle { display: inline-flex; }
+@media (min-width: 48rem) {
+  .dads-horizontal-menu { display: block; }
+  .dads-menu-toggle, .dads-drawer, .dads-drawer-overlay { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) { .dads-drawer { transition: none; } }
+
+/* ============ チップラベル ============ */
+.dads-chip-label {
+  display: inline-flex; align-items: center; min-height: 2rem;
+  border-radius: var(--border-radius-8); padding: 0.25rem 0.5rem;
+  font-size: 1rem; line-height: 1; width: fit-content;
+  --chip-color: var(--color-key-900); --chip-bg: var(--color-key-50);
+}
+.dads-chip-label[data-color="gray"] { --chip-color: var(--color-neutral-solid-gray-700); --chip-bg: var(--color-neutral-solid-gray-50); }
+.dads-chip-label[data-color="red"] { --chip-color: var(--color-primitive-red-900); --chip-bg: var(--color-primitive-red-50); }
+.dads-chip-label[data-color="orange"] { --chip-color: var(--color-primitive-orange-900); --chip-bg: var(--color-primitive-orange-50); }
+.dads-chip-label[data-color="blue"] { --chip-color: var(--color-primitive-blue-900); --chip-bg: var(--color-primitive-blue-50); }
+.dads-chip-label[data-color="green"] { --chip-color: var(--color-primitive-green-900); --chip-bg: var(--color-primitive-green-50); }
+.dads-chip-label[data-color="yellow"] { --chip-color: var(--color-primitive-yellow-1000); --chip-bg: var(--color-primitive-yellow-50); }
+.dads-chip-label[data-color="purple"] { --chip-color: var(--color-primitive-purple-900); --chip-bg: var(--color-primitive-purple-50); }
+.dads-chip-label[data-style="outline"] { border: 1px solid var(--chip-color); color: var(--chip-color); background: transparent; }
+.dads-chip-label[data-style="filled-outline"], .dads-chip-label:not([data-style]) { border: 1px solid var(--chip-color); color: var(--chip-color); background: var(--chip-bg); }
+.dads-chip-label[data-style="fill"] { background: var(--chip-color); color: var(--color-neutral-white); border: none; }
+
+/* ============ ディバイダー ============ */
+.dads-divider { border: none; border-top: 1px solid var(--color-neutral-solid-gray-420); margin: 1rem 0; }
+
+/* ============ アコーディオン ============ */
+.dads-accordion { border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
+.dads-accordion summary {
+  display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
+  padding: 0.5rem; font-size: 1rem; font-weight: var(--font-weight-700);
+  color: var(--color-neutral-solid-gray-900); list-style: none;
+}
+@media (min-width: 48rem) { .dads-accordion summary { padding: 1rem; font-size: 1.125rem; line-height: 1.6; } }
+.dads-accordion summary::-webkit-details-marker { display: none; }
+.dads-accordion summary::before {
+  content: ""; flex: none; width: 1.25rem; height: 1.25rem; border-radius: 50%;
+  border: 1px solid var(--color-key-1000);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%231a1a1a' stroke-width='1.5'/%3E%3C/svg%3E") no-repeat center;
+}
+@media (min-width: 48rem) { .dads-accordion summary::before { width: 2rem; height: 2rem; } }
+.dads-accordion[open] summary::before { rotate: 180deg; }
+.dads-accordion summary:hover { background: var(--color-neutral-solid-gray-50); }
+.dads-accordion__content { padding: 1rem 0.5rem; }
+@media (min-width: 48rem) { .dads-accordion__content { padding: 1.5rem 1rem 1.5rem 4rem; } }
+
+/* ============ ヘッダー / フッター ============ */
+.dads-header { background: var(--color-neutral-white); border-bottom: 1px solid var(--color-neutral-solid-gray-420); }
+.dads-header__inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; }
+.dads-header__sitename { font-size: 1.25rem; font-weight: var(--font-weight-700); color: var(--color-neutral-solid-gray-900); text-decoration: none; }
+.dads-header__sitename:visited { color: var(--color-neutral-solid-gray-900); }
+.dads-utility-link { display: flex; gap: 1.5rem; font-size: 1rem; line-height: 1.3; }
+.dads-utility-link a, .dads-utility-link a:visited { color: var(--color-neutral-solid-gray-800); }
+.dads-footer { background: var(--color-neutral-solid-gray-900); color: var(--color-neutral-white); padding: 2.5rem 0; margin-top: 4rem; }
+.dads-footer a, .dads-footer a:visited { color: var(--color-neutral-white); }
+.dads-footer small { font-size: 0.875rem; color: var(--color-neutral-solid-gray-200); }
+
+/* ヘッダー: サイト名は折り返さない。インラインのユーティリティリンクは
+   768px未満では非表示にし、ドロワー（モバイルメニュー）側に集約する。
+   ※ フッターの .dads-utility-link には影響させないようヘッダー内に限定 */
+.dads-header__sitename { white-space: nowrap; }
+.dads-header__inner .dads-utility-link { display: none; }
+@media (min-width: 48rem) {
+  .dads-header__inner .dads-utility-link { display: flex; }
+}
+
+/* ============================================================
+   ページ固有スタイル（パブリックコネクト トップ）
+   ※ 色は全て上記DADSトークン var() のみを使用（非DADS色を入れない）
+   ============================================================ */
+/* 画面右外に退避するドロワー（translateX(100%)）が横スクロールを生むのを防ぐガード */
+html { overflow-x: hidden; }
+
+/* ============================================================
+   ブランド配色オーバーライド
+   ※ public-connect.jp 本来の見た目（ブルー基調＋オレンジCTA）に寄せる。
+     DADSの厳密準拠より元サイトの商用ルックを優先する方針。
+     ただしアクセシビリティ実装（focus-visible／alt／セマンティクス／
+     reduced-motion／ズーム可）は維持する。
+   抽出した実ブランド色: primary #115a36 / accent #fe4b28 / border #dadcde
+   ============================================================ */
+:root {
+  --brand-blue: #115a36;
+  --brand-blue-hover: #115a36;
+  --brand-blue-active: #115a36;
+  --brand-accent: #fe4b28;
+  --brand-accent-hover: #db3700;
+  --brand-blue-50: #e6f5ec;
+  --brand-blue-100: #cfded7;
+  --brand-border: #dadcde;
+  --brand-bg: #fafafa;
+  /* キーカラーをブランドブルーへ（DADSの緑エイリアスを上書き） */
+  --color-key-50: #e6f5ec;
+  --color-key-100: #cfded7;
+  --color-key-200: #cfded7;
+  --color-key-300: #cfded7;
+  --color-key-900: #115a36;
+  --color-key-1000: #115a36;
+  --color-key-1100: #115a36;
+  --color-key-1200: #115a36;
+}
+
+/* リンク: ブランドブルー（visitedの紫は使わない） */
+a, a:visited { color: var(--brand-blue); }
+a:hover { color: var(--brand-blue-hover); }
+a:active { color: var(--brand-blue-active); }
+
+body { background: var(--color-neutral-white); }
+
+/* カード: 柔らかいボーダー＋淡い影＋角丸12px、hoverでわずかに浮かせる（商用ルック） */
+.dads-card {
+  border: 1px solid var(--brand-border);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  transition: box-shadow 160ms ease, transform 160ms ease;
+}
+.dads-card__img { border-radius: 11px 11px 0 0; }
+.media-card:hover, .feature-card:hover, .job-card:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,.10);
+  transform: translateY(-2px);
+}
+
+/* 見出し: テキスト幅だけのブルー下線アクセント（元サイト風） */
+.dads-heading-rule { display: inline-block; border-bottom: 4px solid var(--brand-blue); padding-bottom: 0.4rem; }
+
+/* カードタイトルのリンク: ダーク文字＋hoverで下線（カード全体が導線の体裁） */
+.dads-card__title a, .dads-card__title a:visited { color: var(--color-neutral-solid-gray-900); text-decoration: none; }
+.dads-card__title a:hover { color: var(--brand-blue-hover); text-decoration: underline; text-underline-offset: 0.1875rem; }
+
+/* ユーティリティリンク・水平メニュー hover をブランドブルーに */
+.dads-horizontal-menu a:hover { border-bottom-color: var(--brand-blue); color: var(--brand-blue); }
+.dads-horizontal-menu a[aria-current] { color: var(--brand-blue); border-bottom-color: var(--brand-blue); }
+
+/* アクセントボタン（会員登録・CTA）: ブランドオレンジ */
+.btn-accent, .btn-accent:hover, .btn-accent:active { color: var(--color-neutral-white); border-color: transparent; }
+.btn-accent { background: var(--brand-accent); }
+.btn-accent:hover { background: var(--brand-accent-hover); }
+.btn-accent:active { background: var(--brand-accent-hover); }
+
+.skip-link {
+  position: absolute; left: 1rem; top: -3rem; z-index: 200;
+  background: var(--color-neutral-white); color: var(--color-primitive-blue-1000);
+  padding: 0.5rem 1rem; border: 2px solid var(--color-neutral-black); border-radius: var(--border-radius-8);
+  font-weight: var(--font-weight-700); transition: top 150ms ease-out;
+}
+.skip-link:focus { top: 1rem; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ヘッダーロゴ（原デザインの実ロゴ画像を使用） */
+.header-logo { display: block; height: 2rem; width: auto; }
+@media (min-width: 48rem) { .header-logo { height: 2.25rem; } }
+.dads-header__sitename { line-height: 0; }
+
+.section { margin-top: 4rem; }
+.section__head {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 0.5rem 1rem; margin-bottom: 1.5rem;
+}
+.section__lead { color: var(--color-neutral-solid-gray-700); margin: 0.5rem 0 0; }
+.section__more { white-space: nowrap; }
+
+/* ============ ヒーロー（原デザイン踏襲: 背景画像＋特集バナー＋人物イラスト） ============ */
+/* 背景は装飾。文字は載せず、内部の白カード上に文字を置くので可読性を確保（グラデーション不使用） */
+.hero {
+  background-color: var(--color-key-50);
+  background-image: url("assets/img/background-top-page.e823d066.webp");
+  background-size: cover; background-position: center top;
+  padding: 2rem 0 0;
+}
+.hero__inner { display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: center; }
+@media (min-width: 48rem) { .hero__inner { grid-template-columns: 1.4fr 1fr; padding-bottom: 1rem; } }
+.hero__banner {
+  display: block; border-radius: var(--border-radius-16); overflow: hidden;
+  border: 1px solid var(--color-neutral-solid-gray-200); background: var(--color-neutral-white);
+}
+.hero__banner img { display: block; width: 100%; height: auto; }
+.hero__person { display: none; }
+@media (min-width: 48rem) { .hero__person { display: block; justify-self: center; width: 100%; max-width: 22rem; height: auto; } }
+
+/* 検索パネル（ヒーロー下に重なる白パネル。原デザイン踏襲） */
+.search-panel {
+  position: relative; margin: -0.5rem 0 0; background: var(--color-neutral-white);
+  border: 1px solid var(--brand-border); border-radius: var(--border-radius-16);
+  padding: 1.5rem; box-shadow: 0 4px 16px rgba(0,0,0,.08);
+}
+@media (min-width: 48rem) { .search-panel { margin-top: 1.5rem; } }
+.search-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .search-grid { grid-template-columns: repeat(3, 1fr); align-items: end; } }
+/* min-width:0 が無いと、selectの最長オプション幅でグリッドトラックが広がり横溢れする */
+.search-field { display: flex; flex-direction: column; min-width: 0; }
+.search-field .dads-select, .search-field .dads-input { max-width: 100%; }
+.field-label { display: flex; align-items: center; gap: 0.5rem; }
+.field-label img { width: 1.5rem; height: 1.5rem; }
+.search-actions { margin-top: 1rem; display: flex; }
+@media (min-width: 48rem) { .search-actions { justify-content: flex-end; } }
+.search-actions .dads-button { width: 100%; }
+@media (min-width: 48rem) { .search-actions .dads-button { width: auto; } }
+.search-actions .dads-button img { width: 1.5rem; height: 1.5rem; }
+
+/* ============ 官公庁・自治体（円形アバターのグリッド。原デザイン踏襲） ============ */
+.muni-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem 1rem; grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr)); }
+.muni-item a { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-decoration: none; text-align: center; }
+.muni-avatar {
+  width: 5rem; height: 5rem; border-radius: var(--border-radius-full);
+  border: 1px solid var(--color-neutral-solid-gray-200); object-fit: cover; background: var(--color-neutral-white);
+}
+.muni-name { font-size: 1rem; line-height: 1.4; color: var(--color-neutral-solid-gray-900); text-decoration: none; }
+.muni-item a:hover .muni-name { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 0.1875rem; }
+.muni-item a:hover .muni-avatar { border-color: var(--brand-blue); }
+
+/* ============ メディアカード（ブログ・ムービー: テキスト左／サムネ右。原デザイン踏襲） ============ */
+.card-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+.media-card { row-gap: 0.75rem; }
+@media (min-width: 48rem) {
+  .media-card { flex-direction: row; align-items: flex-start; column-gap: 1rem; }
+  .media-card__body { flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .media-card__thumb { order: 2; flex: 0 0 11rem; }
+}
+.media-card__body { display: flex; flex-direction: column; gap: 0.5rem; }
+.media-card__thumb { position: relative; }
+.media-card__thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--border-radius-8); background: var(--color-neutral-solid-gray-100); }
+.media-card__thumb .play-icon { position: absolute; inset: 0; margin: auto; width: 3rem; height: 3rem; }
+.media-card__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.media-card__meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--color-neutral-solid-gray-700); margin: 0; }
+.media-card__meta img { width: 1.5rem; height: 1.5rem; border-radius: var(--border-radius-full); border: 1px solid var(--color-neutral-solid-gray-200); object-fit: cover; }
+
+/* ============ 特集カード（上部に横長バナー画像。原デザイン踏襲） ============ */
+.feature-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .feature-grid { grid-template-columns: repeat(3, 1fr); } }
+.feature-card { row-gap: 0.75rem; }
+.feature-card__img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 0.9375rem 0.9375rem 0 0; margin: -1rem -1.5rem 0; background: var(--color-neutral-solid-gray-100); }
+.entity-card__meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.entity-card__date { font-size: 0.875rem; color: var(--color-neutral-solid-gray-700); }
+
+/* ============ 求人カード ============ */
+.job-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .job-grid { grid-template-columns: repeat(2, 1fr); } }
+.job-card { row-gap: 0.75rem; }
+.job-card__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+/* ============ 区切り線リスト（採用説明会・お知らせ。原デザイン踏襲） ============ */
+.notice-list { list-style: none; margin: 0; padding: 0; }
+.notice-list li { border-top: 1px solid var(--color-neutral-solid-gray-200); }
+.notice-list li:last-child { border-bottom: 1px solid var(--color-neutral-solid-gray-200); }
+.notice-list a { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; padding: 1rem 0.25rem; text-decoration: none; }
+.notice-list a:hover { background: var(--color-neutral-solid-gray-50); }
+.notice-list .notice-org { font-size: 0.875rem; color: var(--color-neutral-solid-gray-700); flex: 0 0 auto; }
+.notice-list .notice-title { flex: 1 1 14rem; min-width: 0; color: var(--color-neutral-solid-gray-900); text-decoration: none; }
+.notice-list a:hover .notice-title { color: var(--brand-blue); text-decoration: underline; text-underline-offset: 0.1875rem; }
+.notice-list .notice-date { font-size: 0.875rem; color: var(--color-neutral-solid-gray-700); flex: 0 0 auto; }
+
+/* フィルタリンク群（職種・勤務形態・特徴から探す＝列挙ナビ） */
+.filter-block + .filter-block { margin-top: 2rem; }
+.filter-list { list-style: none; margin: 0.75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.filter-list a {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0.5rem 1rem;
+  border: 1px solid var(--color-neutral-solid-gray-420); border-radius: var(--border-radius-8);
+  color: var(--color-primitive-blue-1000); text-decoration: underline; text-underline-offset: 0.1875rem;
+  background: var(--color-neutral-white); font-size: 1rem;
+}
+.filter-list a:hover { background: var(--color-key-50); border-color: var(--color-key-900); color: var(--color-primitive-blue-900); }
+
+/* ============ ご利用の流れ（原デザインの線画アイコンを使用） ============ */
+.steps { list-style: none; counter-reset: step; margin: 0; padding: 0; display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .steps { grid-template-columns: repeat(3, 1fr); } }
+.steps li {
+  counter-increment: step; background: var(--color-neutral-white);
+  border: 1px solid var(--color-neutral-solid-gray-420); border-radius: var(--border-radius-16);
+  padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+}
+.steps__head { display: flex; align-items: center; gap: 0.75rem; }
+.steps__head img { width: 2.5rem; height: 2.5rem; }
+.steps__no {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 1.75rem; padding: 0.125rem 0.625rem;
+  background: var(--color-key-900); color: var(--color-neutral-white);
+  border-radius: var(--border-radius-full); font-weight: var(--font-weight-700); font-size: 0.875rem;
+}
+.steps h3 { font-size: 1.25rem; }
+
+/* ABOUTセクションの淡色帯（単色） */
+.about { background: var(--color-key-50); padding: 3rem 0; margin-top: 4rem; }
+.about__brand { color: var(--color-key-900); }
+.about__lead { margin: 1rem 0 0; }
+
+/* FAQ（アコーディオン）コンテナ */
+.faq { margin-top: 1.5rem; border-top: 1px solid var(--color-neutral-solid-gray-420); }
+
+/* CTA帯（最下部・中央寄せ・キーカラー50番台の単色） */
+.cta { background: var(--color-key-50); padding: 3rem 0; margin-top: 4rem; text-align: center; }
+.cta__lead { margin: 0.75rem 0 0; }
+.cta .dads-button { margin: 1.5rem auto 0; }
+
+/* フッターレイアウト */
+.footer-grid { display: grid; gap: 1.5rem 2rem; grid-template-columns: 1fr; }
+@media (min-width: 48rem) { .footer-grid { grid-template-columns: 2fr 1fr 1fr; } }
+.footer-logo { height: 2.25rem; width: auto; display: block; margin-bottom: 0.75rem; }
+.footer-nav { list-style: none; margin: 0.5rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.footer-nav a { font-size: 1rem; }
+.footer-heading { font-size: 1rem; font-weight: var(--font-weight-700); color: var(--color-neutral-white); }
+.footer-bottom { margin-top: 2rem; border-top: 1px solid var(--color-neutral-solid-gray-700); padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">本文へスキップ</a>
+
+<!-- ============ ヘッダー ============ -->
+<header class="dads-header">
+  <div class="dads-container dads-header__inner">
+    <a class="dads-header__sitename" href="new-index.html" aria-label="パブリックコネクト トップへ">
+      <img class="header-logo" src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="パブリックコネクト" width="180" height="36">
+    </a>
+
+    <!-- 768px以上で表示される水平メニュー -->
+    <nav class="dads-horizontal-menu" aria-label="メインメニュー">
+      <ul>
+        <li><a href="new-index.html" aria-current="page">トップ</a></li>
+        <li><a href="#search">求人を探す</a></li>
+        <li><a href="#municipalities">官公庁・自治体</a></li>
+        <li><a href="#blog">ブログ</a></li>
+        <li><a href="#movie">ムービー</a></li>
+        <li><a href="#about">パブリックコネクトとは</a></li>
+      </ul>
+    </nav>
+
+    <div class="dads-utility-link" style="align-items:center;flex-wrap:wrap">
+      <a href="#">官公庁の方へ</a>
+      <a href="#">ログイン</a>
+      <a class="dads-button btn-accent" data-type="solid-fill" data-size="sm" href="#" style="text-decoration:none">会員登録</a>
+    </div>
+
+    <!-- 768px未満で表示されるハンバーガー -->
+    <button class="dads-menu-toggle" aria-expanded="false" aria-controls="drawer" aria-label="メニューを開く">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      メニュー
+    </button>
+  </div>
+</header>
+
+<div class="dads-drawer-overlay" data-drawer-overlay></div>
+<div class="dads-drawer" id="drawer" role="dialog" aria-modal="true" aria-label="メニュー">
+  <div class="dads-drawer__head">
+    <span style="font-weight:700">メニュー</span>
+    <button class="dads-drawer__close" data-drawer-close aria-label="メニューを閉じる" style="display:inline-flex;align-items:center;gap:0.5rem">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      閉じる
+    </button>
+  </div>
+  <ul class="dads-mobile-menu">
+    <li><a href="new-index.html" aria-current="page">トップ</a></li>
+    <li><a href="#search">求人を探す</a></li>
+    <li><a href="#municipalities">官公庁・自治体</a></li>
+    <li><a href="#blog">ブログ</a></li>
+    <li><a href="#movie">ムービー</a></li>
+    <li><a href="#seminar">採用説明会情報</a></li>
+    <li><a href="#news">お知らせ</a></li>
+    <li><a href="#about">パブリックコネクトとは</a></li>
+    <li><a href="#">官公庁の方へ</a></li>
+    <li><a href="#">ログイン</a></li>
+    <li><a href="#">会員登録</a></li>
+  </ul>
+</div>
+
+<main id="main">
+
+  <!-- ============ ヒーロー＋検索（原デザイン踏襲: 背景画像＋特集バナー＋人物） ============ -->
+  <section class="hero" id="search" aria-labelledby="hero-title">
+    <h1 class="visually-hidden" id="hero-title">官公庁・自治体の求人・採用情報サイト｜パブリックコネクト</h1>
+    <div class="dads-container">
+      <div class="hero__inner">
+        <a class="hero__banner" href="#feature" aria-label="特集記事: ひとに寄り添う行政DX">
+          <img src="assets/s3/2026_top_content_settings_d2ff9f95-f418-460f-b4ac-c71758ccafad_default.webp"
+               alt="特集「ひとに寄り添う行政DX」— まちの当たり前をアップデートした職員たち" width="720" height="405">
+        </a>
+        <img class="hero__person" src="assets/img/person-guest-top-page.f47b32a3.webp" alt="" aria-hidden="true" width="352" height="352">
+      </div>
+
+      <form class="search-panel" role="search" aria-label="求人検索">
+        <div class="search-grid">
+          <div class="search-field">
+            <label class="dads-label field-label" for="s-job"><img src="assets/img/icon-bag-blue-24.284d0a3e.svg" alt="" aria-hidden="true">職種</label>
+            <select class="dads-select" id="s-job">
+              <option value="">すべての職種</option>
+              <option>行政事務</option>
+              <option>土木・建築</option>
+              <option>保育士・幼稚園教諭</option>
+              <option>保健師・看護師</option>
+              <option>消防・救急</option>
+              <option>その他専門職</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <label class="dads-label field-label" for="s-area"><img src="assets/img/icon-map-blue-24.5a6eb4c4.svg" alt="" aria-hidden="true">勤務地</label>
+            <select class="dads-select" id="s-area">
+              <option value="">すべての地域</option>
+              <option>北海道・東北</option>
+              <option>関東</option>
+              <option>中部</option>
+              <option>近畿</option>
+              <option>中国・四国</option>
+              <option>九州・沖縄</option>
+            </select>
+          </div>
+          <div class="search-field">
+            <label class="dads-label field-label" for="s-type"><img src="assets/img/icon-star-blue-24.259db757.svg" alt="" aria-hidden="true">勤務形態</label>
+            <select class="dads-select" id="s-type">
+              <option value="">すべての形態</option>
+              <option>正規職員</option>
+              <option>会計年度任用職員</option>
+              <option>任期付職員</option>
+              <option>業務委託</option>
+              <option>インターンシップ</option>
+              <option>ボランティア</option>
+            </select>
+          </div>
+        </div>
+        <div class="search-actions">
+          <button class="dads-button" data-type="solid-fill" data-size="lg" type="submit">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 20l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            求人を検索する
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ 官公庁・自治体 ============ -->
+  <section class="section" id="municipalities" aria-labelledby="muni-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="muni-title">官公庁・自治体</h2>
+          <p class="section__lead">官公庁や自治体が運営する採用情報ページです。お気に入り登録すると新着通知を受け取れます。</p>
+        </div>
+        <a class="section__more" href="#">官公庁・自治体一覧を見る</a>
+      </div>
+      <ul class="muni-grid">
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_62b8c5e8-e56a-48f2-b7ac-a9085414b6e0_default.webp" alt="相模原市役所のロゴ" width="80" height="80">
+          <span class="muni-name">相模原市役所</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_b7735ca8-5466-4268-961e-3c24e30e5ae6_default.webp" alt="新上五島町役場のロゴ" width="80" height="80">
+          <span class="muni-name">新上五島町役場</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_c1537634-d1d5-4379-9b64-8e06f854d600_default.webp" alt="球磨村役場のロゴ" width="80" height="80">
+          <span class="muni-name">球磨村役場</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_739222b3-0076-4645-a409-3ff60796c3cc_default.webp" alt="飯田市役所のロゴ" width="80" height="80">
+          <span class="muni-name">飯田市役所</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_0806825a-f14c-48cc-bd37-6da286ec833f_default.webp" alt="加賀市医療センターのロゴ" width="80" height="80">
+          <span class="muni-name">加賀市医療センター</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2025_avatar_employer_d8eba306-6eed-441f-824e-9277e36fbd86_default.webp" alt="松野町役場のロゴ" width="80" height="80">
+          <span class="muni-name">松野町役場</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_1c51c9d2-aee5-4ef6-aca9-6cd742bf9d14_default.webp" alt="伊勢崎市役所のロゴ" width="80" height="80">
+          <span class="muni-name">伊勢崎市役所</span></a></li>
+        <li class="muni-item"><a href="#">
+          <img class="muni-avatar" src="assets/s3/2024_avatar_employer_79eafc43-7cef-401a-8273-d3cecfbd887d_default.webp" alt="志賀町役場のロゴ" width="80" height="80">
+          <span class="muni-name">志賀町役場</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 求人を探す（職種/勤務形態/特徴 = 列挙ナビ） ============ -->
+  <section class="section" id="find" aria-labelledby="find-title">
+    <div class="dads-container">
+      <h2 class="dads-heading-rule" id="find-title">求人を探す</h2>
+
+      <div class="filter-block" style="margin-top:1.5rem">
+        <h3>職種から探す</h3>
+        <ul class="filter-list">
+          <li><a href="#">行政事務</a></li>
+          <li><a href="#">土木・建築</a></li>
+          <li><a href="#">保育士・幼稚園教諭</a></li>
+          <li><a href="#">保健師・看護師</a></li>
+          <li><a href="#">消防・救急</a></li>
+          <li><a href="#">福祉・介護</a></li>
+          <li><a href="#">その他専門職</a></li>
+        </ul>
+      </div>
+
+      <div class="filter-block">
+        <h3>勤務形態から探す</h3>
+        <ul class="filter-list">
+          <li><a href="#">正規職員</a></li>
+          <li><a href="#">会計年度任用職員</a></li>
+          <li><a href="#">任期付職員</a></li>
+          <li><a href="#">業務委託</a></li>
+          <li><a href="#">インターンシップ</a></li>
+          <li><a href="#">ボランティア</a></li>
+        </ul>
+      </div>
+
+      <div class="filter-block">
+        <h3>特徴から探す</h3>
+        <ul class="filter-list">
+          <li><a href="#">副業・WワークOK</a></li>
+          <li><a href="#">土日祝日休み</a></li>
+          <li><a href="#">職種未経験OK</a></li>
+          <li><a href="#">業種未経験OK</a></li>
+          <li><a href="#">転勤なし</a></li>
+          <li><a href="#">完全週休2日</a></li>
+          <li><a href="#">寮・社宅あり</a></li>
+          <li><a href="#">マイカー通勤可</a></li>
+          <li><a href="#">U・Iターン支援あり</a></li>
+          <li><a href="#">服装自由</a></li>
+          <li><a href="#">英語を使う仕事</a></li>
+          <li><a href="#">在宅・リモート勤務制度あり</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ブログ ============ -->
+  <section class="section" id="blog" aria-labelledby="blog-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="blog-title">官公庁・自治体ブログ</h2>
+          <p class="section__lead">官公庁や自治体が作成した、仕事や人、地域の魅力が詰まった記事です。</p>
+        </div>
+        <a class="section__more" href="#">ブログ一覧を見る</a>
+      </div>
+      <ul class="card-grid" style="list-style:none;margin:0;padding:0">
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_39619a1b-98b2-4b12-bad8-c013601b1675_medium.webp" alt="豊明市役所の職員インタビュー記事のサムネイル">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">職員インタビュー</span>
+              <span class="dads-chip-label" data-color="red" data-style="fill">NEW</span>
+            </div>
+            <p class="dads-card__title"><a href="#">「どんなこともきける、話せる」。心理的安全性が生み出す連帯感</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_62b8c5e8-e56a-48f2-b7ac-a9085414b6e0_default.webp" alt="">豊明市役所・2026/06/06</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_24336232-94ec-4025-a2ea-67e7341e6de6_medium.webp" alt="浦安市役所の職員インタビュー記事のサムネイル">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">職員インタビュー</span>
+              <span class="dads-chip-label" data-color="red" data-style="fill">NEW</span>
+            </div>
+            <p class="dads-card__title"><a href="#">「お堅い」イメージが180度変わった。若手の“好き”が形になる風通し</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_bbfade31-7fdf-4ff1-83b0-ae498562fe76_default.webp" alt="">浦安市役所・2026/06/05</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_3fa8b504-3592-45a6-8cd1-db3b92e34ad1_medium.webp" alt="三田市役所の座談会記事のサムネイル">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">座談会</span>
+            </div>
+            <p class="dads-card__title"><a href="#">三田市職員座談会 ─PART 1─ 公務員のイメージが180度変わった。</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_1c51c9d2-aee5-4ef6-aca9-6cd742bf9d14_default.webp" alt="">三田市役所・2026/06/05</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_5f2a7743-30b1-4d4e-94f9-99638b98b207_medium.webp" alt="浦安市役所の管理職インタビュー記事のサムネイル">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">管理職インタビュー</span>
+              <span class="dads-chip-label" data-color="red" data-style="fill">NEW</span>
+            </div>
+            <p class="dads-card__title"><a href="#">「次のステージ」を創るのはあなたの力。管理職が語る心理的安全性と自律</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_bbfade31-7fdf-4ff1-83b0-ae498562fe76_default.webp" alt="">浦安市役所・2026/06/05</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ ムービー ============ -->
+  <section class="section" id="movie" aria-labelledby="movie-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="movie-title">官公庁・自治体ムービー</h2>
+          <p class="section__lead">仕事や地域、人の魅力が盛りだくさんの動画です。</p>
+        </div>
+        <a class="section__more" href="#">ムービー一覧を見る</a>
+      </div>
+      <ul class="card-grid" style="list-style:none;margin:0;padding:0">
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_9d9cb02f-59e7-4e54-83d7-9e5188290209_medium.webp" alt="高石市役所のインタビュー動画のサムネイル">
+            <img class="play-icon" src="assets/img/play-video.433b940c.svg" alt="" aria-hidden="true">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="orange" data-style="outline">インタビュー動画</span>
+              <span class="dads-chip-label" data-color="red" data-style="fill">NEW</span>
+            </div>
+            <p class="dads-card__title"><a href="#">前例のない、新しい仕事を作り続ける、高石市 駅周辺整備課の仕事とは</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_3953ca75-7740-4fb7-9bbe-54da490cbc3b_default.webp" alt="">高石市役所・2026/06/04</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_20c28565-a65c-48d7-862c-36e6558984be_medium.webp" alt="精華町役場の職員インタビュー動画のサムネイル">
+            <img class="play-icon" src="assets/img/play-video.433b940c.svg" alt="" aria-hidden="true">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">職員インタビュー</span>
+              <span class="dads-chip-label" data-color="red" data-style="fill">NEW</span>
+            </div>
+            <p class="dads-card__title"><a href="#">お仕事紹介 ─ 精華町で保育士として働こう！</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2024_avatar_employer_acdafdad-a5f3-47cb-8f46-9adc58882582_default.webp" alt="">精華町役場・2026/06/02</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_d50842ba-b51a-4a9f-ba67-5b3ca7c232b7_medium.webp" alt="佐世保市役所のインタビュー動画のサムネイル">
+            <img class="play-icon" src="assets/img/play-video.433b940c.svg" alt="" aria-hidden="true">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="orange" data-style="outline">インタビュー動画</span>
+            </div>
+            <p class="dads-card__title"><a href="#">【地図に残る仕事】設計から施工管理まで携われる佐世保市のものづくり</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2025_avatar_employer_77d400f4-8c86-4d01-abff-d49deec2335b_default.webp" alt="">佐世保市役所・2026/06/01</p>
+          </div>
+        </li>
+        <li class="dads-card media-card">
+          <div class="media-card__thumb">
+            <img src="assets/s3/2026_blog_0d61d2aa-41f2-49bf-ba28-964a7eb6d7aa_medium.webp" alt="前橋市役所の職員インタビュー動画のサムネイル">
+            <img class="play-icon" src="assets/img/play-video.433b940c.svg" alt="" aria-hidden="true">
+          </div>
+          <div class="media-card__body">
+            <div class="media-card__chips">
+              <span class="dads-chip-label" data-color="purple" data-style="outline">職員インタビュー</span>
+            </div>
+            <p class="dads-card__title"><a href="#">枠にとらわれない働き方とは？前橋市役所の面白さと若手職員4名の視点</a></p>
+            <p class="media-card__meta"><img src="assets/s3/2025_avatar_employer_aa2196d7-8e4d-4ade-8153-b48817986a83_default.webp" alt="">前橋市役所・2026/05/27</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 採用説明会情報（構造化データ＝テーブル） ============ -->
+  <section class="section" id="seminar" aria-labelledby="seminar-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div><h2 class="dads-heading-rule" id="seminar-title">採用説明会情報</h2></div>
+        <a class="section__more" href="#">採用説明会情報一覧を見る</a>
+      </div>
+      <ul class="notice-list">
+        <li><a href="#"><span class="notice-org">神戸市役所</span><span class="notice-title">採用説明会（経験者通年枠・係長級採用選考）</span><span class="notice-date">2026/07/25(土)</span></a></li>
+        <li><a href="#"><span class="notice-org">京都市役所</span><span class="notice-title">京都市職員業務説明会等の開催予定一覧</span><span class="notice-date">2026/05/30(土) ほか</span></a></li>
+        <li><a href="#"><span class="notice-org">瑞浪市役所</span><span class="notice-title">6/21(日) 公務員合同説明会に参加します</span><span class="notice-date">2026/06/21(日)</span></a></li>
+        <li><a href="#"><span class="notice-org">丹波市役所</span><span class="notice-title">令和9年4月採用 職員採用説明会</span><span class="notice-date">2026/07/18(土)</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ お知らせ（構造化データ＝テーブル） ============ -->
+  <section class="section" id="news" aria-labelledby="news-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="news-title">官公庁・自治体からのお知らせ</h2>
+          <p class="section__lead">官公庁や自治体からのお知らせをお届けします。</p>
+        </div>
+        <a class="section__more" href="#">お知らせ一覧を見る</a>
+      </div>
+      <ul class="notice-list">
+        <li><a href="#"><span class="notice-org">龍ケ崎市役所</span><span class="notice-title">インターンシップ【汎用的能力活用型】募集要項の一部変更のお知らせ</span><span class="dads-chip-label" data-color="blue" data-style="outline">選考情報</span><span class="notice-date">2026/06/05</span></a></li>
+        <li><a href="#"><span class="notice-org">伊勢市役所</span><span class="notice-title">前期試験・随時採用試験の受験申込みは6/9(火)17時15分まで</span><span class="dads-chip-label" data-color="green" data-style="outline">職員募集情報</span><span class="notice-date">2026/06/05</span></a></li>
+        <li><a href="#"><span class="notice-org">大洲市役所</span><span class="notice-title">【受付中】令和8年度採用試験［一般採用］</span><span class="dads-chip-label" data-color="green" data-style="outline">職員募集情報</span><span class="notice-date">2026/06/05</span></a></li>
+        <li><a href="#"><span class="notice-org">藤井寺市役所</span><span class="notice-title">【6/5更新】最新の申込者数のお知らせ</span><span class="dads-chip-label" data-color="green" data-style="outline">職員募集情報</span><span class="notice-date">2026/06/05</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 特集 ============ -->
+  <section class="section" id="feature" aria-labelledby="feature-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="feature-title">特集</h2>
+          <p class="section__lead">まだ知らない官公庁や自治体の魅力を届ける、パブリックコネクト編集部の記事です。</p>
+        </div>
+        <a class="section__more" href="#">特集一覧を見る</a>
+      </div>
+      <ul class="feature-grid" style="list-style:none;margin:0;padding:0">
+        <li class="dads-card feature-card">
+          <img class="feature-card__img" src="assets/s3/2026_special_feature_9db92328-a33c-4a6e-ae9e-31d153173c07_medium.webp" alt="特集「行政DX」記事のバナー画像">
+          <div class="entity-card__meta">
+            <span class="dads-chip-label" data-color="blue" data-style="outline">行政DX</span>
+            <span class="entity-card__date">2026/05/21</span>
+          </div>
+          <p class="dads-card__title"><a href="#">ひとに寄り添うDXで、まちの「当たり前」をアップデートした職員たち</a></p>
+        </li>
+        <li class="dads-card feature-card">
+          <img class="feature-card__img" src="assets/s3/2026_special_feature_53f3129c-5fdf-40f1-abef-1608c7e0a9ed_medium.webp" alt="特集「長崎県市町職員採用説明会」のバナー画像">
+          <div class="entity-card__meta">
+            <span class="dads-chip-label" data-color="orange" data-style="outline">採用説明会</span>
+            <span class="entity-card__date">2026/03/09</span>
+          </div>
+          <p class="dads-card__title"><a href="#">【長崎県内自治体が集結】長崎県市町職員採用説明会</a></p>
+        </li>
+        <li class="dads-card feature-card">
+          <img class="feature-card__img" src="assets/s3/2026_special_feature_fd5f3c6a-4927-494c-b54c-1704438719b4_medium.webp" alt="特集「公務員キャリアMeetup」のバナー画像">
+          <div class="entity-card__meta">
+            <span class="dads-chip-label" data-color="orange" data-style="outline">募集説明会</span>
+            <span class="entity-card__date">2026/02/26</span>
+          </div>
+          <p class="dads-card__title"><a href="#">公務員キャリアMeetup！新潟県内7自治体の採用担当者が集結！</a></p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ 新着求人（実サイトの並び順: 特集の後） ============ -->
+  <section class="section" id="jobs" aria-labelledby="jobs-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="jobs-title">新着求人</h2>
+          <p class="section__lead">新着の求人情報をお届けします。</p>
+        </div>
+        <a class="section__more" href="#">新着求人一覧を見る</a>
+      </div>
+      <ul class="job-grid" style="list-style:none;margin:0;padding:0">
+        <li class="dads-card job-card">
+          <span class="dads-chip-label" data-color="gray">行政事務</span>
+          <p class="dads-card__title"><a href="#">令和8年度 上北山村職員採用試験（一般事務職）</a></p>
+          <p style="margin:0;color:var(--color-neutral-solid-gray-700)">上北山村役場（奈良県）</p>
+          <div class="job-card__tags">
+            <span class="dads-chip-label" data-color="blue" data-style="outline">正規職員</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">マイカー通勤可</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">転勤なし</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">業種未経験OK</span>
+          </div>
+        </li>
+        <li class="dads-card job-card">
+          <span class="dads-chip-label" data-color="gray">その他</span>
+          <p class="dads-card__title"><a href="#">【会計年度任用職員】社会体育施設等 維持管理員</a></p>
+          <p style="margin:0;color:var(--color-neutral-solid-gray-700)">日出町役場（大分県）</p>
+          <div class="job-card__tags">
+            <span class="dads-chip-label" data-color="blue" data-style="outline">会計年度任用職員</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">土日祝日休み</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">服装自由</span>
+          </div>
+        </li>
+        <li class="dads-card job-card">
+          <span class="dads-chip-label" data-color="gray">保育士・幼稚園教諭</span>
+          <p class="dads-card__title"><a href="#">【短時間勤務】保育士（任期付職員／令和8年度随時採用）</a></p>
+          <p style="margin:0;color:var(--color-neutral-solid-gray-700)">印西市役所（千葉県）</p>
+          <div class="job-card__tags">
+            <span class="dads-chip-label" data-color="blue" data-style="outline">任期付職員</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">職種未経験OK</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">マイカー通勤可</span>
+          </div>
+        </li>
+        <li class="dads-card job-card">
+          <span class="dads-chip-label" data-color="gray">行政事務</span>
+          <p class="dads-card__title"><a href="#">【随時採用】宇和島病院 一般事務員</a></p>
+          <p style="margin:0;color:var(--color-neutral-solid-gray-700)">宇和島市病院局（愛媛県）</p>
+          <div class="job-card__tags">
+            <span class="dads-chip-label" data-color="blue" data-style="outline">会計年度任用職員</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">完全週休2日</span>
+            <span class="dads-chip-label" data-color="green" data-style="outline">職種未経験OK</span>
+          </div>
+        </li>
+      </ul>
+
+      <!-- 実サイト同様、新着求人の下にも検索条件リンクを再掲 -->
+      <div class="filter-block" style="margin-top:2.5rem">
+        <h3>職種から探す</h3>
+        <ul class="filter-list">
+          <li><a href="#">行政事務</a></li>
+          <li><a href="#">土木・建築</a></li>
+          <li><a href="#">保育士・幼稚園教諭</a></li>
+          <li><a href="#">保健師・看護師</a></li>
+          <li><a href="#">消防・救急</a></li>
+          <li><a href="#">福祉・介護</a></li>
+          <li><a href="#">その他専門職</a></li>
+        </ul>
+      </div>
+      <div class="filter-block">
+        <h3>勤務形態から探す</h3>
+        <ul class="filter-list">
+          <li><a href="#">正規職員</a></li>
+          <li><a href="#">会計年度任用職員</a></li>
+          <li><a href="#">任期付職員</a></li>
+          <li><a href="#">業務委託</a></li>
+          <li><a href="#">インターンシップ</a></li>
+          <li><a href="#">ボランティア</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT＋ご利用の流れ ============ -->
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="dads-container">
+      <h2 class="dads-heading-rule" id="about-title">官公庁・自治体で働くなら、<span class="about__brand">パブリックコネクト</span></h2>
+      <p class="about__lead">パブリックコネクトは、日本全国の官公庁・自治体が求人や採用PRを掲載する求人サイトです。求人だけでなく、自治体のブログや動画を見て、希望条件に合う求人へ応募することができます。</p>
+
+      <h3 style="margin-top:2.5rem">ご利用の流れ</h3>
+      <ol class="steps" style="margin-top:1rem">
+        <li>
+          <div class="steps__head">
+            <span class="steps__no">STEP 1</span>
+            <img src="assets/img/use_flow_1.cb4e883c.svg" alt="" aria-hidden="true">
+          </div>
+          <h3>無料会員登録</h3>
+          <p style="margin:0">簡単に会員登録ができます。気になる求人や官公庁をお気に入り登録して、通知を受け取りましょう。</p>
+        </li>
+        <li>
+          <div class="steps__head">
+            <span class="steps__no">STEP 2</span>
+            <img src="assets/img/use_flow_2.049ecaed.svg" alt="" aria-hidden="true">
+          </div>
+          <h3>プロフィール情報の登録</h3>
+          <p style="margin:0">学歴や職歴などのプロフィール情報を登録します。気になる求人・新着求人にすぐ応募できます。</p>
+        </li>
+        <li>
+          <div class="steps__head">
+            <span class="steps__no">STEP 3</span>
+            <img src="assets/img/use_flow_3.55e5f4a1.svg" alt="" aria-hidden="true">
+          </div>
+          <h3>求人へのエントリー</h3>
+          <p style="margin:0">求人にエントリー後の官公庁との連絡は、パブリックコネクトのメッセージ機能で行います。</p>
+        </li>
+      </ol>
+
+    </div>
+  </section>
+
+  <!-- ============ お役立ちコラム ============ -->
+  <section class="section" id="column" aria-labelledby="column-title">
+    <div class="dads-container">
+      <div class="section__head">
+        <div>
+          <h2 class="dads-heading-rule" id="column-title">お役立ちコラム</h2>
+          <p class="section__lead">公務員の採用試験や働き方に関する情報をお届けします。</p>
+        </div>
+        <a class="section__more" href="#">コラム一覧を見る</a>
+      </div>
+      <p>公務員の求人、採用試験に関する情報（応募要件や日程など）をお探しでしたら、官公庁・自治体の求人に特化したパブリックコネクトをご活用ください。事務職から保育士、保健師、土木職、地域おこし協力隊まで、あらゆる求人に応募できます。</p>
+    </div>
+  </section>
+
+  <!-- ============ よくあるご質問（FAQ・アコーディオン） ============ -->
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="dads-container">
+      <h2 class="dads-heading-rule" id="faq-title">よくあるご質問</h2>
+      <div class="faq">
+        <details class="dads-accordion">
+          <summary>会員登録は無料ですか？</summary>
+          <div class="dads-accordion__content"><p style="margin:0">はい、会員登録・ご利用はすべて無料です。気になる求人や官公庁・自治体をお気に入り登録して、新着通知を受け取れます。</p></div>
+        </details>
+        <details class="dads-accordion">
+          <summary>どのような職種の求人がありますか？</summary>
+          <div class="dads-accordion__content"><p style="margin:0">行政事務をはじめ、土木・建築、保育士・幼稚園教諭、保健師・看護師、消防・救急など、官公庁・自治体のさまざまな職種の求人を掲載しています。</p></div>
+        </details>
+        <details class="dads-accordion">
+          <summary>応募後の連絡はどのように行われますか？</summary>
+          <div class="dads-accordion__content"><p style="margin:0">求人へエントリーした後の官公庁・自治体とのやり取りは、パブリックコネクトのメッセージ機能を通じて行います。</p></div>
+        </details>
+        <details class="dads-accordion">
+          <summary>公務員試験を受けたいのですが利用できますか？</summary>
+          <div class="dads-accordion__content"><p style="margin:0">はい。応募要件や試験日程などの採用情報を確認しながら、希望条件に合う求人に応募いただけます。</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA（最下部） ============ -->
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="dads-container">
+      <h2 id="cta-title">まずは無料で登録してはじめましょう</h2>
+      <p class="cta__lead">気になる官公庁・自治体や求人をお気に入り登録して、新着情報を受け取れます。</p>
+      <a class="dads-button btn-accent" data-type="solid-fill" data-size="lg" href="#" style="text-decoration:none">無料で会員登録する</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ フッター ============ -->
+<footer class="dads-footer">
+  <div class="dads-container">
+    <div class="footer-grid">
+      <div>
+        <p style="font-size:1.25rem;font-weight:700;margin:0">パブリックコネクト</p>
+        <p style="margin:0.5rem 0 0;color:var(--color-neutral-solid-gray-200)">
+          公務員の求人に特化した、官公庁・自治体の採用情報サイト。
+        </p>
+      </div>
+      <nav aria-label="求人を探す">
+        <p class="footer-heading">求人を探す</p>
+        <ul class="footer-nav">
+          <li><a href="#municipalities">官公庁・自治体から探す</a></li>
+          <li><a href="#find">職種から探す</a></li>
+          <li><a href="#find">勤務形態から探す</a></li>
+          <li><a href="#find">特徴から探す</a></li>
+          <li><a href="#jobs">新着求人</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="コンテンツ・サポート">
+        <p class="footer-heading">コンテンツ・サポート</p>
+        <ul class="footer-nav">
+          <li><a href="#blog">ブログ</a></li>
+          <li><a href="#movie">ムービー</a></li>
+          <li><a href="#feature">特集</a></li>
+          <li><a href="#">お役立ちコラム</a></li>
+          <li><a href="#">官公庁の方へ</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <ul class="dads-utility-link" style="flex-wrap:wrap;list-style:none;margin:0;padding:0">
+        <li><a href="#">運営会社</a></li>
+        <li><a href="#">利用規約</a></li>
+        <li><a href="#">プライバシーポリシー</a></li>
+        <li><a href="#">アクセシビリティ</a></li>
+        <li><a href="#">お問い合わせ</a></li>
+      </ul>
+      <p style="margin:1rem 0 0"><small>© 株式会社パブリックコネクト</small></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var toggle = document.querySelector('.dads-menu-toggle');
+  var drawer = document.getElementById('drawer');
+  var overlay = document.querySelector('[data-drawer-overlay]');
+  var closeBtn = document.querySelector('[data-drawer-close]');
+  if (!toggle || !drawer) return;
+  function open() {
+    drawer.setAttribute('data-open', ''); overlay.setAttribute('data-open', '');
+    toggle.setAttribute('aria-expanded', 'true');
+    drawer.querySelector('a, button').focus();
+    document.addEventListener('keydown', onEsc);
+  }
+  function close() {
+    drawer.removeAttribute('data-open'); overlay.removeAttribute('data-open');
+    toggle.setAttribute('aria-expanded', 'false'); toggle.focus();
+    document.removeEventListener('keydown', onEsc);
+  }
+  function onEsc(e) { if (e.key === 'Escape') close(); }
+  toggle.addEventListener('click', open);
+  overlay.addEventListener('click', close);
+  closeBtn.addEventListener('click', close);
+})();
+</script>
+</body>
+</html>

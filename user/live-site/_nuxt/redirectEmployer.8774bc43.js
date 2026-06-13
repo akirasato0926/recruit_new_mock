@@ -1,0 +1,1 @@
+import{gO as s,dN as r,m as l,eE as i,bF as d}from"./entry.a7f8609d.js";const u=s(o=>{var a;const e=r("auth.system-data").value;if(e){const t=l(e);if(t&&((a=t.roles)==null?void 0:a[0])===i.EMPLOYER)return d("/employer"+o.fullPath)}});export{u as default};

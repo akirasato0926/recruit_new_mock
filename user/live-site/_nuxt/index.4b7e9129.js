@@ -1,0 +1,1 @@
+import{z as t,a3 as a,a4 as s,H as o,I as r}from"./entry.a7f8609d.js";const u=t({__name:"index",setup(n){const e=a();return s(`/employer/message/template/${e.params.id}/edit`),(m,p)=>(o(),r("div"))}});export{u as default};

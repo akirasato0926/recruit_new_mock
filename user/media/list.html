@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>記事・動画一覧（インタビュー / 動画 / コラム）｜PUBLIC CONNECT MEDIA</title><meta name="description" content="官公庁・自治体の職員インタビュー記事、動画コンテンツ、コラムを、カテゴリ・タグで絞り込んで探せる一覧です。"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet"><style>
+:root{--ink:#0e1714;--ink-2:#39423e;--sub:#717b76;--line:#e7ebe9;--bg-soft:#f5f7f6;
+  --g-700:#0c472a;--g-600:#115A36;--g-500:#1d8b56;--g-400:#51b883;
+  --blue:#115a36;--accent:#FE4B28;
+  --grad:#115A36;--content:1280px;}
+*{box-sizing:border-box;} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:#fff;line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:var(--content);margin:0 auto;padding:0 32px;} .en{font-family:"Outfit",sans-serif;}
+/* header */
+.m-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);}
+.m-header .wrap{display:flex;align-items:center;gap:32px;height:72px;}
+.m-brand{font-family:"Outfit",sans-serif;font-weight:800;font-size:21px;letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+.m-nav{display:flex;gap:26px;margin-left:6px;}
+.m-nav a{font-size:14px;font-weight:700;color:var(--ink-2);} .m-nav a:hover{color:var(--g-700);}
+.m-actions{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.m-searchbox{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg-soft);}
+.m-searchbox svg{width:17px;height:17px;stroke:var(--sub);flex:none;}
+.m-searchbox input{border:none;background:transparent;outline:none;font-size:14px;width:170px;font-family:"Noto Sans JP",sans-serif;}
+.m-back{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;color:#fff;background:var(--ink);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+.m-back:hover{background:var(--g-700);}
+/* 共通の記事ラッパ（この幅にカバー・本文＋関連を揃える） */
+.a-wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+.crumb{font-size:12px;color:var(--sub);font-weight:700;margin:30px 0 22px;display:flex;gap:8px;flex-wrap:wrap;}
+.crumb a:hover{color:var(--g-700);}
+.a-cat{display:inline-block;background:var(--grad);color:#fff;font-weight:900;font-size:11px;letter-spacing:.08em;padding:6px 13px;border-radius:4px;}
+.a-title{font-size:33px;font-weight:900;line-height:1.55;letter-spacing:.01em;margin:18px 0 20px;}
+.a-meta{display:flex;align-items:center;gap:12px;color:var(--sub);font-size:13px;}
+.a-meta img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
+.a-meta b{color:var(--ink);font-weight:700;} .a-meta .date{font-family:"Outfit",sans-serif;margin-left:auto;}
+/* タイトル直下：フォロー促進バナー */
+.follow-banner{display:flex;align-items:center;gap:20px;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:22px 0 4px;}
+.fb-av{width:58px;height:58px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.fb-info{flex:1;min-width:0;}
+.fb-name{font-size:18px;font-weight:900;text-decoration:underline;text-underline-offset:3px;}
+.fb-desc{font-size:13px;color:var(--ink-2);line-height:1.7;margin:5px 0 0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fb-cta{flex:none;width:300px;text-align:center;}
+.fc-follow{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--grad);color:#fff;border:none;
+  border-radius:10px;font-size:16px;font-weight:900;padding:14px;transition:.15s;}
+.fc-follow:hover{filter:brightness(1.06);} .fc-follow svg{width:19px;height:19px;}
+.fb-note{font-size:12px;font-weight:700;line-height:1.7;margin:9px 0 0;} .fb-note .ac{color:var(--accent);}
+/* カバー（a-wrap全幅 = 本文＋関連 と同幅） */
+.a-cover{margin:26px 0 8px;}
+.a-cover img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;}
+/* 2カラム：本文 + 関連 */
+.a-cols{display:flex;gap:40px;align-items:flex-start;padding:34px 0 24px;}
+.a-main{flex:1;min-width:0;}
+.a-right{flex:none;width:320px;}
+.sticky{position:sticky;top:96px;}
+/* body */
+.a-body{font-size:16.5px;line-height:2.05;}
+.a-body p{margin:0 0 26px;} .a-body .lead{font-size:17.5px;font-weight:500;}
+.a-body .q{font-size:19px;font-weight:900;line-height:1.6;margin:44px 0 18px;padding-left:16px;border-left:4px solid var(--g-500);}
+.a-body .speak .sp{display:inline-block;font-weight:900;color:var(--g-700);margin-right:8px;}
+.a-body .credit{color:var(--sub);font-size:13px;margin-top:40px;}
+.pull{margin:40px 0;padding:0;}
+.pull blockquote{margin:0;font-size:23px;font-weight:900;line-height:1.7;color:var(--g-700);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:26px 0;}
+.org-box{background:var(--bg-soft);border-radius:10px;padding:24px 26px;margin:44px 0;}
+.org-box h4{margin:0 0 10px;font-size:15px;font-weight:900;} .org-box p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.9;}
+.share{display:flex;align-items:center;gap:12px;margin:40px 0 10px;border-top:1px solid var(--line);padding-top:28px;}
+.share span{font-family:"Outfit",sans-serif;font-weight:700;font-size:13px;color:var(--sub);margin-right:4px;}
+.share a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;}
+.share a:hover{border-color:var(--g-500);} .share svg{width:17px;height:17px;}
+/* right: related & events */
+.rel-block{margin-bottom:34px;}
+.rel-block h3{font-family:"Outfit",sans-serif;font-size:17px;font-weight:800;letter-spacing:.04em;border-bottom:2px solid var(--ink);padding-bottom:10px;margin:0 0 14px;display:flex;align-items:baseline;gap:10px;}
+.rel-block h3 .ja{font-family:"Noto Sans JP",sans-serif;font-size:12px;font-weight:700;color:var(--sub);}
+.rel-art{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.rel-art img{width:96px;height:64px;border-radius:6px;object-fit:cover;flex:none;background:#dceee4;}
+.rel-art p{margin:0;font-size:13px;font-weight:700;line-height:1.55;}
+.rel-art:hover p{color:var(--g-700);}
+.event{display:block;padding:14px 0;border-bottom:1px solid var(--line);}
+.event .ev-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.event .ev-av{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.event .ev-org{font-size:12px;color:var(--sub);font-weight:700;}
+.event .ev-date{display:inline-block;background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;padding:2px 8px;margin-bottom:6px;}
+.event .ev-t{font-size:13px;font-weight:700;line-height:1.55;margin:0;}
+.event:hover .ev-t{color:var(--g-700);}
+/* ダミーサムネイル（AD枠と同じストライプ意匠） */
+.thumb-dummy{display:grid;place-items:center;width:100%;height:100%;
+  background:repeating-linear-gradient(45deg,#f6faf8,#f6faf8 11px,#f1f6f3 11px,#f1f6f3 22px);
+  color:#9bb3a8;font-family:"Outfit",sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;}
+.thumb-dummy::after{content:"DUMMY";}
+.a-cover .thumb-dummy{width:100%;aspect-ratio:16/9;height:auto;border-radius:8px;}
+.rel-art .thumb-dummy{width:96px;height:64px;border-radius:6px;flex:none;}
+/* footer */
+.m-footer{background:var(--ink);color:#cfd8d4;}
+.m-footer .top{padding:48px 0 36px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;}
+.m-footer .bt{font-family:"Outfit",sans-serif;font-weight:800;font-size:22px;color:#fff;}
+.m-footer nav{display:flex;gap:24px;font-size:13px;font-weight:700;margin-left:auto;flex-wrap:wrap;}
+.m-footer nav a:hover{color:#fff;}
+.m-footer .copy{border-top:1px solid rgba(255,255,255,.12);padding:18px 0;font-size:12px;opacity:.6;font-family:"Outfit",sans-serif;}
+@media(max-width:920px){
+  .a-cols{flex-direction:column;} .a-right{width:100%;} .sticky{position:static;}
+  .follow-banner{flex-direction:column;align-items:flex-start;} .fb-cta{width:100%;}
+}
+@media(max-width:760px){ .a-title{font-size:25px;} .m-nav,.m-searchbox{display:none;} }
+</style><style id="list-css">
+.ml-wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+.ml-head{margin:34px 0 6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+.ml-head h1{font-family:"Outfit",sans-serif;font-size:30px;font-weight:800;margin:0;}
+.ml-head .ja{font-size:13px;font-weight:700;color:var(--sub);}
+.ml-lead{color:var(--sub);font-size:14px;margin:0 0 18px;}
+.ml-filter{position:sticky;top:72px;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:14px 0 12px;margin:0 0 22px;}
+.ml-cats{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px;}
+.ml-cat{font-size:14px;font-weight:700;color:#42514a;background:#f1f4f3;border:1px solid transparent;border-radius:999px;padding:8px 18px;cursor:pointer;font-family:inherit;}
+.ml-cat:hover{color:var(--g-700);}
+.ml-cat.on{background:var(--g-600);color:#fff;}
+.ml-kw{display:flex;align-items:flex-start;gap:10px;}
+.ml-kw .lab{font-size:12px;font-weight:800;color:#888;letter-spacing:.04em;flex:none;padding-top:7px;}
+.ml-chips{display:flex;flex-wrap:wrap;gap:7px;flex:1;}
+.ml-chip{font-size:13px;font-weight:600;color:#42514a;background:#fff;border:1px solid #cdd5d1;border-radius:999px;padding:5px 12px;cursor:pointer;user-select:none;transition:.15s;}
+.ml-chip:hover{border-color:var(--g-600);color:var(--g-600);}
+.ml-chip.on{background:var(--g-600);border-color:var(--g-600);color:#fff;}
+.ml-clear{font-size:13px;font-weight:700;color:var(--g-600);background:none;border:none;cursor:pointer;text-decoration:underline;flex:none;padding-top:5px;}
+.ml-count{font-size:13px;color:var(--sub);margin:0 0 14px;}
+.ml-count b{color:var(--ink);font-weight:800;}
+.ml-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px 24px;margin:0 0 64px;}
+.ml-empty{padding:60px 0;text-align:center;color:#888;font-size:14px;grid-column:1/-1;display:none;}
+.lc{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;transition:box-shadow .15s,transform .15s;}
+.lc:hover{box-shadow:0 8px 24px rgba(17,90,54,.12);transform:translateY(-2px);}
+.lc-thumb{position:relative;aspect-ratio:16/9;background:#dceee4;overflow:hidden;}
+.lc-thumb img{width:100%;height:100%;object-fit:cover;}
+.lc-badge{position:absolute;left:10px;top:10px;font-size:11px;font-weight:800;color:#fff;padding:4px 10px;border-radius:5px;letter-spacing:.02em;}
+.lc-interview{background:var(--g-600);} .lc-movie{background:#1a2b24;} .lc-column{background:#2f7cc4;}
+.lc-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 4px 12px rgba(0,0,0,.25);}
+.lc-play::before{content:"";position:absolute;left:52%;top:50%;transform:translate(-50%,-50%);border-style:solid;border-width:8px 0 8px 14px;border-color:transparent transparent transparent var(--g-600);}
+.lc-body{padding:14px 16px 16px;}
+.lc-title{font-size:15px;font-weight:700;line-height:1.6;margin:0 0 8px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.lc-meta{font-size:12px;color:var(--sub);font-family:"Outfit",sans-serif;}
+.lc-tags{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;}
+.lc-tags span{font-size:11px;color:#5b6b63;background:#f0f3f2;border-radius:4px;padding:2px 8px;}
+@media(max-width:900px){ .ml-grid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:640px){
+  html{overflow-x:clip;}
+  .ml-wrap{padding:0 16px;}
+  .ml-filter{top:56px;}
+  .ml-grid{grid-template-columns:1fr;}
+  .ml-head h1{font-size:24px;}
+  .ml-kw{flex-direction:column;gap:8px;}
+}
+</style><style id="media-resp-css">
+@media(max-width:1024px) and (min-width:641px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  html,body{overflow-x:clip;max-width:100%;}
+  .wrap{padding:0 16px !important;}
+  .a-wrap{padding:0 16px !important;}
+  /* レイアウト: 縦積み時に main-col がコンテンツ幅へ伸びる(align-items:flex-start)のを是正し全幅固定。
+     これを怠ると KEYWORD横スクロールや3列gridが main-col を押し広げ、ページ全体が横溢する。 */
+  .layout{flex-direction:column !important;align-items:stretch !important;}
+  .main-col,.side-col,.side{width:100% !important;min-width:0 !important;max-width:100% !important;}
+
+  /* ===== ヘッダー: 2段コンパクト(ブランド+求人サイト / ナビ横スクロール) ===== */
+  .m-header .wrap{flex-wrap:wrap !important;height:auto !important;gap:8px 12px !important;padding:8px 14px !important;}
+  .m-brand{order:1;font-size:15px !important;letter-spacing:0 !important;}
+  .m-actions{order:2;margin-left:auto !important;gap:8px !important;display:flex !important;align-items:center;}
+  .m-searchbox{display:none !important;}
+  .m-register{display:none !important;}            /* トップ/詳細で1段目を統一: モバイルは会員登録を隠してコンパクト化 */
+  /* 求人サイト戻りボタンをトップ/詳細で統一(基本CSSの差異・var未定義でも必ず見えるよう明示指定) */
+  .m-back{display:inline-flex !important;align-items:center;gap:4px;background:#1a1a1a !important;color:#fff !important;
+    font-size:12px !important;font-weight:700 !important;padding:8px 14px !important;border-radius:999px !important;white-space:nowrap !important;letter-spacing:0 !important;}
+  .m-back svg{width:12px !important;height:12px !important;stroke:#fff !important;fill:none;}
+  .m-nav{order:3;display:flex !important;flex-basis:100% !important;margin:0 !important;gap:20px !important;
+    overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;white-space:nowrap !important;
+    border-top:1px solid var(--line);padding-top:8px !important;}
+  .m-nav::-webkit-scrollbar{display:none;}
+  .m-nav a{font-size:13px !important;flex:none;}
+
+  /* ===== 記事: フォロー促進バナーを縦積み(右見切れの主犯 fb-cta 392px固定を解除) ===== */
+  .follow-banner{flex-direction:column !important;align-items:stretch !important;gap:14px !important;padding:16px !important;}
+  .fb-cta{width:100% !important;text-align:left;}
+  .fb-info{max-width:none !important;flex:1 1 auto !important;}
+  .mj-btnrow{flex-direction:column !important;}
+  .mj-btnrow .fc-follow,.mj-btnrow .mj-recruit{width:100% !important;flex:1 1 auto !important;}
+  .fb-note{text-align:center;}
+
+  /* ===== 記事/動画 本文: 2カラム解除・見出し可読化 ===== */
+  .a-cols,.m-cols{flex-direction:column !important;gap:24px !important;}
+  .a-main,.m-main{width:100% !important;min-width:0 !important;flex:1 1 auto !important;}
+  .a-right,.m-side{width:100% !important;}
+  /* 動画プレイヤーが固定幅でmainを押し広げないように */
+  .player,.player .thumb-dummy,.m-main video,.m-main iframe{width:100% !important;max-width:100% !important;}
+  .a-title,.m-title{font-size:22px !important;line-height:1.5 !important;}
+  .a-body{font-size:15.5px !important;}
+  .a-toc{padding:16px 18px !important;}
+  .a-meta{flex-wrap:wrap;}
+
+  /* タブ(概要/書き起こし/チャプター等)は横スクロール */
+  .tabs,.m-tabs,.tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .tabs::-webkit-scrollbar,.m-tabs::-webkit-scrollbar{display:none;}
+
+  /* MEDIA内 求人カード */
+  #mj-jobs{padding:16px !important;margin:24px 0 8px !important;}
+
+  /* ===== セクションカード: タグ折返し・画像比率・可読サイズ ===== */
+  .card{width:auto !important;}
+  .card-thumb{aspect-ratio:16/9;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;}
+  .card-title{font-size:15px !important;line-height:1.6 !important;}
+  .card-tags{flex-wrap:wrap !important;}
+  .card-tags span,.card-tags a{margin-bottom:4px;}
+
+  /* ===== フィルタ/キーワード: コンパクト化(KEYWORDは1行横スクロールでビジー感を解消) ===== */
+  .filter-bar{flex-wrap:nowrap !important;align-items:center !important;gap:8px !important;margin:0 0 10px !important;}
+  .filter-bar .fl-label,.kw-bar .fl-label{width:auto !important;flex:none !important;padding-top:0 !important;font-size:11px !important;letter-spacing:.1em !important;}
+  .filter-btn{font-size:12px !important;padding:7px 14px !important;}
+  .kw-bar{flex-direction:row !important;align-items:center !important;gap:8px !important;flex-wrap:nowrap !important;margin:0 0 28px !important;}
+  .kw-pills{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch;
+    gap:7px !important;width:100% !important;min-width:0 !important;padding-bottom:2px;}
+  .kw-pills::-webkit-scrollbar{display:none;}
+  .kw{font-size:12px !important;padding:6px 12px !important;flex:none !important;}
+  .kw-pills a,.kw-pills button{white-space:nowrap;}
+
+  /* ===== トップのインタビュー/コラムを 2行×3列(3カラム)のコンパクトグリッドに ===== */
+  #interview .grid,#column .grid{grid-template-columns:repeat(3,1fr) !important;gap:14px 8px !important;}
+  /* grid item の min-width:auto を解除しないと、カード内容で1fr列が膨張し横溢する */
+  #interview .grid>.card,#column .grid>.card{min-width:0 !important;width:auto !important;overflow:hidden;}
+  #interview .card-cat,#column .card-cat,#interview .card-foot,#column .card-foot{display:none !important;}
+  #interview .card-tags,#column .card-tags{display:none !important;}
+  #interview .card-body,#column .card-body{padding:8px 2px 0 !important;min-width:0 !important;}
+  #interview .card-title,#column .card-title{font-size:11px !important;line-height:1.45 !important;margin:0 !important;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;word-break:break-word;}
+  #interview .card-thumb,#column .card-thumb{aspect-ratio:16/9 !important;border-radius:6px;width:100% !important;}
+  #interview .card-thumb img,#column .card-thumb img{width:100% !important;height:100% !important;object-fit:cover;}
+  #interview .card-thumb .thumb-dummy::after,#column .card-thumb .thumb-dummy::after{content:"" !important;}
+
+  /* RELATED/サイドのダミー画像が縦に伸びすぎないよう抑制 */
+  .rel-art .thumb-dummy,.rv .thumb-dummy{flex:none;}
+}
+</style>
+</head><body><header class="m-header"><div class="wrap">
+  <a class="m-brand" href="index.html">PUBLIC CONNECT MEDIA</a>
+  <nav class="m-nav"><a href="index.html#feature">特集</a><a href="index.html#interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a></nav>
+  <div class="m-actions">
+    <form class="m-searchbox" role="search" onsubmit="return false;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input type="search" placeholder="記事を検索" aria-label="記事を検索"></form>
+    <a class="m-back" href="../index-2.html">求人サイト</a>
+  </div>
+</div></header><main class="ml-wrap"><div class="crumb" style="margin:30px 0 0;"><a href="index.html">HOME</a> <span>/</span> <span>記事・動画一覧</span></div><div class="ml-head"><h1>ARTICLES &amp; MOVIES</h1><span class="ja">記事・動画一覧</span></div><p class="ml-lead">職員インタビュー・動画・コラムを横断して掲載。カテゴリとタグで絞り込み、記事と動画を行き来しながらお探しいただけます。</p><div class="ml-filter"><div class="ml-cats"><button type="button" class="ml-cat on" data-cat="all">すべて</button><button type="button" class="ml-cat" data-cat="interview">インタビュー</button><button type="button" class="ml-cat" data-cat="movie">動画</button><button type="button" class="ml-cat" data-cat="column">コラム</button></div><div class="ml-kw"><span class="lab">KEYWORD</span><div class="ml-chips"><button type="button" class="ml-chip" data-tag="公務員試験">#公務員試験</button><button type="button" class="ml-chip" data-tag="面接対策">#面接対策</button><button type="button" class="ml-chip" data-tag="キャリア採用">#キャリア採用</button><button type="button" class="ml-chip" data-tag="新卒採用">#新卒採用</button><button type="button" class="ml-chip" data-tag="移住・定住">#移住・定住</button><button type="button" class="ml-chip" data-tag="行政DX">#行政DX</button><button type="button" class="ml-chip" data-tag="働き方改革">#働き方改革</button><button type="button" class="ml-chip" data-tag="土木・建築">#土木・建築</button><button type="button" class="ml-chip" data-tag="保育・教育">#保育・教育</button><button type="button" class="ml-chip" data-tag="医療・福祉">#医療・福祉</button><button type="button" class="ml-chip" data-tag="防災">#防災</button><button type="button" class="ml-chip" data-tag="地域おこし">#地域おこし</button><button type="button" class="ml-chip" data-tag="観光・PR">#観光・PR</button><button type="button" class="ml-chip" data-tag="環境・SDGs">#環境・SDGs</button><button type="button" class="ml-chip" data-tag="技術職">#技術職</button><button type="button" class="ml-chip" data-tag="事務職">#事務職</button><button type="button" class="ml-chip" data-tag="心理的安全性">#心理的安全性</button><button type="button" class="ml-chip" data-tag="ワークライフバランス">#ワークライフバランス</button><button type="button" class="ml-chip" data-tag="子育て支援">#子育て支援</button><button type="button" class="ml-chip" data-tag="インターンシップ">#インターンシップ</button></div><button type="button" class="ml-clear" id="mlClear">クリア</button></div></div><p class="ml-count">全 <b id="mlCount">0</b> 件</p><div class="ml-grid"><a class="lc" data-type="interview" data-tags="公務員試験,行政DX,環境・SDGs,事務職" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2024_avatar_employer_1c51c9d2-aee5-4ef6-aca9-6cd742bf9d14_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">「お堅い」イメージが180度変わった。若手の“好き”が形になる風通し</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#公務員試験</span><span>#行政DX</span><span>#環境・SDGs</span></div></div></a><a class="lc" data-type="interview" data-tags="防災,観光・PR,面接対策" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2024_avatar_employer_79eafc43-7cef-401a-8273-d3cecfbd887d_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">「次のステージ」を創るのはあなたの力。管理職が語る組織づくり</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#防災</span><span>#観光・PR</span><span>#面接対策</span></div></div></a><a class="lc" data-type="interview" data-tags="技術職,心理的安全性,土木・建築,地域おこし" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2024_avatar_employer_46efb4bb-a7d7-4c60-9fb6-0ece1abc0e09_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">入庁3年目と係長が語る、心理的安全性が生み出す連帯感</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#技術職</span><span>#心理的安全性</span><span>#土木・建築</span></div></div></a><a class="lc" data-type="interview" data-tags="移住・定住,働き方改革,キャリア採用" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2025_avatar_employer_96c95872-bca1-45b9-8c21-98d70fbb7a21_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">窓口の最前線で見つけた、まちと人をつなぐ仕事のやりがい</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#移住・定住</span><span>#働き方改革</span><span>#キャリア採用</span></div></div></a><a class="lc" data-type="interview" data-tags="医療・福祉,環境・SDGs,インターンシップ,行政DX" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2024_avatar_employer_5c6755ef-4715-484e-917a-76ccf4e22bbc_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">インフラを未来へつなぐ。土木技師として働くという選択</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#医療・福祉</span><span>#環境・SDGs</span><span>#インターンシップ</span></div></div></a><a class="lc" data-type="interview" data-tags="事務職,面接対策,保育・教育" href="article.html"><div class="lc-thumb"><img src="../assets/s3/2025_avatar_employer_282acd53-43f5-40b5-8bda-6bafa7192fe4_default.webp" alt="" loading="lazy"><span class="lc-badge lc-interview">インタビュー</span></div><div class="lc-body"><p class="lc-title">民間も見たうえで公務員を選んだ理由 ── 1年目のリアル</p><span class="lc-meta">インタビュー</span><div class="lc-tags"><span>#事務職</span><span>#面接対策</span><span>#保育・教育</span></div></div></a><a class="lc" data-type="movie" data-tags="行政DX,キャリア採用,事務職" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-1-furusato.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">ふるさと納税を3年で12倍にした財政課の仕掛け人 ── 数字で魅せる、まちを動かす職員の打ち手</p><span class="lc-meta">12:30</span><div class="lc-tags"><span>#行政DX</span><span>#キャリア採用</span><span>#事務職</span></div></div></a><a class="lc" data-type="movie" data-tags="公務員試験,ワークライフバランス,新卒採用" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-2-leaders-yamamoto.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">10年後、このまちは消えるか。── 首長が語る、まちの未来と採用への覚悟</p><span class="lc-meta">15:48</span><div class="lc-tags"><span>#公務員試験</span><span>#ワークライフバランス</span><span>#新卒採用</span></div></div></a><a class="lc" data-type="movie" data-tags="キャリア採用,心理的安全性,行政DX" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-3-leaders-kaikaku.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">“前例なき改革”に賭ける理由 ── 未来をつくるのは、挑戦を恐れないチームだ</p><span class="lc-meta">13:20</span><div class="lc-tags"><span>#キャリア採用</span><span>#心理的安全性</span><span>#行政DX</span></div></div></a><a class="lc" data-type="movie" data-tags="行政DX,新卒採用,事務職" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-4-lookers-zenrei.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">公務員＝前例主義？を覆す ── データとアイデアで、未来の当たり前をつくる</p><span class="lc-meta">09:15</span><div class="lc-tags"><span>#行政DX</span><span>#新卒採用</span><span>#事務職</span></div></div></a><a class="lc" data-type="movie" data-tags="移住・定住,子育て支援,キャリア採用" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-5-hataraku-kyori.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">移住×公務員、地方で叶える“距離の近さ” ── 30代女性のリアルな選択</p><span class="lc-meta">08:40</span><div class="lc-tags"><span>#移住・定住</span><span>#子育て支援</span><span>#キャリア採用</span></div></div></a><a class="lc" data-type="movie" data-tags="防災,土木・建築,技術職" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-6-genba-river.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">24時間、川を見張る男たち ── 水害から暮らしを守る、静かな最前線</p><span class="lc-meta">11:05</span><div class="lc-tags"><span>#防災</span><span>#土木・建築</span><span>#技術職</span></div></div></a><a class="lc" data-type="movie" data-tags="土木・建築,技術職,行政DX" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-7-genba-scale.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">スケールは、民間より上かもしれない ── 公務員の仕事の奥深さを体感</p><span class="lc-meta">10:30</span><div class="lc-tags"><span>#土木・建築</span><span>#技術職</span><span>#行政DX</span></div></div></a><a class="lc" data-type="movie" data-tags="キャリア採用,ワークライフバランス,心理的安全性" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-8-crosstalk-shusse.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">正直、出世したい？── キャリアも、やりがいも、本音で語るそれぞれのホンネ</p><span class="lc-meta">14:10</span><div class="lc-tags"><span>#キャリア採用</span><span>#ワークライフバランス</span><span>#心理的安全性</span></div></div></a><a class="lc" data-type="movie" data-tags="面接対策,公務員試験,新卒採用" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-9-gyakumensetsu.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">逆面接｜副市長、合否ジャッジされます ── 立場逆転、面接する幹部の素顔に迫る</p><span class="lc-meta">16:25</span><div class="lc-tags"><span>#面接対策</span><span>#公務員試験</span><span>#新卒採用</span></div></div></a><a class="lc" data-type="movie" data-tags="移住・定住,地域おこし,子育て支援" href="movie.html"><div class="lc-thumb"><img src="assets/movie/movie-10-hataraku-miyako.png" alt="" loading="lazy"><span class="lc-play"></span><span class="lc-badge lc-movie">動画</span></div><div class="lc-body"><p class="lc-title">宮古島との奇跡的な出会い ── 人生を変えた、たった一つの選択</p><span class="lc-meta">09:50</span><div class="lc-tags"><span>#移住・定住</span><span>#地域おこし</span><span>#子育て支援</span></div></div></a><a class="lc" data-type="column" data-tags="面接対策,公務員試験,新卒採用" href="article.html"><div class="lc-thumb"><img src="assets/column/column-1-mensetsu-jiko.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">【先輩職員に聞きました】面接対策・自己分析はどうすればいいの？</p><span class="lc-meta">2026.06.08</span><div class="lc-tags"><span>#面接対策</span><span>#公務員試験</span><span>#新卒採用</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験,キャリア採用,新卒採用" href="article.html"><div class="lc-thumb"><img src="assets/column/column-2-itsukara.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験、いつから準備する？ ── 合格への第一歩を、ベストなタイミングで</p><span class="lc-meta">2026.06.05</span><div class="lc-tags"><span>#公務員試験</span><span>#キャリア採用</span><span>#新卒採用</span></div></div></a><a class="lc" data-type="column" data-tags="面接対策,新卒採用,キャリア採用" href="article.html"><div class="lc-thumb"><img src="assets/column/column-3-zubari.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">ズバリ、面接は何を見られるの？ ── 採用担当が見ているポイント</p><span class="lc-meta">2026.06.02</span><div class="lc-tags"><span>#面接対策</span><span>#新卒採用</span><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験,移住・定住,新卒採用" href="article.html"><div class="lc-thumb"><img src="assets/column/column-4-daiichi.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">第一志望の自治体を見つける。── 大学2年生だからできること</p><span class="lc-meta">2026.05.30</span><div class="lc-tags"><span>#公務員試験</span><span>#移住・定住</span><span>#新卒採用</span></div></div></a><a class="lc" data-type="column" data-tags="面接対策,新卒採用,公務員試験" href="article.html"><div class="lc-thumb"><img src="assets/column/column-5-jikopr.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">【入庁1年目の先輩に聞きました】自己PRは何を話したの？</p><span class="lc-meta">2026.05.27</span><div class="lc-tags"><span>#面接対策</span><span>#新卒採用</span><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="content-public-officer-exam.html"><div class="lc-thumb"><img src="assets/column/column-1-mensetsu-jiko.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の内容とは？ ── 教養・専門・論文・面接の全体像</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="age-public-servants-exam.html"><div class="lc-thumb"><img src="assets/column/column-2-itsukara.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験に年齢制限はある？ ── 受験可能年齢の考え方</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="application-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-3-zubari.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の申込み方法 ── 受付期間と手続きの流れ</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="flow-public-officer-exam.html"><div class="lc-thumb"><img src="assets/column/column-4-daiichi.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の流れ ── 申込みから内定までのステップ</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="level-public-officer-exam.html"><div class="lc-thumb"><img src="assets/column/column-5-jikopr.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の難易度 ── 区分ごとの傾向と対策</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="method-public-officer-exam.html"><div class="lc-thumb"><img src="assets/column/column-1-mensetsu-jiko.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の勉強法 ── 効率的に合格力をつける</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="面接対策" href="interview-public-servants-exam.html"><div class="lc-thumb"><img src="assets/column/column-2-itsukara.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の面接 ── 採用担当が見ているポイント</p><div class="lc-tags"><span>#面接対策</span></div></div></a><a class="lc" data-type="column" data-tags="公務員試験" href="past-questions-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-3-zubari.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員試験の過去問の使い方 ── 最強の教材を活かす</p><div class="lc-tags"><span>#公務員試験</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="points-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-4-daiichi.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員転職の選考プロセス ── 民間経験者が押さえるべき点</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="public-servants-mid-career.html"><div class="lc-thumb"><img src="assets/column/column-5-jikopr.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員中途採用の倍率 ── 経験者枠のリアル</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="salary-public-servant.html"><div class="lc-thumb"><img src="assets/column/column-1-mensetsu-jiko.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員中途採用の年収 ── 給与の決まり方</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="utilization-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-2-itsukara.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員転職サイトの活用法 ── 効率よく募集を見つける</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="thirties-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-3-zubari.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">30代の公務員転職 ── 経験を強みに変える</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="キャリア採用" href="fourties-public-servants.html"><div class="lc-thumb"><img src="assets/column/column-4-daiichi.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">40代の公務員転職 ── 専門性を活かす道</p><div class="lc-tags"><span>#キャリア採用</span></div></div></a><a class="lc" data-type="column" data-tags="保育・教育" href="change-public-officer-job-site.html"><div class="lc-thumb"><img src="assets/column/column-5-jikopr.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員保育士への転職 ── 公立保育の働き方</p><div class="lc-tags"><span>#保育・教育</span></div></div></a><a class="lc" data-type="column" data-tags="医療・福祉" href="health-public-officer-job-site.html"><div class="lc-thumb"><img src="assets/column/column-1-mensetsu-jiko.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員保健師への転職 ── 地域保健の最前線</p><div class="lc-tags"><span>#医療・福祉</span></div></div></a><a class="lc" data-type="column" data-tags="土木・建築" href="work-public-officer-job-change.html"><div class="lc-thumb"><img src="assets/column/column-2-itsukara.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員土木職への転職 ── まちの基盤を支える</p><div class="lc-tags"><span>#土木・建築</span></div></div></a><a class="lc" data-type="column" data-tags="ワークライフバランス" href="merit-public-officer-job-site.html"><div class="lc-thumb"><img src="assets/column/column-3-zubari.png" alt="" loading="lazy"><span class="lc-badge lc-column">コラム</span></div><div class="lc-body"><p class="lc-title">公務員のメリット ── 安定だけではない働く価値</p><div class="lc-tags"><span>#ワークライフバランス</span></div></div></a><div class="ml-empty" id="mlEmpty">該当するコンテンツがありません。</div></div></main><footer class="m-footer"><div class="wrap">
+  <div class="top"><span class="bt en">PUBLIC CONNECT MEDIA</span>
+    <nav><a href="../index-2.html">求人サイト</a><a href="index.html#feature">特集</a><a href="index.html#interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a><a href="#">編集方針</a><a href="#">お問い合わせ</a></nav>
+  </div>
+  <div class="copy">© PUBLIC CONNECT Inc. All rights reserved.</div>
+</div></footer><script id="list-js">
+(function(){
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  ready(function(){
+    var cats=Array.prototype.slice.call(document.querySelectorAll('.ml-cat'));
+    var chips=Array.prototype.slice.call(document.querySelectorAll('.ml-chip'));
+    var cards=Array.prototype.slice.call(document.querySelectorAll('.lc'));
+    var countEl=document.getElementById('mlCount'), empty=document.getElementById('mlEmpty');
+    var curCat='all';
+    function selectedTags(){ return chips.filter(function(c){return c.classList.contains('on');}).map(function(c){return c.getAttribute('data-tag');}); }
+    function apply(){
+      var tags=selectedTags(), vis=0;
+      cards.forEach(function(c){
+        var typeOk=(curCat==='all')||c.getAttribute('data-type')===curCat;
+        var ct=(c.getAttribute('data-tags')||'').split(',');
+        var tagOk=(tags.length===0)||tags.some(function(t){return ct.indexOf(t)!==-1;});
+        var show=typeOk&&tagOk; c.style.display=show?'':'none'; if(show)vis++;
+      });
+      if(countEl) countEl.textContent=vis;
+      if(empty) empty.style.display=vis?'none':'block';
+    }
+    cats.forEach(function(b){ b.addEventListener('click',function(){ curCat=b.getAttribute('data-cat'); cats.forEach(function(x){x.classList.toggle('on',x===b);}); apply(); }); });
+    chips.forEach(function(c){ c.addEventListener('click',function(){ c.classList.toggle('on'); apply(); }); });
+    var clr=document.getElementById('mlClear'); if(clr) clr.addEventListener('click',function(){ chips.forEach(function(c){c.classList.remove('on');}); apply(); });
+    // URLパラメータで初期フィルタ
+    var q=new URLSearchParams(location.search);
+    var cat=q.get('cat'); if(cat){ var t=cats.filter(function(b){return b.getAttribute('data-cat')===cat;})[0]; if(t){ curCat=cat; cats.forEach(function(x){x.classList.toggle('on',x===t);}); } }
+    var tg=q.get('tag'); if(tg){ var ch=chips.filter(function(c){return c.getAttribute('data-tag')===tg;})[0]; if(ch) ch.classList.add('on'); }
+    apply();
+  });
+})();
+</script><script id="media-links-js">
+(function(){
+  var MAP=[["心理的安全性が生み出す連帯感", "article"], ["お堅い", "iv-urayasu-fudoshi"], ["次のステージ", "iv-kanrishoku-soshiki"], ["窓口の最前線", "iv-madoguchi"], ["インフラを未来へつなぐ", "iv-doboku"], ["民間も見たうえで公務員", "iv-shinsotsu-rial"], ["面接対策・自己分析", "col-mensetsu-jiko"], ["いつから準備", "col-itsukara"], ["面接は何を見られる", "col-mensetsu-point"], ["第一志望の自治体を見つける", "col-daiichi-jichitai"], ["自己PRは何を話した", "col-jikopr"]];
+  function ready(f){ if(document.readyState!=='loading'){f();} else {document.addEventListener('DOMContentLoaded',f);} }
+  ready(function(){
+    var underMedia = location.pathname.indexOf('/media/')>=0;
+    var base = underMedia ? '' : 'media/';
+    MAP.forEach(function(m){
+      var key=m[0], target=base+m[1]+'.html';
+      var els=Array.prototype.slice.call(document.querySelectorAll('p,h2,h3,h4,span,a,div'));
+      for(var i=0;i<els.length;i++){
+        var e=els[i];
+        if(e.children.length>0) continue;                 // テキストの末端要素のみ
+        var t=(e.textContent||'').trim();
+        if(t.length>120 || t.indexOf(key)<0) continue;
+        // クリック可能な祖先(アンカー or カード)まで上る
+        var node=e, anchor=null, card=null;
+        for(var d=0; d<7 && node; d++){
+          if(node.tagName==='A'){ anchor=node; break; }
+          var c=(node.getAttribute && node.getAttribute('class')) || '';
+          if(!card && /(^|[^a-z])(card|lc-card|c-card|cursor-pointer)([^a-z]|$)/.test(c)) card=node;
+          node=node.parentElement;
+        }
+        var target_el = anchor || card || e;
+        if(target_el.getAttribute('data-mlink')) break;    // 配線済み(キー重複防止)
+        target_el.setAttribute('data-mlink','1');
+        if(anchor){ try{ anchor.setAttribute('href', target); }catch(x){} }
+        target_el.style.cursor='pointer';
+        target_el.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); location.href=target; }, true);
+        break;                                             // キーごとに最初の1カードのみ
+      }
+    });
+  });
+})();
+</script>
+</body></html>

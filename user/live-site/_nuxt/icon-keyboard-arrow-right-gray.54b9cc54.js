@@ -1,0 +1,1 @@
+import"./entry.a7f8609d.js";const o=""+new URL("icon-chervon-left-gray.8e147a11.svg",import.meta.url).href,e=""+new URL("icon-keyboard-arrow-right-gray.b1e785cc.svg",import.meta.url).href;export{o as _,e as a};

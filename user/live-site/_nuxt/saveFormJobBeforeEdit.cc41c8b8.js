@@ -1,0 +1,1 @@
+import{aW as a}from"./entry.a7f8609d.js";const o=a("saveFormJobBeforeEdit",{state:()=>({data:{},selectionFlows:[]}),actions:{setData(t){this.data={...t}},getData(){return this.data}}});export{o as u};

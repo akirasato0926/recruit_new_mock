@@ -1,0 +1,1 @@
+import{a3 as r,ar as s,a5 as a,I as n,H as u}from"./entry.a7f8609d.js";import{u as m}from"./employer.7e7f5461.js";const f={__name:"[token]",setup(p){const e=r(),o=s(),{setTokenEmployer:t}=m();return a(()=>{t(e.params.token),setTimeout(()=>{o.push("/employer/register/update-information")},1e3)}),(c,i)=>(u(),n("div"))}};export{f as default};

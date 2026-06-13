@@ -1,0 +1,1 @@
+import{aW as t}from"./entry.a7f8609d.js";const o=t("inquiryEmployer",{state:()=>({governmentOfficeName:"",name:"",email:"",phoneNumber:"",content:"",isConfirm:null}),actions:{setSystemData(e){this.governmentOfficeName=e.governmentOfficeName,this.name=e.name,this.email=e.email,this.phoneNumber=e.phoneNumber,this.content=e.content,this.isConfirm=e.isConfirm}}});export{o as u};

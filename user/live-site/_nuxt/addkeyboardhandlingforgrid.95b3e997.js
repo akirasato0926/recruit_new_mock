@@ -1,0 +1,4 @@
+/**
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ */function x({keystrokeHandler:o,focusTracker:a,gridItems:f,numberOfColumns:l,uiLanguageDirection:h}){const r=typeof l=="number"?()=>l:l;o.set("arrowright",u((t,n)=>h==="rtl"?g(t,n.length):c(t,n.length))),o.set("arrowleft",u((t,n)=>h==="rtl"?c(t,n.length):g(t,n.length))),o.set("arrowup",u((t,n)=>{let e=t-r();return e<0&&(e=t+r()*Math.floor(n.length/r()),e>n.length-1&&(e-=r())),e})),o.set("arrowdown",u((t,n)=>{let e=t+r();return e>n.length-1&&(e=t%r()),e}));function u(t){return n=>{const e=f.find(w=>w.element===a.focusedElement),i=f.getIndex(e),p=t(i,f);f.get(p).focus(),n.stopPropagation(),n.preventDefault()}}function c(t,n){return t===n-1?0:t+1}function g(t,n){return t===0?n-1:t-1}}export{x as a};

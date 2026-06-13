@@ -1,0 +1,4 @@
+import{P as i}from"./paragraph.47bc876d.js";import{i as n}from"./index.cd32bfd0.js";import{P as p,B as s}from"./CKEditorCustom.fe6c2ce0.js";import"./blocktoolbar.c0e53c58.js";import"./entry.a7f8609d.js";import"./client-only.0dd8160e.js";/**
+ * @license Copyright (c) 2003-2023, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
+ */const c=n.paragraph;class b extends p{static get requires(){return[i]}init(){const a=this.editor,o=a.t;a.ui.componentFactory.add("paragraph",e=>{const t=new s(e),r=a.commands.get("paragraph");return t.label=o("Paragraph"),t.icon=c,t.tooltip=!0,t.isToggleable=!0,t.bind("isEnabled").to(r),t.bind("isOn").to(r,"value"),t.on("execute",()=>{a.execute("paragraph")}),t})}}export{i as Paragraph,b as ParagraphButtonUI};

@@ -1,0 +1,1 @@
+import{a3 as o,D as a,ar as s}from"./entry.a7f8609d.js";import{o as u}from"./jwt-decode.esm.9c18df67.js";const p=async()=>{const r=o(),e=a(),t=r.params.token||r.query.token;if(t&&typeof t=="string")try{e.value=await u(t)}catch{s().push("/error")}return{metaData:e,token:t}};export{p as u};

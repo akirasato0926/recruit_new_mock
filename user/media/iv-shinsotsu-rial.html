@@ -1,0 +1,301 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>民間も見たうえで公務員を選んだ理由 ── 1年目のリアル｜PUBLIC CONNECT MEDIA</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet" /><style>
+:root{--ink:#0e1714;--ink-2:#39423e;--sub:#717b76;--line:#e7ebe9;--bg-soft:#f5f7f6;
+  --g-700:#0c472a;--g-600:#115A36;--g-500:#1d8b56;--g-400:#51b883;
+  --blue:#115a36;--accent:#FE4B28;
+  --grad:#115A36;--content:1280px;}
+*{box-sizing:border-box;} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:#fff;line-height:1.7;font-size:16px;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button{font-family:inherit;cursor:pointer;}
+.wrap{max-width:var(--content);margin:0 auto;padding:0 32px;} .en{font-family:"Outfit",sans-serif;}
+/* header */
+.m-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);}
+.m-header .wrap{display:flex;align-items:center;gap:32px;height:72px;}
+.m-brand{font-family:"Outfit",sans-serif;font-weight:800;font-size:21px;letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+.m-nav{display:flex;gap:26px;margin-left:6px;}
+.m-nav a{font-size:14px;font-weight:700;color:var(--ink-2);} .m-nav a:hover{color:var(--g-700);}
+.m-actions{margin-left:auto;display:flex;align-items:center;gap:14px;}
+.m-searchbox{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:var(--bg-soft);}
+.m-searchbox svg{width:17px;height:17px;stroke:var(--sub);flex:none;}
+.m-searchbox input{border:none;background:transparent;outline:none;font-size:14px;width:170px;font-family:"Noto Sans JP",sans-serif;}
+.m-back{font-family:"Outfit",sans-serif;font-size:13px;font-weight:700;color:#fff;background:var(--ink);padding:11px 20px;border-radius:999px;white-space:nowrap;}
+.m-back:hover{background:var(--g-700);}
+/* 共通の記事ラッパ（この幅にカバー・本文＋関連を揃える） */
+.a-wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+.crumb{font-size:12px;color:var(--sub);font-weight:700;margin:30px 0 22px;display:flex;gap:8px;flex-wrap:wrap;}
+.crumb a:hover{color:var(--g-700);}
+.a-cat{display:inline-block;background:var(--grad);color:#fff;font-weight:900;font-size:11px;letter-spacing:.08em;padding:6px 13px;border-radius:4px;}
+.a-title{font-size:33px;font-weight:900;line-height:1.55;letter-spacing:.01em;margin:18px 0 20px;}
+.a-meta{display:flex;align-items:center;gap:12px;color:var(--sub);font-size:13px;}
+.a-meta img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:1px solid var(--line);}
+.a-meta b{color:var(--ink);font-weight:700;} .a-meta .date{font-family:"Outfit",sans-serif;margin-left:auto;}
+/* タイトル直下：フォロー促進バナー */
+.follow-banner{display:flex;align-items:center;gap:20px;border:1px solid var(--line);border-radius:14px;padding:18px 22px;margin:22px 0 4px;}
+.fb-av{width:58px;height:58px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.fb-info{flex:1;min-width:0;}
+.fb-name{font-size:18px;font-weight:900;text-decoration:underline;text-underline-offset:3px;}
+.fb-desc{font-size:13px;color:var(--ink-2);line-height:1.7;margin:5px 0 0;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.fb-cta{flex:none;width:300px;text-align:center;}
+.fc-follow{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--grad);color:#fff;border:none;
+  border-radius:10px;font-size:16px;font-weight:900;padding:14px;transition:.15s;}
+.fc-follow:hover{filter:brightness(1.06);} .fc-follow svg{width:19px;height:19px;}
+.fb-note{font-size:12px;font-weight:700;line-height:1.7;margin:9px 0 0;} .fb-note .ac{color:var(--accent);}
+/* カバー（a-wrap全幅 = 本文＋関連 と同幅） */
+.a-cover{margin:26px 0 8px;}
+.a-cover img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;}
+/* 2カラム：本文 + 関連 */
+.a-cols{display:flex;gap:40px;align-items:flex-start;padding:34px 0 24px;}
+.a-main{flex:1;min-width:0;}
+.a-right{flex:none;width:320px;}
+.sticky{position:sticky;top:96px;}
+/* body */
+.a-body{font-size:16.5px;line-height:2.05;}
+.a-body p{margin:0 0 26px;} .a-body .lead{font-size:17.5px;font-weight:500;}
+.a-body .q{font-size:19px;font-weight:900;line-height:1.6;margin:44px 0 18px;padding-left:16px;border-left:4px solid var(--g-500);}
+.a-body .speak .sp{display:inline-block;font-weight:900;color:var(--g-700);margin-right:8px;}
+.a-body .credit{color:var(--sub);font-size:13px;margin-top:40px;}
+.pull{margin:40px 0;padding:0;}
+.pull blockquote{margin:0;font-size:23px;font-weight:900;line-height:1.7;color:var(--g-700);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:26px 0;}
+.org-box{background:var(--bg-soft);border-radius:10px;padding:24px 26px;margin:44px 0;}
+.org-box h4{margin:0 0 10px;font-size:15px;font-weight:900;} .org-box p{margin:0;font-size:14px;color:var(--ink-2);line-height:1.9;}
+.share{display:flex;align-items:center;gap:12px;margin:40px 0 10px;border-top:1px solid var(--line);padding-top:28px;}
+.share span{font-family:"Outfit",sans-serif;font-weight:700;font-size:13px;color:var(--sub);margin-right:4px;}
+.share a{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;}
+.share a:hover{border-color:var(--g-500);} .share svg{width:17px;height:17px;}
+/* right: related & events */
+.rel-block{margin-bottom:34px;}
+.rel-block h3{font-family:"Outfit",sans-serif;font-size:17px;font-weight:800;letter-spacing:.04em;border-bottom:2px solid var(--ink);padding-bottom:10px;margin:0 0 14px;display:flex;align-items:baseline;gap:10px;}
+.rel-block h3 .ja{font-family:"Noto Sans JP",sans-serif;font-size:12px;font-weight:700;color:var(--sub);}
+.rel-art{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);}
+.rel-art img{width:96px;height:64px;border-radius:6px;object-fit:cover;flex:none;background:#dceee4;}
+.rel-art p{margin:0;font-size:13px;font-weight:700;line-height:1.55;}
+.rel-art:hover p{color:var(--g-700);}
+.event{display:block;padding:14px 0;border-bottom:1px solid var(--line);}
+.event .ev-top{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.event .ev-av{width:24px;height:24px;border-radius:50%;object-fit:cover;border:1px solid var(--line);flex:none;}
+.event .ev-org{font-size:12px;color:var(--sub);font-weight:700;}
+.event .ev-date{display:inline-block;background:var(--bg-soft);border:1px solid var(--line);border-radius:5px;font-family:"Outfit",sans-serif;font-size:11px;font-weight:700;padding:2px 8px;margin-bottom:6px;}
+.event .ev-t{font-size:13px;font-weight:700;line-height:1.55;margin:0;}
+.event:hover .ev-t{color:var(--g-700);}
+/* ダミーサムネイル（AD枠と同じストライプ意匠） */
+.thumb-dummy{display:grid;place-items:center;width:100%;height:100%;
+  background:repeating-linear-gradient(45deg,#f6faf8,#f6faf8 11px,#f1f6f3 11px,#f1f6f3 22px);
+  color:#9bb3a8;font-family:"Outfit",sans-serif;font-weight:700;font-size:11px;letter-spacing:.14em;}
+.thumb-dummy::after{content:"DUMMY";}
+.a-cover .thumb-dummy{width:100%;aspect-ratio:16/9;height:auto;border-radius:8px;}
+.rel-art .thumb-dummy{width:96px;height:64px;border-radius:6px;flex:none;}
+/* footer */
+.m-footer{background:var(--ink);color:#cfd8d4;}
+.m-footer .top{padding:48px 0 36px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;}
+.m-footer .bt{font-family:"Outfit",sans-serif;font-weight:800;font-size:22px;color:#fff;}
+.m-footer nav{display:flex;gap:24px;font-size:13px;font-weight:700;margin-left:auto;flex-wrap:wrap;}
+.m-footer nav a:hover{color:#fff;}
+.m-footer .copy{border-top:1px solid rgba(255,255,255,.12);padding:18px 0;font-size:12px;opacity:.6;font-family:"Outfit",sans-serif;}
+@media(max-width:920px){
+  .a-cols{flex-direction:column;} .a-right{width:100%;} .sticky{position:static;}
+  .follow-banner{flex-direction:column;align-items:flex-start;} .fb-cta{width:100%;}
+}
+@media(max-width:760px){ .a-title{font-size:25px;} .m-nav,.m-searchbox{display:none;} }
+</style><style id="media-jobs-css">
+.mj-recruit{display:inline-flex;align-items:center;gap:7px;border:1px solid #115A36;color:#115A36;background:#fff;font-size:13px;font-weight:700;padding:9px 16px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:background .15s;}
+.mj-recruit:hover{background:#e6f5ec;}
+.mj-recruit svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;}
+/* 記事ページ：フォローバナー横並び */
+.follow-banner .fb-info{flex:0 1 auto;max-width:420px;margin-right:auto;}
+.follow-banner .fb-cta{width:392px;flex:none;}
+.mj-btnrow{display:flex;gap:10px;align-items:stretch;flex-wrap:nowrap;}
+.mj-btnrow .fc-follow{flex:0 0 134px;width:134px;white-space:nowrap;margin:0;padding:13px 0;font-size:15px;border-radius:10px;justify-content:center;}
+.mj-btnrow .mj-recruit{flex:1 1 auto;min-width:0;justify-content:center;text-align:center;white-space:nowrap;font-size:14px;line-height:1.3;padding:13px 12px;border-radius:10px;}
+/* 動画ページ：自治体フォローカード(メタ直下) */
+.mj-empcard{display:flex;align-items:center;gap:16px;border:1px solid #e7ebe9;border-radius:14px;padding:16px 18px;margin:18px 0 6px;background:#fff;}
+.mj-empcard .mc-av{width:54px;height:54px;border-radius:50%;object-fit:cover;border:1px solid #eee;flex:none;background:#f5f7f6;}
+.mj-empcard .mc-info{flex:1;min-width:0;}
+.mj-empcard .mc-nm{font-size:17px;font-weight:800;color:#1a1a1a;text-decoration:underline;text-underline-offset:3px;}
+.mj-empcard .mc-ds{font-size:13px;color:#717b76;margin:5px 0 0;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.mj-empcard .mc-acts{display:flex;flex-direction:column;gap:8px;flex:none;width:280px;}
+.mj-empcard .mc-follow{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#115A36;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;padding:11px;cursor:pointer;font-family:inherit;}
+.mj-empcard .mc-follow svg{width:16px;height:16px;fill:#fff;}
+.mj-empcard .mc-follow:hover{background:#0c472a;}
+.mj-empcard .mc-acts .mj-recruit{justify-content:center;padding:11px;font-size:14px;}
+@media(max-width:640px){ .mj-empcard{flex-direction:column;align-items:stretch;text-align:center;} .mj-empcard .mc-av{margin:0 auto;} .mj-empcard .mc-acts{width:100%;} }
+/* エンディングCTA(本文末尾) */
+.mj-endcta{border:1px solid #cfe3d8;background:#f3f9f5;border-radius:16px;padding:26px 24px;margin:36px 0 8px;}
+.mj-endcta .ec-h{font-size:20px;font-weight:800;margin:0 0 6px;color:#1a1a1a;}
+.mj-endcta .ec-p{font-size:14px;color:#42514a;margin:0 0 18px;line-height:1.7;}
+.mj-endcta .ec-jobs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:0 0 18px;}
+.mj-endcta .ec-job{position:relative;display:block;background:#fff;border:1px solid #e7ebe9;border-radius:10px;padding:14px;text-decoration:none;color:#1a1a1a;transition:box-shadow .15s,transform .15s,border-color .15s;}
+.mj-endcta .ec-job:hover{box-shadow:0 6px 18px rgba(17,90,54,.12);border-color:#cfe3d8;transform:translateY(-2px);}
+.mj-endcta .ec-new{position:absolute;top:11px;right:12px;font-family:"Outfit",sans-serif;font-size:10px;font-weight:800;letter-spacing:.08em;color:#e2622f;}
+.mj-endcta .ec-cat{display:inline-block;font-size:12px;font-weight:700;color:#115A36;border:1px solid #115A36;border-radius:5px;padding:2px 9px;margin:0 0 8px;}
+.mj-endcta .ec-jt{font-size:14px;font-weight:700;line-height:1.55;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.mj-endcta .ec-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.mj-endcta .ec-primary{flex:1 1 240px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#115A36;color:#fff;border-radius:10px;padding:15px;font-size:15px;font-weight:700;text-decoration:none;}
+.mj-endcta .ec-primary:hover{background:#0c472a;}
+.mj-endcta .ec-primary svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;}
+.mj-endcta .ec-secondary{flex:1 1 200px;display:inline-flex;align-items:center;justify-content:center;background:#fff;color:#115A36;border:1px solid #115A36;border-radius:10px;padding:15px;font-size:15px;font-weight:700;text-decoration:none;}
+.mj-endcta .ec-secondary:hover{background:#e6f5ec;}
+@media(max-width:640px){ .mj-endcta{padding:20px 16px;} .mj-endcta .ec-jobs{grid-template-columns:1fr;} .mj-endcta .ec-h{font-size:18px;} }
+/* サイドバー求人(RELATEDの上) */
+#mj-jobs{margin:0 0 34px;padding:0;border:none;border-radius:0;background:none;box-sizing:border-box;}
+#mj-jobs .mj-head{display:block;margin:0 0 14px;}
+#mj-jobs .mj-head h2{font-family:"Outfit",sans-serif;font-size:17px;font-weight:800;letter-spacing:.04em;margin:0;padding-bottom:10px;border-bottom:2px solid #1a1a1a;display:flex;align-items:baseline;gap:10px;color:#1a1a1a;}
+#mj-jobs .mj-head h2 .ja{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;font-size:12px;font-weight:700;color:#767676;}
+#mj-jobs .mj-all{display:inline-block;margin:12px 0 0;font-size:13px;font-weight:700;color:#115A36;text-decoration:none;}
+#mj-jobs .mj-all:hover{text-decoration:underline;}
+#mj-jobs .mj-grid{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
+#mj-jobs .mj-card{display:block;background:#fff;border:1px solid #e7ebe9;border-radius:10px;padding:14px 16px;text-decoration:none;color:#1a1a1a;transition:box-shadow .15s,transform .15s,border-color .15s;}
+#mj-jobs .mj-card:hover{box-shadow:0 6px 18px rgba(17,90,54,.12);border-color:#cfe3d8;transform:translateY(-2px);}
+#mj-jobs .mj-cat{display:inline-block;font-size:13px;font-weight:700;color:#115A36;border:1px solid #115A36;border-radius:5px;padding:3px 10px;margin:0 0 10px;}
+#mj-jobs .mj-title{font-size:16px;font-weight:700;line-height:1.6;margin:0 0 10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+#mj-jobs .mj-tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px;}
+#mj-jobs .mj-tags span{font-size:13px;color:#555;background:#f0f3f2;border-radius:4px;padding:3px 9px;}
+#mj-jobs .mj-org{display:flex;align-items:center;gap:7px;font-size:13px;color:#767676;}
+#mj-jobs .mj-org-av{width:22px;height:22px;border-radius:50%;object-fit:cover;border:1px solid #e7ebe9;flex:none;background:#fff;}
+</style><style id="media-resp-css">
+@media(max-width:1024px) and (min-width:641px){
+  .grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  html,body{overflow-x:clip;max-width:100%;}
+  .wrap{padding:0 16px !important;}
+  .a-wrap{padding:0 16px !important;}
+  /* レイアウト: 縦積み時に main-col がコンテンツ幅へ伸びる(align-items:flex-start)のを是正し全幅固定。
+     これを怠ると KEYWORD横スクロールや3列gridが main-col を押し広げ、ページ全体が横溢する。 */
+  .layout{flex-direction:column !important;align-items:stretch !important;}
+  .main-col,.side-col,.side{width:100% !important;min-width:0 !important;max-width:100% !important;}
+
+  /* ===== ヘッダー: 2段コンパクト(ブランド+求人サイト / ナビ横スクロール) ===== */
+  .m-header .wrap{flex-wrap:wrap !important;height:auto !important;gap:8px 12px !important;padding:8px 14px !important;}
+  .m-brand{order:1;font-size:15px !important;letter-spacing:0 !important;}
+  .m-actions{order:2;margin-left:auto !important;gap:8px !important;display:flex !important;align-items:center;}
+  .m-searchbox{display:none !important;}
+  .m-register{display:none !important;}            /* トップ/詳細で1段目を統一: モバイルは会員登録を隠してコンパクト化 */
+  /* 求人サイト戻りボタンをトップ/詳細で統一(基本CSSの差異・var未定義でも必ず見えるよう明示指定) */
+  .m-back{display:inline-flex !important;align-items:center;gap:4px;background:#1a1a1a !important;color:#fff !important;
+    font-size:12px !important;font-weight:700 !important;padding:8px 14px !important;border-radius:999px !important;white-space:nowrap !important;letter-spacing:0 !important;}
+  .m-back svg{width:12px !important;height:12px !important;stroke:#fff !important;fill:none;}
+  .m-nav{order:3;display:flex !important;flex-basis:100% !important;margin:0 !important;gap:20px !important;
+    overflow-x:auto !important;-webkit-overflow-scrolling:touch !important;white-space:nowrap !important;
+    border-top:1px solid var(--line);padding-top:8px !important;}
+  .m-nav::-webkit-scrollbar{display:none;}
+  .m-nav a{font-size:13px !important;flex:none;}
+
+  /* ===== 記事: フォロー促進バナーを縦積み(右見切れの主犯 fb-cta 392px固定を解除) ===== */
+  .follow-banner{flex-direction:column !important;align-items:stretch !important;gap:14px !important;padding:16px !important;}
+  .fb-cta{width:100% !important;text-align:left;}
+  .fb-info{max-width:none !important;flex:1 1 auto !important;}
+  .mj-btnrow{flex-direction:column !important;}
+  .mj-btnrow .fc-follow,.mj-btnrow .mj-recruit{width:100% !important;flex:1 1 auto !important;}
+  .fb-note{text-align:center;}
+
+  /* ===== 記事/動画 本文: 2カラム解除・見出し可読化 ===== */
+  .a-cols,.m-cols{flex-direction:column !important;gap:24px !important;}
+  .a-main,.m-main{width:100% !important;min-width:0 !important;flex:1 1 auto !important;}
+  .a-right,.m-side{width:100% !important;}
+  /* 動画プレイヤーが固定幅でmainを押し広げないように */
+  .player,.player .thumb-dummy,.m-main video,.m-main iframe{width:100% !important;max-width:100% !important;}
+  .a-title,.m-title{font-size:22px !important;line-height:1.5 !important;}
+  .a-body{font-size:15.5px !important;}
+  .a-toc{padding:16px 18px !important;}
+  .a-meta{flex-wrap:wrap;}
+
+  /* タブ(概要/書き起こし/チャプター等)は横スクロール */
+  .tabs,.m-tabs,.tab-bar{overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .tabs::-webkit-scrollbar,.m-tabs::-webkit-scrollbar{display:none;}
+
+  /* MEDIA内 求人カード */
+  #mj-jobs{padding:16px !important;margin:24px 0 8px !important;}
+
+  /* ===== セクションカード: タグ折返し・画像比率・可読サイズ ===== */
+  .card{width:auto !important;}
+  .card-thumb{aspect-ratio:16/9;}
+  .card-thumb img{width:100%;height:100%;object-fit:cover;}
+  .card-title{font-size:15px !important;line-height:1.6 !important;}
+  .card-tags{flex-wrap:wrap !important;}
+  .card-tags span,.card-tags a{margin-bottom:4px;}
+
+  /* ===== フィルタ/キーワード: コンパクト化(KEYWORDは1行横スクロールでビジー感を解消) ===== */
+  .filter-bar{flex-wrap:nowrap !important;align-items:center !important;gap:8px !important;margin:0 0 10px !important;}
+  .filter-bar .fl-label,.kw-bar .fl-label{width:auto !important;flex:none !important;padding-top:0 !important;font-size:11px !important;letter-spacing:.1em !important;}
+  .filter-btn{font-size:12px !important;padding:7px 14px !important;}
+  .kw-bar{flex-direction:row !important;align-items:center !important;gap:8px !important;flex-wrap:nowrap !important;margin:0 0 28px !important;}
+  .kw-pills{display:flex !important;flex-wrap:nowrap !important;overflow-x:auto !important;-webkit-overflow-scrolling:touch;
+    gap:7px !important;width:100% !important;min-width:0 !important;padding-bottom:2px;}
+  .kw-pills::-webkit-scrollbar{display:none;}
+  .kw{font-size:12px !important;padding:6px 12px !important;flex:none !important;}
+  .kw-pills a,.kw-pills button{white-space:nowrap;}
+
+  /* ===== トップのインタビュー/コラムを 2行×3列(3カラム)のコンパクトグリッドに ===== */
+  #interview .grid,#column .grid{grid-template-columns:repeat(3,1fr) !important;gap:14px 8px !important;}
+  /* grid item の min-width:auto を解除しないと、カード内容で1fr列が膨張し横溢する */
+  #interview .grid>.card,#column .grid>.card{min-width:0 !important;width:auto !important;overflow:hidden;}
+  #interview .card-cat,#column .card-cat,#interview .card-foot,#column .card-foot{display:none !important;}
+  #interview .card-tags,#column .card-tags{display:none !important;}
+  #interview .card-body,#column .card-body{padding:8px 2px 0 !important;min-width:0 !important;}
+  #interview .card-title,#column .card-title{font-size:11px !important;line-height:1.45 !important;margin:0 !important;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere;word-break:break-word;}
+  #interview .card-thumb,#column .card-thumb{aspect-ratio:16/9 !important;border-radius:6px;width:100% !important;}
+  #interview .card-thumb img,#column .card-thumb img{width:100% !important;height:100% !important;object-fit:cover;}
+  #interview .card-thumb .thumb-dummy::after,#column .card-thumb .thumb-dummy::after{content:"" !important;}
+
+  /* RELATED/サイドのダミー画像が縦に伸びすぎないよう抑制 */
+  .rel-art .thumb-dummy,.rv .thumb-dummy{flex:none;}
+}
+</style>
+</head><body><header class="m-header"><div class="wrap">
+  <a class="m-brand" href="index.html">PUBLIC CONNECT MEDIA</a>
+  <nav class="m-nav"><a href="index.html#feature">特集</a><a href="list.html?cat=interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a></nav>
+  <div class="m-actions">
+    <form class="m-searchbox" role="search" onsubmit="return false;"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input type="search" placeholder="記事を検索" aria-label="記事を検索"></form>
+    <a class="m-back" href="../index-2.html">求人サイト</a>
+  </div>
+</div></header><article><div class="a-wrap"><div class="crumb"><a href="index.html">HOME</a> <span>/</span> <a href="list.html?cat=interview" class="en">INTERVIEW</a> <span>/</span> <span>職員インタビュー</span></div><span class="a-cat">職員インタビュー</span><h1 class="a-title">民間も見たうえで公務員を選んだ理由 ── 1年目のリアル</h1><div class="a-meta"><span>PUBLIC CONNECT 編集部</span><span class="date">2026.05.22</span></div><div class="a-cols"><div class="a-main"><div class="a-body"><p class="lead">就職活動では、民間企業のインターンシップやエントリーも経験したという林さん。さまざまな選択肢を比べたうえで、最終的に選んだのは当市の職員という道でした。なぜ公務員だったのか、そして実際に働いてみて見えてきたものは何か。</p>
+<p class="lead">入庁から1年が過ぎ、いまだからこそ語れる「就活生時代に抱いていた想像」と「現場のリアル」の差。等身大の言葉で、1年目のいまを振り返っていただきました。</p>
+
+<figure class="pull"><blockquote>「利益のためじゃなく、誰かの暮らしのために働く」って言葉、最初はきれいごとに聞こえていました。でも、いまは本気でそう思える瞬間があるんです。</blockquote></figure>
+
+<h3 class="q">まずは、いまのお仕事を教えてください。</h3>
+<p class="speak"><span class="sp">林</span>市民課で、窓口対応と各種証明書の発行、それに付随する事務処理を担当しています。住民票や戸籍に関する手続きが中心ですね。入庁してすぐの配属で、最初は専門用語ひとつ分からないところからのスタートでした。いまは一通りの窓口業務を一人で回せるようになって、少しずつ後ろの事務作業にも幅が広がってきたところです。</p>
+
+<h3 class="q">就職活動では民間企業も見ていたそうですね。</h3>
+<p class="speak"><span class="sp">林</span>はい。正直に言うと、最初から公務員一本に絞っていたわけではありませんでした。大学3年の夏はメーカーやサービス業のインターンシップにも参加しましたし、実際にいくつかの企業はエントリーして、面接まで進んだところもあります。周りの友人もほとんどが民間志望だったので、自分もその流れの中で動いていた感じです。</p>
+<p class="speak"><span class="sp">林</span>ただ、選考が進むにつれて、自分が本当に大事にしたいことは何なんだろう、と立ち止まる時間が増えていきました。給料や知名度といった条件で会社を比べていく作業に、どこか自分の気持ちが乗りきらない感覚があったんです。</p>
+
+<h3 class="q">民間と公務員を比べて、どんな違いを感じましたか。</h3>
+<p class="speak"><span class="sp">林</span>いちばん大きかったのは、仕事のゴールの置き方だと思います。民間企業の説明会では、当然ですが「いかに利益を出すか」「どう競合に勝つか」という話が軸になります。それはまったく悪いことではないし、社会を動かす力強さも感じました。けれど、自分の中ではその先にある「誰のため」がもう少し見えづらかったんです。</p>
+<p class="speak"><span class="sp">林</span>公務員の仕事は、利益ではなく公益のために動く。極端に言えば、儲からなくてもやらなければならないことがある。最初はその違いを言葉でしか理解していませんでしたが、説明会やOB訪問で職員の方の話を聞くうちに、自分の性格にはこちらのほうが合っているかもしれない、と思うようになりました。</p>
+<p class="speak"><span class="sp">林</span>あとは、仕事の時間軸の違いも感じました。民間だと四半期や年度といった短いスパンで成果を求められる場面が多い印象でしたが、自治体の仕事は10年、20年先の街の姿を見据えて動くものが少なくありません。すぐに結果が出ないからこそ、じっくり腰を据えて取り組める。そういう時間の流れ方に惹かれた部分もあります。</p>
+
+<h3 class="q">最終的に当市を選んだ決め手は何でしたか。</h3>
+<p class="speak"><span class="sp">林</span>決め手は、自分が育った地域に近い場所で、暮らしそのものを支える仕事がしたいと思えたことです。民間企業の選考を受ける中で、扱う商品やサービスはどれも魅力的でしたが、「自分の手が届く範囲の誰かの生活に、直接関わっている実感」がほしいと気づいたんです。</p>
+<p class="speak"><span class="sp">林</span>市役所の仕事は、生まれた人の出生届から、引っ越し、結婚、そして亡くなったときの手続きまで、人の一生のあらゆる場面に関わります。説明会でその話を聞いたとき、ここまで人の暮らしの近くにいられる仕事はそう多くないな、と素直に思いました。条件で比べていたときには見えなかった軸が、最後にすっと決まった感覚でした。</p>
+
+<h3 class="q">実際に入庁してみて、想像とのギャップはありましたか。</h3>
+<p class="speak"><span class="sp">林</span>良い意味でのギャップは、職場の雰囲気でした。公務員ってもっと堅くて、決められたことを淡々とこなすイメージを持っていたんです。でも実際は、先輩方がよく雑談もしますし、「これ、もっとこうしたら市民の方が分かりやすいよね」と業務の改善案を出し合う場面も多くて。想像していたより、ずっと人間味のある現場でした。</p>
+<p class="speak"><span class="sp">林</span>一方で、想像と違ったのは、思っていた以上に一人ひとりの裁量と責任があるという点です。窓口に立てば、その場で判断して市民の方に説明しなければならないことがたくさんあります。間違った案内はできませんから、制度を正確に理解しておく必要がある。決められたことをこなすどころか、自分で考えて動く場面の連続でした。ここは入る前にはあまり想像できていなかったところです。</p>
+
+<h3 class="q">1年目の1日は、どんな流れで進むのでしょう。</h3>
+<p class="speak"><span class="sp">林</span>朝は始業前に出てきて、窓口の準備と、その日の予約状況の確認から始まります。午前中は窓口対応が中心で、転入や転出の手続きが立て込む時期はかなり慌ただしいです。お昼を挟んで、午後は窓口対応をしつつ、午前中に受け付けた書類の処理や、システムへの入力作業を進めていきます。</p>
+<p class="speak"><span class="sp">林</span>夕方は、その日の処理に漏れがないかを確認して、分からなかったことを先輩に質問する時間にあてています。残業はまったくないわけではありませんが、繁忙期以外は定時で帰れる日も多いです。プライベートの時間を確保しやすいのは、正直ありがたいところです。</p>
+
+<h3 class="q">研修やサポート体制についてはいかがですか。</h3>
+<p class="speak"><span class="sp">林</span>入庁直後にまとまった新規採用職員向けの研修があって、地方公務員としての基本的な心構えや、個人情報の取り扱い、接遇のマナーなどを学びました。配属後も、業務に必要な研修が定期的に用意されていて、知らないままにしておかなくていい安心感があります。</p>
+<p class="speak"><span class="sp">林</span>あとは、年の近い先輩がサポート役についてくれる仕組みがあって、業務のことはもちろん、ちょっとした不安も気軽に相談できました。一年目はどうしても分からないことだらけなので、「聞いていいんだ」と思える環境があったのは大きかったです。一人で抱え込まずに済んだのは、この体制のおかげだと思っています。</p>
+
+<h3 class="q">これから挑戦してみたいことはありますか。</h3>
+<p class="speak"><span class="sp">林</span>いまは目の前の窓口業務を確実にこなすことで精一杯ですが、ゆくゆくは、もっと街づくりの根っこに関わる仕事にも挑戦してみたいです。窓口に立っていると、市民の方の生の声がたくさん届きます。「この手続き、もっと簡単にならないの」といった声を、制度や仕組みの改善につなげられる立場になれたら、と思っています。</p>
+<p class="speak"><span class="sp">林</span>自治体の仕事は部署の幅がとても広いので、これから先、いろいろな分野を経験できるのも楽しみです。デジタル化で手続きを便利にする取り組みにも興味があります。一年目の自分が想像もしていなかった仕事に、何年後かに関わっているかもしれない。そう考えるとわくわくします。</p>
+
+<h3 class="q">最後に、進路に迷っている就活生へメッセージをお願いします。</h3>
+<p class="speak"><span class="sp">林</span>民間か公務員か、迷うのは当たり前だと思います。むしろ、両方を真剣に見てみたからこそ見えてくるものがある、と私は感じています。私自身、民間の選考を受けたことを後悔していません。比べたからこそ、自分が何を大事にしたいかがはっきりしたからです。</p>
+<p class="speak"><span class="sp">林</span>もし「誰かの暮らしを支える実感がほしい」とか、「腰を据えてじっくり仕事に向き合いたい」と少しでも感じているなら、公務員という選択肢を一度真剣に覗いてみてほしいです。きれいごとに聞こえるかもしれませんが、ここには本気でそう思える瞬間が確かにあります。迷っている時間も、きっと後で意味のあるものになりますから、焦らず自分の軸を探してみてください。</p>
+
+<p>取材を通して印象に残ったのは、林さんが民間企業での就職活動を一度も否定的に語らなかったことだ。両方を比べたからこそ、自分の言葉で「なぜ公務員か」を語れるようになった。その姿は、条件や知名度だけでは測れない仕事選びの本質を、静かに教えてくれているようだった。</p>
+<p>窓口に立つ1年目の職員の背中には、街の暮らしを支える役所という仕事の、いちばん身近で、いちばん大切な部分が確かに宿っていた。これからどんな分野へ進んでいくのか、その歩みをまた追いかけてみたい。</p>
+
+<p class="credit">取材・文：パブリックコネクト編集部（2026年05月取材）</p></div></div><aside class="a-right"><div class="sticky"><div style="border:1px solid #e7ebe9;border-radius:12px;padding:18px 18px 6px;"><h2 style="font-family:'Outfit',sans-serif;font-size:16px;font-weight:800;letter-spacing:.04em;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid #1a1a1a;">RELATED <span style="font-family:'Noto Sans JP',sans-serif;font-size:12px;color:#767676;font-weight:700;">関連記事</span></h2><a class="rel-art" href="iv-urayasu-fudoshi.html" style="align-items:flex-start;"><p>「お堅い」イメージが180度変わった。若手の“好き”が形になる、心地よい風通し</p></a><a class="rel-art" href="iv-kanrishoku-soshiki.html" style="align-items:flex-start;"><p>「次のステージ」を創るのはあなたの力。管理職が語る組織づくり</p></a><a class="rel-art" href="iv-madoguchi.html" style="align-items:flex-start;"><p>窓口の最前線で見つけた、まちと人をつなぐ仕事のやりがい</p></a></div><section style="margin:30px 0 0;border:1px solid #e7ebe9;border-radius:12px;padding:22px;background:#f7f9f8;"><p style="font-size:16px;font-weight:800;margin:0 0 6px;color:#115A36;">公務員・自治体の求人を探す</p><p style="font-size:14px;color:#444;margin:0 0 14px;line-height:1.8;">パブリックコネクトには、全国の官公庁・自治体の求人が掲載されています。気になる求人はそのままオンラインで応募できます。</p><div style="display:flex;gap:12px;flex-wrap:wrap;"><a href="../search.html" style="display:inline-block;background:#115A36;color:#fff;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;text-decoration:none;">求人を探す</a><a href="../user-job.html" style="display:inline-block;border:1px solid #115A36;color:#115A36;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;text-decoration:none;">パブリックコネクトで応募できる求人</a></div></section></div></aside></div></div></article><footer class="m-footer"><div class="wrap">
+  <div class="top"><span class="bt en">PUBLIC CONNECT MEDIA</span>
+    <nav><a href="../index-2.html">求人サイト</a><a href="index.html#feature">特集</a><a href="index.html#interview">インタビュー</a><a href="index.html#movie">動画</a><a href="index.html#column">コラム</a><a href="#">編集方針</a><a href="#">お問い合わせ</a></nav>
+  </div>
+  <div class="copy">© PUBLIC CONNECT Inc. All rights reserved.</div>
+</div></footer></body></html>

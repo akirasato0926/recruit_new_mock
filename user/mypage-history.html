@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>学歴・職歴 | 登録情報の編集 | パブリックコネクト</title><style id="thd-css">
+.thd{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e7ebe9;}
+.thd-top{max-width:1416px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:14px 60px;}
+.thd-brand{display:flex;flex-direction:column;gap:3px;flex:none;}
+.thd-brand .thd-tag{font-size:11px;color:#767676;font-weight:500;}
+.thd-brand img{height:26px;width:auto;}
+/* ログイン後アクション */
+.thd-uacts{margin-left:auto;display:flex;align-items:center;gap:26px;flex:none;}
+.thd-uact{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#444;position:relative;white-space:nowrap;}
+.thd-uact:hover{color:#115A36;}
+.thd-uact svg{width:22px;height:22px;stroke:#444;fill:none;stroke-width:1.8;}
+.thd-uact:hover svg{stroke:#115A36;}
+.thd-uact .nbadge{position:absolute;top:-6px;right:6px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#e2622f;color:#fff;font-size:10px;font-weight:700;line-height:17px;text-align:center;}
+.thd-find{margin-left:8px;border:1px solid #115A36;color:#115A36;font-size:13px;font-weight:700;padding:9px 20px;border-radius:8px;white-space:nowrap;}
+.thd-find:hover{background:#e6f5ec;}
+/* 未ログイン時のアクション(ログイン/会員登録)。pcmember=1ならAUTH_JSがログイン後ヘッダーに差し替える */
+.thd-actions{margin-left:auto;display:flex;align-items:center;gap:18px;flex:none;}
+.thd-login{font-size:14px;font-weight:700;color:#333;white-space:nowrap;}
+.thd-login:hover{color:#115A36;text-decoration:underline;}
+.thd-register{display:inline-flex;align-items:center;gap:8px;background:#115A36;color:#fff;font-size:14px;font-weight:700;padding:10px 22px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 8px rgba(17,90,54,.30);}
+.thd-register:hover{background:#0c472a;}
+.thd-register svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.2;}
+.thd-navrow{border-top:1px solid #eef1f0;}
+.thd-nav{max-width:1416px;margin:0 auto;display:flex;align-items:center;gap:34px;padding:0 60px;height:56px;}
+.thd-nav .nav-link{font-size:14px;font-weight:700;color:#333;height:100%;display:flex;align-items:center;border-bottom:3px solid transparent;}
+.thd-nav .nav-link:hover{color:#115A36;}
+.thd-nav .nav-link.active{color:#115A36;border-bottom-color:#115A36;}
+.thd-nav .nav-link.media .ext{width:13px;height:13px;margin-left:5px;stroke:currentColor;fill:none;stroke-width:2;}
+.thd-search{margin-left:auto;display:flex;align-items:center;gap:9px;width:300px;height:40px;padding:0 14px;border:1px solid #d8dcde;border-radius:999px;background:#f5f7f6;}
+.thd-search svg{width:17px;height:17px;stroke:#767676;fill:none;stroke-width:2;}
+.thd-search input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-size:14px;font-family:inherit;}
+@media(max-width:980px){.thd-top{padding:12px 20px;gap:14px;}.thd-uacts{gap:16px;}.thd-nav{padding:0 20px;gap:18px;overflow-x:auto;}.thd-search{display:none;}}
+</style><style id="user-css">
+:root{--g:#115A36;--gd:#0c472a;--g50:#e6f5ec;}
+*{box-sizing:border-box;}
+body{margin:0;font-family:"Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;color:#333;background:#fff;line-height:1.7;}
+a{color:inherit;text-decoration:none;}
+img{max-width:100%;display:block;}
+.uw{max-width:1024px;margin:0 auto;padding:0 24px;}
+@media(min-width:1072px){.uw{padding-left:0;padding-right:0;}}
+.bc{font-size:13px;color:#767676;padding:20px 0 8px;display:flex;gap:8px;align-items:center;}
+.bc a{color:var(--g);}.bc a:hover{text-decoration:underline;}.bc .sep{color:#c0c4c2;}
+.sect{padding:18px 0 56px;}
+h1.uh{font-size:24px;font-weight:700;margin:14px 0 10px;}
+.note{background:var(--g50);border-radius:8px;padding:12px 16px;font-size:13px;color:#2c4a3a;margin:0 0 18px;}
+/* マイページ */
+.mp-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:26px 0 22px;flex-wrap:wrap;}
+.mp-id{display:flex;align-items:center;gap:14px;}
+.mp-id .av{width:48px;height:48px;border-radius:50%;background:#dfeee8;display:flex;align-items:center;justify-content:center;}
+.mp-id .av svg{width:26px;height:26px;stroke:var(--g);fill:none;stroke-width:1.8;}
+.mp-id .nm{font-size:22px;font-weight:700;}
+.btn-out2{display:inline-flex;align-items:center;gap:8px;border:1px solid #cdd5d1;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;color:#333;background:#fff;}
+.btn-out2:hover{border-color:var(--g);color:var(--g);}
+.mp-edit{display:flex;align-items:center;justify-content:space-between;border:1px solid #e7ebe9;border-radius:10px;padding:18px 20px;margin:0 0 20px;}
+.mp-edit .t{font-size:15px;font-weight:700;}.mp-edit .s{font-size:12px;color:#777;margin-top:3px;}
+.mp-edit .chev{color:#bbb;font-size:20px;}
+.mp-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:0 0 6px;}
+@media(max-width:640px){.mp-actions{grid-template-columns:1fr;}}
+.tabs{display:flex;gap:28px;border-bottom:1px solid #e7ebe9;margin:14px 0 0;}
+.tabs .t{font-size:15px;font-weight:700;color:#999;padding:14px 2px;border-bottom:3px solid transparent;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit;}
+.tabs .t.on{color:#222;border-bottom-color:var(--g);}
+.prow{display:flex;gap:24px;padding:18px 0;border-bottom:1px solid #eef1f0;font-size:14px;}
+.prow .k{width:140px;color:#555;font-weight:700;flex:none;}
+.pphoto{width:96px;height:120px;border-radius:8px;background:#eef1f0;object-fit:cover;}
+/* メッセージ一覧 */
+.msg-layout{display:grid;grid-template-columns:220px 1fr;gap:28px;margin-top:8px;}
+@media(max-width:760px){.msg-layout{grid-template-columns:1fr;}}
+.msg-side h3{font-size:13px;color:#888;margin:0 0 10px;font-weight:700;}
+.msg-side label{display:flex;align-items:center;gap:8px;font-size:14px;color:#444;margin:0 0 10px;cursor:pointer;}
+.msg-side .grp{margin:0 0 22px;}
+.msg-listbox{border:1px solid #e7ebe9;border-radius:10px;min-height:420px;}
+.msg-listbox .hd{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid #eef1f0;font-size:13px;color:#555;}
+.msg-row{display:flex;gap:14px;padding:18px;border-bottom:1px solid #eef1f0;align-items:flex-start;}
+.msg-row:hover{background:#fafbfb;}
+.msg-row .av{width:40px;height:40px;border-radius:50%;background:#dfeee8;display:flex;align-items:center;justify-content:center;color:var(--g);font-weight:700;flex:none;}
+.msg-row .bd{flex:1;min-width:0;}
+.msg-row .gov{font-size:14px;font-weight:700;}
+.msg-row .sub{font-size:14px;margin:4px 0 0;}
+.msg-row .sub b{font-weight:700;}
+.msg-row .sub .pre{color:#888;font-weight:400;}
+.msg-row .dt{font-size:12px;color:#999;flex:none;}
+/* メッセージ詳細 */
+.md-card{display:grid;grid-template-columns:300px 1fr;gap:24px;border:1px solid #e7ebe9;border-radius:12px;padding:24px;margin:14px 0 22px;}
+@media(max-width:760px){.md-card{grid-template-columns:1fr;}}
+.md-gov{display:flex;flex-direction:column;gap:8px;}
+.md-gov .av{width:48px;height:48px;border-radius:50%;background:#dfeee8;display:flex;align-items:center;justify-content:center;color:var(--g);font-weight:700;}
+.md-gov .nm{font-size:18px;font-weight:700;}
+.md-gov .loc{font-size:13px;color:#777;}
+.md-gov .lbl{font-size:12px;color:#888;margin-top:8px;}
+.md-gov a.lnk{color:var(--g);font-weight:700;font-size:14px;}
+.md-memo label{font-size:12px;color:#888;}
+.md-memo textarea{width:100%;height:120px;border:1px solid #d8dcde;border-radius:8px;padding:10px;font-family:inherit;font-size:14px;margin-top:6px;}
+.md-compose{border:1px solid #e7ebe9;border-radius:12px;padding:20px;margin:14px 0 26px;}
+.md-compose .to{font-size:14px;margin:0 0 12px;}.md-compose .to b{margin-left:10px;}
+.md-compose input,.md-compose textarea{width:100%;border:1px solid #d8dcde;border-radius:8px;padding:12px 14px;font-family:inherit;font-size:14px;margin:0 0 12px;}
+.md-compose textarea{height:90px;}
+.md-compose .row{display:flex;align-items:center;justify-content:space-between;}
+.md-compose .att{color:var(--g);font-size:13px;font-weight:700;}
+.md-send{display:inline-flex;align-items:center;gap:6px;background:#cdd5d1;color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:13px;font-weight:700;cursor:not-allowed;}
+.md-disabled{font-size:12px;color:#b00;margin:8px 0 0;}
+.thread{border:1px solid #e7ebe9;border-radius:12px;padding:22px;}
+.thread .who{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;}
+.thread .who .av{width:34px;height:34px;border-radius:50%;background:#dfeee8;}
+.thread .dt{font-size:12px;color:#999;font-weight:400;margin-left:4px;}
+.thread .subj{font-size:15px;font-weight:700;margin:12px 0 8px;}
+.thread .box{border:1px solid #e7ebe9;border-radius:8px;padding:16px;font-size:14px;color:#444;}
+.thread .box a{color:var(--g);font-weight:700;}
+.thread .box .btn{display:inline-block;margin-top:12px;border:1px solid var(--g);color:var(--g);border-radius:8px;padding:8px 16px;font-size:13px;font-weight:700;}
+/* お知らせ */
+.noti-head{display:flex;align-items:center;gap:12px;margin:24px 0 18px;}
+.noti-head .ic{width:44px;height:44px;border-radius:50%;background:var(--g50);display:flex;align-items:center;justify-content:center;}
+.noti-head .ic svg{width:24px;height:24px;stroke:var(--g);fill:none;stroke-width:1.8;}
+.noti-head h1{font-size:24px;font-weight:700;margin:0;}
+.noti-row{display:flex;align-items:center;gap:14px;padding:20px 6px;border-bottom:1px solid #eef1f0;}
+.noti-row .bd{flex:1;}
+.noti-row .ti{font-size:15px;font-weight:700;line-height:1.5;}
+.noti-row .mt{font-size:12px;color:#999;margin-top:6px;display:flex;align-items:center;gap:10px;}
+.noti-row .new{color:#e2622f;font-weight:700;}
+.noti-row .chev{color:#bbb;font-size:20px;}
+/* 検索バー(トップ) */
+.usearch{display:flex;gap:14px;align-items:flex-end;background:#fff;border:1px solid #e7ebe9;border-radius:12px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.05);flex-wrap:wrap;}
+.usearch .fld{flex:1;min-width:160px;}
+.usearch .fld label{display:block;font-size:13px;font-weight:700;margin:0 0 6px;}
+.usearch .fld select{width:100%;height:44px;border:1px solid #d8dcde;border-radius:8px;padding:0 12px;font-size:14px;font-family:inherit;}
+.usearch .go{height:44px;border:none;background:var(--g);color:#fff;font-weight:700;padding:0 32px;border-radius:8px;cursor:pointer;font-size:15px;}
+.uhero{background:linear-gradient(135deg,#1f7a4d,#115A36);color:#fff;border-radius:14px;padding:34px;margin:18px 0;}
+.uhero h1{font-size:22px;margin:0 0 6px;}.uhero p{margin:0;opacity:.95;font-size:14px;}
+.fav-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media(max-width:840px){.fav-grid{grid-template-columns:repeat(2,1fr);}}
+.fav-card{border:1px solid #e7ebe9;border-radius:12px;padding:20px;display:flex;align-items:center;gap:12px;}
+.fav-card:hover{box-shadow:0 6px 18px rgba(17,90,54,.1);}
+.fav-card img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:1px solid #eee;}
+.fav-card .nm{font-size:15px;font-weight:700;}
+.secttl{display:flex;align-items:center;justify-content:space-between;margin:34px 0 16px;}
+.secttl h2{font-size:18px;font-weight:700;margin:0;}
+.secttl a{font-size:13px;color:var(--g);font-weight:700;}
+/* ステップインジケーター(エントリー/退会フロー) */
+.usteps{display:flex;align-items:center;justify-content:center;gap:0;margin:24px auto 8px;max-width:560px;}
+.usteps .st{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;}
+.usteps .st .nu{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;background:#e7ebe9;color:#888;}
+.usteps .st .lb{font-size:12px;color:#888;font-weight:700;}
+.usteps .st.on .nu{background:var(--g);color:#fff;}
+.usteps .st.on .lb{color:var(--g);}
+.usteps .st.done .nu{background:var(--g50);color:var(--g);}
+.usteps .ln{flex:1;height:2px;background:#e7ebe9;margin:0 8px;align-self:flex-start;margin-top:15px;min-width:30px;}
+.usteps .ln.done{background:var(--g);}
+/* 確認表示(read-only) */
+.uconf{max-width:620px;margin:22px auto 0;border:1px solid #e7ebe9;border-radius:12px;overflow:hidden;}
+.uconf .row{display:flex;gap:16px;padding:16px 20px;border-bottom:1px solid #eef1f0;font-size:14px;}
+.uconf .row:last-child{border-bottom:none;}
+.uconf .k{width:140px;color:#555;font-weight:700;flex:none;}
+.uconf .v{flex:1;min-width:0;white-space:pre-wrap;}
+.uactrow{display:flex;gap:14px;justify-content:center;max-width:620px;margin:22px auto 0;}
+@media(max-width:560px){.uactrow{flex-direction:column;}}
+.btn-ghost{display:inline-flex;align-items:center;justify-content:center;border:1px solid #cdd5d1;border-radius:8px;padding:13px 26px;font-size:15px;font-weight:700;color:#333;background:#fff;cursor:pointer;font-family:inherit;}
+.btn-ghost:hover{border-color:var(--g);color:var(--g);}
+.btn-prim{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:8px;padding:13px 32px;font-size:15px;font-weight:700;color:#fff;background:var(--g);cursor:pointer;font-family:inherit;}
+.btn-prim:hover{background:var(--gd);}
+/* 完了画面 */
+.udone{max-width:560px;margin:40px auto;text-align:center;}
+.udone .ic{width:72px;height:72px;border-radius:50%;background:var(--g50);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.udone .ic svg{width:38px;height:38px;stroke:var(--g);fill:none;stroke-width:2.4;}
+.udone h1{font-size:22px;margin:0 0 12px;}
+.udone p{color:#555;font-size:14px;margin:0 0 24px;}
+/* 応募状況 */
+.appcard{display:block;border:1px solid #e7ebe9;border-radius:12px;padding:20px;margin:0 0 14px;}
+.appcard:hover{box-shadow:0 6px 18px rgba(17,90,54,.1);}
+.appcard .top{display:flex;align-items:center;gap:12px;margin:0 0 8px;}
+.appcard .org{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;color:#444;}
+.appcard .org img{width:32px;height:32px;border-radius:50%;object-fit:cover;border:1px solid #eee;}
+.appcard .ti{font-size:16px;font-weight:700;line-height:1.5;margin:0 0 10px;}
+.stbadge{display:inline-block;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px;margin-left:auto;flex:none;}
+.stbadge.screening{background:#fff4e5;color:#b26a00;}
+.stbadge.interview{background:#e6f5ec;color:#115a36;}
+.stbadge.offer{background:var(--g50);color:var(--g);}
+.appcard .meta{font-size:12px;color:#999;}
+/* 選考タイムライン */
+.atl{list-style:none;padding:0;margin:18px 0 0;}
+.atl li{position:relative;padding:0 0 26px 30px;}
+.atl li::before{content:"";position:absolute;left:7px;top:3px;bottom:-3px;width:2px;background:#e7ebe9;}
+.atl li:last-child::before{display:none;}
+.atl li .dot{position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:50%;background:#e7ebe9;border:3px solid #fff;box-shadow:0 0 0 1px #e7ebe9;}
+.atl li.done .dot{background:var(--g);box-shadow:0 0 0 1px var(--g);}
+.atl li.cur .dot{background:var(--g);box-shadow:0 0 0 3px var(--g50),0 0 0 4px var(--g);}
+.atl li .st{font-size:14px;font-weight:700;}
+.atl li .dt{font-size:12px;color:#999;margin-top:2px;}
+.atl li.todo .st{color:#aaa;}
+/* ===== レスポンシブ(タブレット/スマホ) PCは不変 ===== */
+@media(max-width:1024px) and (min-width:641px){
+  .fav-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .uw{padding:0 16px;}
+  h1.uh{font-size:20px;}
+  .mp-head{flex-direction:column;align-items:flex-start;gap:14px;}
+  .mp-actions{grid-template-columns:1fr;}
+  .prow{flex-direction:column;gap:4px;} .prow .k{width:auto;}
+  .utabs{gap:16px;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;}
+  .utab{white-space:nowrap;}
+  .uconf .row{flex-direction:column;gap:4px;} .uconf .k{width:auto;}
+  .uactrow{flex-direction:column;} .uactrow .btn-ghost,.uactrow .btn-prim{width:100%;}
+  .usteps{max-width:100%;}
+  .md-card{grid-template-columns:1fr;}
+  .msg-layout{grid-template-columns:1fr;}
+  .fav-grid{grid-template-columns:1fr;}
+  .usetbox{max-width:100%;}
+  .appcard .top{flex-wrap:wrap;} .stbadge{margin-left:0;}
+}
+</style><style>.utabs{display:flex;gap:28px;border-bottom:1px solid #e7ebe9;margin:18px 0 0;flex-wrap:wrap;}
+.utab{font-size:15px;font-weight:700;color:#999;padding:14px 2px;border:none;background:none;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;display:inline-block;text-decoration:none;}
+.utab:hover{color:#555;}
+.utab.on{color:#222;border-bottom-color:#115A36;}
+.uempty{padding:70px 0;text-align:center;color:#888;font-size:14px;}
+.usetbox{max-width:520px;margin:26px auto 0;}
+.usetbox .field{margin:0 0 20px;}.usetbox label{display:block;font-size:13px;font-weight:700;margin:0 0 7px;}
+.usetbox .req{color:#d33;font-size:11px;margin-left:6px;}
+.usetbox input{width:100%;border:1px solid #d8dcde;border-radius:8px;padding:12px 14px;font-size:14px;font-family:inherit;}
+.usetbox input[type=radio],.usetbox input[type=checkbox]{width:auto;border:none;padding:0;border-radius:0;flex:none;accent-color:#115A36;}
+.usetbox .radio-row{display:flex;flex-wrap:wrap;gap:10px 20px;}
+.usetbox .radio-row label{display:inline-flex;align-items:center;gap:6px;width:auto;margin:0;font-weight:400;font-size:14px;white-space:nowrap;}
+.usetbox .btn{display:block;width:100%;text-align:center;border:none;background:#115A36;color:#fff;font-weight:700;padding:13px;border-radius:8px;cursor:pointer;font-size:15px;text-decoration:none;}
+.usetbox .toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #eef1f0;font-size:14px;}
+.usetbox .toggle label{display:inline-flex;align-items:center;gap:7px;margin:0;font-weight:600;font-size:14px;white-space:nowrap;}
+.usetbox .toggle input[type=checkbox]{width:18px;height:18px;padding:0;flex:none;}
+.uwd-note{background:#fdecea;border:1px solid #f3c0b8;border-radius:8px;padding:14px 16px;font-size:13px;color:#9a3127;margin:0 0 18px;}</style></head><body data-auth="1"><header class="thd"><div class="thd-top"><a class="thd-brand" href="index-2.html"><span class="thd-tag">官公庁・自治体求人サイト</span><img src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="PUBLIC CONNECT"></a><div class="thd-uacts"><a class="thd-uact" href="favorite-jobs.html"><svg viewBox="0 0 24 24"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>お気に入り</a><a class="thd-uact" href="message-list.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>メッセージ</a><a class="thd-uact" href="notice-list.html"><span class="nbadge">7</span><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6c0 5-2 6-2 8h16c0-2-2-3-2-8a6 6 0 0 0-6-6zm0 18a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z"/></svg>お知らせ</a><div class="thd-my"><button type="button" class="thd-uact thd-my-btn" style="color:#115A36"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>マイページ</button><div class="thd-my-menu"><a href="mypage.html">マイページ</a><a href="entry-list.html">エントリー一覧</a><a href="entry-list.html#draft">エントリー下書き一覧</a><a href="setting-email.html">設定</a><div class="thd-my-div"></div><a href="#" class="thd-logout">ログアウト</a></div></div><a class="thd-uact" href="help.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3"/><circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="none"/></svg>ヘルプ</a><a class="thd-find" href="search.html">求人を探す</a></div></div><div class="thd-navrow"><nav class="thd-nav"><a class="nav-link" href="index-2.html">トップ</a><a class="nav-link" href="search.html">求人を探す</a><a class="nav-link" href="blog-list-images.html">官公庁・自治体ブログ</a><a class="nav-link" href="blog-list-videos.html">官公庁・自治体ムービー</a><a class="nav-link" href="news-setsumeikai.html">採用説明会情報</a><a class="nav-link media" href="media/index.html" target="_blank" rel="noopener">メディア<svg class="ext" viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></a></nav></div></header><main class="uw sect"><div class="bc"><a href="mypage.html">マイページ</a><span class="sep">&gt;</span><span>登録情報の編集</span><span class="sep">&gt;</span><span>学歴・職歴</span></div><h1 class="uh">登録情報の編集</h1><div class="utabs"><a class="utab" href="mypage-basic.html">基本情報</a><a class="utab on" href="mypage-history.html">学歴・職歴</a><a class="utab" href="mypage-preferred.html">希望条件</a><a class="utab" href="mypage-scout.html">スカウト設定</a></div><div class="usetbox" style="max-width:620px;"><div class="field"><label>最終学歴</label><input type="text" placeholder="〇〇大学 〇〇学部"></div><div class="field"><label>卒業区分</label><input type="text" placeholder="卒業"></div><div class="field"><label>直近の職歴</label><input type="text" placeholder="〇〇株式会社"></div><a class="btn" href="#">保存する</a></div></main><footer style="border-top:1px solid #e7ebe9;background:#fafbfb;margin-top:40px;"><div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding:34px 24px;"><a href="index-2.html"><img src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="PUBLIC CONNECT" style="height:30px;"></a><nav style="display:flex;gap:26px;flex-wrap:wrap;font-size:13px;color:#555;"><a href="help.html">ヘルプ</a><a href="inquiry.html">お問い合わせ</a><a href="terms-user.html">ご利用者様向け利用規約</a><a href="privacy-policy.html">プライバシーポリシー</a><a href="#">運営会社</a></nav></div><div style="max-width:1100px;margin:0 auto;padding:0 24px 26px;font-size:12px;color:#9aa6a0;">© PUBLIC CONNECT Inc. All rights reserved.</div></footer><script id="auth-hdr">
+(function(){
+  var AU_CSS = '\
+input[type=radio],input[type=checkbox]{accent-color:#115A36;}\
+.thd .thd-uacts{margin-left:auto;display:flex;align-items:center;gap:24px;flex:none;}\
+.thd .thd-uact{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#444;position:relative;white-space:nowrap;text-decoration:none;}\
+.thd .thd-uact:hover{color:#115A36;}\
+.thd .thd-uact svg{width:22px;height:22px;stroke:#444;fill:none;stroke-width:1.8;}\
+.thd .thd-uact:hover svg{stroke:#115A36;}\
+.thd .thd-uact .nbadge{position:absolute;top:-6px;right:4px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#e2622f;color:#fff;font-size:10px;font-weight:700;line-height:17px;text-align:center;}\
+.thd .thd-ufind{margin-left:6px;border:1px solid #115A36;color:#115A36;font-size:13px;font-weight:700;padding:9px 18px;border-radius:8px;white-space:nowrap;text-decoration:none;}\
+.thd .thd-ufind:hover{background:#e6f5ec;}\
+.thd .thd-my{position:relative;}\
+.thd .thd-my-btn{background:none;border:none;cursor:pointer;font-family:inherit;}\
+.thd .thd-my::after{content:\"\";position:absolute;left:-12px;right:-12px;top:100%;height:16px;}\
+.thd .thd-my-menu{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);min-width:220px;background:#fff;border:1px solid #e7ebe9;border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.16);padding:8px 0;display:none;z-index:200;}\
+.thd .thd-my:hover .thd-my-menu,.thd .thd-my.open .thd-my-menu{display:block;}\
+.thd .thd-my-menu a{display:block;padding:12px 22px;font-size:14px;color:#333;font-weight:600;text-decoration:none;white-space:nowrap;}\
+.thd .thd-my-menu a:first-child{color:#115A36;background:#eef5f0;}\
+.thd .thd-my-menu a:hover{background:#f3f6f5;color:#115A36;}\
+.thd .thd-my-div{height:1px;background:#eef1f0;margin:8px 0;}\
+.thd .thd-my-menu .thd-logout{color:#115A36;}';
+  var I={
+    fav:'<svg viewBox=\"0 0 24 24\"><path d=\"M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z\"/></svg>',
+    msg:'<svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg>',
+    noti:'<svg viewBox=\"0 0 24 24\"><path d=\"M12 3a6 6 0 0 0-6 6c0 5-2 6-2 8h16c0-2-2-3-2-8a6 6 0 0 0-6-6zm0 18a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z\"/></svg>',
+    my:'<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1\"/></svg>',
+    help:'<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3\"/><circle cx=\"12\" cy=\"17\" r=\"0.5\" fill=\"currentColor\" stroke=\"none\"/></svg>'
+  };
+  var AU_ACTIONS='<div class=\"thd-uacts\">'
+    +'<a class=\"thd-uact\" href=\"favorite-jobs.html\">'+I.fav+'お気に入り</a>'
+    +'<a class=\"thd-uact\" href=\"message-list.html\">'+I.msg+'メッセージ</a>'
+    +'<a class=\"thd-uact\" href=\"notice-list.html\"><span class=\"nbadge\">7</span>'+I.noti+'お知らせ</a>'
+    +'<div class=\"thd-my\"><button type=\"button\" class=\"thd-uact thd-my-btn\">'+I.my+'マイページ</button>'
+    +'<div class=\"thd-my-menu\">'
+    +'<a href=\"mypage.html\">マイページ</a>'
+    +'<a href=\"entry-list.html\">エントリー一覧</a>'
+    +'<a href=\"entry-list.html#draft\">エントリー下書き一覧</a>'
+    +'<a href=\"setting-email.html\">設定</a>'
+    +'<div class=\"thd-my-div\"></div>'
+    +'<a href=\"#\" class=\"thd-logout\">ログアウト</a></div></div>'
+    +'<a class=\"thd-uact\" href=\"help.html\">'+I.help+'ヘルプ</a>'
+    +'<a class=\"thd-ufind\" href=\"search.html\">求人を探す</a></div>';
+  function isIn(){ try{return localStorage.getItem('pcmember')==='1';}catch(e){return false;} }
+  // ログイン後ページは pcmember を立てる
+  try{ if(document.body && document.body.getAttribute('data-auth')==='1') localStorage.setItem('pcmember','1'); }catch(e){}
+  // accent-color等の共通CSSを常時注入
+  if(!document.getElementById('au-css')){ var st=document.createElement('style'); st.id='au-css'; st.textContent=AU_CSS; (document.head||document.documentElement).appendChild(st); }
+  function swap(){
+    if(!isIn()) return;
+    if(document.querySelector('.thd .thd-uacts')) return;       // 既にログイン後ヘッダー
+    var act=document.querySelector('.thd .thd-actions');         // ログイン/会員登録 を差し替え
+    if(!act) return;
+    var tmp=document.createElement('div'); tmp.innerHTML=AU_ACTIONS;
+    act.parentNode.replaceChild(tmp.firstChild, act);
+  }
+  function setupMy(){
+    var btn=document.querySelector('.thd .thd-my-btn'); if(!btn||btn._w) return; btn._w=1;
+    var dd=btn.closest('.thd-my');
+    btn.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); dd.classList.toggle('open'); });
+    document.addEventListener('click',function(e){ if(dd && !dd.contains(e.target)) dd.classList.remove('open'); });
+    var lo=dd.querySelector('.thd-logout');
+    if(lo) lo.addEventListener('click',function(e){ e.preventDefault(); try{localStorage.removeItem('pcmember');}catch(x){} location.href='index-2.html'; });
+  }
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  ready(function(){ function go(){ swap(); setupMy(); } go(); setTimeout(go,60); setTimeout(go,300); });
+})();
+</script>
+<style id="resp-hdr-css">
+/* 横スクロール防止(スマホ): clipはsticky/固定要素に影響しない */
+@media(max-width:640px){ html{overflow-x:clip;max-width:100%;} }
+.thd-burger{display:none;}
+@media(max-width:900px){
+  .thd-burger{display:inline-flex;align-items:center;justify-content:center;margin-left:auto;width:44px;height:44px;border:none;background:none;cursor:pointer;flex:none;}
+  .thd-burger span{position:relative;display:block;width:22px;height:2px;background:#1a1a1a;border-radius:2px;}
+  .thd-burger span::before,.thd-burger span::after{content:"";position:absolute;left:0;width:22px;height:2px;background:#1a1a1a;border-radius:2px;}
+  .thd-burger span::before{top:-7px;} .thd-burger span::after{top:7px;}
+  .thd .thd-actions,.thd .thd-uacts{display:none !important;}
+  .thd .thd-navrow{display:none !important;}
+  .thd .thd-top{gap:12px !important;padding:12px 16px !important;max-width:100% !important;}
+  .thd.thd-collapsed .thd-top{max-height:none !important;padding:12px 16px !important;opacity:1 !important;overflow:visible !important;}
+  .thd .thd-brand img{height:24px;}
+}
+.thd-drawer{position:fixed;inset:0;z-index:1300;display:none;}
+.thd-drawer.open{display:block;}
+.thd-drawer .ov{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+.thd-drawer .panel{position:absolute;top:0;right:0;height:100%;width:min(84vw,360px);background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,.22);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(100%);transition:transform .25s ease;}
+.thd-drawer.open .panel{transform:translateX(0);}
+.thd-drawer .dh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 14px;border-bottom:1px solid #eef1f0;position:sticky;top:0;background:#fff;}
+.thd-drawer .dh .ttl{font-size:12px;font-weight:700;color:#767676;letter-spacing:.04em;}
+.thd-drawer .dclose{border:none;background:none;font-size:26px;line-height:1;color:#555;cursor:pointer;padding:2px 8px;}
+.thd-drawer .grp{padding:8px 0;border-bottom:1px solid #eef1f0;}
+.thd-drawer .grp:last-child{border-bottom:none;}
+.thd-drawer a{display:flex;align-items:center;gap:10px;padding:13px 20px;font-size:15px;font-weight:700;color:#222;text-decoration:none;}
+.thd-drawer a:hover,.thd-drawer a:active{background:#f3f6f5;color:#115A36;}
+.thd-drawer .cta{display:block;margin:14px 18px 0;text-align:center;background:#115A36;color:#fff;border-radius:8px;padding:13px;font-weight:700;}
+.thd-drawer .cta.out{background:#fff;color:#115A36;border:1px solid #115A36;margin-top:10px;}
+.thd-drawer .lo{color:#115A36;}
+.thd-drawer .dacc-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:13px 20px;font-size:15px;font-weight:700;color:#222;background:none;border:none;font-family:inherit;cursor:pointer;}
+.thd-drawer .dacc-btn:hover{background:#f3f6f5;color:#115A36;}
+.thd-drawer .dacc-btn .cv{width:9px;height:9px;border-right:2px solid #999;border-bottom:2px solid #999;transform:rotate(45deg);transition:transform .2s;margin-left:8px;flex:none;}
+.thd-drawer .dacc.open .dacc-btn .cv{transform:rotate(-135deg);}
+.thd-drawer .dacc-sub{display:none;background:#f7f9f8;border-top:1px solid #eef1f0;}
+.thd-drawer .dacc.open .dacc-sub{display:block;}
+.thd-drawer .dacc-sub a{padding:12px 20px 12px 38px;font-size:14px;font-weight:600;}
+</style>
+<script id="resp-hdr-js">
+(function(){
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  function txt(el){ return (el.textContent||'').replace(/\s+/g,' ').trim(); }
+  function build(){
+    var thd=document.querySelector('.thd'); if(!thd) return;
+    var top=thd.querySelector('.thd-top'); if(!top) return;
+    var burger=top.querySelector('.thd-burger');
+    if(!burger){ burger=document.createElement('button'); burger.type='button'; burger.className='thd-burger';
+      burger.setAttribute('aria-label','メニューを開く'); burger.innerHTML='<span></span>'; top.appendChild(burger); }
+    var dr=document.getElementById('thd-drawer');
+    if(!dr){ dr=document.createElement('div'); dr.id='thd-drawer'; dr.className='thd-drawer'; document.body.appendChild(dr); }
+    // ナビ
+    var navLinks=Array.prototype.slice.call(thd.querySelectorAll('.thd-nav .nav-link'));
+    var navHtml=navLinks.map(function(a){
+      var tg=a.getAttribute('target'); return '<a href="'+a.getAttribute('href')+'"'+(tg?' target="'+tg+'" rel="noopener"':'')+'>'+txt(a)+'</a>';
+    }).join('');
+    // アカウント
+    var acctHtml='', logout=false;
+    var uacts=thd.querySelector('.thd-uacts');
+    if(uacts){
+      // .thd-uacts の直下を順に走査。マイページ(.thd-my)はアコーディオンに、それ以外はフラットリンク。
+      Array.prototype.slice.call(uacts.children).forEach(function(ch){
+        if(ch.classList && ch.classList.contains('thd-my')){
+          var btn=ch.querySelector('.thd-my-btn');
+          var bc=btn?btn.cloneNode(true):null; if(bc){var s=bc.querySelector('svg');if(s)s.parentNode.removeChild(s);}
+          var label=bc?txt(bc):'マイページ';
+          var subs='';
+          Array.prototype.slice.call(ch.querySelectorAll('.thd-my-menu a')).forEach(function(a){
+            if(a.classList.contains('thd-logout')) return;
+            subs+='<a href="'+(a.getAttribute('href')||'#')+'">'+txt(a)+'</a>';
+          });
+          acctHtml+='<div class="dacc"><button type="button" class="dacc-btn">'+label+'<span class="cv"></span></button><div class="dacc-sub">'+subs+'</div></div>';
+        } else if(ch.tagName==='A'){
+          var h=ch.getAttribute('href')||'#';
+          var c=ch.cloneNode(true); var b=c.querySelector('.nbadge'); if(b)b.parentNode.removeChild(b);
+          var t=txt(c); if(!t)return;
+          acctHtml+='<a href="'+h+'">'+t+'</a>';
+        }
+      });
+      logout=true;
+    } else {
+      var act=thd.querySelector('.thd-actions');
+      if(act){ var reg=act.querySelector('.thd-register'), login=act.querySelector('.thd-login');
+        if(reg) acctHtml+='<a class="cta" href="'+reg.getAttribute('href')+'">会員登録</a>';
+        if(login) acctHtml+='<a class="cta out" href="'+login.getAttribute('href')+'">ログイン</a>';
+      }
+    }
+    var html='<div class="ov"></div><div class="panel"><div class="dh"><span class="ttl">MENU</span>'
+      +'<button type="button" class="dclose" aria-label="閉じる">×</button></div>';
+    if(navHtml) html+='<div class="grp">'+navHtml+'</div>';
+    if(acctHtml) html+='<div class="grp">'+acctHtml+(logout?'<a href="#" class="lo">ログアウト</a>':'')+'</div>';
+    html+='</div>';
+    dr.innerHTML=html;
+    function close(){ dr.classList.remove('open'); document.body.style.overflow=''; }
+    burger.onclick=function(){ dr.classList.add('open'); document.body.style.overflow='hidden'; };
+    dr.querySelector('.ov').onclick=close;
+    dr.querySelector('.dclose').onclick=close;
+    var lo=dr.querySelector('.lo'); if(lo) lo.onclick=function(e){ e.preventDefault(); try{localStorage.removeItem('pcmember');}catch(x){} location.href='index-2.html'; };
+    // マイページ アコーディオン開閉
+    Array.prototype.slice.call(dr.querySelectorAll('.dacc-btn')).forEach(function(b){
+      b.onclick=function(){ b.parentNode.classList.toggle('open'); };
+    });
+  }
+  ready(function(){ build(); setTimeout(build,120); setTimeout(build,360); });
+})();
+</script></body></html>

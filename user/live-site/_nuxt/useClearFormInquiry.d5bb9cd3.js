@@ -1,0 +1,1 @@
+import{u as r}from"./inquiry.7af74b89.js";import{u as n}from"./inquiryEmployer.f7f3a339.js";const t=()=>{r().setSystemData({name:"",email:"",phoneNumber:"",content:"",isConfirm:null})},i=()=>{n().setSystemData({governmentOfficeName:"",name:"",email:"",phoneNumber:"",content:"",isConfirm:null})};export{i as a,t as u};
