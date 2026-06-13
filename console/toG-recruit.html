@@ -18802,6 +18802,77 @@ body.on-login-page{overflow:hidden}
 .dh-del{display:inline-flex;align-items:center;justify-content:center;width:34px;height:32px;color:#767676;background:#fff;border:1px solid #CCCCCC;border-radius:6px;cursor:pointer}
 .dh-del:hover{color:#ce0000;border-color:#ce0000}
 .dh-del svg{width:15px;height:15px}
+
+/* ═══ 求人作成：イメージ画像セレクタ（求める人物像直下）═══ */
+.jc-imgsel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
+.jc-imgsel-slot{position:relative;aspect-ratio:680/453;background:#767676;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.jc-imgsel-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.jc-imgsel-pick{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:700;color:#fff;background:transparent;border:1.5px solid #fff;border-radius:6px;padding:8px 16px;cursor:pointer;font-family:inherit}
+.jc-imgsel-pick:hover{background:rgba(255,255,255,.15)}
+.jc-imgsel-tools{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:8px;justify-content:center;z-index:2}
+.jc-imgsel-tools label,.jc-imgsel-tools button{display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;border-radius:6px;padding:6px 12px;cursor:pointer;font-family:inherit;border:1px solid #E6E6E6;background:#fff;color:#115A36}
+.jc-imgsel-tools label:hover,.jc-imgsel-tools button:hover{background:#E6F5EC}
+.jc-imgsel-tools button.del{color:#b3261e;border-color:#f5c6c2}
+.jc-imgsel-tools button.del:hover{background:#fdeeee}
+@media (max-width:767px){
+  .jc-imgsel-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:479px){
+  .jc-imgsel-grid{grid-template-columns:1fr}
+}
+
+/* ═══ 官公庁様向けヘルプ（FAQアコーディオン）═══ */
+.help-faq{border:1px solid #E6E6E6;border-radius:8px;margin-bottom:12px;background:#fff;overflow:hidden}
+.help-faq summary.help-faq-q{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;font-weight:700;color:#1A1A1A;padding:16px;cursor:pointer}
+.help-faq summary.help-faq-q::-webkit-details-marker{display:none}
+.help-faq summary.help-faq-q:hover{background:#FAFAFA}
+.help-faq-caret{width:18px;height:18px;color:#767676;flex-shrink:0;transition:transform .2s}
+.help-faq[open] .help-faq-caret{transform:rotate(180deg)}
+.help-faq-a{font-size:14px;line-height:1.7;color:#333;padding:0 16px 16px;border-top:1px solid #F2F2F2;padding-top:14px}
+@media (prefers-reduced-motion:reduce){.help-faq-caret{transition:none}}
+
+/* ═══ 部署・メンバー管理（部署カード・アコーディオン）═══ */
+.dept-toolbar{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.dept-csv{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#115A36;cursor:pointer}
+.dept-csv:hover{text-decoration:underline}
+.dept-csv svg{width:16px;height:16px}
+.dept-list{display:flex;flex-direction:column;gap:12px}
+.dept-card{background:#fff;border:1px solid #E6E6E6;border-radius:12px;overflow:hidden}
+.dept-head{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer}
+.dept-head:hover{background:#FAFAFA}
+.dept-caret{width:18px;height:18px;color:#767676;flex-shrink:0;transition:transform .2s}
+.dept-card.open .dept-caret{transform:rotate(180deg)}
+.dept-name{font-size:15px;font-weight:700;color:#1A1A1A;flex:1}
+.dept-count{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:#767676;white-space:nowrap}
+.dept-count svg{width:15px;height:15px}
+.dept-kebab{position:relative;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:none;background:none;border-radius:6px;color:#767676;cursor:pointer;padding:0}
+.dept-kebab:hover{background:#F2F2F2;color:#1A1A1A}
+.dept-kebab svg{width:18px;height:18px}
+.dept-menu{display:none;position:absolute;top:36px;right:0;min-width:160px;background:#fff;border:1px solid #E6E6E6;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:20;padding:6px 0}
+.dept-kebab.open .dept-menu{display:block}
+.dept-menu a{display:block;padding:9px 16px;font-size:14px;color:#333;cursor:pointer;white-space:nowrap;text-align:left}
+.dept-menu a:hover{background:#F2F2F2}
+.dept-menu a.danger{color:#b3261e}
+.dept-body{display:none;padding:0 18px 8px;border-top:1px solid #F2F2F2}
+.dept-card.open .dept-body{display:block}
+.mem-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #F2F2F2}
+.mem-row:last-child{border-bottom:none}
+.mem-av{width:38px;height:38px;border-radius:50%;background:#115A36;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.mem-av.invite{background:#E6E6E6;color:#767676}
+.mem-main{flex:1;min-width:0}
+.mem-name{font-size:14px;font-weight:700;color:#1A1A1A}
+.mem-email{font-size:13px;color:#767676;margin-top:2px}
+.mem-chip{display:inline-block;font-size:12px;font-weight:700;border-radius:4px;padding:3px 10px;white-space:nowrap}
+.mem-chip.role{background:#E6F5EC;color:#115A36;border:1px solid #9BD4B5}
+.mem-chip.warn{background:#FFF4E5;color:#8a5300;border:1px solid #f0d4a8}
+.mem-login{font-size:13px;color:#767676;white-space:nowrap;min-width:150px}
+.mem-login .lbl{display:block;font-size:12px;color:#949494}
+.mem-actions{display:flex;gap:8px;white-space:nowrap}
+@media (max-width:767px){
+  .mem-row{flex-wrap:wrap}
+  .mem-login{min-width:0;width:100%;order:5}
+  .mem-actions{order:6}
+}
 </style>
 </head>
 <body>
@@ -18976,15 +19047,19 @@ body.on-login-page{overflow:hidden}
         <a class="submenu-item" data-page="news" role="menuitem">お知らせ管理</a>
       </div>
     </div>
-    <a class="main-nav-item" href="#">
+    <div class="main-nav-item has-submenu" tabindex="0">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 14v3M12 14v3M16 14v3"/></svg>
       他自治体
-    </a>
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="submenu" role="menu">
+        <a class="submenu-item" role="menuitem" onclick="showToast('他自治体の求人検索（準備中）')">他自治体の求人を探す</a>
+      </div>
+    </div>
     <a class="main-nav-item" href="#" data-page="members" style="cursor:pointer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       システム設定
     </a>
-    <a class="main-nav-item" href="#" data-page="inquiry" style="cursor:pointer">
+    <a class="main-nav-item" href="#" data-page="help" style="cursor:pointer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       ヘルプ
     </a>
@@ -19582,6 +19657,47 @@ body.on-login-page{overflow:hidden}
 ・公共の仕事に誇りと責任感を持てる方</textarea>
             <div class="jc-hint">応募者画面の「職務内容」と「応募資格」の間に表示されます。マッチング精度向上に活用されます。</div>
           </div>
+
+          <div class="jc-field">
+            <div class="jc-label">イメージ画像 <span class="opt">任意</span></div>
+            <div class="jc-hint">JPG、PNGファイルを選択してください。（アップロード推奨サイズ：幅680×高さ453以上）</div>
+            <div class="jc-hint" style="margin-bottom:12px">最大3枚まで設定可能です。</div>
+            <div class="jc-imgsel-grid">
+              <div class="jc-imgsel-slot" id="imgsel-slot-0">
+                <img class="jc-imgsel-preview" id="imgsel-preview-0" alt="" hidden>
+                <label class="jc-imgsel-pick" id="imgsel-pick-0">
+                  画像を選択
+                  <input type="file" accept="image/*" hidden onchange="imgPick(this,0)">
+                </label>
+                <div class="jc-imgsel-tools" id="imgsel-tools-0" hidden>
+                  <label>変更<input type="file" accept="image/*" hidden onchange="imgPick(this,0)"></label>
+                  <button type="button" class="del" onclick="imgRemove(0)">削除</button>
+                </div>
+              </div>
+              <div class="jc-imgsel-slot" id="imgsel-slot-1">
+                <img class="jc-imgsel-preview" id="imgsel-preview-1" alt="" hidden>
+                <label class="jc-imgsel-pick" id="imgsel-pick-1">
+                  画像を選択
+                  <input type="file" accept="image/*" hidden onchange="imgPick(this,1)">
+                </label>
+                <div class="jc-imgsel-tools" id="imgsel-tools-1" hidden>
+                  <label>変更<input type="file" accept="image/*" hidden onchange="imgPick(this,1)"></label>
+                  <button type="button" class="del" onclick="imgRemove(1)">削除</button>
+                </div>
+              </div>
+              <div class="jc-imgsel-slot" id="imgsel-slot-2">
+                <img class="jc-imgsel-preview" id="imgsel-preview-2" alt="" hidden>
+                <label class="jc-imgsel-pick" id="imgsel-pick-2">
+                  画像を選択
+                  <input type="file" accept="image/*" hidden onchange="imgPick(this,2)">
+                </label>
+                <div class="jc-imgsel-tools" id="imgsel-tools-2" hidden>
+                  <label>変更<input type="file" accept="image/*" hidden onchange="imgPick(this,2)"></label>
+                  <button type="button" class="del" onclick="imgRemove(2)">削除</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -19730,51 +19846,6 @@ body.on-login-page{overflow:hidden}
 ・面接時の交通費等は自己負担となります
 ・応募書類は返却いたしません
 ・個人情報は選考目的以外には使用しません</textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- ④ 求人画像（最大3枚） -->
-      <div class="jc-sec">
-        <div class="jc-sec-head">
-          <div class="jc-sec-title"><span class="jc-sec-num">4</span>求人画像</div>
-          <div class="jc-sec-hint">最大3枚まで設定できます</div>
-        </div>
-        <div class="jc-sec-body">
-          <div class="jc-field">
-            <div class="jc-label">職場・募集イメージ画像 <span class="opt">任意</span></div>
-            <div class="jc-hint" style="margin-bottom:12px">応募者画面に表示されます。1枚目は<strong>メイン画像</strong>（求人カードのサムネイル・詳細ページのトップ）になります。推奨サイズ 1200×800px・JPG / PNG・各5MBまで・<strong>最大3枚</strong>。</div>
-            <div class="jc-img-grid" id="f-images">
-              <!-- スロット0：設定済み（メイン） -->
-              <div class="jc-img-slot filled" data-slot="0" id="f-img-slot-0">
-                <span class="jc-img-badge">メイン</span>
-                <div class="jc-img-thumb">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                </div>
-                <div class="jc-img-tools">
-                  <button type="button" onclick="document.getElementById('f-img-input-0').click()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>変更
-                  </button>
-                  <button type="button" class="del" onclick="jcRemoveImage(0)">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>削除
-                  </button>
-                </div>
-                <input type="file" id="f-img-input-0" accept="image/*" hidden onchange="jcOnPickImage(this,0)">
-              </div>
-              <!-- スロット1：空 -->
-              <label class="jc-img-slot empty" data-slot="1" id="f-img-slot-1">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                <span>画像を追加</span>
-                <input type="file" accept="image/*" hidden onchange="jcOnPickImage(this,1)">
-              </label>
-              <!-- スロット2：空 -->
-              <label class="jc-img-slot empty" data-slot="2" id="f-img-slot-2">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                <span>画像を追加</span>
-                <input type="file" accept="image/*" hidden onchange="jcOnPickImage(this,2)">
-              </label>
-            </div>
-            <div class="jc-img-count">設定中: <strong id="f-img-count">1</strong> / 3</div>
           </div>
         </div>
       </div>
@@ -29913,48 +29984,126 @@ body.on-login-page{overflow:hidden}
     <div class="page-meta"><span class="page-meta-item">部署と採用担当メンバーの権限を管理</span></div>
   </div></div>
   <main class="main"><div class="main-inner">
-    <section style="background:#fff;border:1px solid #E6E6E6;border-radius:12px;padding:18px 20px;margin-bottom:16px">
-      <div class="rk-card-head"><div class="sec-title">部署</div><button class="btn btn-sm btn-outline">＋ 部署を追加</button></div>
-      <div class="rk-grid2">
-        <div style="border:1px solid #E6E6E6;border-radius:10px;padding:14px 16px"><div class="rk-name">人事課 採用係</div><div class="rk-sub">メンバー 5名 ・ 公開求人 8件</div></div>
-        <div style="border:1px solid #E6E6E6;border-radius:10px;padding:14px 16px"><div class="rk-name">土木部 管理課</div><div class="rk-sub">メンバー 3名 ・ 公開求人 4件</div></div>
-        <div style="border:1px solid #E6E6E6;border-radius:10px;padding:14px 16px"><div class="rk-name">保健福祉部</div><div class="rk-sub">メンバー 2名 ・ 公開求人 3件</div></div>
+    <div class="dept-toolbar">
+      <button class="btn btn-sm btn-outline" onclick="showToast('部署を追加（準備中）')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;margin-right:4px;vertical-align:-3px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>部署を追加
+      </button>
+      <a class="dept-csv" onclick="showToast('メンバーリストをCSV出力（準備中）')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>メンバーリストをCSV出力
+      </a>
+    </div>
+    <div class="dept-list">
+      <!-- 部署：人事課 採用係 -->
+      <div class="dept-card open">
+        <div class="dept-head" onclick="toggleDeptCard(this)" role="button" tabindex="0">
+          <svg class="dept-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="dept-name">人事課 採用係</div>
+          <div class="dept-count">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>3人
+          </div>
+          <button class="dept-kebab" onclick="toggleDeptMenu(event,this)" aria-label="部署メニュー" aria-haspopup="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+            <div class="dept-menu" role="menu">
+              <a role="menuitem" onclick="showToast('部署を編集（準備中）')">部署を編集</a>
+              <a role="menuitem" onclick="showToast('メンバーを招待（準備中）')">メンバーを招待</a>
+              <a role="menuitem" class="danger" onclick="showToast('部署を削除（準備中）')">部署を削除</a>
+            </div>
+          </button>
+        </div>
+        <div class="dept-body">
+          <div class="mem-row">
+            <div class="mem-av">山</div>
+            <div class="mem-main"><div class="mem-name">山田 健太</div><div class="mem-email">yamada.k@koukyo-city.jp</div></div>
+            <span class="mem-chip role">アカウント管理者</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/10 09:12</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-av">鈴</div>
+            <div class="mem-main"><div class="mem-name">鈴木 真由美</div><div class="mem-email">suzuki.m@koukyo-city.jp</div></div>
+            <span class="mem-chip role">採用担当</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/09 17:40</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-av invite">—</div>
+            <div class="mem-main"><div class="mem-name">koho@koukyo-city.jp</div><div class="mem-email">招待中（未承認）・招待日 2026/06/07</div></div>
+            <span class="mem-chip warn">招待中</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>—</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">再送</button><button class="btn btn-sm btn-outline">取消</button></div>
+          </div>
+        </div>
       </div>
-    </section>
-    <section style="background:#fff;border:1px solid #E6E6E6;border-radius:12px;padding:18px 20px">
-      <div class="rk-card-head"><div class="sec-title">メンバー</div><button class="btn btn-sm btn-primary">＋ メンバーを招待</button></div>
-      <div class="rk-list">
-        <div class="rk-row">
-          <div class="rk-av">山</div>
-          <div class="rk-main"><div class="rk-name">山田 健太</div><div class="rk-sub">yamada.k@koukyo-city.jp</div></div>
-          <div class="rk-meta"><div class="rk-meta-item"><span class="lbl">部署</span>人事課 採用係</div><div class="rk-meta-item"><span class="lbl">最終ログイン</span>2026/06/10 09:12</div></div>
-          <span class="rk-chip role">アカウント管理者</span>
-          <div class="rk-actions"><button class="btn btn-sm btn-outline">権限変更</button></div>
+      <!-- 部署：土木部 管理課 -->
+      <div class="dept-card">
+        <div class="dept-head" onclick="toggleDeptCard(this)" role="button" tabindex="0">
+          <svg class="dept-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="dept-name">土木部 管理課</div>
+          <div class="dept-count">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>2人
+          </div>
+          <button class="dept-kebab" onclick="toggleDeptMenu(event,this)" aria-label="部署メニュー" aria-haspopup="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+            <div class="dept-menu" role="menu">
+              <a role="menuitem" onclick="showToast('部署を編集（準備中）')">部署を編集</a>
+              <a role="menuitem" onclick="showToast('メンバーを招待（準備中）')">メンバーを招待</a>
+              <a role="menuitem" class="danger" onclick="showToast('部署を削除（準備中）')">部署を削除</a>
+            </div>
+          </button>
         </div>
-        <div class="rk-row">
-          <div class="rk-av">鈴</div>
-          <div class="rk-main"><div class="rk-name">鈴木 真由美</div><div class="rk-sub">suzuki.m@koukyo-city.jp</div></div>
-          <div class="rk-meta"><div class="rk-meta-item"><span class="lbl">部署</span>人事課 採用係</div><div class="rk-meta-item"><span class="lbl">最終ログイン</span>2026/06/09 17:40</div></div>
-          <span class="rk-chip role">採用担当</span>
-          <div class="rk-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
-        </div>
-        <div class="rk-row">
-          <div class="rk-av">田</div>
-          <div class="rk-main"><div class="rk-name">田中 恵子</div><div class="rk-sub">tanaka.k@koukyo-city.jp</div></div>
-          <div class="rk-meta"><div class="rk-meta-item"><span class="lbl">部署</span>土木部 管理課</div><div class="rk-meta-item"><span class="lbl">最終ログイン</span>2026/06/08 11:05</div></div>
-          <span class="rk-chip role">面接担当</span>
-          <div class="rk-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
-        </div>
-        <div class="rk-row">
-          <div class="rk-av">—</div>
-          <div class="rk-main"><div class="rk-name">koho@koukyo-city.jp</div><div class="rk-sub">招待中（未承認）</div></div>
-          <div class="rk-meta"><div class="rk-meta-item"><span class="lbl">部署</span>—</div><div class="rk-meta-item"><span class="lbl">招待日</span>2026/06/07</div></div>
-          <span class="rk-chip warn">招待中</span>
-          <div class="rk-actions"><button class="btn btn-sm btn-outline">再送</button><button class="btn btn-sm btn-outline">取消</button></div>
+        <div class="dept-body">
+          <div class="mem-row">
+            <div class="mem-av">田</div>
+            <div class="mem-main"><div class="mem-name">田中 恵子</div><div class="mem-email">tanaka.k@koukyo-city.jp</div></div>
+            <span class="mem-chip role">部署管理者</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/08 11:05</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-av">佐</div>
+            <div class="mem-main"><div class="mem-name">佐藤 大輔</div><div class="mem-email">sato.d@koukyo-city.jp</div></div>
+            <span class="mem-chip role">面接担当</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/06 14:22</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
+          </div>
         </div>
       </div>
-      <p class="rk-note" style="margin-top:12px">権限ロール：アカウント管理者 / 部署管理者 / 採用担当 / ブロガー / 面接担当（現行 EMP_* に対応）</p>
-    </section>
+      <!-- 部署：保健福祉部 -->
+      <div class="dept-card">
+        <div class="dept-head" onclick="toggleDeptCard(this)" role="button" tabindex="0">
+          <svg class="dept-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          <div class="dept-name">保健福祉部</div>
+          <div class="dept-count">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>2人
+          </div>
+          <button class="dept-kebab" onclick="toggleDeptMenu(event,this)" aria-label="部署メニュー" aria-haspopup="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+            <div class="dept-menu" role="menu">
+              <a role="menuitem" onclick="showToast('部署を編集（準備中）')">部署を編集</a>
+              <a role="menuitem" onclick="showToast('メンバーを招待（準備中）')">メンバーを招待</a>
+              <a role="menuitem" class="danger" onclick="showToast('部署を削除（準備中）')">部署を削除</a>
+            </div>
+          </button>
+        </div>
+        <div class="dept-body">
+          <div class="mem-row">
+            <div class="mem-av">高</div>
+            <div class="mem-main"><div class="mem-name">高橋 由香</div><div class="mem-email">takahashi.y@koukyo-city.jp</div></div>
+            <span class="mem-chip role">採用担当</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/05 10:48</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
+          </div>
+          <div class="mem-row">
+            <div class="mem-av">伊</div>
+            <div class="mem-main"><div class="mem-name">伊藤 翔太</div><div class="mem-email">ito.s@koukyo-city.jp</div></div>
+            <span class="mem-chip role">ブロガー</span>
+            <div class="mem-login"><span class="lbl">最終ログイン</span>2026/06/04 16:30</div>
+            <div class="mem-actions"><button class="btn btn-sm btn-outline">権限変更</button><button class="btn btn-sm btn-outline">無効化</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="rk-note" style="margin-top:12px">権限ロール：アカウント管理者 / 部署管理者 / 採用担当 / ブロガー / 面接担当（現行 EMP_* に対応）</p>
   </div></main>
 </div>
 
@@ -30126,6 +30275,55 @@ body.on-login-page{overflow:hidden}
       <div class="rk-field"><label class="rk-label">お問い合わせ内容</label><textarea class="rk-textarea" placeholder="内容をご記入ください"></textarea></div>
       <div style="display:flex;gap:10px"><button class="btn btn-sm btn-primary" onclick="alert('お問い合わせを送信しました（モック）')">送信する</button></div>
       <p class="rk-help" style="margin-top:10px">平日9:00〜17:00に順次回答いたします。お急ぎの場合は 03-XXXX-XXXX へ。</p>
+    </section>
+  </div></main>
+</div>
+
+<!-- 官公庁様向けヘルプ -->
+<div id="page-help" class="page-container" data-page="help">
+  <div class="page-title-area"><div class="page-title-inner">
+    <div class="page-eyebrow">ヘルプ</div>
+    <h1 class="page-title">官公庁様向けヘルプ</h1>
+    <div class="page-meta"><span class="page-meta-item">よくあるご質問とお問い合わせ</span></div>
+  </div></div>
+  <main class="main"><div class="main-inner">
+    <section class="rk-sec">
+      <h2 style="font-size:16px;font-weight:700;color:#1A1A1A;margin:0 0 16px">よくあるご質問</h2>
+      <details class="help-faq">
+        <summary class="help-faq-q">サービスの説明を受けたい
+          <svg class="help-faq-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="help-faq-a">オンライン説明会を随時開催しております。ご希望の日時をお問い合わせフォームよりお知らせください。担当者より日程調整のご連絡を差し上げます。</div>
+      </details>
+      <details class="help-faq">
+        <summary class="help-faq-q">申込から掲載までどのくらいの期間がかかりますか？
+          <svg class="help-faq-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="help-faq-a">お申し込みから、およそ2営業日以内に専用マイページをお渡しします。その後、求人掲載が可能となります。</div>
+      </details>
+      <details class="help-faq">
+        <summary class="help-faq-q">契約期間について教えてください
+          <svg class="help-faq-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="help-faq-a">初年度は3月末までの契約となります。その後は年単位での更新となります。</div>
+      </details>
+      <details class="help-faq">
+        <summary class="help-faq-q">利用料金はいくらですか？
+          <svg class="help-faq-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="help-faq-a">ご利用団体の規模やご要望に応じて、打ち合わせにてご提示いたします。お気軽にお問い合わせください。</div>
+      </details>
+      <details class="help-faq">
+        <summary class="help-faq-q">企業でも利用できますか？
+          <svg class="help-faq-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+        <div class="help-faq-a">本サービスは官公庁・独立行政法人を対象としております。民間企業様にはご利用いただけません。</div>
+      </details>
+    </section>
+    <section class="rk-sec" style="text-align:center">
+      <h2 style="font-size:16px;font-weight:700;color:#1A1A1A;margin:0 0 8px">解決しない場合はお問い合わせください</h2>
+      <p class="rk-help" style="margin:0 0 16px">運営事務局の担当者が個別にご対応いたします。</p>
+      <button class="btn btn-primary" onclick="showPage('inquiry')">お問い合わせ</button>
     </section>
   </div></main>
 </div>
@@ -34426,7 +34624,7 @@ function dhDeleteRow(btn){
 // ═══════════════════════════════════════════════════════
 // ページ切り替え (ハッシュベースルーティング)
 // ═══════════════════════════════════════════════════════
-const PAGES = ['domain','login','top','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','account','scout','entryform','news','settings','inquiry','withdraw','app-edit','dlhistory'];
+const PAGES = ['domain','login','top','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
 const PAGE_LABELS = {
   'login': 'ログイン',
   'top': 'トップページ',
@@ -34446,7 +34644,8 @@ const PAGE_LABELS = {
   'newsletter': 'フォロワー通知',
   'survey': 'アンケート',
   'app-edit': '応募者情報を編集',
-  'dlhistory': '出力したファイル一覧'
+  'dlhistory': '出力したファイル一覧',
+  'help': '官公庁様向けヘルプ'
 };
 // サブナビ「求人管理」がactive扱いされるページ (02は作成中なので求人管理配下)
 const SUBNAV_MAPPING = {
@@ -52277,6 +52476,48 @@ window.toggleLoginPassword = function(btn){
   var pg=document.getElementById('page-analytics');
   if(pg){ new MutationObserver(function(){ if(pg.classList.contains('active')) render(); }).observe(pg,{attributes:true,attributeFilter:['class']}); }
 })();
+</script>
+<script>
+/* ═══ 求人作成：イメージ画像セレクタ（求める人物像直下）═══ */
+function imgPick(input, n){
+  var f = input.files && input.files[0];
+  if(!f) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = document.getElementById('imgsel-preview-'+n);
+    var pick = document.getElementById('imgsel-pick-'+n);
+    var tools = document.getElementById('imgsel-tools-'+n);
+    if(img){ img.src = e.target.result; img.hidden = false; }
+    if(pick) pick.hidden = true;
+    if(tools) tools.hidden = false;
+  };
+  reader.readAsDataURL(f);
+}
+function imgRemove(n){
+  var img = document.getElementById('imgsel-preview-'+n);
+  var pick = document.getElementById('imgsel-pick-'+n);
+  var tools = document.getElementById('imgsel-tools-'+n);
+  var slot = document.getElementById('imgsel-slot-'+n);
+  if(img){ img.src = ''; img.hidden = true; }
+  if(pick) pick.hidden = false;
+  if(tools) tools.hidden = true;
+  if(slot) slot.querySelectorAll('input[type=file]').forEach(function(i){ i.value = ''; });
+}
+
+/* ═══ 部署・メンバー管理：アコーディオン＋ケバブメニュー ═══ */
+function toggleDeptCard(head){
+  var card = head.closest('.dept-card');
+  if(card) card.classList.toggle('open');
+}
+function toggleDeptMenu(ev, btn){
+  ev.stopPropagation();
+  var wasOpen = btn.classList.contains('open');
+  document.querySelectorAll('.dept-kebab.open').forEach(function(k){ k.classList.remove('open'); });
+  if(!wasOpen) btn.classList.add('open');
+}
+document.addEventListener('click', function(){
+  document.querySelectorAll('.dept-kebab.open').forEach(function(k){ k.classList.remove('open'); });
+});
 </script>
 </body>
 </html>
