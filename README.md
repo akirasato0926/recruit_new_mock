@@ -4,7 +4,7 @@
 
 ## 構成
 ```
-/index.html                       … 統合ハブ（4導線）
+/index.html                       … ルート→user/index.html へ即リダイレクト（求職者サイト起点）
 /console/
   public-offices.html             … 官公庁向けLP（新規）
   toG-recruit.html                … 官公庁コンソール（旧 PublicConnect_Recruit_モック）
