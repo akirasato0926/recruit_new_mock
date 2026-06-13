@@ -1847,6 +1847,11 @@ const EMPLOYERS = PC_ORGS.map((o, i) => {
     reg: empRegForIndex(i),
   };
 });
+// デモ用：toG画面を持つ自治体を先頭に追加（111111=公共市役所 / 222222=波部市役所）
+EMPLOYERS.unshift(
+  {id:'E-0001', name:'公共市役所', pref:'（デモ）', type:'市区町村', mgr:'人事課 採用係', mgrEmail:'jinji-****@koukyo-city.jp', status:'approved', reg:'2025-04-01', domainId:'111111', features:{ai:true, sns:true, online:true}},
+  {id:'E-0002', name:'波部市役所', pref:'（デモ）', type:'市区町村', mgr:'人事課 採用係', mgrEmail:'jinji-****@habe-city.jp', status:'approved', reg:'2025-04-01', domainId:'222222', features:{ai:true, sns:true, online:true}}
+);
 const EMP_STATUS = {
   approved:{cls:'ok',  label:'承認済'},
   pending: {cls:'warn',label:'承認待ち'},
@@ -2329,7 +2334,7 @@ function buildPager(total, page, perPage, onClickFnName){
 
 /* ───── 官公庁管理 一覧（フィルタ＋ページング） ───── */
 let empPage = 1;
-const empPerPage = 20;
+const empPerPage = 30;
 function empFilterChanged(){ empPage = 1; renderEmpList(); }
 function empGotoPage(p){ empPage = p; renderEmpList(); window.scrollTo(0,0); }
 function getFilteredEmployers(){
@@ -3488,8 +3493,8 @@ function openEmp(id){
     <dt>登録日</dt><dd>${e.reg}</dd>`;
   document.getElementById('emp-detail-status').innerHTML = `
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span class="badge ${st.cls}" style="font-size:12px">${st.label}</span></div>`;
-  // 有料機能トグル
-  if(!e.features) e.features = {ai:false, sns:false, online:false};
+  // 有料機能トグル（localStorageで永続化＝toG側と連動）
+  e.features = loadEmpFeatures(e);
   renderEmpFeatures(e);
   // 承認状況に応じたアクション
   let actions = '';
@@ -3504,7 +3509,13 @@ function openEmp(id){
   go('emp-detail');
 }
 function empAction(label){ toast(`「${currentEmp?currentEmp.name:''}」を${label}しました（操作ログに記録）`); go('emp-list'); }
-// 有料機能（AI面接/SNS投稿/オンライン面接）の有効化・無効化
+// 有料機能（AI面接/SNS投稿/オンライン面接）の有効化・無効化（toGと連動：localStorage）
+function empFeatKey(id){ return 'pc_feat_' + id; }
+function loadEmpFeatures(e){
+  const def = e.features || {ai:false, sns:false, online:false};
+  try{ const s = localStorage.getItem(empFeatKey(e.id)); if(s) return Object.assign({}, def, JSON.parse(s)); }catch(_){}
+  return def;
+}
 function renderEmpFeatures(e){
   const host = document.getElementById('emp-detail-features'); if(!host) return;
   const F = [
@@ -3514,7 +3525,7 @@ function renderEmpFeatures(e){
   ];
   host.innerHTML = F.map((f,i) => `
     <div class="switch-row"${i===F.length-1?' style="border-bottom:none"':''}>
-      <div><div class="sr-meta">${f.n} <span class="badge warn" style="margin-left:4px">有料</span></div><div class="sr-desc">${f.d}</div></div>
+      <div><div class="sr-meta">${f.n} <span class="badge warn" style="margin-left:4px">有料</span></div></div>
       <label class="switch"><input type="checkbox" ${e.features[f.k]?'checked':''} onchange="toggleEmpFeature('${f.k}',this)"><span class="slider"></span></label>
     </div>`).join('');
 }
@@ -3522,8 +3533,9 @@ function toggleEmpFeature(key, el){
   if(!currentEmp) return;
   if(!currentEmp.features) currentEmp.features = {ai:false, sns:false, online:false};
   currentEmp.features[key] = el.checked;
+  try{ localStorage.setItem(empFeatKey(currentEmp.id), JSON.stringify(currentEmp.features)); }catch(_){}
   const L = {ai:'AI面接', sns:'SNS投稿', online:'オンライン面接'};
-  toast(`「${currentEmp.name}」の${L[key]}を${el.checked?'有効化':'無効化'}しました（操作ログに記録）`);
+  toast(`「${currentEmp.name}」の${L[key]}を${el.checked?'有効化':'無効化'}しました（操作ログに記録・toG画面に即時反映）`);
 }
 
 let currentUser = null;
