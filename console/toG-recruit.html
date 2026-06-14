@@ -27166,7 +27166,7 @@ body.on-login-page{overflow:hidden}
           <div class="d-board-head">
             <div class="d-board-head-text">
               <h2 class="d-board-title">PRコンテンツ（上位15）</h2>
-              <p class="d-board-sub">※利用団体の 記事・動画・SNS投稿 の公開数 上位15団体。サンプルデータ。</p>
+              <p class="d-board-sub">※利用団体のPRコンテンツ上位15。上段＝公開数・投稿数（団体別）、下段＝フォロワー数・閲覧数。サンプルデータ。</p>
             </div>
           </div>
           <div class="dn-filter dn-filter-sec" role="region" aria-label="PRコンテンツの絞り込み">
@@ -27214,6 +27214,7 @@ body.on-login-page{overflow:hidden}
               </button>
             </div>
           </div>
+          <div class="dn-rank-subhead first">公開数・投稿数（団体別 上位15）</div>
           <div class="dn-rank-grid">
             <div class="dn-rank-col dn-rank-card">
               <h3 class="dn-sub-title">記事公開数（団体別 上位15）</h3>
@@ -27226,6 +27227,21 @@ body.on-login-page{overflow:hidden}
             <div class="dn-rank-col dn-rank-card">
               <h3 class="dn-sub-title">SNS投稿数（団体別 上位15）</h3>
               <ol class="dn-rank" id="dn-rank-sns"></ol>
+            </div>
+          </div>
+          <div class="dn-rank-subhead">フォロワー数・閲覧数（反応指標）</div>
+          <div class="dn-rank-grid">
+            <div class="dn-rank-col dn-rank-card">
+              <h3 class="dn-sub-title">フォロワー数（団体別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-followers"></ol>
+            </div>
+            <div class="dn-rank-col dn-rank-card">
+              <h3 class="dn-sub-title">ブログ記事 閲覧数（コンテンツ別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-blog"></ol>
+            </div>
+            <div class="dn-rank-col dn-rank-card">
+              <h3 class="dn-sub-title">動画 閲覧数（コンテンツ別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-video"></ol>
             </div>
           </div>
         </section>
@@ -47151,9 +47167,20 @@ ${style.blogQuote}
     dnRenderRankOrg('dn-rank-videos',   buildOrgCounts('prvid', 12), 'val', '本');
     dnRenderRankOrg('dn-rank-sns',      buildOrgCounts('prsns', 128), 'val', '件');
 
+    // ── 反応指標（元の項目）：フォロワー数（団体別）／ブログ・動画 閲覧数（コンテンツ別）。団体名は匿名。──
+    dnRenderRankOrg('dn-rank-followers', buildOrgCounts('prfol', 4200), 'val', '人');
+    function buildContent(titles, seedKey, base){
+      var rng = dnRng(seedKey + '|' + seed);
+      return titles.map(function(t, idx){
+        return { title: t, org: '自治体' + String.fromCharCode(65 + (idx % 18)), val: Math.max(1, Math.round(base * szScale * yScale * (0.4 + rng()*1.1))) };
+      });
+    }
+    dnRenderRankContent('dn-rank-blog', buildContent(DN_BLOG_TITLES, 'prblog', 6800), '回');
+    dnRenderRankContent('dn-rank-video', buildContent(DN_VIDEO_TITLES, 'prvideo', 3900), '回');
+
     // 検索クリック時：各ランキングの数値を 0→新値へカウントアップ（順序が変わるためindexマッピングはしない）
     if(animate){
-      ['dn-rank-articles','dn-rank-videos','dn-rank-sns'].forEach(function(id){
+      ['dn-rank-articles','dn-rank-videos','dn-rank-sns','dn-rank-followers','dn-rank-blog','dn-rank-video'].forEach(function(id){
         var el = document.getElementById(id);
         if(!el) return;
         el.querySelectorAll('[data-dn-to]').forEach(function(sp){ sp.setAttribute('data-dn-from', '0'); });
@@ -49750,6 +49777,8 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-sp-seg-title{ font-size:13px; font-weight:700; color:#1A1A1A; margin:0 0 10px; }
 #page-analytics .dn-sp-seg .dn-mini-lbl{ flex:0 0 40px; }
 #page-analytics .dn-mini-fill.dn-mini-fast{ background:#9BD4B5; }
+#page-analytics .dn-rank-subhead{ font-size:13px; font-weight:700; color:#767676; margin:24px 0 12px; padding-top:18px; border-top:1px solid #E6E6E6; }
+#page-analytics .dn-rank-subhead.first{ margin-top:0; padding-top:0; border-top:none; }
 </style>
 
 <script>
