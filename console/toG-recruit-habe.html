@@ -46975,13 +46975,21 @@ ${style.blogQuote}
   }
   window.dnRenderJobAnalysis = dnRenderJobAnalysis;
 
-  // ── 選考プロセス分析（選考スピード）：自団体 / 比較対象平均 / 最も選考が早い自治体 ──
-  // 応募締切→内定 の区間平均日数（規模・エリア・職種・年度で決定的に変動）。Math.random不使用。
-  var DN_SP_SEG_BASE  = [10, 18, 26, 12, 12];                 // 締切→1次 / 1次→2次 / 2次→3次 / 3次→4次 / 4次→内定（計78日）
-  var DN_SP_SEG_LABEL = ['締切→1次', '1次→2次', '2次→3次', '3次→4次', '4次→内定'];
-  var DN_SP_JOB_F  = { all:1, admin:0.95, tech:1.15, pro:1.05, nursery:0.9 };       // 職種で選考長が変動
-  var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 }; // 規模が大きいほど僅かに長い
-  var DN_SP_SELF_PROFILE = [0.80, 0.96, 1.30, 0.92, 0.86]; // 自団体の区間特性（2次→3次が相対的に長い＝ボトルネック）
+  // ── 選考プロセス分析（選考スピード）──
+  // 選考プロセスは自治体ごとに段階数が異なる（2〜5段階）。総選考日数と選考ステップ数で比較する。Math.random不使用。
+  // 自団体の選考プロセス（例：4ステップ＝書類・1次・2次・最終）。日数は職種・年度で変動。
+  var DN_SELF_SEGMENTS = [
+    { label: '応募締切→書類選考', days: 11 },
+    { label: '書類選考→1次面接', days: 15 },
+    { label: '1次→2次面接',     days: 14 },
+    { label: '2次→最終面接',     days: 24 },
+    { label: '最終面接→内定',    days: 13 }
+  ];
+  var DN_SELF_STEPS  = 4; // 自団体の選考ステップ数（書類・1次・2次・最終）
+  var DN_STEP_BUCKETS = [2, 3, 4, 5];          // 比較対象の選考段階数
+  var DN_STEP_W       = [0.16, 0.43, 0.30, 0.11]; // その構成比（合計1）
+  var DN_SP_JOB_F  = { all:1, admin:0.95, tech:1.15, pro:1.05, nursery:0.9 };
+  var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 };
   function dnRenderSpeed(animate){
     var host = document.getElementById('dn-speed-body');
     if(!host) return;
@@ -46996,114 +47004,122 @@ ${style.blogQuote}
     var year = (yrSel && yrSel.value) || 'r8';
     var jobF  = DN_SP_JOB_F[job] || 1;
     var sizeF = DN_SP_SIZE_F[size] || 1;
-    var yearF = DN_JA_YEAR_SCALE[year] || 1; // 新年度ほど活発（区間が僅かに短い方向に作用）
+    var yearF = DN_JA_YEAR_SCALE[year] || 1;
     var yAdj  = (1.04 - yearF * 0.04);
-
-    // 自団体：職種・年度で変動（既定78日。規模・エリアは比較対象側の条件）
-    var selfSeg = DN_SP_SEG_BASE.map(function(d, k){ return Math.max(1, Math.round(d * jobF * yAdj * DN_SP_SELF_PROFILE[k])); });
-    var selfTotal = selfSeg.reduce(function(a, b){ return a + b; }, 0);
+    var r0 = function(v){ return Math.round(v); };
     var selfName = (document.querySelector('.dn-self-attr-value') || {}).textContent || '自団体';
 
-    // 比較対象：エリア母数ぶんの団体を決定的に生成（規模・職種・年度を反映）
+    // 自団体：実際の選考フロー（段階ごとの日数）。総選考日数＝合計。
+    var selfSegDays = DN_SELF_SEGMENTS.map(function(s){ return Math.max(1, Math.round(s.days * jobF * yAdj)); });
+    var selfTotal = selfSegDays.reduce(function(a, b){ return a + b; }, 0);
+    var selfSteps = DN_SELF_STEPS;
+
+    // 比較対象：選考ステップ数が異なる団体群を決定的に生成（固定分＋ステップ×日数）
     var n = DN_AREA_N[area] || 24;
     var rng = dnRng('speed|' + size + '|' + area + '|' + job + '|' + year);
+    function drawSteps(r){ var acc = 0; for(var b = 0; b < DN_STEP_BUCKETS.length; b++){ acc += DN_STEP_W[b]; if(r <= acc) return DN_STEP_BUCKETS[b]; } return 3; }
     var peers = [];
     for(var i = 0; i < n; i++){
-      var seg = DN_SP_SEG_BASE.map(function(d){
-        return Math.max(1, Math.round(d * jobF * sizeF * yAdj * (0.78 + rng() * 0.5)));
-      });
-      var tot = seg.reduce(function(a, b){ return a + b; }, 0);
-      peers.push({ name: DN_ORG_NAMES[i % DN_ORG_NAMES.length], seg: seg, total: tot });
+      var steps = drawSteps(rng());
+      var total = Math.max(20, Math.round((24 + steps * 15) * jobF * sizeF * yAdj * (0.82 + rng() * 0.42)));
+      peers.push({ steps: steps, total: total });
     }
-    var avgTotal = dnMean(peers.map(function(p){ return p.total; }));
-    var segAvg = DN_SP_SEG_BASE.map(function(_, k){ return dnMean(peers.map(function(p){ return p.seg[k]; })); });
-    var fastest = peers.slice().sort(function(a, b){ return a.total - b.total; })[0];
+    var totals = peers.map(function(p){ return p.total; });
+    var avgTotal = dnMean(totals);
+    var minTotal = Math.min.apply(null, totals);
+    var maxTotal = Math.max.apply(null, totals);
+    var avgSteps = dnMean(peers.map(function(p){ return p.steps; }));
+    var stepCount = { 2:0, 3:0, 4:0, 5:0 };
+    peers.forEach(function(p){ stepCount[p.steps]++; });
 
-    // 自団体 vs 比較対象平均（日数は少ないほど良い）
+    // 自団体 vs 平均（総選考日数）。プロセスが異なるため「長い/短い」を中立表現。
     var diff = selfTotal - avgTotal;
-    var isFlat = Math.abs(diff) < 0.5;
-    var good = diff < 0;
-    var diffCls = isFlat ? 'neu' : (good ? 'good' : 'bad');
-    var absDiff = Math.abs(Math.round(diff));
-    var diffText = isFlat ? '比較対象平均と同程度'
-                 : (good ? ('比較対象平均より ' + absDiff + '日 速い') : ('比較対象平均より ' + absDiff + '日 遅い'));
-    var fastGap = selfTotal - fastest.total;
-    var fastText = fastGap > 0 ? ('自団体より ' + fastGap + '日 速い')
-                 : (fastGap < 0 ? ('自団体が ' + Math.abs(fastGap) + '日 速い') : '自団体と同水準');
-    var r0 = function(v){ return Math.round(v); };
+    var diffText = Math.abs(diff) < 0.5 ? '比較対象平均と同程度'
+                 : (diff < 0 ? ('比較対象平均より ' + Math.abs(r0(diff)) + '日 短い') : ('比較対象平均より ' + r0(diff) + '日 長い'));
 
+    // ── サマリカード（総選考日数＋選考ステップ数）──
     var html = '<div class="dn-sp-cards">' +
       '<div class="dn-sp-card is-self">' +
         '<div class="dn-sp-card-label">自団体<span class="dn-sp-card-badge">あなた</span></div>' +
         '<div class="dn-sp-card-num"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
-        '<div class="dn-sp-card-name">' + selfName + '</div>' +
-        '<div class="dn-sp-card-diff ' + diffCls + '">' + diffText + '</div>' +
+        '<div class="dn-sp-card-name">' + selfName + '（' + selfSteps + 'ステップ）</div>' +
+        '<div class="dn-sp-card-diff neu">' + diffText + '</div>' +
       '</div>' +
       '<div class="dn-sp-card">' +
         '<div class="dn-sp-card-label">比較対象 平均</div>' +
         '<div class="dn-sp-card-num"><span data-dn-to="' + avgTotal + '" data-dn-fmt="int">' + r0(avgTotal) + '</span><span class="dn-sp-card-unit">日</span></div>' +
         '<div class="dn-sp-card-name">' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '（n=' + n + '）</div>' +
-        '<div class="dn-sp-card-diff neu">区間平均日数の合計</div>' +
+        '<div class="dn-sp-card-diff neu">平均 ' + avgSteps.toFixed(1) + ' ステップ</div>' +
       '</div>' +
       '<div class="dn-sp-card is-fast">' +
         '<div class="dn-sp-card-label">最も選考が早い自治体<span class="dn-sp-card-badge">最速</span></div>' +
-        '<div class="dn-sp-card-num"><span data-dn-to="' + fastest.total + '" data-dn-fmt="int">' + fastest.total + '</span><span class="dn-sp-card-unit">日</span></div>' +
+        '<div class="dn-sp-card-num"><span data-dn-to="' + minTotal + '" data-dn-fmt="int">' + minTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
         '<div class="dn-sp-card-name">比較対象団体のうち最短水準</div>' +
-        '<div class="dn-sp-card-diff neu">' + fastText + '</div>' +
+        '<div class="dn-sp-card-diff neu">自団体との差 ' + (selfTotal - minTotal >= 0 ? '−' : '＋') + Math.abs(selfTotal - minTotal) + '日</div>' +
       '</div>' +
     '</div>';
 
-    // 段1：自団体の選考フロー帯（区間幅＝日数。最長区間＝ボトルネックを濃色強調）
+    html += '<div class="dn-sp-note">※選考プロセスは自治体ごとに段階数が異なります（2次で内定する団体も、4次まで行う団体もあります）。段階構成に依存しない「総選考日数（応募締切→内定）」と「選考ステップ数」で比較しています。</div>';
+
+    // ── 段1：自団体の選考フロー帯（段階＝自団体の実プロセス。最長区間＝ボトルネック）──
     var flowMaxIdx = 0;
-    selfSeg.forEach(function(d, k){ if(d > selfSeg[flowMaxIdx]) flowMaxIdx = k; });
-    var flowSegs = DN_SP_SEG_LABEL.map(function(lbl, k){
+    selfSegDays.forEach(function(d, k){ if(d > selfSegDays[flowMaxIdx]) flowMaxIdx = k; });
+    var flowSegs = DN_SELF_SEGMENTS.map(function(s, k){
       var isMax = (k === flowMaxIdx);
-      return '<div class="dn-flow-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + selfSeg[k] + ' 1 0">' +
+      return '<div class="dn-flow-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + selfSegDays[k] + ' 1 0">' +
         '<span class="dn-flow-bar"></span>' +
-        '<span class="dn-flow-cap"><span class="dn-flow-stage">' + lbl + (isMax ? '・最長' : '') + '</span>' +
-          '<span class="dn-flow-days"><span data-dn-to="' + selfSeg[k] + '" data-dn-fmt="int">' + selfSeg[k] + '</span>日</span></span>' +
+        '<span class="dn-flow-cap"><span class="dn-flow-stage">' + s.label + (isMax ? '・最長' : '') + '</span>' +
+          '<span class="dn-flow-days"><span data-dn-to="' + selfSegDays[k] + '" data-dn-fmt="int">' + selfSegDays[k] + '</span>日</span></span>' +
       '</div>';
     }).join('');
 
-    // 段2：区間別「対 比較対象平均」差分（中央=平均、左=速い／右=遅い。差分は全区間 共通スケール）
-    var gapMax = 1;
-    DN_SP_SEG_LABEL.forEach(function(_, k){ gapMax = Math.max(gapMax, Math.abs(selfSeg[k] - segAvg[k])); });
-    var gapRows = DN_SP_SEG_LABEL.map(function(lbl, k){
-      var d = selfSeg[k] - segAvg[k];
-      var slower = d > 0.5, faster = d < -0.5;
-      var w = Math.round(Math.abs(d) / gapMax * 50);
-      var fillCls = slower ? 'slow' : (faster ? 'fast' : 'flat');
-      var valCls = slower ? 'bad' : (faster ? 'good' : 'neu');
-      var valTxt = slower ? ('＋' + Math.round(Math.abs(d)) + '日 遅い')
-                 : (faster ? ('−' + Math.round(Math.abs(d)) + '日 速い') : '±0日');
-      var side = faster ? 'right:50%' : 'left:50%';
-      return '<div class="dn-gap-row">' +
-        '<span class="dn-gap-lbl">' + lbl + '</span>' +
-        '<span class="dn-gap-track"><span class="dn-gap-zero"></span>' +
-          '<span class="dn-gap-fill ' + fillCls + '" data-dn-w="' + w + '" style="' + side + ';width:0%"></span></span>' +
-        '<span class="dn-gap-val ' + valCls + '">' + valTxt + '</span>' +
+    // ── 段2a：総選考日数レンジ（最速〜最遅）。平均と自団体をマーク ──
+    var span = Math.max(1, maxTotal - minTotal);
+    var avgPos = Math.round((avgTotal - minTotal) / span * 100);
+    var selfPos = Math.round((Math.min(Math.max(selfTotal, minTotal), maxTotal) - minTotal) / span * 100);
+    var rangeHtml = '<div class="dn-range">' +
+        '<div class="dn-range-track">' +
+          '<span class="dn-range-marker avg" style="left:' + avgPos + '%"><span class="dn-range-dot"></span><span class="dn-range-tag">平均 ' + r0(avgTotal) + '日</span></span>' +
+          '<span class="dn-range-marker self" style="left:' + selfPos + '%"><span class="dn-range-dot"></span><span class="dn-range-tag">あなた ' + selfTotal + '日</span></span>' +
+        '</div>' +
+        '<div class="dn-range-ends"><span>最速 ' + minTotal + '日</span><span>最遅 ' + maxTotal + '日</span></div>' +
       '</div>';
+
+    // ── 段2b：選考ステップ数の分布（2〜5段階）。自団体のバケットを強調 ──
+    var maxBucket = Math.max(stepCount[2], stepCount[3], stepCount[4], stepCount[5], 1);
+    var stepRows = DN_STEP_BUCKETS.map(function(st){
+      var c = stepCount[st];
+      var pct = Math.round(c / n * 100);
+      var w = Math.round(c / maxBucket * 100);
+      var isSelf = (st === selfSteps);
+      return '<div class="dn-step-row' + (isSelf ? ' is-self' : '') + '">' +
+        '<span class="dn-step-lbl">' + st + '段階' + (isSelf ? '<span class="dn-step-youtag">あなた</span>' : '') + '</span>' +
+        '<span class="dn-step-track"><span class="dn-step-fill' + (isSelf ? ' is-self' : '') + '" data-dn-w="' + w + '" style="width:0%"></span></span>' +
+        '<span class="dn-step-val">' + pct + '%</span></div>';
     }).join('');
 
     html += '<div class="dn-sp-flowwrap">' +
-        '<div class="dn-sp-block-head">あなたの選考フロー（応募締切→内定／帯の幅＝各区間の日数）</div>' +
+        '<div class="dn-sp-block-head">あなたの選考フロー（応募締切→内定／帯の幅＝各段階の日数）</div>' +
         '<div class="dn-flow">' + flowSegs + '</div>' +
       '</div>' +
       '<div class="dn-sp-gapwrap">' +
-        '<div class="dn-sp-block-head">区間別 ― 比較対象平均との差（左＝速い／右＝遅い）</div>' +
-        '<div class="dn-gap-legend"><span class="dn-gap-key fast">速い（平均より短い）</span><span class="dn-gap-key slow">遅い（平均より長い）</span></div>' +
-        '<div class="dn-gap">' + gapRows + '</div>' +
+        '<div class="dn-sp-block-head">総選考日数の位置（比較対象の最速〜最遅の中で）</div>' +
+        rangeHtml +
+      '</div>' +
+      '<div class="dn-sp-gapwrap">' +
+        '<div class="dn-sp-block-head">比較対象の選考ステップ数の分布</div>' +
+        '<div class="dn-step">' + stepRows + '</div>' +
       '</div>';
 
     host.innerHTML = html;
     if(animate){ dnApplyNumFrom(host, spSnap.nums); }
     dnTweenNumbers(host);
-    var gapFills = host.querySelectorAll('.dn-gap-fill[data-dn-w]');
+    var spFills = host.querySelectorAll('.dn-step-fill[data-dn-w]');
     if(dnReduceMotion()){
-      gapFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+      spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
     } else {
       requestAnimationFrame(function(){ requestAnimationFrame(function(){
-        gapFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+        spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
       }); });
     }
   }
@@ -47186,13 +47202,28 @@ ${style.blogQuote}
       return arr;
     }
     var selfNm = (document.querySelector('.dn-self-attr-value') || {}).textContent || '自団体';
+    var DN_TOTAL_ORGS = 370; // 利用全団体数（ダミー）
     function selfCount(base){ return Math.max(1, Math.round(base * szScale * yScale * 1.06)); }
-    dnRenderRankOrg('dn-rank-articles', buildOrgCounts('prart', 42), 'val', '本', selfCount(42), selfNm);
-    dnRenderRankOrg('dn-rank-videos',   buildOrgCounts('prvid', 12), 'val', '本', selfCount(12), selfNm);
-    dnRenderRankOrg('dn-rank-sns',      buildOrgCounts('prsns', 128), 'val', '件', selfCount(128), selfNm);
+    // 自団体の順位を「全利用団体（370団体）」の母集団に対して決定的に推定
+    function selfRankOf(seedKey, base, selfVal){
+      var rng = dnRng(seedKey + '|pop|' + seed);
+      var above = 0;
+      for(var i = 0; i < DN_TOTAL_ORGS; i++){
+        var v = Math.max(1, Math.round(base * szScale * yScale * (0.5 + rng() * 1.0)));
+        if(v > selfVal) above++;
+      }
+      return Math.min(DN_TOTAL_ORGS, above + 1);
+    }
+    function rankOrg(elId, seedKey, base, unit){
+      var sv = selfCount(base);
+      dnRenderRankOrg(elId, buildOrgCounts(seedKey, base), 'val', unit, sv, selfNm, selfRankOf(seedKey, base, sv), DN_TOTAL_ORGS);
+    }
+    rankOrg('dn-rank-articles', 'prart', 42, '本');
+    rankOrg('dn-rank-videos',   'prvid', 12, '本');
+    rankOrg('dn-rank-sns',      'prsns', 128, '件');
 
     // ── 反応指標（元の項目）：フォロワー数（団体別）／ブログ・動画 閲覧数（コンテンツ別）。団体名は匿名。──
-    dnRenderRankOrg('dn-rank-followers', buildOrgCounts('prfol', 4200), 'val', '人', selfCount(4200), selfNm);
+    rankOrg('dn-rank-followers', 'prfol', 4200, '人');
     function buildContent(titles, seedKey, base){
       var rng = dnRng(seedKey + '|' + seed);
       return titles.map(function(t, idx){
@@ -47232,7 +47263,7 @@ ${style.blogQuote}
   }
 
   // 団体別ランキング：比率バー＋自団体ピン行＋上位5件（残りはトグル）。固有名詞なし・開くボタンなし。
-  function dnRenderRankOrg(elId, arr, key, unit, selfVal, selfName){
+  function dnRenderRankOrg(elId, arr, key, unit, selfVal, selfName, selfRank, totalOrgs){
     var el = document.getElementById(elId);
     if(!el) return;
     var sortedAll = arr.slice().sort(function(a,b){ return b[key] - a[key]; });
@@ -47240,14 +47271,13 @@ ${style.blogQuote}
     var maxVal = sorted.length ? sorted[0][key] : 1;
     var html = '';
     if(typeof selfVal === 'number'){
-      var selfRank = sortedAll.filter(function(p){ return p[key] > selfVal; }).length + 1;
       var sw = maxVal > 0 ? Math.round(Math.min(selfVal, maxVal) / maxVal * 100) : 0;
       html += '<li class="dn-rank-self">' +
         '<span class="dn-rank-self-badge">あなた</span>' +
         '<span class="dn-rank-name">' + (selfName || '自団体') + '</span>' +
         '<span class="dn-rank-bar"><span class="dn-rank-bar-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span>' +
         '<span class="dn-rank-val"><span data-dn-to="' + selfVal + '" data-dn-fmt="int">' + dnFmt(selfVal) + '</span>' + unit + '</span>' +
-        '<span class="dn-rank-self-rank">' + (selfRank <= 15 ? '上位15中 ' + selfRank + '位相当' : '15位圏外') + '</span></li>';
+        '<span class="dn-rank-self-rank">全' + (totalOrgs || 370) + '団体中 ' + selfRank + '位</span></li>';
     }
     sorted.forEach(function(p, i){
       var rankNo = i + 1;
@@ -49833,7 +49863,8 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-sp-card-diff.good{ color:#115A36; }
 #page-analytics .dn-sp-card-diff.bad{ color:#CE0000; }
 #page-analytics .dn-sp-card-diff.neu{ color:#767676; }
-/* 選考スピード：自団体フロー帯＋対平均 差分 */
+/* 選考スピード：自団体フロー帯／総日数レンジ／ステップ数分布 */
+#page-analytics .dn-sp-note{ font-size:12px; color:#767676; margin:14px 0 0; line-height:1.6; }
 #page-analytics .dn-sp-flowwrap, #page-analytics .dn-sp-gapwrap{ background:#fff; border:1px solid #E6E6E6; border-radius:12px; padding:16px 18px; margin-top:14px; }
 #page-analytics .dn-sp-block-head{ font-size:13px; font-weight:700; color:#1A1A1A; margin:0 0 12px; }
 #page-analytics .dn-flow{ display:flex; align-items:stretch; gap:3px; }
@@ -49844,26 +49875,28 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-flow-stage{ font-size:11.5px; color:#767676; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 #page-analytics .dn-flow-seg.is-max .dn-flow-stage{ color:#115A36; font-weight:700; }
 #page-analytics .dn-flow-days{ font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; }
-#page-analytics .dn-gap-legend{ display:flex; gap:18px; margin:0 0 12px; font-size:12px; color:#767676; }
-#page-analytics .dn-gap-key{ display:inline-flex; align-items:center; gap:6px; }
-#page-analytics .dn-gap-key::before{ content:''; width:14px; height:8px; border-radius:2px; display:inline-block; }
-#page-analytics .dn-gap-key.fast::before{ background:#259D63; }
-#page-analytics .dn-gap-key.slow::before{ background:#CE0000; }
-#page-analytics .dn-gap-row{ display:flex; align-items:center; gap:12px; padding:7px 0; }
-#page-analytics .dn-gap-lbl{ flex:0 0 96px; font-size:13px; color:#1A1A1A; }
-#page-analytics .dn-gap-track{ position:relative; flex:1; height:14px; background:#F2F2F2; border-radius:7px; }
-#page-analytics .dn-gap-zero{ position:absolute; left:50%; top:-3px; bottom:-3px; width:1px; background:#B3B3B3; }
-#page-analytics .dn-gap-fill{ position:absolute; top:0; height:100%; border-radius:7px; transition:width .7s cubic-bezier(.22,.61,.36,1); }
-#page-analytics .dn-gap-fill.fast{ background:#259D63; }
-#page-analytics .dn-gap-fill.slow{ background:#CE0000; }
-#page-analytics .dn-gap-fill.flat{ background:transparent; }
-#page-analytics .dn-gap-val{ flex:0 0 100px; text-align:right; font-size:12.5px; font-weight:700; font-variant-numeric:tabular-nums; }
-#page-analytics .dn-gap-val.good{ color:#115A36; }
-#page-analytics .dn-gap-val.bad{ color:#CE0000; }
-#page-analytics .dn-gap-val.neu{ color:#767676; }
-@media (prefers-reduced-motion: reduce){ #page-analytics .dn-gap-fill{ transition:none; } }
-@media (max-width:720px){ #page-analytics .dn-gap-lbl{ flex:0 0 76px; } #page-analytics .dn-gap-val{ flex:0 0 82px; } #page-analytics .dn-flow-stage{ font-size:10.5px; } }
-/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
+/* 総選考日数レンジ */
+#page-analytics .dn-range{ padding:28px 8px 4px; }
+#page-analytics .dn-range-track{ position:relative; height:8px; background:#E6E6E6; border-radius:4px; }
+#page-analytics .dn-range-marker{ position:absolute; top:50%; transform:translate(-50%,-50%); }
+#page-analytics .dn-range-dot{ display:block; width:14px; height:14px; border-radius:50%; border:2px solid #fff; box-shadow:0 0 0 1px #E6E6E6; }
+#page-analytics .dn-range-marker.avg .dn-range-dot{ background:#B3B3B3; }
+#page-analytics .dn-range-marker.self .dn-range-dot{ background:#115A36; }
+#page-analytics .dn-range-tag{ position:absolute; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:11.5px; font-weight:700; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-range-marker.avg .dn-range-tag{ top:15px; color:#767676; }
+#page-analytics .dn-range-marker.self .dn-range-tag{ bottom:15px; color:#115A36; }
+#page-analytics .dn-range-ends{ display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:#767676; font-variant-numeric:tabular-nums; }
+/* 選考ステップ数の分布 */
+#page-analytics .dn-step-row{ display:flex; align-items:center; gap:12px; padding:6px 0; }
+#page-analytics .dn-step-lbl{ flex:0 0 116px; font-size:13px; color:#1A1A1A; display:flex; align-items:center; gap:8px; }
+#page-analytics .dn-step-row.is-self .dn-step-lbl{ font-weight:700; color:#115A36; }
+#page-analytics .dn-step-youtag{ display:inline-flex; align-items:center; height:18px; padding:0 7px; border-radius:9px; background:#115A36; color:#fff; font-size:10.5px; font-weight:700; }
+#page-analytics .dn-step-track{ flex:1; height:14px; background:#F2F2F2; border-radius:7px; overflow:hidden; }
+#page-analytics .dn-step-fill{ display:block; height:100%; background:#B3B3B3; border-radius:7px; transition:width .7s cubic-bezier(.22,.61,.36,1); }
+#page-analytics .dn-step-fill.is-self{ background:#259D63; }
+#page-analytics .dn-step-val{ flex:0 0 48px; text-align:right; font-size:12.5px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; }
+@media (prefers-reduced-motion: reduce){ #page-analytics .dn-step-fill{ transition:none; } }
+@media (max-width:720px){ #page-analytics .dn-flow-stage{ font-size:10.5px; } #page-analytics .dn-step-lbl{ flex:0 0 96px; } }/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
 #page-analytics .dn-rank-bar-fill{ transition:width .7s cubic-bezier(.22,.61,.36,1); }
 @media (prefers-reduced-motion: reduce){ #page-analytics .dn-rank-bar-fill{ transition:none; } }
 #page-analytics .dn-rank-no.dn-rank-no-1{ background:#115A36; color:#fff; border:none; }
