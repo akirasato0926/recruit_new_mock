@@ -47039,7 +47039,7 @@ ${style.blogQuote}
 
     // ── サマリカード（総選考日数＋選考ステップ数）──
     var html = '<div class="dn-sp-cards">' +
-      '<div class="dn-sp-card is-self">' +
+      '<div class="dn-sp-card is-self dn-emph">' +
         '<div class="dn-sp-card-label">自団体<span class="dn-sp-card-badge">あなた</span></div>' +
         '<div class="dn-sp-card-num"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
         '<div class="dn-sp-card-name">' + selfName + '（' + selfSteps + 'ステップ）</div>' +
@@ -47067,7 +47067,7 @@ ${style.blogQuote}
     var flowSegs = DN_SELF_SEGMENTS.map(function(s, k){
       var isMax = (k === flowMaxIdx);
       return '<div class="dn-flow-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + selfSegDays[k] + ' 1 0">' +
-        '<span class="dn-flow-bar"></span>' +
+        '<span class="dn-flow-bar' + (isMax ? ' dn-emph' : '') + '"></span>' +
         '<span class="dn-flow-cap"><span class="dn-flow-stage">' + s.label + (isMax ? '・最長' : '') + '</span>' +
           '<span class="dn-flow-days"><span data-dn-to="' + selfSegDays[k] + '" data-dn-fmt="int">' + selfSegDays[k] + '</span>日</span></span>' +
       '</div>';
@@ -47272,7 +47272,7 @@ ${style.blogQuote}
     var html = '';
     if(typeof selfVal === 'number'){
       var sw = maxVal > 0 ? Math.round(Math.min(selfVal, maxVal) / maxVal * 100) : 0;
-      html += '<li class="dn-rank-self">' +
+      html += '<li class="dn-rank-self dn-emph">' +
         '<span class="dn-rank-self-badge">あなた</span>' +
         '<span class="dn-rank-name">' + (selfName || '自団体') + '</span>' +
         '<span class="dn-rank-bar"><span class="dn-rank-bar-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span>' +
@@ -49896,7 +49896,12 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-step-fill.is-self{ background:#259D63; }
 #page-analytics .dn-step-val{ flex:0 0 48px; text-align:right; font-size:12.5px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; }
 @media (prefers-reduced-motion: reduce){ #page-analytics .dn-step-fill{ transition:none; } }
-@media (max-width:720px){ #page-analytics .dn-flow-stage{ font-size:10.5px; } #page-analytics .dn-step-lbl{ flex:0 0 96px; } }/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
+@media (max-width:720px){ #page-analytics .dn-flow-stage{ font-size:10.5px; } #page-analytics .dn-step-lbl{ flex:0 0 96px; } }
+/* 強調（ソフトパルス）：単色グリーンのリングがゆっくり明滅＝呼吸。点滅ではない。prefers-reduced-motionで停止し静的リングに。 */
+#page-analytics .dn-emph{ position:relative; }
+#page-analytics .dn-emph::after{ content:''; position:absolute; inset:-2px; border-radius:inherit; pointer-events:none; border:2px solid #259D63; opacity:0; animation:dnEmphPulse 1.8s ease-in-out infinite; }
+@keyframes dnEmphPulse{ 0%,100%{ opacity:0; } 50%{ opacity:.85; } }
+@media (prefers-reduced-motion: reduce){ #page-analytics .dn-emph::after{ animation:none; opacity:.6; } }/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
 #page-analytics .dn-rank-bar-fill{ transition:width .7s cubic-bezier(.22,.61,.36,1); }
 @media (prefers-reduced-motion: reduce){ #page-analytics .dn-rank-bar-fill{ transition:none; } }
 #page-analytics .dn-rank-no.dn-rank-no-1{ background:#115A36; color:#fff; border:none; }
