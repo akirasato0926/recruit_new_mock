@@ -27095,12 +27095,78 @@ body.on-login-page{overflow:hidden}
           <div id="dn-ja-cards" class="dn-kpi-grid"></div>
         </section>
 
+        <!-- (2c) 選考プロセス分析（選考スピード） -->
+        <section class="d-board dn-board">
+          <div class="d-board-head">
+            <div class="d-board-head-text">
+              <h2 class="d-board-title">選考プロセス分析（選考スピード）</h2>
+              <p class="d-board-sub">※応募締切から内定までの平均選考日数。自団体・比較対象平均・最も選考が早い自治体を比較。人口規模／職種で絞り込み可。サンプルデータ。</p>
+            </div>
+          </div>
+          <div class="dn-filter dn-filter-sec" role="region" aria-label="選考スピードの絞り込み">
+            <div class="dn-filter-row">
+              <div class="dn-fg">
+                <label class="dn-flabel" for="dn-sp-size">人口規模</label>
+                <select class="d-select" id="dn-sp-size">
+                  <option value="all" selected>すべて</option>
+                  <option value="s1">5万人以下</option>
+                  <option value="s2">5〜10万人</option>
+                  <option value="s3">10〜20万人</option>
+                  <option value="s4">20〜30万人</option>
+                  <option value="s5">30〜50万人</option>
+                  <option value="s6">50万人以上</option>
+                </select>
+              </div>
+              <div class="dn-fg">
+                <label class="dn-flabel" for="dn-sp-area">エリア</label>
+                <select class="d-select" id="dn-sp-area">
+                  <option value="all" selected>すべて</option>
+                  <option value="a1">北海道・東北</option>
+                  <option value="a2">関東</option>
+                  <option value="a3">中部</option>
+                  <option value="a4">近畿</option>
+                  <option value="a5">中国</option>
+                  <option value="a6">四国</option>
+                  <option value="a7">九州・沖縄</option>
+                </select>
+              </div>
+              <div class="dn-fg">
+                <label class="dn-flabel" for="dn-sp-job">職種</label>
+                <select class="d-select" id="dn-sp-job">
+                  <option value="all" selected>すべて</option>
+                  <option value="admin">事務職</option>
+                  <option value="tech">技術職</option>
+                  <option value="pro">専門職</option>
+                  <option value="nursery">保育士</option>
+                </select>
+              </div>
+              <div class="dn-fg">
+                <label class="dn-flabel" for="dn-sp-year">年度</label>
+                <select class="d-select" id="dn-sp-year">
+                  <option value="r8" selected>令和8年度</option>
+                  <option value="r7">令和7年度</option>
+                  <option value="r6">令和6年度</option>
+                </select>
+              </div>
+              <button type="button" class="dn-search-btn" onclick="dnRenderSpeed(true)" aria-label="選考スピードを検索して更新">
+                <svg class="dn-search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+                <span>検索</span>
+              </button>
+              <button type="button" class="dn-reset-btn" onclick="dnResetFilters('dn-sp', dnRenderSpeed)" aria-label="選考スピードのフィルタをリセット">
+                <svg class="dn-reset-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+                <span>リセット</span>
+              </button>
+            </div>
+          </div>
+          <div id="dn-speed-body"></div>
+        </section>
+
         <!-- (3) PRコンテンツ（上位15） -->
         <section class="d-board dn-board">
           <div class="d-board-head">
             <div class="d-board-head-text">
               <h2 class="d-board-title">PRコンテンツ（上位15）</h2>
-              <p class="d-board-sub">※利用団体のPRコンテンツ上位。サンプルデータ。</p>
+              <p class="d-board-sub">※利用団体の 記事・動画・SNS投稿 の公開数 上位15団体。サンプルデータ。</p>
             </div>
           </div>
           <div class="dn-filter dn-filter-sec" role="region" aria-label="PRコンテンツの絞り込み">
@@ -27150,16 +27216,16 @@ body.on-login-page{overflow:hidden}
           </div>
           <div class="dn-rank-grid">
             <div class="dn-rank-col dn-rank-card">
-              <h3 class="dn-sub-title">フォロワー数（団体別 上位15）</h3>
-              <ol class="dn-rank" id="dn-rank-followers"></ol>
+              <h3 class="dn-sub-title">記事公開数（団体別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-articles"></ol>
             </div>
             <div class="dn-rank-col dn-rank-card">
-              <h3 class="dn-sub-title">ブログ記事 閲覧数（コンテンツ別 上位15）</h3>
-              <ol class="dn-rank" id="dn-rank-blog"></ol>
+              <h3 class="dn-sub-title">動画公開数（団体別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-videos"></ol>
             </div>
             <div class="dn-rank-col dn-rank-card">
-              <h3 class="dn-sub-title">動画 閲覧数（コンテンツ別 上位15）</h3>
-              <ol class="dn-rank" id="dn-rank-video"></ol>
+              <h3 class="dn-sub-title">SNS投稿数（団体別 上位15）</h3>
+              <ol class="dn-rank" id="dn-rank-sns"></ol>
             </div>
           </div>
         </section>
@@ -46778,6 +46844,9 @@ ${style.blogQuote}
     // ── (2b) 職種別分析 ── 当セクション専用の職種・年度フィルタで描画（連動再描画はアニメ無し）
     dnRenderJobAnalysis();
 
+    // ── (2c) 選考プロセス分析（選考スピード）── 当セクション専用の規模/職種フィルタで描画
+    dnRenderSpeed();
+
     // ── (3) PRコンテンツ（上位15）── 当セクション専用の期間フィルタで描画（連動再描画はアニメ無し）
     dnRenderPr();
   }
@@ -46890,6 +46959,108 @@ ${style.blogQuote}
   }
   window.dnRenderJobAnalysis = dnRenderJobAnalysis;
 
+  // ── 選考プロセス分析（選考スピード）：自団体 / 比較対象平均 / 最も選考が早い自治体 ──
+  // 応募締切→内定 の区間平均日数（規模・エリア・職種・年度で決定的に変動）。Math.random不使用。
+  var DN_SP_SEG_BASE  = [10, 18, 26, 12, 12];                 // 締切→1次 / 1次→2次 / 2次→3次 / 3次→4次 / 4次→内定（計78日）
+  var DN_SP_SEG_LABEL = ['締切→1次', '1次→2次', '2次→3次', '3次→4次', '4次→内定'];
+  var DN_SP_JOB_F  = { all:1, admin:0.95, tech:1.15, pro:1.05, nursery:0.9 };       // 職種で選考長が変動
+  var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 }; // 規模が大きいほど僅かに長い
+  function dnRenderSpeed(animate){
+    var host = document.getElementById('dn-speed-body');
+    if(!host) return;
+    var spSnap = animate ? dnSnapshot(host) : null;
+    var szSel = document.getElementById('dn-sp-size');
+    var arSel = document.getElementById('dn-sp-area');
+    var jbSel = document.getElementById('dn-sp-job');
+    var yrSel = document.getElementById('dn-sp-year');
+    var size = (szSel && szSel.value) || 'all';
+    var area = (arSel && arSel.value) || 'all';
+    var job  = (jbSel && jbSel.value) || 'all';
+    var year = (yrSel && yrSel.value) || 'r8';
+    var jobF  = DN_SP_JOB_F[job] || 1;
+    var sizeF = DN_SP_SIZE_F[size] || 1;
+    var yearF = DN_JA_YEAR_SCALE[year] || 1; // 新年度ほど活発（区間が僅かに短い方向に作用）
+    var yAdj  = (1.04 - yearF * 0.04);
+
+    // 自団体：職種・年度で変動（既定78日。規模・エリアは比較対象側の条件）
+    var selfSeg = DN_SP_SEG_BASE.map(function(d){ return Math.max(1, Math.round(d * jobF * yAdj)); });
+    var selfTotal = selfSeg.reduce(function(a, b){ return a + b; }, 0);
+    var selfName = (document.querySelector('.dn-self-attr-value') || {}).textContent || '自団体';
+
+    // 比較対象：エリア母数ぶんの団体を決定的に生成（規模・職種・年度を反映）
+    var n = DN_AREA_N[area] || 24;
+    var rng = dnRng('speed|' + size + '|' + area + '|' + job + '|' + year);
+    var peers = [];
+    for(var i = 0; i < n; i++){
+      var seg = DN_SP_SEG_BASE.map(function(d){
+        return Math.max(1, Math.round(d * jobF * sizeF * yAdj * (0.78 + rng() * 0.5)));
+      });
+      var tot = seg.reduce(function(a, b){ return a + b; }, 0);
+      peers.push({ name: DN_ORG_NAMES[i % DN_ORG_NAMES.length], seg: seg, total: tot });
+    }
+    var avgTotal = dnMean(peers.map(function(p){ return p.total; }));
+    var segAvg = DN_SP_SEG_BASE.map(function(_, k){ return dnMean(peers.map(function(p){ return p.seg[k]; })); });
+    var fastest = peers.slice().sort(function(a, b){ return a.total - b.total; })[0];
+
+    // 自団体 vs 比較対象平均（日数は少ないほど良い）
+    var diff = selfTotal - avgTotal;
+    var isFlat = Math.abs(diff) < 0.5;
+    var good = diff < 0;
+    var diffCls = isFlat ? 'neu' : (good ? 'good' : 'bad');
+    var absDiff = Math.abs(Math.round(diff));
+    var diffText = isFlat ? '比較対象平均と同程度'
+                 : (good ? ('比較対象平均より ' + absDiff + '日 速い') : ('比較対象平均より ' + absDiff + '日 遅い'));
+    var fastGap = selfTotal - fastest.total;
+    var fastText = fastGap > 0 ? ('自団体より ' + fastGap + '日 速い')
+                 : (fastGap < 0 ? ('自団体が ' + Math.abs(fastGap) + '日 速い') : '自団体と同水準');
+    var r0 = function(v){ return Math.round(v); };
+
+    var html = '<div class="dn-sp-cards">' +
+      '<div class="dn-sp-card is-self">' +
+        '<div class="dn-sp-card-label">自団体<span class="dn-sp-card-badge">あなた</span></div>' +
+        '<div class="dn-sp-card-num"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
+        '<div class="dn-sp-card-name">' + selfName + '</div>' +
+        '<div class="dn-sp-card-diff ' + diffCls + '">' + diffText + '</div>' +
+      '</div>' +
+      '<div class="dn-sp-card">' +
+        '<div class="dn-sp-card-label">比較対象 平均</div>' +
+        '<div class="dn-sp-card-num"><span data-dn-to="' + avgTotal + '" data-dn-fmt="int">' + r0(avgTotal) + '</span><span class="dn-sp-card-unit">日</span></div>' +
+        '<div class="dn-sp-card-name">' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '（n=' + n + '）</div>' +
+        '<div class="dn-sp-card-diff neu">区間平均日数の合計</div>' +
+      '</div>' +
+      '<div class="dn-sp-card is-fast">' +
+        '<div class="dn-sp-card-label">最も選考が早い自治体<span class="dn-sp-card-badge">最速</span></div>' +
+        '<div class="dn-sp-card-num"><span data-dn-to="' + fastest.total + '" data-dn-fmt="int">' + fastest.total + '</span><span class="dn-sp-card-unit">日</span></div>' +
+        '<div class="dn-sp-card-name">' + fastest.name + '</div>' +
+        '<div class="dn-sp-card-diff neu">' + fastText + '</div>' +
+      '</div>' +
+    '</div>';
+
+    var rows = '';
+    DN_SP_SEG_LABEL.forEach(function(lbl, k){
+      rows += '<tr><td>' + lbl + '</td>' +
+        '<td class="dn-sp-col-self"><span data-dn-to="' + selfSeg[k] + '" data-dn-fmt="int">' + selfSeg[k] + '</span> 日</td>' +
+        '<td><span data-dn-to="' + segAvg[k] + '" data-dn-fmt="int">' + r0(segAvg[k]) + '</span> 日</td>' +
+        '<td><span data-dn-to="' + fastest.seg[k] + '" data-dn-fmt="int">' + fastest.seg[k] + '</span> 日</td></tr>';
+    });
+    html += '<div class="dn-sp-table-wrap"><table class="dn-sp-table">' +
+      '<caption>区間別の平均選考日数（規模・職種で変動）</caption>' +
+      '<thead><tr><th>選考区間</th><th>自団体</th><th>比較対象 平均</th><th>最速自治体</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+      '<tfoot><tr><td>合計（締切→内定）</td>' +
+        '<td class="dn-sp-col-self"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span> 日</td>' +
+        '<td><span data-dn-to="' + avgTotal + '" data-dn-fmt="int">' + r0(avgTotal) + '</span> 日</td>' +
+        '<td><span data-dn-to="' + fastest.total + '" data-dn-fmt="int">' + fastest.total + '</span> 日</td></tr></tfoot>' +
+      '</table></div>';
+
+    host.innerHTML = html;
+    if(animate){
+      dnApplyNumFrom(host, spSnap.nums);
+      dnTweenNumbers(host);
+    }
+  }
+  window.dnRenderSpeed = dnRenderSpeed;
+
   // PRコンテンツ：ダミーのブログ記事タイトル（採用広報らしい例）
   var DN_BLOG_TITLES = [
     '先輩職員インタビュー：入庁3年目のリアル',
@@ -46942,48 +47113,37 @@ ${style.blogQuote}
     if(typeof renderFn === 'function'){ renderFn(true); }
   }
 
-  // PRコンテンツ（上位15）を人口規模／エリア／年度フィルタで再描画
+  // PRコンテンツ（上位15）：団体別の 記事公開数／動画公開数／SNS投稿数 を人口規模／エリア／年度で再描画
   function dnRenderPr(animate){
-    if(!document.getElementById('dn-rank-followers')) return;
+    if(!document.getElementById('dn-rank-articles')) return;
     var szSel = document.getElementById('dn-pr-size');
     var arSel = document.getElementById('dn-pr-area');
     var yrSel = document.getElementById('dn-pr-year');
     var size = (szSel && szSel.value) || 'all';
     var area = (arSel && arSel.value) || 'all';
-    var job  = 'all';
     var year = (yrSel && yrSel.value) || 'r8';
     var szScale = DN_SIZE_SCALE[size] || 1;
-    var jScale  = DN_JA_JOB_SCALE[job] || 1;
     var yScale  = DN_JA_YEAR_SCALE[year] || 1;
-    var seed = size + '|' + area + '|' + job + '|' + year;
-    // 団体配列（フォロワー数用）。規模で全体水準、年度で軽く変動。
-    var rngF = dnRng('prfol|' + seed);
-    var orgs = [];
-    for(var i=0;i<18;i++){
-      orgs.push({
-        name: DN_ORG_NAMES[i % DN_ORG_NAMES.length],
-        followers: Math.round(4200 * szScale * yScale * (0.55 + rngF()*0.9))
-      });
-    }
-    dnRenderRankOrg('dn-rank-followers', orgs, 'followers', '人');
-
-    // コンテンツ別ランキング（タイトル＋補足団体名＋閲覧数）。規模・職種・年度を反映。
-    function buildContent(titles, seedKey, base){
+    var seed = size + '|' + area + '|' + year;
+    // 団体別の公開数（規模で全体水準、年度で軽く変動）。決定的擬似乱数。
+    function buildOrgCounts(seedKey, base){
       var rng = dnRng(seedKey + '|' + seed);
-      return titles.map(function(t, idx){
-        return {
-          title: t,
-          org: DN_ORG_NAMES[(idx * 3 + 1) % DN_ORG_NAMES.length],
-          val: Math.round(base * szScale * jScale * yScale * (0.4 + rng()*1.1))
-        };
-      });
+      var arr = [];
+      for(var i=0;i<18;i++){
+        arr.push({
+          name: DN_ORG_NAMES[i % DN_ORG_NAMES.length],
+          val: Math.max(1, Math.round(base * szScale * yScale * (0.5 + rng()*1.0)))
+        });
+      }
+      return arr;
     }
-    dnRenderRankContent('dn-rank-blog', buildContent(DN_BLOG_TITLES, 'prblog', 6800), '回');
-    dnRenderRankContent('dn-rank-video', buildContent(DN_VIDEO_TITLES, 'prvideo', 3900), '回');
+    dnRenderRankOrg('dn-rank-articles', buildOrgCounts('prart', 42), 'val', '本');
+    dnRenderRankOrg('dn-rank-videos',   buildOrgCounts('prvid', 12), 'val', '本');
+    dnRenderRankOrg('dn-rank-sns',      buildOrgCounts('prsns', 128), 'val', '件');
 
     // 検索クリック時：各ランキングの数値を 0→新値へカウントアップ（順序が変わるためindexマッピングはしない）
     if(animate){
-      ['dn-rank-followers','dn-rank-blog','dn-rank-video'].forEach(function(id){
+      ['dn-rank-articles','dn-rank-videos','dn-rank-sns'].forEach(function(id){
         var el = document.getElementById(id);
         if(!el) return;
         el.querySelectorAll('[data-dn-to]').forEach(function(sp){ sp.setAttribute('data-dn-from', '0'); });
@@ -49555,6 +49715,32 @@ window.toggleLoginPassword = function(btn){
 @media (max-width:1080px){
   #page-analytics .dn-kpi-grid{ grid-template-columns:repeat(2,1fr); }
 }
+
+/* ═══ 他団体比較：選考スピード（自団体／比較対象平均／最も選考が早い自治体） ═══ */
+#page-analytics .dn-sp-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:0 0 18px; }
+@media (max-width:880px){ #page-analytics .dn-sp-cards{ grid-template-columns:1fr; } }
+#page-analytics .dn-sp-card{ background:#fff; border:1px solid #E6E6E6; border-radius:12px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:6px; }
+#page-analytics .dn-sp-card.is-self{ border-color:#259D63; box-shadow:inset 0 0 0 1px #259D63; }
+#page-analytics .dn-sp-card.is-fast{ border-color:#949494; }
+#page-analytics .dn-sp-card-label{ font-size:13px; font-weight:700; color:#767676; display:flex; align-items:center; gap:7px; }
+#page-analytics .dn-sp-card-badge{ display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:10px; font-size:11px; font-weight:700; background:#E6F5EC; color:#115A36; }
+#page-analytics .dn-sp-card.is-fast .dn-sp-card-badge{ background:#F2F2F2; color:#4D4D4D; }
+#page-analytics .dn-sp-card-num{ font-size:32px; font-weight:700; color:#1A1A1A; line-height:1.05; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:4px; }
+#page-analytics .dn-sp-card-unit{ font-size:14px; font-weight:400; color:#767676; }
+#page-analytics .dn-sp-card-name{ font-size:13px; color:#1A1A1A; font-weight:500; min-height:19px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#page-analytics .dn-sp-card-diff{ font-size:12.5px; font-weight:700; display:inline-flex; align-items:center; gap:3px; }
+#page-analytics .dn-sp-card-diff.good{ color:#115A36; }
+#page-analytics .dn-sp-card-diff.bad{ color:#CE0000; }
+#page-analytics .dn-sp-card-diff.neu{ color:#767676; }
+#page-analytics .dn-sp-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #E6E6E6; border-radius:12px; }
+#page-analytics .dn-sp-table{ width:100%; border-collapse:collapse; font-size:13px; min-width:520px; }
+#page-analytics .dn-sp-table caption{ text-align:left; font-size:13px; font-weight:700; color:#767676; padding:14px 16px 4px; caption-side:top; }
+#page-analytics .dn-sp-table th, #page-analytics .dn-sp-table td{ padding:10px 14px; text-align:right; border-bottom:1px solid #E6E6E6; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics .dn-sp-table th:first-child, #page-analytics .dn-sp-table td:first-child{ text-align:left; color:#1A1A1A; }
+#page-analytics .dn-sp-table thead th{ font-weight:700; color:#767676; background:#FAFAFA; }
+#page-analytics .dn-sp-table tbody tr:last-child td{ border-bottom:none; }
+#page-analytics .dn-sp-table tfoot td{ font-weight:700; color:#1A1A1A; background:#FAFAFA; border-top:2px solid #E6E6E6; }
+#page-analytics .dn-sp-col-self{ color:#115A36; font-weight:700; }
 </style>
 
 <script>
