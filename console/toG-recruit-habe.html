@@ -46981,6 +46981,7 @@ ${style.blogQuote}
   var DN_SP_SEG_LABEL = ['締切→1次', '1次→2次', '2次→3次', '3次→4次', '4次→内定'];
   var DN_SP_JOB_F  = { all:1, admin:0.95, tech:1.15, pro:1.05, nursery:0.9 };       // 職種で選考長が変動
   var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 }; // 規模が大きいほど僅かに長い
+  var DN_SP_SELF_PROFILE = [0.80, 0.96, 1.30, 0.92, 0.86]; // 自団体の区間特性（2次→3次が相対的に長い＝ボトルネック）
   function dnRenderSpeed(animate){
     var host = document.getElementById('dn-speed-body');
     if(!host) return;
@@ -46999,7 +47000,7 @@ ${style.blogQuote}
     var yAdj  = (1.04 - yearF * 0.04);
 
     // 自団体：職種・年度で変動（既定78日。規模・エリアは比較対象側の条件）
-    var selfSeg = DN_SP_SEG_BASE.map(function(d){ return Math.max(1, Math.round(d * jobF * yAdj)); });
+    var selfSeg = DN_SP_SEG_BASE.map(function(d, k){ return Math.max(1, Math.round(d * jobF * yAdj * DN_SP_SELF_PROFILE[k])); });
     var selfTotal = selfSeg.reduce(function(a, b){ return a + b; }, 0);
     var selfName = (document.querySelector('.dn-self-attr-value') || {}).textContent || '自団体';
 
@@ -47052,37 +47053,58 @@ ${style.blogQuote}
       '</div>' +
     '</div>';
 
-    // 区間別：各区間を「自団体／比較対象平均／最速」の対比バーで表示（全区間 共通スケールで横比較）
-    var segMax = 1;
-    DN_SP_SEG_LABEL.forEach(function(_, k){ segMax = Math.max(segMax, selfSeg[k], segAvg[k], fastest.seg[k]); });
-    var spPct = function(v){ return Math.round(v / segMax * 100); };
-    var segCards = DN_SP_SEG_LABEL.map(function(lbl, k){
-      function bar(cls, lblTxt, val){
-        return '<div class="dn-mini-row"><span class="dn-mini-lbl">' + lblTxt + '</span>' +
-          '<span class="dn-mini-track"><span class="dn-mini-fill ' + cls + '" data-dn-w="' + spPct(val) + '" style="width:0%"></span></span>' +
-          '<span class="dn-mini-val"><span data-dn-to="' + val + '" data-dn-fmt="int">' + r0(val) + '</span>日</span></div>';
-      }
-      return '<div class="dn-sp-seg">' +
-        '<h4 class="dn-sp-seg-title">' + lbl + '</h4>' +
-        '<div class="dn-kpi-bars">' +
-          bar('dn-mini-self', '自団体', selfSeg[k]) +
-          bar('dn-mini-avg', '平均', segAvg[k]) +
-          bar('dn-mini-fast', '最速', fastest.seg[k]) +
-        '</div></div>';
+    // 段1：自団体の選考フロー帯（区間幅＝日数。最長区間＝ボトルネックを濃色強調）
+    var flowMaxIdx = 0;
+    selfSeg.forEach(function(d, k){ if(d > selfSeg[flowMaxIdx]) flowMaxIdx = k; });
+    var flowSegs = DN_SP_SEG_LABEL.map(function(lbl, k){
+      var isMax = (k === flowMaxIdx);
+      return '<div class="dn-flow-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + selfSeg[k] + ' 1 0">' +
+        '<span class="dn-flow-bar"></span>' +
+        '<span class="dn-flow-cap"><span class="dn-flow-stage">' + lbl + (isMax ? '・最長' : '') + '</span>' +
+          '<span class="dn-flow-days"><span data-dn-to="' + selfSeg[k] + '" data-dn-fmt="int">' + selfSeg[k] + '</span>日</span></span>' +
+      '</div>';
     }).join('');
-    html += '<div class="dn-sp-breakdown-head">区間別の平均選考日数（規模・職種で変動／全区間 共通スケール）</div>' +
-      '<div class="dn-sp-breakdown">' + segCards + '</div>';
+
+    // 段2：区間別「対 比較対象平均」差分（中央=平均、左=速い／右=遅い。差分は全区間 共通スケール）
+    var gapMax = 1;
+    DN_SP_SEG_LABEL.forEach(function(_, k){ gapMax = Math.max(gapMax, Math.abs(selfSeg[k] - segAvg[k])); });
+    var gapRows = DN_SP_SEG_LABEL.map(function(lbl, k){
+      var d = selfSeg[k] - segAvg[k];
+      var slower = d > 0.5, faster = d < -0.5;
+      var w = Math.round(Math.abs(d) / gapMax * 50);
+      var fillCls = slower ? 'slow' : (faster ? 'fast' : 'flat');
+      var valCls = slower ? 'bad' : (faster ? 'good' : 'neu');
+      var valTxt = slower ? ('＋' + Math.round(Math.abs(d)) + '日 遅い')
+                 : (faster ? ('−' + Math.round(Math.abs(d)) + '日 速い') : '±0日');
+      var side = faster ? 'right:50%' : 'left:50%';
+      return '<div class="dn-gap-row">' +
+        '<span class="dn-gap-lbl">' + lbl + '</span>' +
+        '<span class="dn-gap-track"><span class="dn-gap-zero"></span>' +
+          '<span class="dn-gap-fill ' + fillCls + '" data-dn-w="' + w + '" style="' + side + ';width:0%"></span></span>' +
+        '<span class="dn-gap-val ' + valCls + '">' + valTxt + '</span>' +
+      '</div>';
+    }).join('');
+
+    html += '<div class="dn-sp-flowwrap">' +
+        '<div class="dn-sp-block-head">あなたの選考フロー（応募締切→内定／帯の幅＝各区間の日数）</div>' +
+        '<div class="dn-flow">' + flowSegs + '</div>' +
+      '</div>' +
+      '<div class="dn-sp-gapwrap">' +
+        '<div class="dn-sp-block-head">区間別 ― 比較対象平均との差（左＝速い／右＝遅い）</div>' +
+        '<div class="dn-gap-legend"><span class="dn-gap-key fast">速い（平均より短い）</span><span class="dn-gap-key slow">遅い（平均より長い）</span></div>' +
+        '<div class="dn-gap">' + gapRows + '</div>' +
+      '</div>';
 
     host.innerHTML = html;
-    var spFills = host.querySelectorAll('.dn-mini-fill[data-dn-w]');
-    var spTargets = [];
-    spFills.forEach(function(f){ spTargets.push(parseFloat(f.getAttribute('data-dn-w'))); });
-    if(animate){
-      dnApplyNumFrom(host, spSnap.nums);
-      dnAnimateBars(spFills, spTargets, spSnap.bars);
-      dnTweenNumbers(host);
+    if(animate){ dnApplyNumFrom(host, spSnap.nums); }
+    dnTweenNumbers(host);
+    var gapFills = host.querySelectorAll('.dn-gap-fill[data-dn-w]');
+    if(dnReduceMotion()){
+      gapFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
     } else {
-      spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        gapFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+      }); });
     }
   }
   window.dnRenderSpeed = dnRenderSpeed;
@@ -47163,12 +47185,14 @@ ${style.blogQuote}
       }
       return arr;
     }
-    dnRenderRankOrg('dn-rank-articles', buildOrgCounts('prart', 42), 'val', '本');
-    dnRenderRankOrg('dn-rank-videos',   buildOrgCounts('prvid', 12), 'val', '本');
-    dnRenderRankOrg('dn-rank-sns',      buildOrgCounts('prsns', 128), 'val', '件');
+    var selfNm = (document.querySelector('.dn-self-attr-value') || {}).textContent || '自団体';
+    function selfCount(base){ return Math.max(1, Math.round(base * szScale * yScale * 1.06)); }
+    dnRenderRankOrg('dn-rank-articles', buildOrgCounts('prart', 42), 'val', '本', selfCount(42), selfNm);
+    dnRenderRankOrg('dn-rank-videos',   buildOrgCounts('prvid', 12), 'val', '本', selfCount(12), selfNm);
+    dnRenderRankOrg('dn-rank-sns',      buildOrgCounts('prsns', 128), 'val', '件', selfCount(128), selfNm);
 
     // ── 反応指標（元の項目）：フォロワー数（団体別）／ブログ・動画 閲覧数（コンテンツ別）。団体名は匿名。──
-    dnRenderRankOrg('dn-rank-followers', buildOrgCounts('prfol', 4200), 'val', '人');
+    dnRenderRankOrg('dn-rank-followers', buildOrgCounts('prfol', 4200), 'val', '人', selfCount(4200), selfNm);
     function buildContent(titles, seedKey, base){
       var rng = dnRng(seedKey + '|' + seed);
       return titles.map(function(t, idx){
@@ -47178,14 +47202,23 @@ ${style.blogQuote}
     dnRenderRankContent('dn-rank-blog', buildContent(DN_BLOG_TITLES, 'prblog', 6800), '回');
     dnRenderRankContent('dn-rank-video', buildContent(DN_VIDEO_TITLES, 'prvideo', 3900), '回');
 
-    // 検索クリック時：各ランキングの数値を 0→新値へカウントアップ（順序が変わるためindexマッピングはしない）
-    if(animate){
-      ['dn-rank-articles','dn-rank-videos','dn-rank-sns','dn-rank-followers','dn-rank-blog','dn-rank-video'].forEach(function(id){
-        var el = document.getElementById(id);
-        if(!el) return;
+    // 数値カウントアップ＋バー幅の伸長（CSS transition）
+    var prFills = [];
+    ['dn-rank-articles','dn-rank-videos','dn-rank-sns','dn-rank-followers','dn-rank-blog','dn-rank-video'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(animate){
         el.querySelectorAll('[data-dn-to]').forEach(function(sp){ sp.setAttribute('data-dn-from', '0'); });
         dnTweenNumbers(el);
-      });
+      }
+      el.querySelectorAll('.dn-rank-bar-fill[data-dn-w]').forEach(function(f){ prFills.push(f); });
+    });
+    if(dnReduceMotion()){
+      prFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+    } else {
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        prFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+      }); });
     }
   }
 
@@ -47198,43 +47231,74 @@ ${style.blogQuote}
       '</svg><span class="dn-rank-link-txt">開く</span></a>';
   }
 
-  // 団体別ランキング（団体名＋数値）。横棒なし
-  function dnRenderRankOrg(elId, arr, key, unit){
+  // 団体別ランキング：比率バー＋自団体ピン行＋上位5件（残りはトグル）。固有名詞なし・開くボタンなし。
+  function dnRenderRankOrg(elId, arr, key, unit, selfVal, selfName){
     var el = document.getElementById(elId);
     if(!el) return;
-    var sorted = arr.slice().sort(function(a,b){ return b[key] - a[key]; }).slice(0,15);
-    el.innerHTML = '';
+    var sortedAll = arr.slice().sort(function(a,b){ return b[key] - a[key]; });
+    var sorted = sortedAll.slice(0,15);
+    var maxVal = sorted.length ? sorted[0][key] : 1;
+    var html = '';
+    if(typeof selfVal === 'number'){
+      var selfRank = sortedAll.filter(function(p){ return p[key] > selfVal; }).length + 1;
+      var sw = maxVal > 0 ? Math.round(Math.min(selfVal, maxVal) / maxVal * 100) : 0;
+      html += '<li class="dn-rank-self">' +
+        '<span class="dn-rank-self-badge">あなた</span>' +
+        '<span class="dn-rank-name">' + (selfName || '自団体') + '</span>' +
+        '<span class="dn-rank-bar"><span class="dn-rank-bar-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span>' +
+        '<span class="dn-rank-val"><span data-dn-to="' + selfVal + '" data-dn-fmt="int">' + dnFmt(selfVal) + '</span>' + unit + '</span>' +
+        '<span class="dn-rank-self-rank">' + (selfRank <= 15 ? '上位15中 ' + selfRank + '位相当' : '15位圏外') + '</span></li>';
+    }
     sorted.forEach(function(p, i){
-      var topCls = (i < 3) ? ' dn-rank-no-top' : '';
-      var li = document.createElement('li');
-      li.innerHTML =
-        '<span class="dn-rank-no' + topCls + '">' + (i + 1) + '</span>' +
+      var rankNo = i + 1;
+      var noCls = (rankNo === 1) ? ' dn-rank-no-1' : ((rankNo <= 3) ? ' dn-rank-no-top' : '');
+      var w = maxVal > 0 ? Math.round(p[key] / maxVal * 100) : 0;
+      html += '<li class="' + (i >= 5 ? 'dn-rank-hidden' : '') + '">' +
+        '<span class="dn-rank-no' + noCls + '">' + rankNo + '</span>' +
         '<span class="dn-rank-name">' + p.name + '</span>' +
-        '<span class="dn-rank-val"><span data-dn-to="' + p[key] + '" data-dn-fmt="int">' + dnFmt(p[key]) + '</span>' + unit + '</span>' +
-        dnLinkBtn(p.name);
-      el.appendChild(li);
+        '<span class="dn-rank-bar"><span class="dn-rank-bar-fill" data-dn-w="' + w + '" style="width:0%"></span></span>' +
+        '<span class="dn-rank-val"><span data-dn-to="' + p[key] + '" data-dn-fmt="int">' + dnFmt(p[key]) + '</span>' + unit + '</span></li>';
     });
+    html += '<li class="dn-rank-toggle"><button type="button" class="dn-rank-toggle-btn" onclick="dnToggleRank(this)" aria-expanded="false">すべて表示（15件）</button></li>';
+    el.innerHTML = html;
   }
 
-  // コンテンツ別ランキング（タイトル＋補足団体名＋数値）。横棒なし
+  // コンテンツ別ランキング：比率バー＋上位5件（残りはトグル）。開くボタンなし。
   function dnRenderRankContent(elId, arr, unit){
     var el = document.getElementById(elId);
     if(!el) return;
     var sorted = arr.slice().sort(function(a,b){ return b.val - a.val; }).slice(0,15);
-    el.innerHTML = '';
+    var maxVal = sorted.length ? sorted[0].val : 1;
+    var html = '';
     sorted.forEach(function(p, i){
-      var topCls = (i < 3) ? ' dn-rank-no-top' : '';
-      var li = document.createElement('li');
-      li.className = 'dn-rank-content';
-      li.innerHTML =
-        '<span class="dn-rank-no' + topCls + '">' + (i + 1) + '</span>' +
+      var rankNo = i + 1;
+      var noCls = (rankNo === 1) ? ' dn-rank-no-1' : ((rankNo <= 3) ? ' dn-rank-no-top' : '');
+      var w = maxVal > 0 ? Math.round(p.val / maxVal * 100) : 0;
+      html += '<li class="dn-rank-content' + (i >= 5 ? ' dn-rank-hidden' : '') + '">' +
+        '<span class="dn-rank-no' + noCls + '">' + rankNo + '</span>' +
         '<span class="dn-rank-body"><span class="dn-rank-title">' + p.title + '</span>' +
         '<span class="dn-rank-org">' + p.org + '</span></span>' +
-        '<span class="dn-rank-val"><span data-dn-to="' + p.val + '" data-dn-fmt="int">' + dnFmt(p.val) + '</span>' + unit + '</span>' +
-        dnLinkBtn(p.title);
-      el.appendChild(li);
+        '<span class="dn-rank-bar"><span class="dn-rank-bar-fill" data-dn-w="' + w + '" style="width:0%"></span></span>' +
+        '<span class="dn-rank-val"><span data-dn-to="' + p.val + '" data-dn-fmt="int">' + dnFmt(p.val) + '</span>' + unit + '</span></li>';
     });
+    html += '<li class="dn-rank-toggle"><button type="button" class="dn-rank-toggle-btn" onclick="dnToggleRank(this)" aria-expanded="false">すべて表示（15件）</button></li>';
+    el.innerHTML = html;
   }
+
+  // ランキングの上位5件↔全15件 表示トグル
+  function dnToggleRank(btn){
+    var ol = btn.closest('.dn-rank');
+    if(!ol) return;
+    var exp = ol.classList.toggle('is-expanded');
+    btn.setAttribute('aria-expanded', exp ? 'true' : 'false');
+    btn.textContent = exp ? '上位5件に戻す' : 'すべて表示（15件）';
+    if(exp){
+      ol.querySelectorAll('.dn-rank-hidden .dn-rank-bar-fill[data-dn-w]').forEach(function(f){
+        f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%';
+      });
+    }
+  }
+  window.dnToggleRank = dnToggleRank;
   window.dnRenderPr = dnRenderPr;
 
   // プリセット機能は廃止（上部プリセットボタンを撤去）。互換のため空関数を残す（参照なし）。
@@ -49769,14 +49833,51 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-sp-card-diff.good{ color:#115A36; }
 #page-analytics .dn-sp-card-diff.bad{ color:#CE0000; }
 #page-analytics .dn-sp-card-diff.neu{ color:#767676; }
-#page-analytics .dn-sp-breakdown-head{ font-size:13px; font-weight:700; color:#767676; margin:4px 0 12px; }
-#page-analytics .dn-sp-breakdown{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
-@media (max-width:980px){ #page-analytics .dn-sp-breakdown{ grid-template-columns:repeat(2,1fr); } }
-@media (max-width:620px){ #page-analytics .dn-sp-breakdown{ grid-template-columns:1fr; } }
-#page-analytics .dn-sp-seg{ background:#fff; border:1px solid #E6E6E6; border-radius:12px; padding:14px 16px; }
-#page-analytics .dn-sp-seg-title{ font-size:13px; font-weight:700; color:#1A1A1A; margin:0 0 10px; }
-#page-analytics .dn-sp-seg .dn-mini-lbl{ flex:0 0 40px; }
-#page-analytics .dn-mini-fill.dn-mini-fast{ background:#9BD4B5; }
+/* 選考スピード：自団体フロー帯＋対平均 差分 */
+#page-analytics .dn-sp-flowwrap, #page-analytics .dn-sp-gapwrap{ background:#fff; border:1px solid #E6E6E6; border-radius:12px; padding:16px 18px; margin-top:14px; }
+#page-analytics .dn-sp-block-head{ font-size:13px; font-weight:700; color:#1A1A1A; margin:0 0 12px; }
+#page-analytics .dn-flow{ display:flex; align-items:stretch; gap:3px; }
+#page-analytics .dn-flow-seg{ min-width:0; display:flex; flex-direction:column; gap:6px; }
+#page-analytics .dn-flow-bar{ height:30px; border-radius:5px; background:#259D63; }
+#page-analytics .dn-flow-seg.is-max .dn-flow-bar{ background:#115A36; }
+#page-analytics .dn-flow-cap{ display:flex; flex-direction:column; gap:1px; padding:0 2px; }
+#page-analytics .dn-flow-stage{ font-size:11.5px; color:#767676; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#page-analytics .dn-flow-seg.is-max .dn-flow-stage{ color:#115A36; font-weight:700; }
+#page-analytics .dn-flow-days{ font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-gap-legend{ display:flex; gap:18px; margin:0 0 12px; font-size:12px; color:#767676; }
+#page-analytics .dn-gap-key{ display:inline-flex; align-items:center; gap:6px; }
+#page-analytics .dn-gap-key::before{ content:''; width:14px; height:8px; border-radius:2px; display:inline-block; }
+#page-analytics .dn-gap-key.fast::before{ background:#259D63; }
+#page-analytics .dn-gap-key.slow::before{ background:#CE0000; }
+#page-analytics .dn-gap-row{ display:flex; align-items:center; gap:12px; padding:7px 0; }
+#page-analytics .dn-gap-lbl{ flex:0 0 96px; font-size:13px; color:#1A1A1A; }
+#page-analytics .dn-gap-track{ position:relative; flex:1; height:14px; background:#F2F2F2; border-radius:7px; }
+#page-analytics .dn-gap-zero{ position:absolute; left:50%; top:-3px; bottom:-3px; width:1px; background:#B3B3B3; }
+#page-analytics .dn-gap-fill{ position:absolute; top:0; height:100%; border-radius:7px; transition:width .7s cubic-bezier(.22,.61,.36,1); }
+#page-analytics .dn-gap-fill.fast{ background:#259D63; }
+#page-analytics .dn-gap-fill.slow{ background:#CE0000; }
+#page-analytics .dn-gap-fill.flat{ background:transparent; }
+#page-analytics .dn-gap-val{ flex:0 0 100px; text-align:right; font-size:12.5px; font-weight:700; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-gap-val.good{ color:#115A36; }
+#page-analytics .dn-gap-val.bad{ color:#CE0000; }
+#page-analytics .dn-gap-val.neu{ color:#767676; }
+@media (prefers-reduced-motion: reduce){ #page-analytics .dn-gap-fill{ transition:none; } }
+@media (max-width:720px){ #page-analytics .dn-gap-lbl{ flex:0 0 76px; } #page-analytics .dn-gap-val{ flex:0 0 82px; } #page-analytics .dn-flow-stage{ font-size:10.5px; } }
+/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
+#page-analytics .dn-rank-bar-fill{ transition:width .7s cubic-bezier(.22,.61,.36,1); }
+@media (prefers-reduced-motion: reduce){ #page-analytics .dn-rank-bar-fill{ transition:none; } }
+#page-analytics .dn-rank-no.dn-rank-no-1{ background:#115A36; color:#fff; border:none; }
+#page-analytics .dn-rank li.dn-rank-hidden{ display:none; }
+#page-analytics .dn-rank.is-expanded li.dn-rank-hidden{ display:flex; }
+#page-analytics .dn-rank-toggle{ border-bottom:none !important; padding:8px 0 0 !important; }
+#page-analytics .dn-rank-toggle-btn{ width:100%; height:32px; border:1px solid #E6E6E6; border-radius:8px; background:#fff; color:#115A36; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif; }
+#page-analytics .dn-rank-toggle-btn:hover{ border-color:#949494; background:#F2F2F2; }
+#page-analytics .dn-rank-toggle-btn:focus-visible{ outline:3px solid #9BD4B5; outline-offset:2px; }
+#page-analytics .dn-rank-self{ flex-wrap:wrap; background:#E6F5EC; border:1px solid #259D63 !important; border-radius:8px; padding:9px 11px !important; margin-bottom:10px; }
+#page-analytics .dn-rank-self-badge{ flex:0 0 auto; display:inline-flex; align-items:center; height:20px; padding:0 8px; border-radius:10px; background:#115A36; color:#fff; font-size:11px; font-weight:700; }
+#page-analytics .dn-rank-self .dn-rank-name{ font-weight:700; color:#115A36; }
+#page-analytics .dn-rank-bar-fill.is-self{ background:#115A36; }
+#page-analytics .dn-rank-self-rank{ flex:1 0 100%; font-size:11.5px; color:#115A36; font-weight:700; text-align:right; }
 #page-analytics .dn-rank-subhead{ font-size:13px; font-weight:700; color:#767676; margin:24px 0 12px; padding-top:18px; border-top:1px solid #E6E6E6; }
 #page-analytics .dn-rank-subhead.first{ margin-top:0; padding-top:0; border-top:none; }
 </style>
