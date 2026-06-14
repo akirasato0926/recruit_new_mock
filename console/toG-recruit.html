@@ -47031,32 +47031,42 @@ ${style.blogQuote}
       '<div class="dn-sp-card is-fast">' +
         '<div class="dn-sp-card-label">最も選考が早い自治体<span class="dn-sp-card-badge">最速</span></div>' +
         '<div class="dn-sp-card-num"><span data-dn-to="' + fastest.total + '" data-dn-fmt="int">' + fastest.total + '</span><span class="dn-sp-card-unit">日</span></div>' +
-        '<div class="dn-sp-card-name">' + fastest.name + '</div>' +
+        '<div class="dn-sp-card-name">比較対象団体のうち最短水準</div>' +
         '<div class="dn-sp-card-diff neu">' + fastText + '</div>' +
       '</div>' +
     '</div>';
 
-    var rows = '';
-    DN_SP_SEG_LABEL.forEach(function(lbl, k){
-      rows += '<tr><td>' + lbl + '</td>' +
-        '<td class="dn-sp-col-self"><span data-dn-to="' + selfSeg[k] + '" data-dn-fmt="int">' + selfSeg[k] + '</span> 日</td>' +
-        '<td><span data-dn-to="' + segAvg[k] + '" data-dn-fmt="int">' + r0(segAvg[k]) + '</span> 日</td>' +
-        '<td><span data-dn-to="' + fastest.seg[k] + '" data-dn-fmt="int">' + fastest.seg[k] + '</span> 日</td></tr>';
-    });
-    html += '<div class="dn-sp-table-wrap"><table class="dn-sp-table">' +
-      '<caption>区間別の平均選考日数（規模・職種で変動）</caption>' +
-      '<thead><tr><th>選考区間</th><th>自団体</th><th>比較対象 平均</th><th>最速自治体</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody>' +
-      '<tfoot><tr><td>合計（締切→内定）</td>' +
-        '<td class="dn-sp-col-self"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span> 日</td>' +
-        '<td><span data-dn-to="' + avgTotal + '" data-dn-fmt="int">' + r0(avgTotal) + '</span> 日</td>' +
-        '<td><span data-dn-to="' + fastest.total + '" data-dn-fmt="int">' + fastest.total + '</span> 日</td></tr></tfoot>' +
-      '</table></div>';
+    // 区間別：各区間を「自団体／比較対象平均／最速」の対比バーで表示（全区間 共通スケールで横比較）
+    var segMax = 1;
+    DN_SP_SEG_LABEL.forEach(function(_, k){ segMax = Math.max(segMax, selfSeg[k], segAvg[k], fastest.seg[k]); });
+    var spPct = function(v){ return Math.round(v / segMax * 100); };
+    var segCards = DN_SP_SEG_LABEL.map(function(lbl, k){
+      function bar(cls, lblTxt, val){
+        return '<div class="dn-mini-row"><span class="dn-mini-lbl">' + lblTxt + '</span>' +
+          '<span class="dn-mini-track"><span class="dn-mini-fill ' + cls + '" data-dn-w="' + spPct(val) + '" style="width:0%"></span></span>' +
+          '<span class="dn-mini-val"><span data-dn-to="' + val + '" data-dn-fmt="int">' + r0(val) + '</span>日</span></div>';
+      }
+      return '<div class="dn-sp-seg">' +
+        '<h4 class="dn-sp-seg-title">' + lbl + '</h4>' +
+        '<div class="dn-kpi-bars">' +
+          bar('dn-mini-self', '自団体', selfSeg[k]) +
+          bar('dn-mini-avg', '平均', segAvg[k]) +
+          bar('dn-mini-fast', '最速', fastest.seg[k]) +
+        '</div></div>';
+    }).join('');
+    html += '<div class="dn-sp-breakdown-head">区間別の平均選考日数（規模・職種で変動／全区間 共通スケール）</div>' +
+      '<div class="dn-sp-breakdown">' + segCards + '</div>';
 
     host.innerHTML = html;
+    var spFills = host.querySelectorAll('.dn-mini-fill[data-dn-w]');
+    var spTargets = [];
+    spFills.forEach(function(f){ spTargets.push(parseFloat(f.getAttribute('data-dn-w'))); });
     if(animate){
       dnApplyNumFrom(host, spSnap.nums);
+      dnAnimateBars(spFills, spTargets, spSnap.bars);
       dnTweenNumbers(host);
+    } else {
+      spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
     }
   }
   window.dnRenderSpeed = dnRenderSpeed;
@@ -47131,7 +47141,7 @@ ${style.blogQuote}
       var arr = [];
       for(var i=0;i<18;i++){
         arr.push({
-          name: DN_ORG_NAMES[i % DN_ORG_NAMES.length],
+          name: '自治体' + String.fromCharCode(65 + i),
           val: Math.max(1, Math.round(base * szScale * yScale * (0.5 + rng()*1.0)))
         });
       }
@@ -49732,15 +49742,14 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-sp-card-diff.good{ color:#115A36; }
 #page-analytics .dn-sp-card-diff.bad{ color:#CE0000; }
 #page-analytics .dn-sp-card-diff.neu{ color:#767676; }
-#page-analytics .dn-sp-table-wrap{ overflow-x:auto; -webkit-overflow-scrolling:touch; border:1px solid #E6E6E6; border-radius:12px; }
-#page-analytics .dn-sp-table{ width:100%; border-collapse:collapse; font-size:13px; min-width:520px; }
-#page-analytics .dn-sp-table caption{ text-align:left; font-size:13px; font-weight:700; color:#767676; padding:14px 16px 4px; caption-side:top; }
-#page-analytics .dn-sp-table th, #page-analytics .dn-sp-table td{ padding:10px 14px; text-align:right; border-bottom:1px solid #E6E6E6; font-variant-numeric:tabular-nums; white-space:nowrap; }
-#page-analytics .dn-sp-table th:first-child, #page-analytics .dn-sp-table td:first-child{ text-align:left; color:#1A1A1A; }
-#page-analytics .dn-sp-table thead th{ font-weight:700; color:#767676; background:#FAFAFA; }
-#page-analytics .dn-sp-table tbody tr:last-child td{ border-bottom:none; }
-#page-analytics .dn-sp-table tfoot td{ font-weight:700; color:#1A1A1A; background:#FAFAFA; border-top:2px solid #E6E6E6; }
-#page-analytics .dn-sp-col-self{ color:#115A36; font-weight:700; }
+#page-analytics .dn-sp-breakdown-head{ font-size:13px; font-weight:700; color:#767676; margin:4px 0 12px; }
+#page-analytics .dn-sp-breakdown{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+@media (max-width:980px){ #page-analytics .dn-sp-breakdown{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:620px){ #page-analytics .dn-sp-breakdown{ grid-template-columns:1fr; } }
+#page-analytics .dn-sp-seg{ background:#fff; border:1px solid #E6E6E6; border-radius:12px; padding:14px 16px; }
+#page-analytics .dn-sp-seg-title{ font-size:13px; font-weight:700; color:#1A1A1A; margin:0 0 10px; }
+#page-analytics .dn-sp-seg .dn-mini-lbl{ flex:0 0 40px; }
+#page-analytics .dn-mini-fill.dn-mini-fast{ background:#9BD4B5; }
 </style>
 
 <script>
