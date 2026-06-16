@@ -1005,6 +1005,7 @@ input[type=radio],input[type=checkbox]{accent-color:#115A36;}\
 .rh-viewport{position:relative;overflow:hidden;width:100%;}
 .rh-track{display:flex;gap:18px;transition:transform .55s cubic-bezier(.4,0,.2,1);will-change:transform;}
 .rh-slide{position:relative;flex:0 0 52%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;transition:opacity .4s ease,transform .4s ease;background:#e6f5ec;}
+.rh-img{width:100%;height:100%;object-fit:cover;display:block;}
 .rh-slide:not(.is-active){opacity:.65;transform:scale(.95);}
 .rh-dummy{position:absolute;inset:0;display:grid;place-items:center;background:repeating-linear-gradient(45deg,#eaf7f0,#eaf7f0 14px,#dbefe3 14px,#dbefe3 28px);color:#7fae97;font-family:sans-serif;font-weight:700;letter-spacing:.16em;font-size:13px;}
 .rh-dummy::after{content:"DUMMY " attr(data-n) " / 5";}
@@ -1046,8 +1047,10 @@ input[type=radio],input[type=checkbox]{accent-color:#115A36;}\
     /* 2) ヒーローをカルーセルに置換 */
     var host=document.querySelector('.slides-top-page');
     if(!host) return;
-    var N=5, inner='';
-    for(var i=0;i<N;i++) inner+='<div class="rh-slide"><span class="rh-dummy" data-n="'+(i+1)+'"></span></div>';
+    var RH_IMGS=['assets/hero/top-1-aichi.png','assets/hero/top-2-osaka.png','assets/hero/top-3-internship.png','assets/hero/top-4-gakugeiin.png','assets/hero/top-5-sports.png'];
+    var RH_ALT=['公務員キャリア探求Meetup! in 愛知県編','公務員キャリア探求Meetup! in 大阪','インターンシップで自治体研究','学芸員特集','スポーツに特化した求人特集'];
+    var N=RH_IMGS.length, inner='';
+    for(var i=0;i<N;i++) inner+='<div class="rh-slide"><img class="rh-img" src="'+RH_IMGS[i]+'" alt="'+RH_ALT[i]+'" loading="lazy"></div>';
     host.innerHTML='<div class="rh-viewport"><div class="rh-track" id="rhTrack">'+inner+'</div>'
       +'<button class="rh-arrow rh-prev" aria-label="前へ">\u2039</button>'
       +'<button class="rh-arrow rh-next" aria-label="次へ">\u203a</button>'

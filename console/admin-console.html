@@ -96,10 +96,10 @@ body.on-login .sidebar{display:none}
 .nav-link.active .nav-count{background:rgba(255,255,255,.3)}
 .nav-link.new-badge::after{content:"NEW";margin-left:auto;font-size:9px;font-weight:700;color:#fff;background:#259D63;border:1px solid #259D63;border-radius:var(--r-xs);padding:1px 5px}
 /* ───── 官公庁管理リスト：dev実機準拠（青→緑） ───── */
-#page-emp-list .emp-filter-btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 38px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--f);margin:4px 0 18px}
+#page-emp-list .emp-filter-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 24px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f);margin:0 12px 18px 0;vertical-align:top}
 #page-emp-list .emp-filter-btn:hover{background:#1d8b56}
 #page-emp-list .emp-filter-btn svg{width:18px;height:18px}
-#page-emp-list .emp-csv-btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 18px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f);margin:0 0 16px}
+#page-emp-list .emp-csv-btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;background:#fff;color:#1d8b56;border:1.5px solid #259D63;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f);margin:0 0 18px;vertical-align:top}
 #page-emp-list .emp-csv-btn:hover{background:#1d8b56}
 #page-emp-list .emp-csv-btn svg{width:16px;height:16px}
 #page-emp-list .emp-filter-panel{background:#fff;border:1px solid var(--n-200);border-radius:8px;padding:16px;margin:0 0 16px}
@@ -670,7 +670,6 @@ a:focus-visible,button:focus-visible,.nav-link:focus-visible,.tab:focus-visible,
         <div><div class="page-title">求人掲載管理</div><div class="page-desc">掲載中求人の監視・応募者確認・削除（運営スコープ）</div></div>
         <button class="btn btn-outline" onclick="toast('マスキング版CSVを出力しました（操作ログに記録）')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>CSV出力</button>
       </div>
-      <div class="notice info" style="margin-bottom:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16v-4M12 8h.01"/><circle cx="12" cy="12" r="9"/></svg><div>運営のスコープ＝<b>監視＋削除＋応募者導線</b>。求人原稿の作成・編集や求人詳細プレビューは<b>スコープ外</b>です。</div></div>
       <div class="toolbar">
         <div class="field search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" placeholder="求人タイトル・官公庁名で検索"></div>
         <div class="field"><select><option>職種：すべて</option><option>事務職</option><option>土木技術職</option><option>保育士</option><option>保健師</option></select></div>
