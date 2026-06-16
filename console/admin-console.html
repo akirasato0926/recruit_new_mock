@@ -537,7 +537,7 @@ a:focus-visible,button:focus-visible,.nav-link:focus-visible,.tab:focus-visible,
         <div class="toolbar">
           <div class="field search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" id="emp-q" placeholder="官公庁名・担当者名で検索" oninput="empFilterChanged()"></div>
           <div class="field"><select id="emp-pref" onchange="empFilterChanged()"><option value="">都道府県：すべて</option></select></div>
-          <div class="field"><select id="emp-type" onchange="empFilterChanged()"><option value="">種類：すべて</option><option value="市区町村">市区町村</option><option value="都道府県">都道府県</option><option value="その他（団体・機関）">その他（団体・機関）</option></select></div>
+          <div class="field"><select id="emp-type" onchange="empFilterChanged()"><option value="">種類：すべて</option><option value="地方公共団体">地方公共団体</option><option value="国の行政機関">国の行政機関</option><option value="独立行政法人">独立行政法人</option></select></div>
           <div class="field"><select id="emp-status" onchange="empFilterChanged()"><option value="">承認状況：すべて</option><option value="pending">承認待ち</option><option value="approved">承認済</option><option value="suspended">停止中</option></select></div>
         </div>
       </div>
@@ -1881,8 +1881,18 @@ EMPLOYERS.unshift(
   {id:'E-0001', name:'公共市役所', pref:'（デモ）', type:'市区町村', mgr:'人事課 採用係', mgrEmail:'jinji-****@koukyo-city.jp', status:'approved', reg:'2025-04-01', domainId:'111111', features:{ai:true, sns:true, online:true}},
   {id:'E-0002', name:'波部市役所', pref:'（デモ）', type:'市区町村', mgr:'人事課 採用係', mgrEmail:'jinji-****@habe-city.jp', status:'approved', reg:'2025-04-01', domainId:'222222', features:{ai:true, sns:true, online:true}}
 );
+const EMP_SEI=['佐藤','鈴木','高橋','田中','伊藤','渡辺','山本','中村','小林','加藤','吉田','山田','佐々木','松本','井上'];
+const EMP_MEI=['誠','陽子','大輔','美咲','健一','花子','翔太','彩','直樹','麻衣','和也','由美','拓也','恵','智子'];
+function empDevType(e){
+  if(e.type==='市区町村'||e.type==='都道府県') return '地方公共団体';
+  var n=e.name||'';
+  if(/(協会|機構|公社|事業団|企業団|基金|法人)/.test(n)) return '独立行政法人';
+  if(/(院|庁|省|委員会|警察|本部|局)/.test(n)) return '国の行政機関';
+  return '独立行政法人';
+}
+function empPerson(e){ var x=0,s=(e.id||'')+(e.name||''); for(var i=0;i<s.length;i++) x=(x*31+s.charCodeAt(i))>>>0; return EMP_SEI[x%EMP_SEI.length]+' '+EMP_MEI[(x>>>4)%EMP_MEI.length]; }
 const EMP_STATUS = {
-  approved:{cls:'ok',  label:'承認済'},
+  approved:{cls:'ok',  label:'承認済み'},
   pending: {cls:'warn',label:'承認待ち'},
   suspended:{cls:'err',label:'停止中'},
 };
@@ -2374,9 +2384,9 @@ function getFilteredEmployers(){
   const tp = document.getElementById('emp-type')?.value || '';
   const sa = document.getElementById('emp-status')?.value || '';
   return EMPLOYERS.filter(e => {
-    if(q && !(e.name.toLowerCase().includes(q) || e.mgr.toLowerCase().includes(q))) return false;
+    if(q && !(e.name.toLowerCase().includes(q) || empPerson(e).toLowerCase().includes(q))) return false;
     if(pf && e.pref !== pf) return false;
-    if(tp && e.type !== tp) return false;
+    if(tp && empDevType(e) !== tp) return false;
     if(sa && e.status !== sa) return false;
     return true;
   });
@@ -2390,9 +2400,9 @@ function renderEmpList(){
     const st = EMP_STATUS[e.status];
     return `<tr>
       <td><a class="emp-link" onclick="openEmp('${e.id}')">${e.name}</a></td>
-      <td><span class="emp-link-soft">${e.pref}</span></td>
-      <td>${e.type}</td>
-      <td>${e.mgr}</td>
+      <td><span class="emp-link-soft">${empDevType(e)==='地方公共団体'?e.pref:''}</span></td>
+      <td>${empDevType(e)}</td>
+      <td>${empPerson(e)}</td>
       <td>${e.mgrEmail}</td>
       <td>${empTel(e)}</td>
       <td><span class="emp-status ${st.cls}">${st.label}</span></td>
@@ -3527,8 +3537,8 @@ function openEmp(id){
   document.getElementById('emp-detail-about').textContent = `${e.name}は、地域に根ざした行政サービスを提供しています。多様な職種で職員を募集しており、働きやすい職場づくりに取り組んでいます。（紹介文はダミーです）`;
   document.getElementById('emp-detail-dl').innerHTML = `
     <div><dt>官公庁名</dt><dd>${e.name}</dd></div>
-    <div><dt>都道府県 / 市区町村</dt><dd>${e.pref}</dd></div>
-    <div><dt>官公庁の種類</dt><dd>${e.type === '市区町村' ? '地方公共団体' : e.type}</dd></div>
+    <div><dt>都道府県 / 市区町村</dt><dd>${empDevType(e)==='地方公共団体'?e.pref:'—'}</dd></div>
+    <div><dt>官公庁の種類</dt><dd>${empDevType(e)}</dd></div>
     <div><dt>職員人数</dt><dd>${empStaff(e)}名</dd></div>
     <div><dt>平均年齢</dt><dd>${empAvgAge(e)}歳</dd></div>
     <div><dt>URL</dt><dd>https://www.example.lg.jp/</dd></div>
