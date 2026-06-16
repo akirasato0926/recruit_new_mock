@@ -102,9 +102,12 @@ h1,h2,h3{color:var(--ink);font-weight:900;letter-spacing:.01em;line-height:1.4}
 /* ===== trust bar ===== */
 .trust{padding:34px 0;border-bottom:1px solid var(--line)}
 .trust p{text-align:center;font-size:13px;color:var(--muted);font-weight:700;margin-bottom:18px;letter-spacing:.06em}
-.logos{display:flex;flex-wrap:wrap;gap:14px 28px;justify-content:center;align-items:center}
-.logo-chip{height:46px;min-width:130px;border:1px solid var(--line);border-radius:12px;background:#fbfdfc;display:flex;align-items:center;justify-content:center;gap:8px;color:#5a6862;font-weight:700;font-size:14px;padding:0 16px}
-.logo-chip svg{width:18px;height:18px;color:var(--g-500)}
+.logos{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;max-width:1000px;margin:0 auto}
+@media(min-width:769px) and (max-width:1000px){.logos{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:768px){.logos{grid-template-columns:repeat(2,1fr)}}
+.logo-chip{height:62px;border:1px solid var(--line);border-radius:14px;background:#fbfdfc;display:flex;align-items:center;justify-content:flex-start;gap:11px;color:#2f3d36;font-weight:700;font-size:14px;padding:0 14px}
+.logo-chip .emblem{width:36px;height:36px;border-radius:50%;background:var(--g-50);color:var(--g-700);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0;border:1px solid var(--g-100);font-family:var(--f)}
+.trust .note{text-align:center;font-size:12px;color:var(--muted);margin-top:16px}
 
 /* ===== generic section ===== */
 .sec{padding:88px 0}
@@ -317,13 +320,29 @@ h1,h2,h3{color:var(--ink);font-weight:900;letter-spacing:.01em;line-height:1.4}
 <section class="trust">
   <div class="wrap">
     <p>全国の自治体・官公庁にご活用いただいています</p>
-    <div class="logos" aria-label="導入団体（ダミー）">
-      <span class="logo-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13"/></svg>◯◯県庁</span>
-      <span class="logo-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13"/></svg>△△市役所</span>
-      <span class="logo-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13"/></svg>□□町役場</span>
-      <span class="logo-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13"/></svg>◇◇広域連合</span>
-      <span class="logo-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13"/></svg>☆☆企業団</span>
+    <div class="logos" aria-label="導入自治体">
+      <span class="logo-chip"><span class="emblem">神</span>神戸市</span>
+      <span class="logo-chip"><span class="emblem">京</span>京都市</span>
+      <span class="logo-chip"><span class="emblem">前</span>前橋市</span>
+      <span class="logo-chip"><span class="emblem">佐</span>佐世保市</span>
+      <span class="logo-chip"><span class="emblem">浦</span>浦安市</span>
+      <span class="logo-chip"><span class="emblem">飯</span>飯塚市</span>
+      <span class="logo-chip"><span class="emblem">伊</span>伊勢市</span>
+      <span class="logo-chip"><span class="emblem">印</span>印西市</span>
+      <span class="logo-chip"><span class="emblem">三</span>三田市</span>
+      <span class="logo-chip"><span class="emblem">大</span>大府市</span>
+      <span class="logo-chip"><span class="emblem">龍</span>龍ケ崎市</span>
+      <span class="logo-chip"><span class="emblem">豊</span>豊明市</span>
+      <span class="logo-chip"><span class="emblem">藤</span>藤井寺市</span>
+      <span class="logo-chip"><span class="emblem">丹</span>丹波市</span>
+      <span class="logo-chip"><span class="emblem">高</span>高石市</span>
+      <span class="logo-chip"><span class="emblem">那</span>那珂市</span>
+      <span class="logo-chip"><span class="emblem">野</span>野洲市</span>
+      <span class="logo-chip"><span class="emblem">石</span>石垣市</span>
+      <span class="logo-chip"><span class="emblem">大</span>大洲市</span>
+      <span class="logo-chip"><span class="emblem">瀬</span>瀬戸内市</span>
     </div>
+    <p class="note">※ PUBLIC CONNECT 掲載団体より人口規模順に20団体を表示。ロゴはイメージ（プレースホルダ）です。</p>
   </div>
 </section>
 
