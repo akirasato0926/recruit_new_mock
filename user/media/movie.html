@@ -230,7 +230,7 @@ a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button
       </div>
       <span class="cat">動画コンテンツ</span>
       <h1 class="m-title">職員密着ドキュメント｜窓口のリアルな一日 ── 豊明市役所</h1>
-      <div class="m-meta"><img src="../assets/s3/2024_avatar_employer_1c51c9d2-aee5-4ef6-aca9-6cd742bf9d14_default.webp" alt="豊明市役所"><div><b>豊明市役所</b></div><span class="en">08:45 ・ 2026.06.06</span></div>
+      <div class="m-meta"><div><b>豊明市役所</b></div><span class="en">08:45 ・ 2026.06.06</span></div>
 
       <div class="tabs">
         <button class="tab active" data-tab="overview">動画の概要</button>
@@ -362,8 +362,7 @@ a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button
         var anchor=document.querySelector('.m-meta')||document.querySelector('.m-title');
         if(anchor){
           var card=document.createElement('div'); card.className='mj-empcard';
-          card.innerHTML='<img class="mc-av" src="'+AV+'" alt="">'
-            +'<div class="mc-info"><a class="mc-nm" href="'+EMP+'" target="_blank" rel="noopener">'+GOV+'</a>'
+          card.innerHTML='<div class="mc-info"><a class="mc-nm" href="'+EMP+'" target="_blank" rel="noopener">'+GOV+'</a>'
             +'<p class="mc-ds">'+DESC+'</p></div>'
             +'<div class="mc-acts"><button type="button" class="mc-follow">'+BELL+'フォロー</button>'+recruitBtn()+'</div>';
           anchor.insertAdjacentElement('afterend', card);
@@ -381,7 +380,7 @@ a{color:inherit;text-decoration:none;} img{display:block;max-width:100%;} button
         return '<a class="mj-card" href="'+JOBHREF+'" target="_blank" rel="noopener">'
           +'<span class="mj-cat">'+j[0]+'</span><p class="mj-title">'+j[1]+'</p>'
           +'<div class="mj-tags">'+tags+'</div>'
-          +'<span class="mj-org"><img class="mj-org-av" src="'+AV+'" alt="">'+GOV+'</span></a>';
+          +'<span class="mj-org">'+GOV+'</span></a>';
       }).join('');
       var sec=document.createElement('section'); sec.id='mj-jobs';
       sec.innerHTML='<div class="mj-head"><h2>JOBS <span class="ja">'+GOV+'の募集中の求人</span></h2>'
