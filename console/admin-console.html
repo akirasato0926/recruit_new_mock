@@ -115,6 +115,36 @@ body.on-login .sidebar{display:none}
 #page-emp-list .emp-status.ok{color:#115A36;border-color:#259D63;background:#e6f5ec}
 #page-emp-list .emp-status.warn{color:#9a6700;border-color:#e0a400;background:#fef4e6}
 #page-emp-list .emp-status.err{color:#b42318;border-color:#d92d20;background:#fee}
+/* ───── 官公庁詳細：dev実機準拠（中央カード・青→緑） ───── */
+#page-emp-detail .emp-card{max-width:680px;margin:8px auto 40px;background:#fff;border:1px solid var(--n-200);border-radius:12px;padding:40px 40px 32px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+#page-emp-detail .emp-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+#page-emp-detail .emp-avatar{width:90px;height:90px;border-radius:50%;border:1px solid var(--n-200);background:#f5f7f6;flex:none}
+#page-emp-detail .emp-proxy-btn{height:40px;padding:0 20px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f)}
+#page-emp-detail .emp-proxy-btn:hover{background:#1d8b56}
+#page-emp-detail .emp-card-name{font-size:26px;font-weight:800;color:#1a1a1a;margin:18px 0}
+#page-emp-detail .emp-card-actions{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 8px}
+#page-emp-detail .emp-btn-outline,#page-emp-detail .emp-btn-fill{height:52px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--f)}
+#page-emp-detail .emp-btn-outline{background:#fff;color:#1d8b56;border:1.5px solid #259D63}
+#page-emp-detail .emp-btn-outline:hover{background:#e6f5ec}
+#page-emp-detail .emp-btn-fill{background:#259D63;color:#fff;border:1.5px solid #259D63}
+#page-emp-detail .emp-btn-fill:hover{background:#1d8b56;border-color:#1d8b56}
+#page-emp-detail .emp-dl{margin:14px 0 0}
+#page-emp-detail .emp-dl > div{display:flex;gap:20px;padding:18px 2px;border-bottom:1px solid #ebeef5}
+#page-emp-detail .emp-dl dt{flex:0 0 190px;font-size:14px;font-weight:700;color:#1a1a1a}
+#page-emp-detail .emp-dl dd{flex:1;margin:0;font-size:14px;color:#333;word-break:break-all}
+#page-emp-detail .emp-sec-head{font-size:18px;font-weight:800;color:#1a1a1a;margin:32px 0 12px}
+#page-emp-detail .emp-about{font-size:14px;color:#333;line-height:1.85;margin:0}
+#page-emp-detail .emp-feat-note{font-size:12px;color:var(--n-600);margin:0 0 8px;line-height:1.6}
+#page-emp-detail .emp-status{display:inline-block;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;border:1px solid}
+#page-emp-detail .emp-status.ok{color:#115A36;border-color:#259D63;background:#e6f5ec}
+#page-emp-detail .emp-status.warn{color:#9a6700;border-color:#e0a400;background:#fef4e6}
+#page-emp-detail .emp-status.err{color:#b42318;border-color:#d92d20;background:#fee}
+#page-emp-detail .emp-card-foot{margin-top:32px}
+#page-emp-detail .emp-foot-btn{display:block;width:100%;height:52px;border:none;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--f);color:#fff}
+#page-emp-detail .emp-foot-btn.stop{background:#e8633f}
+#page-emp-detail .emp-foot-btn.stop:hover{background:#d9542f}
+#page-emp-detail .emp-foot-btn.approve,#page-emp-detail .emp-foot-btn.resume{background:#259D63}
+#page-emp-detail .emp-foot-btn.approve:hover,#page-emp-detail .emp-foot-btn.resume:hover{background:#1d8b56}
 
 /* ───── Main ───── */
 .main{margin-left:var(--sidebar-w);margin-top:60px;flex:1;min-width:0;padding:var(--sp-6) var(--sp-8) var(--sp-12)}
@@ -522,52 +552,27 @@ a:focus-visible,button:focus-visible,.nav-link:focus-visible,.tab:focus-visible,
     </section>
 
     <!-- ───── 官公庁管理: 詳細 ───── -->
-    <section class="page-container" id="page-emp-detail">
-      <div class="breadcrumb"><a onclick="go('dashboard')">ダッシュボード</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><a onclick="go('emp-list')">官公庁管理</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span id="emp-detail-crumb">詳細</span></div>
-      <div class="page-head">
-        <div><div class="page-title" id="emp-detail-name">官公庁詳細</div><div class="page-desc" id="emp-detail-meta"></div></div>
-        <div style="display:flex;gap:8px" id="emp-detail-actions"></div>
-      </div>
-      <div class="detail-grid">
-        <div>
-          <div class="card card-pad">
-            <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V9l7-5 7 5v12"/></svg>基本情報</div>
-            <div style="display:flex;gap:8px;margin-bottom:14px">
-              <button class="btn btn-outline btn-sm" onclick="toast('官公庁情報の編集（準備中）')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>情報編集</button>
-              <button class="btn btn-outline btn-sm" onclick="go('job-list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>求人一覧</button>
-            </div>
-            <dl class="dl" id="emp-detail-dl"></dl>
-          </div>
-          <div class="card card-pad">
-            <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>担当者アカウント</div>
-            <div class="table-wrap" style="border:none">
-              <table class="data" style="min-width:520px">
-                <thead><tr><th>担当者</th><th>権限</th><th>メール</th><th>最終ログイン</th></tr></thead>
-                <tbody>
-                  <tr><td class="cell-strong">人事課 担当A</td><td><span class="badge ok">EMP_ADMIN</span></td><td><span class="pii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>jinji-****@city.example.jp</span></td><td>2026-06-12 17:20</td></tr>
-                  <tr><td class="cell-strong">人事課 担当B</td><td><span class="badge muted">EMP_RECRUITMENT</span></td><td><span class="pii"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>saiyo-****@city.example.jp</span></td><td>2026-06-10 09:48</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="card card-pad">
-            <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1L12 16.5 5.7 21l2.3-7.1-6-4.5h7.6z"/></svg>有料機能（オプション）</div>
-            <p style="font-size:12px;color:var(--n-600);margin-bottom:4px">この官公庁で利用する有料オプション機能を有効化／無効化します。変更は操作ログに記録されます。</p>
-            <div id="emp-detail-features"></div>
-          </div>
+        <section class="page-container" id="page-emp-detail">
+      <div class="breadcrumb"><a onclick="go('emp-list')">官公庁管理</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg><span id="emp-detail-crumb">詳細</span></div>
+      <div class="emp-card">
+        <div class="emp-card-head">
+          <div class="emp-avatar" id="emp-detail-avatar"></div>
+          <button class="emp-proxy-btn" onclick="openProxyModal()">代理ログイン</button>
         </div>
-        <aside>
-          <div class="card card-pad">
-            <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>ステータス</div>
-            <div id="emp-detail-status"></div>
-          </div>
-          <div class="card card-pad">
-            <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M21 3l-9 9"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>運営操作</div>
-            <p style="font-size:12px;color:var(--n-600);margin-bottom:12px">この官公庁の管理画面に運営として代理ログインできます。実行内容は操作ログに記録されます。</p>
-            <button class="btn btn-outline" style="width:100%;justify-content:center" onclick="openProxyModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M21 3l-9 9"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>代理ログイン</button>
-            <div class="notice info" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16v-4M12 8h.01"/><circle cx="12" cy="12" r="9"/></svg><div>代理ログインは<b>理由・実行者・対象・時刻を記録</b>します。</div></div>
-          </div>
-        </aside>
+        <h1 class="emp-card-name" id="emp-detail-name">官公庁詳細</h1>
+        <div class="emp-card-actions">
+          <button class="emp-btn-outline" onclick="go('job-list')">求人一覧を見る</button>
+          <button class="emp-btn-fill" onclick="toast('官公庁情報の編集（準備中）')">官公庁情報を編集</button>
+        </div>
+        <dl class="emp-dl" id="emp-detail-meta-dl"></dl>
+        <div class="emp-sec-head">私たちについて</div>
+        <p class="emp-about" id="emp-detail-about"></p>
+        <div class="emp-sec-head">官公庁概要</div>
+        <dl class="emp-dl" id="emp-detail-dl"></dl>
+        <div class="emp-sec-head">有料機能（オプション）</div>
+        <p class="emp-feat-note">この官公庁で利用する有料オプション機能を有効化／無効化します。変更は操作ログに記録されます（toG画面に即時反映）。</p>
+        <div id="emp-detail-features"></div>
+        <div class="emp-card-foot" id="emp-detail-actions"></div>
       </div>
     </section>
 
@@ -3505,35 +3510,40 @@ function openApplicant(id){
 }
 
 let currentEmp = null;
+function empJDate(d){ if(!d) return '—'; var m=String(d).match(/(\d{4})-(\d{2})-(\d{2})/); return m? m[1]+'年'+m[2]+'月'+m[3]+'日' : d; }
+function empStaff(e){ var n=0,s=(e.id||''); for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))>>>0; return (200+(n%4800)).toLocaleString('ja-JP'); }
+function empAvgAge(e){ var n=0,s=(e.id||'')+'a'; for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))>>>0; return 38+(n%12); }
 function openEmp(id){
   const e = EMPLOYERS.find(x => x.id === id); if(!e) return;
   currentEmp = e;
   const st = EMP_STATUS[e.status];
   document.getElementById('emp-detail-name').textContent = e.name;
   document.getElementById('emp-detail-crumb').textContent = e.name;
-  document.getElementById('emp-detail-meta').textContent = `${e.id} ・ ${e.pref} ・ ${e.type}`;
+  const approveDate = (e.status === 'approved') ? empJDate(e.reg) : '—';
+  document.getElementById('emp-detail-meta-dl').innerHTML = `
+    <div><dt>登録日</dt><dd>${empJDate(e.reg)}</dd></div>
+    <div><dt>承認日</dt><dd>${approveDate}</dd></div>
+    <div><dt>承認状況</dt><dd><span class="emp-status ${st.cls}">${st.label}</span></dd></div>`;
+  document.getElementById('emp-detail-about').textContent = `${e.name}は、地域に根ざした行政サービスを提供しています。多様な職種で職員を募集しており、働きやすい職場づくりに取り組んでいます。（紹介文はダミーです）`;
   document.getElementById('emp-detail-dl').innerHTML = `
-    <dt>官公庁名</dt><dd>${e.name}</dd>
-    <dt>団体ID</dt><dd>${e.id}</dd>
-    <dt>都道府県</dt><dd>${e.pref}</dd>
-    <dt>種類</dt><dd>${e.type}</dd>
-    <dt>主担当者</dt><dd>${e.mgr}</dd>
-    <dt>登録日</dt><dd>${e.reg}</dd>`;
-  document.getElementById('emp-detail-status').innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><span class="badge ${st.cls}" style="font-size:12px">${st.label}</span></div>`;
-  // 有料機能トグル（localStorageで永続化＝toG側と連動）
+    <div><dt>官公庁名</dt><dd>${e.name}</dd></div>
+    <div><dt>都道府県 / 市区町村</dt><dd>${e.pref}</dd></div>
+    <div><dt>官公庁の種類</dt><dd>${e.type === '市区町村' ? '地方公共団体' : e.type}</dd></div>
+    <div><dt>職員人数</dt><dd>${empStaff(e)}名</dd></div>
+    <div><dt>平均年齢</dt><dd>${empAvgAge(e)}歳</dd></div>
+    <div><dt>URL</dt><dd>https://www.example.lg.jp/</dd></div>
+    <div><dt>所在地</dt><dd>〒000-0000 ${e.pref}（ダミー住所）</dd></div>`;
   e.features = loadEmpFeatures(e);
   renderEmpFeatures(e);
-  // 承認状況に応じたアクション
-  let actions = '';
+  let foot = '';
   if(e.status === 'pending'){
-    actions = `<button class="btn btn-outline" onclick="empAction('差し戻し')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/></svg>差し戻し</button><button class="btn btn-primary" onclick="empAction('承認')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>承認する</button>`;
+    foot = `<button class="emp-foot-btn approve" onclick="empAction('承認')">この官公庁を承認する</button>`;
   } else if(e.status === 'approved'){
-    actions = `<button class="btn btn-danger" onclick="empAction('利用停止')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m4.9 4.9 14.2 14.2"/></svg>利用停止</button>`;
+    foot = `<button class="emp-foot-btn stop" onclick="empAction('利用停止')">アカウントを停止</button>`;
   } else {
-    actions = `<button class="btn btn-primary" onclick="empAction('利用再開')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 5 5L20 7"/></svg>利用再開</button>`;
+    foot = `<button class="emp-foot-btn resume" onclick="empAction('利用再開')">利用を再開する</button>`;
   }
-  document.getElementById('emp-detail-actions').innerHTML = actions;
+  document.getElementById('emp-detail-actions').innerHTML = foot;
   go('emp-detail');
 }
 function empAction(label){ toast(`「${currentEmp?currentEmp.name:''}」を${label}しました（操作ログに記録）`); go('emp-list'); }
