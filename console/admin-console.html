@@ -95,6 +95,26 @@ body.on-login .sidebar{display:none}
 .nav-link .nav-count{margin-left:auto;font-size:12px;font-weight:700;color:#fff;background:rgba(255,255,255,.18);border-radius:10px;padding:1px 7px;min-width:20px;text-align:center}
 .nav-link.active .nav-count{background:rgba(255,255,255,.3)}
 .nav-link.new-badge::after{content:"NEW";margin-left:auto;font-size:9px;font-weight:700;color:#fff;background:#259D63;border:1px solid #259D63;border-radius:var(--r-xs);padding:1px 5px}
+/* ───── 官公庁管理リスト：dev実機準拠（青→緑） ───── */
+#page-emp-list .emp-filter-btn{display:inline-flex;align-items:center;gap:10px;height:54px;padding:0 38px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:16px;font-weight:700;cursor:pointer;font-family:var(--f);margin:4px 0 18px}
+#page-emp-list .emp-filter-btn:hover{background:#1d8b56}
+#page-emp-list .emp-filter-btn svg{width:18px;height:18px}
+#page-emp-list .emp-csv-btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 18px;background:#259D63;color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--f);margin:0 0 16px}
+#page-emp-list .emp-csv-btn:hover{background:#1d8b56}
+#page-emp-list .emp-csv-btn svg{width:16px;height:16px}
+#page-emp-list .emp-filter-panel{background:#fff;border:1px solid var(--n-200);border-radius:8px;padding:16px;margin:0 0 16px}
+#page-emp-list .emp-table{width:100%;border-collapse:collapse;background:#fff}
+#page-emp-list .emp-table th{font-size:12px;font-weight:600;color:#333;text-align:left;padding:14px 16px;border-bottom:1px solid #ebeef5;white-space:nowrap}
+#page-emp-list .emp-table td{font-size:13px;color:#333;padding:14px 16px;border-bottom:1px solid #ebeef5;vertical-align:middle}
+#page-emp-list .emp-table tbody tr:nth-child(even){background:#fafbfc}
+#page-emp-list .emp-table tbody tr:hover{background:#f3f8f5}
+#page-emp-list .emp-link{color:#1d8b56;font-weight:700;text-decoration:none;cursor:pointer}
+#page-emp-list .emp-link:hover{text-decoration:underline}
+#page-emp-list .emp-link-soft{color:#1d8b56}
+#page-emp-list .emp-status{display:inline-block;padding:3px 12px;border-radius:4px;font-size:12px;font-weight:700;border:1px solid}
+#page-emp-list .emp-status.ok{color:#115A36;border-color:#259D63;background:#e6f5ec}
+#page-emp-list .emp-status.warn{color:#9a6700;border-color:#e0a400;background:#fef4e6}
+#page-emp-list .emp-status.err{color:#b42318;border-color:#d92d20;background:#fee}
 
 /* ───── Main ───── */
 .main{margin-left:var(--sidebar-w);margin-top:60px;flex:1;min-width:0;padding:var(--sp-6) var(--sp-8) var(--sp-12)}
@@ -479,19 +499,22 @@ a:focus-visible,button:focus-visible,.nav-link:focus-visible,.tab:focus-visible,
     <!-- ───── 官公庁管理: 一覧 ───── -->
     <section class="page-container" id="page-emp-list">
       <div class="breadcrumb"><a onclick="go('dashboard')">ダッシュボード</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>官公庁管理</div>
-      <div class="page-head">
+            <div class="page-head">
         <div><div class="page-title">官公庁管理</div><div class="page-desc">利用団体（官公庁）の一覧・承認・停止・代理ログイン</div></div>
-        <button class="btn btn-outline" onclick="toast('マスキング版CSVを出力しました（操作ログに記録）')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>CSV出力</button>
       </div>
-      <div class="toolbar">
-        <div class="field search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" id="emp-q" placeholder="官公庁名・担当者名で検索" oninput="empFilterChanged()"></div>
-        <div class="field"><select id="emp-pref" onchange="empFilterChanged()"><option value="">都道府県：すべて</option></select></div>
-        <div class="field"><select id="emp-type" onchange="empFilterChanged()"><option value="">種類：すべて</option><option value="市区町村">市区町村</option><option value="都道府県">都道府県</option><option value="その他（団体・機関）">その他（団体・機関）</option></select></div>
-        <div class="field"><select id="emp-status" onchange="empFilterChanged()"><option value="">承認状況：すべて</option><option value="pending">承認待ち</option><option value="approved">承認済</option><option value="suspended">停止中</option></select></div>
+      <button type="button" class="emp-filter-btn" onclick="empToggleFilter()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>絞り込み検索</button>
+      <div class="emp-filter-panel" id="emp-filter-panel" hidden>
+        <div class="toolbar">
+          <div class="field search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input type="search" id="emp-q" placeholder="官公庁名・担当者名で検索" oninput="empFilterChanged()"></div>
+          <div class="field"><select id="emp-pref" onchange="empFilterChanged()"><option value="">都道府県：すべて</option></select></div>
+          <div class="field"><select id="emp-type" onchange="empFilterChanged()"><option value="">種類：すべて</option><option value="市区町村">市区町村</option><option value="都道府県">都道府県</option><option value="その他（団体・機関）">その他（団体・機関）</option></select></div>
+          <div class="field"><select id="emp-status" onchange="empFilterChanged()"><option value="">承認状況：すべて</option><option value="pending">承認待ち</option><option value="approved">承認済</option><option value="suspended">停止中</option></select></div>
+        </div>
       </div>
+      <button type="button" class="emp-csv-btn" onclick="toast('マスキング版CSVを出力しました（操作ログに記録）')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5M12 15V3"/></svg>CSV出力</button>
       <div class="table-wrap">
-        <table class="data" style="min-width:820px">
-          <thead><tr><th>官公庁名</th><th>都道府県</th><th>種類</th><th>担当者</th><th>承認状況</th><th>登録日</th><th style="text-align:right">操作</th></tr></thead>
+        <table class="data emp-table" style="min-width:980px">
+          <thead><tr><th>官公庁名</th><th>都道府県</th><th>官公庁の種類</th><th>担当者名</th><th>担当者メールアドレス</th><th>担当者電話番号</th><th>承認状況</th></tr></thead>
           <tbody id="emp-tbody"></tbody>
         </table>
       </div>
@@ -2336,6 +2359,8 @@ function buildPager(total, page, perPage, onClickFnName){
 /* ───── 官公庁管理 一覧（フィルタ＋ページング） ───── */
 let empPage = 1;
 const empPerPage = 30;
+function empTel(e){ var n=0,s=(e.id||'')+(e.name||''); for(var i=0;i<s.length;i++) n=(n*31+s.charCodeAt(i))>>>0; var area=70+(n%30); var mid=('0000'+(1000+(n>>>4)%9000)).slice(-4); var end=('0000'+(1000+(n>>>10)%9000)).slice(-4); return '0'+area+'-'+mid+'-'+end; }
+function empToggleFilter(){ var p=document.getElementById('emp-filter-panel'); if(p) p.hidden=!p.hidden; }
 function empFilterChanged(){ empPage = 1; renderEmpList(); }
 function empGotoPage(p){ empPage = p; renderEmpList(); window.scrollTo(0,0); }
 function getFilteredEmployers(){
@@ -2359,11 +2384,13 @@ function renderEmpList(){
   document.getElementById('emp-tbody').innerHTML = slice.map(e => {
     const st = EMP_STATUS[e.status];
     return `<tr>
-      <td><a class="cell-strong" onclick="openEmp('${e.id}')" style="cursor:pointer">${e.name}</a><div class="cell-sub">${e.id}</div></td>
-      <td>${e.pref}</td><td>${e.type}</td><td>${e.mgr}</td>
-      <td><span class="badge ${st.cls}">${st.label}</span></td>
-      <td>${e.reg}</td>
-      <td class="row-actions"><button class="btn btn-ghost btn-sm" onclick="openEmp('${e.id}')">詳細</button></td>
+      <td><a class="emp-link" onclick="openEmp('${e.id}')">${e.name}</a></td>
+      <td><span class="emp-link-soft">${e.pref}</span></td>
+      <td>${e.type}</td>
+      <td>${e.mgr}</td>
+      <td>${e.mgrEmail}</td>
+      <td>${empTel(e)}</td>
+      <td><span class="emp-status ${st.cls}">${st.label}</span></td>
     </tr>`;
   }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--n-600);padding:24px">該当する官公庁はありません</td></tr>`;
   document.getElementById('emp-pager').innerHTML = buildPager(all.length, empPage, empPerPage, 'empGotoPage');
