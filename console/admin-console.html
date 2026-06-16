@@ -200,13 +200,16 @@ body.on-login .sidebar{display:none}
 .toolbar-spacer{flex:1}
 
 /* ───── Tables ───── */
-.table-wrap{overflow-x:auto;border:1px solid var(--n-100);border-radius:var(--r-sm);background:var(--n-0)}
-table.data{width:100%;border-collapse:collapse;font-size:14px;min-width:720px}
-table.data th{text-align:left;font-size:13px;font-weight:700;color:var(--n-600);background:var(--n-50);padding:11px 14px;border-bottom:1px solid var(--n-100);white-space:nowrap}
-table.data td{padding:12px 14px;border-bottom:1px solid var(--n-50);vertical-align:middle}
+.table-wrap{overflow-x:auto;border:1px solid #ebeef5;border-radius:var(--r-sm);background:#fff}
+table.data{width:100%;border-collapse:collapse;font-size:13px;min-width:720px}
+table.data th{text-align:left;font-size:12px;font-weight:600;color:#333;background:#fff;padding:14px 16px;border-bottom:1px solid #ebeef5;white-space:nowrap}
+table.data td{padding:14px 16px;border-bottom:1px solid #ebeef5;vertical-align:middle;color:#333}
+table.data tbody tr:nth-child(even){background:#fafbfc}
 table.data tr:last-child td{border-bottom:none}
-table.data tbody tr:hover{background:var(--g-50)}
+table.data tbody tr:hover{background:#f3f8f5}
 table.data td.num{text-align:right;font-variant-numeric:tabular-nums}
+table.data a.cell-strong,table.data td a{color:#1d8b56;font-weight:700;text-decoration:none;cursor:pointer}
+table.data a.cell-strong:hover,table.data td a:hover{text-decoration:underline}
 .cell-strong{font-weight:700;color:var(--n-900)}
 .cell-sub{font-size:12px;color:var(--n-500)}
 .cell-user{display:flex;align-items:center;gap:10px}
