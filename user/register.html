@@ -131,26 +131,33 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
 .foot-links{display:flex;gap:22px;flex-wrap:wrap;}
 .foot-copy{font-size:12px;opacity:.6;font-family:"Outfit",sans-serif;}
 </style>
-</head>
+<style id="thd-css">
+.thd{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e7ebe9;}
+.thd-top{max-width:1416px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:16px 60px;}
+.thd-brand{display:flex;flex-direction:column;gap:3px;flex:none;}
+.thd-brand .thd-tag{font-size:11px;color:#767676;font-weight:500;}
+.thd-brand img{height:26px;width:auto;}
+.thd-actions{margin-left:auto;display:flex;align-items:center;gap:18px;flex:none;}
+.thd-login{font-size:14px;font-weight:700;color:#333;}
+.thd-login:hover{color:#115A36;text-decoration:underline;}
+.thd-register{display:inline-flex;align-items:center;gap:8px;background:#115A36;color:#fff;font-size:14px;font-weight:700;padding:10px 22px;border-radius:8px;box-shadow:0 2px 8px rgba(17,90,54,.3);}
+.thd-register:hover{background:#0c472a;}
+.thd-register svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.2;}
+.thd-navrow{border-top:1px solid #eef1f0;}
+.thd-nav{max-width:1416px;margin:0 auto;display:flex;align-items:center;gap:34px;padding:0 60px;height:56px;}
+.thd-nav .nav-link{font-size:14px;font-weight:700;color:#333;height:100%;display:flex;align-items:center;border-bottom:3px solid transparent;}
+.thd-nav .nav-link:hover{color:#115A36;}
+.thd-nav .nav-link.active{color:#115A36;border-bottom-color:#115A36;}
+.thd-nav .nav-link.media .ext{width:13px;height:13px;margin-left:5px;stroke:currentColor;fill:none;stroke-width:2;}
+.thd-search{margin-left:auto;display:flex;align-items:center;gap:9px;width:300px;height:40px;padding:0 14px;border:1px solid #d8dcde;border-radius:999px;background:#f5f7f6;}
+.thd-search svg{width:17px;height:17px;stroke:#767676;fill:none;stroke-width:2;}
+.thd-search input{flex:1;min-width:0;border:none;background:transparent;outline:none;font-size:14px;font-family:inherit;}
+@media(max-width:900px){.thd-top{padding:12px 20px;gap:14px;}.thd-nav{padding:0 20px;gap:18px;overflow-x:auto;}.thd-search{display:none;}}
+</style></head>
 <body>
 
 <!-- ===================== HEADER ===================== -->
-<header class="site-header">
-  <div class="wrap">
-    <a class="hd-brand" href="index-2.html" aria-label="パブリックコネクト トップ">
-      <span class="tag">官公庁・自治体で働くなら</span>
-      <img src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="PUBLIC CONNECT" />
-    </a>
-    <nav class="nav2-bar">
-      <a href="search.html" class="nav2-link">求人を探す</a>
-      <a href="search.html" class="nav2-link">新着求人</a>
-      <a href="news-setsumeikai.html" class="nav2-link">採用説明会情報</a>
-      <a href="news-list.html" class="nav2-link">自治体からのお知らせ</a>
-      <a href="media/index.html" class="nav2-media"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>メディア</a>
-      <a href="user-authenticate.html" class="hd-login">ログイン</a>
-    </nav>
-  </div>
-</header>
+<header class="thd"><div class="thd-top"><a class="thd-brand" href="index-2.html"><span class="thd-tag">官公庁・自治体求人サイト</span><img src="assets/img/logo-service-horizontal-2-pc.89e89d39.webp" alt="PUBLIC CONNECT"></a><div class="thd-actions"><a class="thd-office" href="../console/public-offices.html" style="font-size:13px;font-weight:700;color:#115A36;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;text-decoration:none">官公庁の方はこちら<span aria-hidden="true">›</span></a><a class="thd-login" href="user-authenticate.html">ログイン</a><a class="thd-register" href="register.html"><svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0M4 21v-1a6 6 0 0 1 6-6M18 14v6M21 17h-6"/></svg>会員登録</a></div></div><div class="thd-navrow"><nav class="thd-nav"><a class="nav-link" href="index-2.html">トップ</a><a class="nav-link" href="search.html">求人を探す</a><a class="nav-link" href="blog-list-images.html">官公庁・自治体ブログ</a><a class="nav-link" href="blog-list-videos.html">官公庁・自治体ムービー</a><a class="nav-link" href="news-setsumeikai.html">採用説明会情報</a><a class="nav-link media" href="media/index.html" target="_blank" rel="noopener">メディア<svg class="ext" viewBox="0 0 24 24"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg></a><form class="thd-search" onsubmit="location.href=&#39;search.html&#39;;return false;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input type="search" placeholder="なにをお探しですか？"></form></nav></div></header>
 
 <!-- ===================== PAGE ===================== -->
 <main class="page">
@@ -311,5 +318,72 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
   });
 })();
 </script>
-</body>
+<script id="auth-hdr">
+(function(){
+  var AU_CSS = '\
+input[type=radio],input[type=checkbox]{accent-color:#115A36;}\
+.thd .thd-uacts{margin-left:auto;display:flex;align-items:center;gap:24px;flex:none;}\
+.thd .thd-uact{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:#444;position:relative;white-space:nowrap;text-decoration:none;}\
+.thd .thd-uact:hover{color:#115A36;}\
+.thd .thd-uact svg{width:22px;height:22px;stroke:#444;fill:none;stroke-width:1.8;}\
+.thd .thd-uact:hover svg{stroke:#115A36;}\
+.thd .thd-uact .nbadge{position:absolute;top:-6px;right:4px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:#e2622f;color:#fff;font-size:10px;font-weight:700;line-height:17px;text-align:center;}\
+.thd .thd-ufind{margin-left:6px;border:1px solid #115A36;color:#115A36;font-size:13px;font-weight:700;padding:9px 18px;border-radius:8px;white-space:nowrap;text-decoration:none;}\
+.thd .thd-ufind:hover{background:#e6f5ec;}\
+.thd .thd-my{position:relative;}\
+.thd .thd-my-btn{background:none;border:none;cursor:pointer;font-family:inherit;}\
+.thd .thd-my::after{content:\"\";position:absolute;left:-12px;right:-12px;top:100%;height:16px;}\
+.thd .thd-my-menu{position:absolute;top:calc(100% + 12px);left:50%;transform:translateX(-50%);min-width:220px;background:#fff;border:1px solid #e7ebe9;border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.16);padding:8px 0;display:none;z-index:200;}\
+.thd .thd-my:hover .thd-my-menu,.thd .thd-my.open .thd-my-menu{display:block;}\
+.thd .thd-my-menu a{display:block;padding:12px 22px;font-size:14px;color:#333;font-weight:600;text-decoration:none;white-space:nowrap;}\
+.thd .thd-my-menu a:first-child{color:#115A36;background:#eef5f0;}\
+.thd .thd-my-menu a:hover{background:#f3f6f5;color:#115A36;}\
+.thd .thd-my-div{height:1px;background:#eef1f0;margin:8px 0;}\
+.thd .thd-my-menu .thd-logout{color:#115A36;}';
+  var I={
+    fav:'<svg viewBox=\"0 0 24 24\"><path d=\"M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z\"/></svg>',
+    msg:'<svg viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg>',
+    noti:'<svg viewBox=\"0 0 24 24\"><path d=\"M12 3a6 6 0 0 0-6 6c0 5-2 6-2 8h16c0-2-2-3-2-8a6 6 0 0 0-6-6zm0 18a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z\"/></svg>',
+    my:'<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1\"/></svg>',
+    help:'<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9.5 9a2.5 2.5 0 0 1 4.5 1.5c0 1.5-2 2-2 3\"/><circle cx=\"12\" cy=\"17\" r=\"0.5\" fill=\"currentColor\" stroke=\"none\"/></svg>'
+  };
+  var AU_ACTIONS='<div class=\"thd-uacts\">'
+    +'<a class=\"thd-uact\" href=\"favorite-jobs.html\">'+I.fav+'お気に入り</a>'
+    +'<a class=\"thd-uact\" href=\"message-list.html\">'+I.msg+'メッセージ</a>'
+    +'<a class=\"thd-uact\" href=\"notice-list.html\"><span class=\"nbadge\">7</span>'+I.noti+'お知らせ</a>'
+    +'<div class=\"thd-my\"><button type=\"button\" class=\"thd-uact thd-my-btn\">'+I.my+'マイページ</button>'
+    +'<div class=\"thd-my-menu\">'
+    +'<a href=\"mypage.html\">マイページ</a>'
+    +'<a href=\"entry-list.html\">エントリー一覧</a>'
+    +'<a href=\"entry-list.html#draft\">エントリー下書き一覧</a>'
+    +'<a href=\"setting-email.html\">設定</a>'
+    +'<div class=\"thd-my-div\"></div>'
+    +'<a href=\"#\" class=\"thd-logout\">ログアウト</a></div></div>'
+    +'<a class=\"thd-uact\" href=\"help.html\">'+I.help+'ヘルプ</a>'
+    +'<a class=\"thd-ufind\" href=\"search.html\">求人を探す</a></div>';
+  function isIn(){ try{return localStorage.getItem('pcmember')==='1';}catch(e){return false;} }
+  // ログイン後ページは pcmember を立てる
+  try{ if(document.body && document.body.getAttribute('data-auth')==='1') localStorage.setItem('pcmember','1'); }catch(e){}
+  // accent-color等の共通CSSを常時注入
+  if(!document.getElementById('au-css')){ var st=document.createElement('style'); st.id='au-css'; st.textContent=AU_CSS; (document.head||document.documentElement).appendChild(st); }
+  function swap(){
+    if(!isIn()) return;
+    if(document.querySelector('.thd .thd-uacts')) return;       // 既にログイン後ヘッダー
+    var act=document.querySelector('.thd .thd-actions');         // ログイン/会員登録 を差し替え
+    if(!act) return;
+    var tmp=document.createElement('div'); tmp.innerHTML=AU_ACTIONS;
+    act.parentNode.replaceChild(tmp.firstChild, act);
+  }
+  function setupMy(){
+    var btn=document.querySelector('.thd .thd-my-btn'); if(!btn||btn._w) return; btn._w=1;
+    var dd=btn.closest('.thd-my');
+    btn.addEventListener('click',function(e){ e.preventDefault(); e.stopPropagation(); dd.classList.toggle('open'); });
+    document.addEventListener('click',function(e){ if(dd && !dd.contains(e.target)) dd.classList.remove('open'); });
+    var lo=dd.querySelector('.thd-logout');
+    if(lo) lo.addEventListener('click',function(e){ e.preventDefault(); try{localStorage.removeItem('pcmember');}catch(x){} location.href='index-2.html'; });
+  }
+  function ready(fn){ if(document.readyState!=='loading'){fn();} else {document.addEventListener('DOMContentLoaded',fn);} }
+  ready(function(){ function go(){ swap(); setupMy(); } go(); setTimeout(go,60); setTimeout(go,300); });
+})();
+</script></body>
 </html>
