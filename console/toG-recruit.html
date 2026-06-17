@@ -50345,6 +50345,33 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-card-note{ color:#767676; }
 #page-analytics .dn-rk-tag.t-job{ border-color:#E6E6E6; }
 #page-analytics .dn-dcl-card-num{ font-weight:700; }
+/* ───────── 自団体分析：配置・余白の再設計（横余白の撲滅） ───────── */
+/* 凡例：数値をラベル直後に密着（1fr→auto・左寄せ） */
+#page-analytics .d-donut-legend li{ grid-template-columns:10px auto auto; justify-content:start; column-gap:8px; }
+#page-analytics .d-donut-legend .nm{ max-width:200px; }
+#page-analytics .d-donut-legend .stat{ margin-left:6px; }
+/* 年代別/居住地別：内容幅2列で左詰め・各行は密着 */
+#page-analytics [data-target="age-legend"],#page-analytics [data-target="loc-legend"]{ grid-template-columns:repeat(2,max-content); justify-content:start; column-gap:28px; row-gap:6px; }
+#page-analytics [data-target="age-legend"] li,#page-analytics [data-target="loc-legend"] li{ display:flex; align-items:baseline; gap:6px; justify-content:flex-start; }
+/* 流入経路 縦ドーナツ凡例：内容幅・中央寄せ */
+#page-analytics .d-donut-block.vertical .d-donut-legend{ width:max-content; max-width:340px; margin:0 auto; gap:5px; }
+/* 応募者属性/理由 横ドーナツ：凡例を内容幅に */
+#page-analytics .d-donut-block.horizontal{ grid-template-columns:150px max-content; gap:14px; justify-content:start; }
+/* ミニ流入経路Top4：バー幅固定で数値を近接 */
+#page-analytics .d-mini-source li{ grid-template-columns:150px minmax(0,1fr) auto; gap:10px; }
+#page-analytics .d-mini-source .nm{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* ミニ応募者属性：ラベル/数値幅を詰める */
+#page-analytics .d-mini-attr li{ grid-template-columns:56px minmax(0,1fr) 30px; gap:6px; }
+/* 選考辞退の発生段階バー：トラック幅固定＋数値を塗り直後へ */
+#page-analytics .dp-bar{ display:grid; grid-template-columns:260px auto; gap:12px; align-items:center; justify-content:start; }
+#page-analytics .dp-bar-track{ flex:none; width:260px; }
+#page-analytics .dp-bar-val{ width:auto; text-align:left; }
+/* 78日：単独間延びを解消しコンパクトな帯カードに */
+#page-analytics .dp-speed-total{ display:inline-flex; align-items:baseline; gap:8px; background:#F2F7F4; border:1px solid #cfe0d6; border-radius:10px; padding:12px 18px; margin:4px 0 16px; }
+#page-analytics .dp-speed-total .dp-st-num{ font-size:28px; margin:0 2px; }
+/* PV/UUスタットの離れすぎ＋全体グリッド間隔の圧縮 */
+#page-analytics .d-inflow-stats{ gap:24px; }
+#page-analytics .d-overall-grid{ gap:20px; }
 </style>
 
 <script>
