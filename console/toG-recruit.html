@@ -27348,7 +27348,7 @@ body.on-login-page{overflow:hidden}
           <div class="d-board-head">
             <div class="d-board-head-text">
               <h2 class="d-board-title">選考プロセス分析（選考スピード）</h2>
-              <p class="d-board-sub">※応募締切から内定までの平均選考日数。自団体・比較対象平均・最も選考が早い自治体を比較。人口規模／職種で絞り込み可。サンプルデータ。</p>
+              <p class="d-board-sub">※応募締切から内定までの平均選考日数を、人口規模・エリア・職種の条件で比較。条件ごとの上位10自治体（固有名詞は非表示）と、選考ステップ別の辞退数（自団体 vs 比較対象平均）を表示。サンプルデータ。</p>
             </div>
           </div>
           <div class="dn-filter dn-filter-sec" role="region" aria-label="選考スピードの絞り込み">
@@ -47244,6 +47244,16 @@ ${style.blogQuote}
   var DN_STEP_W       = [0.16, 0.43, 0.30, 0.11]; // その構成比（合計1）
   var DN_SP_JOB_F  = { all:1, admin:0.95, tech:1.15, pro:1.05, nursery:0.9 };
   var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 };
+  var DN_SP_SIZE_KEYS = ['s1','s2','s3','s4','s5','s6'];
+  var DN_SP_AREA_KEYS = ['a1','a2','a3','a4','a5','a6','a7'];
+  // 選考ステップ別の辞退数（自団体実数／比較対象平均の基準値。職種・規模・年度で変動）
+  var DN_DECLINE = [
+    { label:'応募 → 1次', self:42, peer:38 },
+    { label:'1次 → 2次', self:24, peer:26 },
+    { label:'2次 → 3次', self:16, peer:19 },
+    { label:'3次 → 4次', self:12, peer:14 },
+    { label:'内定後',     self:16, peer:12 }
+  ];
   function dnRenderSpeed(animate){
     var host = document.getElementById('dn-speed-body');
     if(!host) return;
@@ -47276,7 +47286,9 @@ ${style.blogQuote}
     for(var i = 0; i < n; i++){
       var steps = drawSteps(rng());
       var total = Math.max(20, Math.round((24 + steps * 15) * jobF * sizeF * yAdj * (0.82 + rng() * 0.42)));
-      peers.push({ steps: steps, total: total });
+      var pSize = (size !== 'all') ? size : DN_SP_SIZE_KEYS[Math.floor(rng() * DN_SP_SIZE_KEYS.length)];
+      var pArea = (area !== 'all') ? area : DN_SP_AREA_KEYS[Math.floor(rng() * DN_SP_AREA_KEYS.length)];
+      peers.push({ steps: steps, total: total, size: pSize, area: pArea });
     }
     var totals = peers.map(function(p){ return p.total; });
     var avgTotal = dnMean(totals);
@@ -47315,19 +47327,19 @@ ${style.blogQuote}
 
     html += '<div class="dn-sp-note">※選考プロセスは自治体ごとに段階数が異なります（2次で内定する団体も、4次まで行う団体もあります）。段階構成に依存しない「総選考日数（応募締切→内定）」と「選考ステップ数」で比較しています。</div>';
 
-    // ── 段1：自団体の選考フロー帯（段階＝自団体の実プロセス。最長区間＝ボトルネック）──
-    var flowMaxIdx = 0;
-    selfSegDays.forEach(function(d, k){ if(d > selfSegDays[flowMaxIdx]) flowMaxIdx = k; });
-    var flowSegs = DN_SELF_SEGMENTS.map(function(s, k){
-      var isMax = (k === flowMaxIdx);
-      return '<div class="dn-flow-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + selfSegDays[k] + ' 1 0">' +
-        '<span class="dn-flow-bar' + (isMax ? ' dn-emph' : '') + '"></span>' +
-        '<span class="dn-flow-cap"><span class="dn-flow-stage">' + s.label + (isMax ? '・最長' : '') + '</span>' +
-          '<span class="dn-flow-days"><span data-dn-to="' + selfSegDays[k] + '" data-dn-fmt="int">' + selfSegDays[k] + '</span>日</span></span>' +
-      '</div>';
+    // ── 段1：選考スピード上位10自治体（比較対象のうち最速順・固有名詞は伏せる）──
+    var ranked = peers.slice().sort(function(a, b){ return a.total - b.total; }).slice(0, 10);
+    var rankRows = ranked.map(function(p, k){
+      var anon = '自治体' + String.fromCharCode(65 + k); // 自治体A〜J（固有名詞は非表示）
+      return '<li class="dn-rk-row">' +
+        '<span class="dn-rk-no">' + (k + 1) + '</span>' +
+        '<span class="dn-rk-name">' + anon + '</span>' +
+        '<span class="dn-rk-attr">' + DN_SIZE_LABEL[p.size] + ' ・ ' + DN_AREA_LABEL[p.area] + '</span>' +
+        '<span class="dn-rk-days"><span data-dn-to="' + p.total + '" data-dn-fmt="int">' + p.total + '</span>日</span>' +
+      '</li>';
     }).join('');
 
-    // ── 段2a：総選考日数レンジ（最速〜最遅）。平均と自団体をマーク ──
+    // ── 段2：総選考日数の位置（最速〜最遅の中で。平均と自団体をマーク）──
     var span = Math.max(1, maxTotal - minTotal);
     var avgPos = Math.round((avgTotal - minTotal) / span * 100);
     var selfPos = Math.round((Math.min(Math.max(selfTotal, minTotal), maxTotal) - minTotal) / span * 100);
@@ -47339,36 +47351,43 @@ ${style.blogQuote}
         '<div class="dn-range-ends"><span>最速 ' + minTotal + '日</span><span>最遅 ' + maxTotal + '日</span></div>' +
       '</div>';
 
-    // ── 段2b：選考ステップ数の分布（2〜5段階）。自団体のバケットを強調 ──
-    var maxBucket = Math.max(stepCount[2], stepCount[3], stepCount[4], stepCount[5], 1);
-    var stepRows = DN_STEP_BUCKETS.map(function(st){
-      var c = stepCount[st];
-      var pct = Math.round(c / n * 100);
-      var w = Math.round(c / maxBucket * 100);
-      var isSelf = (st === selfSteps);
-      return '<div class="dn-step-row' + (isSelf ? ' is-self' : '') + '">' +
-        '<span class="dn-step-lbl">' + st + '段階' + (isSelf ? '<span class="dn-step-youtag">あなた</span>' : '') + '</span>' +
-        '<span class="dn-step-track"><span class="dn-step-fill' + (isSelf ? ' is-self' : '') + '" data-dn-w="' + w + '" style="width:0%"></span></span>' +
-        '<span class="dn-step-val">' + pct + '%</span></div>';
+    // ── 段3：選考ステップ別の辞退数（自団体 vs 比較対象平均）──
+    var dcl = DN_DECLINE.map(function(d){
+      return { label: d.label,
+               self: Math.max(0, Math.round(d.self * jobF * yAdj)),
+               peer: Math.max(0, Math.round(d.peer * jobF * sizeF * yAdj)) };
+    });
+    var dclMax = 1;
+    dcl.forEach(function(d){ dclMax = Math.max(dclMax, d.self, d.peer); });
+    var dclRows = dcl.map(function(d){
+      var sw = Math.round(d.self / dclMax * 100);
+      var pw = Math.round(d.peer / dclMax * 100);
+      return '<div class="dn-dcl-row">' +
+        '<div class="dn-dcl-stage">' + d.label + '</div>' +
+        '<div class="dn-dcl-line"><span class="dn-dcl-key">自団体</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span><span class="dn-dcl-val"><span data-dn-to="' + d.self + '" data-dn-fmt="int">' + d.self + '</span>名</span></div>' +
+        '<div class="dn-dcl-line"><span class="dn-dcl-key">比較対象平均</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-peer" data-dn-w="' + pw + '" style="width:0%"></span></span><span class="dn-dcl-val"><span data-dn-to="' + d.peer + '" data-dn-fmt="int">' + d.peer + '</span>名</span></div>' +
+      '</div>';
     }).join('');
 
-    html += '<div class="dn-sp-flowwrap">' +
-        '<div class="dn-sp-block-head">あなたの選考フロー（応募締切→内定／帯の幅＝各段階の日数）</div>' +
-        '<div class="dn-flow">' + flowSegs + '</div>' +
+    html += '<div class="dn-sp-gapwrap">' +
+        '<div class="dn-sp-block-head">選考スピード上位10自治体（' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '）</div>' +
+        '<ol class="dn-rk">' + rankRows + '</ol>' +
+        '<div class="dn-rk-selfnote">※自治体名は非表示。（参考）自団体 ' + selfTotal + '日</div>' +
       '</div>' +
       '<div class="dn-sp-gapwrap">' +
         '<div class="dn-sp-block-head">総選考日数の位置（比較対象の最速〜最遅の中で）</div>' +
         rangeHtml +
       '</div>' +
       '<div class="dn-sp-gapwrap">' +
-        '<div class="dn-sp-block-head">比較対象の選考ステップ数の分布</div>' +
-        '<div class="dn-step">' + stepRows + '</div>' +
+        '<div class="dn-sp-block-head">選考ステップ別の辞退数（自団体 vs 比較対象平均）</div>' +
+        '<div class="dn-dcl-legend"><span class="dn-dcl-sw is-self"></span>自団体<span class="dn-dcl-sw is-peer"></span>比較対象平均</div>' +
+        '<div class="dn-dcl">' + dclRows + '</div>' +
       '</div>';
 
     host.innerHTML = html;
     if(animate){ dnApplyNumFrom(host, spSnap.nums); }
     dnTweenNumbers(host);
-    var spFills = host.querySelectorAll('.dn-step-fill[data-dn-w]');
+    var spFills = host.querySelectorAll('[data-dn-w]');
     if(dnReduceMotion()){
       spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
     } else {
@@ -50143,6 +50162,29 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-range-marker.avg .dn-range-tag{ top:15px; color:#767676; }
 #page-analytics .dn-range-marker.self .dn-range-tag{ bottom:15px; color:#115A36; }
 #page-analytics .dn-range-ends{ display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:#767676; font-variant-numeric:tabular-nums; }
+/* 選考スピード上位10自治体ランキング */
+#page-analytics .dn-rk{ list-style:none; margin:0; padding:0; }
+#page-analytics .dn-rk-row{ display:flex; align-items:center; gap:12px; padding:7px 4px; }
+#page-analytics .dn-rk-row + .dn-rk-row{ border-top:1px solid #F0F3F1; }
+#page-analytics .dn-rk-no{ flex:none; width:22px; height:22px; border-radius:6px; background:#E6F5EC; color:#115A36; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; }
+#page-analytics .dn-rk-name{ flex:none; width:84px; font-weight:700; color:#1A1A1A; font-size:13px; }
+#page-analytics .dn-rk-attr{ flex:1; min-width:0; font-size:12px; color:#5A6862; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#page-analytics .dn-rk-days{ flex:none; font-weight:800; color:#115A36; font-size:13px; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-rk-selfnote{ margin-top:8px; font-size:12px; color:#767676; }
+/* 選考ステップ別の辞退数（自団体 vs 比較対象平均） */
+#page-analytics .dn-dcl-legend{ display:flex; align-items:center; gap:4px; font-size:12px; color:#5A6862; margin:2px 0 12px; }
+#page-analytics .dn-dcl-sw{ display:inline-block; width:12px; height:12px; border-radius:3px; margin-left:8px; }
+#page-analytics .dn-dcl-sw.is-self{ background:#115A36; }
+#page-analytics .dn-dcl-sw.is-peer{ background:#9BD4B5; }
+#page-analytics .dn-dcl-row{ margin-bottom:14px; }
+#page-analytics .dn-dcl-stage{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin-bottom:6px; }
+#page-analytics .dn-dcl-line{ display:flex; align-items:center; gap:8px; margin-bottom:5px; }
+#page-analytics .dn-dcl-key{ flex:none; width:88px; font-size:11px; color:#5A6862; }
+#page-analytics .dn-dcl-track{ flex:1; height:14px; background:#EEF3F0; border-radius:5px; overflow:hidden; }
+#page-analytics .dn-dcl-fill{ display:block; height:100%; border-radius:5px; transition:width .9s ease; }
+#page-analytics .dn-dcl-fill.is-self{ background:#115A36; }
+#page-analytics .dn-dcl-fill.is-peer{ background:#9BD4B5; }
+#page-analytics .dn-dcl-val{ flex:none; width:48px; text-align:right; font-weight:700; color:#115A36; font-size:12.5px; font-variant-numeric:tabular-nums; }
 /* 選考ステップ数の分布 */
 #page-analytics .dn-step-row{ display:flex; align-items:center; gap:12px; padding:6px 0; }
 #page-analytics .dn-step-lbl{ flex:0 0 116px; font-size:13px; color:#1A1A1A; display:flex; align-items:center; gap:8px; }
