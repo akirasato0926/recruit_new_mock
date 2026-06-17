@@ -27126,7 +27126,6 @@ body.on-login-page{overflow:hidden}
                 </span>
                 PR記事
               </h3>
-              <span class="d-pr-meta" id="d-pr-article-meta">直近30日</span>
             </div>
 
             <div class="d-pr-kpi-row">
@@ -27157,21 +27156,20 @@ body.on-login-page{overflow:hidden}
                 </span>
                 採用情報
               </h3>
-              <span class="d-pr-meta" id="d-pr-recruit-meta">直近30日</span>
             </div>
 
             <div class="d-pr-kpi-row">
               <div class="d-pr-kpi">
-                <p class="d-pr-kpi-label">公開件数</p>
-                <p class="d-pr-kpi-value"><span class="d-num" data-prr="count">8</span><span class="d-u">件</span></p>
+                <p class="d-pr-kpi-label">公開記事数</p>
+                <p class="d-pr-kpi-value"><span class="d-num" data-prr="count">8</span><span class="d-u">本</span></p>
               </div>
               <div class="d-pr-kpi">
-                <p class="d-pr-kpi-label">説明会</p>
-                <p class="d-pr-kpi-value"><span class="d-num" data-prr="seminar">5</span><span class="d-u">件</span></p>
+                <p class="d-pr-kpi-label">累計閲覧</p>
+                <p class="d-pr-kpi-value"><span class="d-num" data-prr="views">3,950</span></p>
               </div>
               <div class="d-pr-kpi">
-                <p class="d-pr-kpi-label">インターン</p>
-                <p class="d-pr-kpi-value"><span class="d-num" data-prr="intern">3</span><span class="d-u">件</span></p>
+                <p class="d-pr-kpi-label">平均閲覧時間</p>
+                <p class="d-pr-kpi-value"><span data-prr="time">1:52</span></p>
               </div>
             </div>
 
@@ -27188,7 +27186,6 @@ body.on-login-page{overflow:hidden}
                 </span>
                 PR動画
               </h3>
-              <span class="d-pr-meta" id="d-pr-video-meta">直近30日</span>
             </div>
 
             <div class="d-pr-kpi-row">
@@ -50266,7 +50263,7 @@ window.toggleLoginPassword = function(btn){
   // PR記事 / PR動画 ダミー
   const PR_BASE = {
     article: { count:24, views:18420, time:'2:48', cvr:3.6 },
-    recruit: { count:8, seminar:5, intern:3 },
+    recruit: { count:8, views:3950, time:'1:52' },
     video:   { count:12, views:9860,  completion:62.4, cvr:4.2 }
   };
   const PR_ARTICLES = [
@@ -50751,12 +50748,7 @@ window.toggleLoginPassword = function(btn){
     const label = getPRLabel();
 
     // 期間表記をパネル両方に反映
-    const aMeta = document.getElementById('d-pr-article-meta');
-    const vMeta = document.getElementById('d-pr-video-meta');
-    const rMeta = document.getElementById('d-pr-recruit-meta');
-    if(aMeta) aMeta.textContent = label;
-    if(vMeta) vMeta.textContent = label;
-    if(rMeta) rMeta.textContent = label;
+    // ペイン内の期間ラベル表示は廃止（上部の期間セレクタに集約）
 
     // 記事 KPI（30日を基準値とした線形スケール）
     const aCnt   = Math.max(1, Math.round(PR_BASE.article.count * Math.max(m, 0.3)));
@@ -50766,13 +50758,13 @@ window.toggleLoginPassword = function(btn){
     const aTime = document.querySelector('[data-pra="time"]');
     if(aTime){ aTime.textContent = PR_BASE.article.time; }
 
-    // 採用情報 KPI（説明会・インターン等）
-    const rCnt = Math.max(1, Math.round(PR_BASE.recruit.count * Math.max(m, 0.3)));
-    const rSem = Math.max(0, Math.round(PR_BASE.recruit.seminar * Math.max(m, 0.3)));
-    const rInt = Math.max(0, Math.round(PR_BASE.recruit.intern * Math.max(m, 0.3)));
-    setNumEl(document.querySelector('[data-prr="count"]'),   rCnt, dur);
-    setNumEl(document.querySelector('[data-prr="seminar"]'), rSem, dur);
-    setNumEl(document.querySelector('[data-prr="intern"]'),  rInt, dur);
+    // 採用情報 KPI（PR記事と同構成：公開記事数／累計閲覧／平均閲覧時間）
+    const rCnt   = Math.max(1, Math.round(PR_BASE.recruit.count * Math.max(m, 0.3)));
+    const rViews = mult(PR_BASE.recruit.views, m);
+    setNumEl(document.querySelector('[data-prr="count"]'), rCnt,   dur);
+    setNumEl(document.querySelector('[data-prr="views"]'), rViews, dur);
+    const rTime = document.querySelector('[data-prr="time"]');
+    if(rTime){ rTime.textContent = PR_BASE.recruit.time; }
 
     // 動画 KPI
     const vCnt   = Math.max(1, Math.round(PR_BASE.video.count * Math.max(m, 0.3)));
