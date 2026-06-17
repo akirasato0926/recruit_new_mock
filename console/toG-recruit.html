@@ -22729,6 +22729,37 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .legend .lname{flex:1;color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #page-top.dash-page .legend .lcnt{font-variant-numeric:tabular-nums;color:#5a6862;font-weight:600}
 #page-top.dash-page .legend .lpc{width:40px;text-align:right;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums}
+/* ───────── 洗練リファインメント（トップ） ───────── */
+#page-top.dash-page .dash-head h1{font-size:24px;font-weight:700;letter-spacing:.01em}
+#page-top.dash-page .dash-date{letter-spacing:.04em;color:#6b7670}
+#page-top.dash-page .dc{border:1px solid #ebefed;border-radius:12px;box-shadow:0 1px 2px rgba(15,23,19,.045)}
+#page-top.dash-page .dc-h{font-weight:700;letter-spacing:.02em}
+#page-top.dash-page .dc-h .dc-sub{font-size:12px;letter-spacing:.04em;color:#6b7670}
+#page-top.dash-page .dc-h .more{font-size:13px}
+#page-top.dash-page .unread-chip{font-size:12px;letter-spacing:.02em}
+#page-top.dash-page .news-list li+li,#page-top.dash-page .act-list li+li{border-top-color:#f0f3f1}
+#page-top.dash-page .news-list .t{font-size:14px;line-height:1.6;letter-spacing:.02em}
+#page-top.dash-page .news-list .d{font-size:12px;color:#6b7670}
+#page-top.dash-page .news-list .rstat{font-size:12px}
+#page-top.dash-page .news-badge{font-size:12px;letter-spacing:.02em}
+#page-top.dash-page .act-main .a{font-size:14px;line-height:1.6;letter-spacing:.02em}
+#page-top.dash-page .act-main .tm{font-size:12px;color:#6b7670;letter-spacing:.02em}
+#page-top.dash-page .jt{font-size:13.5px}
+#page-top.dash-page .jt th{font-size:12px;letter-spacing:.04em;color:#6b7670}
+#page-top.dash-page .jt td{border-bottom-color:#f0f3f1}
+#page-top.dash-page .jt .jname{color:#1A1A1A;font-weight:600}
+#page-top.dash-page .jt .cat{font-size:12px}
+#page-top.dash-page .ch-stat .lbl{font-size:12px;letter-spacing:.04em;color:#6b7670}
+#page-top.dash-page .ch-stat .val{font-size:27px;font-weight:700;letter-spacing:-.01em}
+#page-top.dash-page .ch-stat .val .u{font-size:13px;font-weight:500}
+#page-top.dash-page .legend li{font-size:13px}
+#page-top.dash-page .legend .lname{letter-spacing:.02em}
+#page-top.dash-page .legend .lpc{font-weight:700;color:#1A1A1A}
+#page-top.dash-page .legend .lg-total .ltot{font-weight:700}
+#page-top.dash-page .donut path{stroke:#fff;stroke-width:2.5}
+#page-top.dash-page .ch-grid line{stroke:#eef0ef}
+#page-top.dash-page .ch-body>svg polyline{stroke-width:2}
+#page-top.dash-page .ch-axis text{font-size:11px;fill:#6b7670}
 </style>
 <div class="dash-wrap">
   <div class="dash-head"><h1>トップページ</h1><span class="dash-date">2026年6月17日（水）</span></div>
@@ -50274,6 +50305,41 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-rank-self-rank{ flex:1 0 100%; font-size:11.5px; color:#115A36; font-weight:700; text-align:right; }
 #page-analytics .dn-rank-subhead{ font-size:13px; font-weight:700; color:#767676; margin:24px 0 12px; padding-top:18px; border-top:1px solid #E6E6E6; }
 #page-analytics .dn-rank-subhead.first{ margin-top:0; padding-top:0; border-top:none; }
+/* ───────── 洗練リファインメント（自団体分析／他団体比較） ───────── */
+#page-analytics .d-board-title{ color:#1A1A1A; letter-spacing:.02em; }
+#page-analytics .d-subsection-title,#page-analytics .d-attr-title{ color:#1A1A1A; letter-spacing:.02em; }
+#page-analytics .d-board-sub{ font-size:13px; letter-spacing:.02em; color:#767676; }
+#page-analytics .d-board,#page-analytics .dn-board{ border-radius:12px; }
+#page-analytics .d-kpi{ border-radius:12px; min-height:112px; }
+#page-analytics .dn-kpi{ border-radius:12px; min-height:152px; }
+#page-analytics .d-kpi-label,#page-analytics .dn-kpi-label,#page-analytics .dn-flabel,#page-analytics .dn-bar-row-label,#page-analytics .dn-sub-title{ letter-spacing:.03em; }
+#page-analytics .d-kpi-value,#page-analytics .dn-kpi-value{ letter-spacing:-.01em; }
+#page-analytics .d-fol-current-value{ font-size:34px; }
+/* 横棒バー：ピル化・高さ統一・トラック淡色・比較グレー薄く */
+#page-analytics .dp-bar-track,#page-analytics .dn-bar-track{ height:10px; border-radius:999px; background:#EEF1EF; }
+#page-analytics .dp-bar-fill,#page-analytics .dn-bar-fill{ border-radius:999px; }
+#page-analytics .dn-bar-avg .dn-bar-fill,#page-analytics .dn-bar-fill.avg{ background:#D5DAD7; }
+#page-analytics .dn-mini-track{ background:#EEF1EF; border-radius:999px; }
+#page-analytics .dn-mini-fill{ border-radius:999px; }
+#page-analytics .dn-mini-fill.avg{ background:#D5DAD7; }
+#page-analytics .dn-rank-bar{ height:8px; border-radius:999px; background:#EEF1EF; }
+#page-analytics .dn-rank-bar-fill{ border-radius:999px; }
+#page-analytics .dn-dcl-track{ height:10px; border-radius:999px; background:#EEF1EF; }
+#page-analytics .dn-dcl-fill{ border-radius:999px; }
+#page-analytics .dp-bar-track{ background:#EEF1EF; }
+/* font-weight 800→700・小数/11.5px是正 */
+#page-analytics .dn-rk3-days,#page-analytics .dn-rk3-rank,#page-analytics .dn-rk-days,#page-analytics .dn-rk-no{ font-weight:700; }
+#page-analytics .dn-rk-tag{ font-size:12px; }
+#page-analytics .dn-sp-card-diff,#page-analytics .dn-range-tag,#page-analytics .dn-range-ends,#page-analytics .dn-rank-self-rank,#page-analytics .dn-rank-org{ font-size:12px; }
+/* 緑の二重枠/緑ベタ強調を中立トーンへ */
+#page-analytics .dn-sp-card.is-self{ box-shadow:none; border-color:#cfe0d6; }
+#page-analytics .dn-rk3-card.is-top{ border-color:#cfe0d6; }
+#page-analytics .dn-rank-self{ background:#F2F7F4; border-color:#cfe0d6 !important; }
+#page-analytics .dn-rk-leader{ border-bottom-color:#E1E6E2; }
+#page-analytics .dp-speed-node{ border-width:2px; }
+/* 過剰hover抑制・ドーナツ(path方式)に白セパレータ */
+#page-analytics .d-funnel-stage:hover{ box-shadow:none; transform:none; }
+#page-analytics .d-donut-svg path{ stroke:#fff; stroke-width:2; }
 </style>
 
 <script>
