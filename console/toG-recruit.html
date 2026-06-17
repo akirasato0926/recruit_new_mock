@@ -26873,8 +26873,9 @@ body.on-login-page{overflow:hidden}
         </div>
 
         <!-- 流入経路 + 応募者属性 (2分割：高さ揃え) -->
-        <div class="d-overall-grid">
-          <div class="d-subsection">
+        <div class="d-overall-grid d-overall-3col">
+          <!-- カード1：流入経路（PV / UU） -->
+          <div class="d-subsection d-attr-card">
             <div class="d-inflow-head">
               <h3 class="d-subsection-title d-inflow-title">流入経路（PV / UU）</h3>
               <div class="d-inflow-controls">
@@ -26918,27 +26919,24 @@ body.on-login-page{overflow:hidden}
               <ul class="d-donut-legend" id="d-source-legend"></ul>
             </div>
           </div>
-          <div class="d-subsection">
-            <h3 class="d-subsection-title">応募者属性</h3>
-            <div class="d-attr-stack">
-              <div class="d-attr-sub">
-                <h4 class="d-attr-title">年代別</h4>
-                <div class="d-donut-block horizontal">
-                  <div class="d-donut-wrap">
-                    <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="age-donut" aria-hidden="true"></svg>
-                  </div>
-                  <ul class="d-donut-legend" data-target="age-legend"></ul>
-                </div>
+          <!-- カード2：応募者属性・年代別 -->
+          <div class="d-subsection d-attr-card">
+            <h3 class="d-subsection-title">応募者属性・年代別</h3>
+            <div class="d-donut-block vertical">
+              <div class="d-donut-wrap">
+                <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="age-donut" aria-hidden="true"></svg>
               </div>
-              <div class="d-attr-sub">
-                <h4 class="d-attr-title">居住地別</h4>
-                <div class="d-donut-block horizontal">
-                  <div class="d-donut-wrap">
-                    <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="loc-donut" aria-hidden="true"></svg>
-                  </div>
-                  <ul class="d-donut-legend" data-target="loc-legend"></ul>
-                </div>
+              <ul class="d-donut-legend" data-target="age-legend"></ul>
+            </div>
+          </div>
+          <!-- カード3：応募者属性・居住地別 -->
+          <div class="d-subsection d-attr-card">
+            <h3 class="d-subsection-title">応募者属性・居住地別</h3>
+            <div class="d-donut-block vertical">
+              <div class="d-donut-wrap">
+                <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="loc-donut" aria-hidden="true"></svg>
               </div>
+              <ul class="d-donut-legend" data-target="loc-legend"></ul>
             </div>
           </div>
         </div>
@@ -50374,9 +50372,15 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-overall-grid{ gap:20px; align-items:start; }
 /* ───────── モダン化 v2：密度向上・空白充填・バーの一貫パターン ───────── */
 /* 流入経路PV/UU：ドーナツ左＋凡例右（右側の空白を充填） */
-#page-analytics .d-donut-block.vertical:has(#d-source-legend){ display:grid; grid-template-columns:170px 1fr; gap:22px; align-items:center; }
-#page-analytics .d-donut-block.vertical:has(#d-source-legend) .d-donut-wrap{ width:170px; height:170px; margin:0; }
-#page-analytics .d-donut-block.vertical:has(#d-source-legend) .d-donut-legend{ width:auto; max-width:none; margin:0; }
+/* 3列カード：流入経路 / 年代別 / 居住地別（等高・小さい倍数） */
+#page-analytics .d-overall-3col{ grid-template-columns:repeat(3,1fr); gap:16px; align-items:stretch; }
+#page-analytics .d-attr-card{ border:1px solid #ECEFED; border-radius:12px; padding:16px 16px 18px; background:#fff; display:flex; flex-direction:column; }
+#page-analytics .d-attr-card .d-donut-block.vertical{ display:flex; flex-direction:column; align-items:stretch; margin-top:8px; }
+#page-analytics .d-attr-card .d-donut-wrap{ width:158px; height:158px; margin:2px auto 16px; position:relative; }
+#page-analytics .d-attr-card .d-donut-legend{ width:100%; max-width:none; margin:0; display:grid; grid-template-columns:1fr; gap:8px; justify-items:start; padding-left:6px; }
+#page-analytics .d-attr-card [data-target="age-legend"],#page-analytics .d-attr-card [data-target="loc-legend"]{ grid-template-columns:1fr; }
+#page-analytics .d-attr-card [data-target="age-legend"] li,#page-analytics .d-attr-card [data-target="loc-legend"] li{ justify-content:flex-start; }
+#page-analytics .d-attr-card .d-inflow-stats{ gap:24px; margin-bottom:2px; }
 /* 分布バー：ラベル｜固定トラック｜値（値はトラック直後・過長トラックを排除） */
 #page-analytics .d-mini-attr li{ grid-template-columns:44px 148px 40px; gap:10px; align-items:center; }
 #page-analytics .d-mini-source li{ grid-template-columns:148px 188px auto; gap:12px; align-items:center; }
