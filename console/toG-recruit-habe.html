@@ -50371,7 +50371,20 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dp-speed-total .dp-st-num{ font-size:28px; margin:0 2px; }
 /* PV/UUスタットの離れすぎ＋全体グリッド間隔の圧縮 */
 #page-analytics .d-inflow-stats{ gap:24px; }
-#page-analytics .d-overall-grid{ gap:20px; }
+#page-analytics .d-overall-grid{ gap:20px; align-items:start; }
+/* ───────── モダン化 v2：密度向上・空白充填・バーの一貫パターン ───────── */
+/* 流入経路PV/UU：ドーナツ左＋凡例右（右側の空白を充填） */
+#page-analytics .d-donut-block.vertical:has(#d-source-legend){ display:grid; grid-template-columns:170px 1fr; gap:22px; align-items:center; }
+#page-analytics .d-donut-block.vertical:has(#d-source-legend) .d-donut-wrap{ width:170px; height:170px; margin:0; }
+#page-analytics .d-donut-block.vertical:has(#d-source-legend) .d-donut-legend{ width:auto; max-width:none; margin:0; }
+/* 分布バー：ラベル｜固定トラック｜値（値はトラック直後・過長トラックを排除） */
+#page-analytics .d-mini-attr li{ grid-template-columns:44px 148px 40px; gap:10px; align-items:center; }
+#page-analytics .d-mini-source li{ grid-template-columns:148px 188px auto; gap:12px; align-items:center; }
+#page-analytics .dp-bar{ grid-template-columns:220px auto; }
+#page-analytics .dp-bar-track{ width:220px; }
+/* バーの質感：やや太く・角丸・トラック極薄 */
+#page-analytics .d-mini-attr .bw,#page-analytics .d-mini-source .bw{ height:8px; border-radius:999px; background:#EFF2F0; }
+#page-analytics .d-mini-attr .bf,#page-analytics .d-mini-source .bf{ border-radius:999px; }
 </style>
 
 <script>
