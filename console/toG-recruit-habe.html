@@ -47333,17 +47333,17 @@ ${style.blogQuote}
     html += '<div class="dn-sp-note">※選考プロセスは自治体ごとに段階数が異なります（2次で内定する団体も、4次まで行う団体もあります）。段階構成に依存しない「総選考日数（応募締切→内定）」と「選考ステップ数」で比較しています。</div>';
 
     // ── 段1：選考スピード上位10自治体（比較対象のうち最速順・固有名詞は伏せる）──
-    var ranked = peers.slice().sort(function(a, b){ return a.total - b.total; }).slice(0, 10);
-    var rankRows = ranked.map(function(p, k){
-      return '<li class="dn-rk-row">' +
-        '<span class="dn-rk-no">' + (k + 1) + '</span>' +
-        '<span class="dn-rk-tags">' +
+    var ranked = peers.slice().sort(function(a, b){ return a.total - b.total; }).slice(0, 3);
+    var rankCards = ranked.map(function(p, k){
+      return '<div class="dn-rk3-card' + (k === 0 ? ' is-top' : '') + '">' +
+        '<span class="dn-rk3-rank">' + (k + 1) + '位</span>' +
+        '<span class="dn-rk3-days"><span data-dn-to="' + p.total + '" data-dn-fmt="int">' + p.total + '</span><span class="dn-rk3-u">日</span></span>' +
+        '<span class="dn-rk3-tags">' +
           '<span class="dn-rk-tag t-attr">' + DN_SIZE_LABEL[p.size] + '</span>' +
           '<span class="dn-rk-tag t-attr">' + DN_AREA_LABEL[p.area] + '</span>' +
           '<span class="dn-rk-tag t-job">' + DN_SP_JOB_LABEL[p.job] + '</span>' +
         '</span>' +
-        '<span class="dn-rk-days"><span data-dn-to="' + p.total + '" data-dn-fmt="int">' + p.total + '</span>日</span>' +
-      '</li>';
+      '</div>';
     }).join('');
 
     // ── 段2：選考辞退率・内定辞退率（自団体 vs 比較対象平均）──
@@ -47378,9 +47378,9 @@ ${style.blogQuote}
       '</div>';
 
     html += '<div class="dn-sp-2col">' +
-        '<div class="dn-sp-gapwrap">' +
-          '<div class="dn-sp-block-head">選考スピード上位10自治体（' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '）</div>' +
-          '<ol class="dn-rk">' + rankRows + '</ol>' +
+        '<div class="dn-sp-gapwrap dn-sp-left">' +
+          '<div class="dn-sp-block-head">選考スピード上位3自治体（' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '）</div>' +
+          '<div class="dn-rk3">' + rankCards + '</div>' +
           '<div class="dn-rk-selfnote">※自治体名は非表示。（参考）自団体 ' + selfTotal + '日</div>' +
         '</div>' +
         '<div class="dn-sp-gapwrap">' +
@@ -50176,7 +50176,16 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-range-marker.avg .dn-range-tag{ top:15px; color:#767676; }
 #page-analytics .dn-range-marker.self .dn-range-tag{ bottom:15px; color:#115A36; }
 #page-analytics .dn-range-ends{ display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:#767676; font-variant-numeric:tabular-nums; }
-#page-analytics .dn-sp-2col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+#page-analytics .dn-sp-2col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch; }
+#page-analytics .dn-sp-left{ display:flex; flex-direction:column; }
+#page-analytics .dn-rk3{ flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:10px; }
+#page-analytics .dn-rk3-card{ display:flex; flex-direction:column; justify-content:space-between; gap:10px; min-height:150px; border:1px solid #E6E6E6; border-radius:10px; padding:16px 14px; background:#fff; }
+#page-analytics .dn-rk3-card.is-top{ border-color:#9BD4B5; background:#F4FBF7; }
+#page-analytics .dn-rk3-rank{ align-self:flex-start; display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:22px; padding:0 8px; border-radius:999px; background:#E6F5EC; color:#115A36; font-size:12px; font-weight:800; }
+#page-analytics .dn-rk3-days{ font-size:26px; font-weight:800; color:#115A36; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-rk3-u{ font-size:13px; font-weight:700; margin-left:2px; }
+#page-analytics .dn-rk3-tags{ display:flex; flex-wrap:wrap; gap:6px; }
+@media (max-width:560px){ #page-analytics .dn-rk3{ grid-template-columns:1fr; } }
 @media (max-width:980px){ #page-analytics .dn-sp-2col{ grid-template-columns:1fr; } }
 /* 選考スピード上位10自治体ランキング */
 #page-analytics .dn-rk{ list-style:none; margin:0; padding:0; }
