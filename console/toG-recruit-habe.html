@@ -47147,7 +47147,8 @@ ${style.blogQuote}
     var selfRng = dnRng('ja-self|' + job + '|' + year);
     var selfApps   = Math.max(1, Math.round(874 * jobScale * yScale * (0.85 + selfRng()*0.3)));
     var selfOffers = Math.max(1, Math.round(selfApps * (0.06 + selfRng()*0.04))); // 内定数＝応募の6〜10%程度
-    var selfDecline= Math.round((8 + selfRng()*4) * 10) / 10; // 内定辞退率 8〜12%
+    var selfDecline= Math.round((8 + selfRng()*4) * 10) / 10; // 内定辞退率 8〜12%（削除カード用・未使用）
+    var selfPV     = Math.max(1, Math.round(14200 * jobScale * yScale * (0.85 + selfRng()*0.3))); // 求人ページPV数
 
     // 比較対象（選択した規模/エリアの平均・中央値）。規模・エリア・職種・年度をシードに含める
     function peerVals(metric, base, lo, hi, isPct){
@@ -47162,12 +47163,13 @@ ${style.blogQuote}
     // 応募者数・内定数は比較対象の規模係数で変化（辞退率は規模に依存しない）
     var appsArr    = peerVals('apps',    874 * jobScale * yScale * szScale, 0.78, 1.18, false);
     var offersArr  = peerVals('offers',  874 * jobScale * yScale * szScale * 0.08, 0.7, 1.3, false);
-    var declineArr = peerVals('decline', 1, 7, 10, true); // 平均7〜10%
+    var declineArr = peerVals('decline', 1, 7, 10, true); // 平均7〜10%（削除カード用・未使用）
+    var pvArr      = peerVals('pv', 14200 * jobScale * yScale * szScale, 0.78, 1.18, false);
 
     var cards = [
-      { label:'応募者数',    self:selfApps,    arr:appsArr,    unit:'件', higher:true,  pct:false },
-      { label:'内定数',      self:selfOffers,  arr:offersArr,  unit:'件', higher:true,  pct:false },
-      { label:'内定辞退率',  self:selfDecline, arr:declineArr, unit:'%',  higher:false, pct:true  }
+      { label:'求人ページPV数', self:selfPV,     arr:pvArr,     unit:'回', higher:true,  pct:false },
+      { label:'応募者数',       self:selfApps,   arr:appsArr,   unit:'件', higher:true,  pct:false },
+      { label:'内定数',         self:selfOffers, arr:offersArr, unit:'件', higher:true,  pct:false }
     ];
 
     host.innerHTML = '';
