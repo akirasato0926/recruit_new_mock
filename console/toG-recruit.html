@@ -49393,6 +49393,9 @@ window.handleLogin = function(evt){
   if(evt && evt.preventDefault) evt.preventDefault();
   // モック：メール/パスワードは未入力でもログイン可（検証なし）
   var emailEl = document.getElementById('login-email');
+  var pwEl = document.getElementById('login-password');
+  // 運営管理者ログイン：メールアドレス・パスワードともに「0000」のとき管理コンソールへ
+  if(emailEl && pwEl && emailEl.value.trim() === '0000' && pwEl.value.trim() === '0000'){ location.href = './admin-console.html'; return; }
   var form = (evt && evt.target) || (emailEl && emailEl.form);
   dSetAuthError(form, 'login-auth-error-msg', '');
   // ログイン状態をセット
