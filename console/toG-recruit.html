@@ -22702,19 +22702,22 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dl-soon{color:#c0392b}
 /* row3 charts */
 #page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#page-top.dash-page .dash-row3 .dc{display:flex;flex-direction:column}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
-#page-top.dash-page .ch-body{padding:14px 18px 16px}
-#page-top.dash-page .ch-metric{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+#page-top.dash-page .ch-body{flex:1;padding:14px 18px 16px}
+#page-top.dash-page .ch-body.ch-donut{display:flex;flex-direction:column;justify-content:center;padding-top:10px;padding-bottom:12px}
+#page-top.dash-page .ch-body>svg{display:block;width:100%;height:auto}
+#page-top.dash-page .ch-metric{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
 #page-top.dash-page .ch-metric .big{font-size:26px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums;line-height:1}
 #page-top.dash-page .ch-metric .unit{font-size:13px;font-weight:700;color:#115A36}
 #page-top.dash-page .ch-metric .delta{margin-left:auto;font-size:12px;font-weight:800;color:#1d8b56;font-variant-numeric:tabular-nums}
 #page-top.dash-page .ch-grid line{stroke:#eef3f0;stroke-width:1}
 #page-top.dash-page .ch-axis text{font-family:sans-serif;font-size:9px;fill:#a7b0aa}
 /* donut */
-#page-top.dash-page .donut-wrap{display:flex;align-items:center;gap:16px}
-#page-top.dash-page .donut{width:120px;height:120px;flex:none}
+#page-top.dash-page .donut-wrap{display:flex;align-items:center;gap:18px}
+#page-top.dash-page .donut{width:132px;height:132px;flex:none}
 #page-top.dash-page .legend{flex:1;list-style:none;margin:0;padding:0;min-width:0}
-#page-top.dash-page .legend li{display:flex;align-items:center;gap:8px;padding:4.5px 0;font-size:12.5px}
+#page-top.dash-page .legend li{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12.5px}
 #page-top.dash-page .legend li+li{border-top:1px solid #f4f7f5}
 #page-top.dash-page .legend .lg-total{align-items:baseline;justify-content:space-between;padding:0 0 8px;margin-bottom:3px;border-bottom:1px solid #e3eae6}
 #page-top.dash-page .legend .lg-total+li{border-top:none}
@@ -22790,19 +22793,19 @@ body.on-login-page{overflow:hidden}
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/></svg>フォロワー数の推移<span class="dc-sub">直近30日</span></div>
       <div class="ch-body">
         <div class="ch-metric"><span class="big">5,240</span><span class="unit">人</span><span class="delta">＋214（+4.3%）</span></div>
-        <svg viewBox="0 0 300 132" role="img" aria-label="フォロワー数の推移（直近30日・右肩上がり）">
-          <g class="ch-grid"><line x1="8" y1="24" x2="292" y2="24"/><line x1="8" y1="52" x2="292" y2="52"/><line x1="8" y1="80" x2="292" y2="80"/><line x1="8" y1="108" x2="292" y2="108"/></g>
-          <path d="M14,98 L68,90 L122,80 L176,68 L230,56 L286,46 L286,108 L14,108 Z" fill="#e9f7ef"/>
-          <polyline points="14,98 68,90 122,80 176,68 230,56 286,46" fill="none" stroke="#1d8b56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <g fill="#fff" stroke="#1d8b56" stroke-width="2"><circle cx="14" cy="98" r="3.2"/><circle cx="68" cy="90" r="3.2"/><circle cx="122" cy="80" r="3.2"/><circle cx="176" cy="68" r="3.2"/><circle cx="230" cy="56" r="3.2"/><circle cx="286" cy="46" r="3.6" fill="#1d8b56"/></g>
-          <g class="ch-axis" text-anchor="middle"><text x="14" y="124">5/18</text><text x="95" y="124">5/25</text><text x="176" y="124">6/8</text><text x="280" y="124">6/17</text></g>
+        <svg viewBox="0 0 300 100" role="img" aria-label="フォロワー数の推移（直近30日・右肩上がり）">
+          <g class="ch-grid"><line x1="8" y1="16" x2="292" y2="16"/><line x1="8" y1="38" x2="292" y2="38"/><line x1="8" y1="60" x2="292" y2="60"/><line x1="8" y1="82" x2="292" y2="82"/></g>
+          <path d="M14,76 L68,68 L122,59 L176,49 L230,40 L286,32 L286,84 L14,84 Z" fill="#e9f7ef"/>
+          <polyline points="14,76 68,68 122,59 176,49 230,40 286,32" fill="none" stroke="#1d8b56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <g fill="#fff" stroke="#1d8b56" stroke-width="2"><circle cx="14" cy="76" r="3.2"/><circle cx="68" cy="68" r="3.2"/><circle cx="122" cy="59" r="3.2"/><circle cx="176" cy="49" r="3.2"/><circle cx="230" cy="40" r="3.2"/><circle cx="286" cy="32" r="3.6" fill="#1d8b56"/></g>
+          <g class="ch-axis" text-anchor="middle"><text x="14" y="96">5/18</text><text x="95" y="96">5/25</text><text x="176" y="96">6/8</text><text x="280" y="96">6/17</text></g>
         </svg>
       </div>
     </section>
 
     <section class="dc">
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M12 3a9 9 0 0 1 9 9h-9z" opacity=".5"/></svg>流入経路<span class="dc-sub">直近30日</span></div>
-      <div class="ch-body">
+      <div class="ch-body ch-donut">
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日）">
             <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
@@ -22827,7 +22830,7 @@ body.on-login-page{overflow:hidden}
 
     <section class="dc">
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性<span class="dc-sub">募集中の求人</span></div>
-      <div class="ch-body">
+      <div class="ch-body ch-donut">
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="応募者の年代内訳（直近30日）">
             <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
