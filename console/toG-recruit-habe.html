@@ -22658,7 +22658,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .ndot{width:8px;height:8px;border-radius:50%;flex:none}
 #page-top.dash-page .news-list li.unread .ndot{background:#1d8b56}
 #page-top.dash-page .news-list li.read .ndot{background:#fff;border:1.5px solid #d4dcd7;box-sizing:border-box}
-#page-top.dash-page .news-badge{flex:none;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+#page-top.dash-page .news-badge{flex:none;width:56px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;padding:2px 0;border-radius:999px}
 #page-top.dash-page .nb-info{background:#e6f5ec;color:#115A36}
 #page-top.dash-page .nb-maint{background:#fef4e6;color:#9a6700}
 #page-top.dash-page .nb-new{background:#e7f0ff;color:#1b4f9b}
@@ -22676,14 +22676,14 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:300px}
 #page-top.dash-page .dc-body{flex:1;overflow:auto;padding:8px 10px}
 #page-top.dash-page .act-list{list-style:none;margin:0;padding:0}
-#page-top.dash-page .act-list li{display:flex;gap:11px;padding:10px 8px;position:relative}
+#page-top.dash-page .act-list li{display:flex;gap:10px;padding:7px 8px;align-items:flex-start}
 #page-top.dash-page .act-list li+li{border-top:1px solid #f1f5f3}
-#page-top.dash-page .act-ic{flex:none;width:30px;height:30px;border-radius:9px;background:#e6f5ec;color:#1d8b56;display:flex;align-items:center;justify-content:center}
-#page-top.dash-page .act-ic svg{width:16px;height:16px}
-#page-top.dash-page .act-main{flex:1;min-width:0}
-#page-top.dash-page .act-main .a{font-size:13px;color:#1A1A1A;line-height:1.5}
+#page-top.dash-page .act-ic{flex:none;width:28px;height:28px;border-radius:8px;background:#e6f5ec;color:#1d8b56;display:flex;align-items:center;justify-content:center}
+#page-top.dash-page .act-ic svg{width:15px;height:15px}
+#page-top.dash-page .act-main{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px}
+#page-top.dash-page .act-main .a{flex:1;min-width:0;font-size:13px;color:#1A1A1A;line-height:1.45}
 #page-top.dash-page .act-main .a b{font-weight:700}
-#page-top.dash-page .act-main .tm{font-size:11.5px;color:#909a94;margin-top:2px}
+#page-top.dash-page .act-main .tm{flex:none;font-size:11px;color:#909a94;white-space:nowrap}
 /* jobs table */
 #page-top.dash-page .jt{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
 #page-top.dash-page .jt col.c-name{width:38%}
@@ -22735,16 +22735,16 @@ body.on-login-page{overflow:hidden}
   <section class="dc dash-news">
     <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
     <ul class="news-list">
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 システムメンテナンスのお知らせ</span><span class="rstat">未読</span><span class="d">2026/06/16</span></li>
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">分析「他団体比較」に選考スピード分析を追加しました</span><span class="rstat">未読</span><span class="d">2026/06/13</span></li>
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">6月の操作説明ウェビナー（オンライン）参加申込を受付中です</span><span class="rstat">未読</span><span class="d">2026/06/11</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました</span><span class="rstat">既読</span><span class="d">2026/06/09</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">スカウトメールのテンプレート機能を追加しました</span><span class="rstat">既読</span><span class="d">2026/06/05</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">5/30 緊急メンテナンス完了のご報告</span><span class="rstat">既読</span><span class="d">2026/06/02</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">利用規約改定のお知らせ（2026年7月1日施行）</span><span class="rstat">既読</span><span class="d">2026/05/28</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">応募者一覧のCSVエクスポート項目を拡張しました</span><span class="rstat">既読</span><span class="d">2026/05/22</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">大型連休期間中のサポート対応についてのご案内</span><span class="rstat">既読</span><span class="d">2026/05/18</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">個人情報の取扱いに関するガイドライン更新のお知らせ</span><span class="rstat">既読</span><span class="d">2026/05/12</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 にシステムメンテナンスを実施します。時間中は一部機能をご利用いただけません</span><span class="rstat">未読</span><span class="d">2026/06/16</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">新機能リリース情報「メッセージ未読・既読機能」を10月25日（予定）にリリースします</span><span class="rstat">未読</span><span class="d">2026/06/13</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">6月の操作説明ウェビナー（オンライン）の参加お申込みを受付中です。ぜひご参加ください</span><span class="rstat">未読</span><span class="d">2026/06/11</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました。掲載手順は本ガイドをご確認ください</span><span class="rstat">既読</span><span class="d">2026/06/09</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">スカウトメールのテンプレート機能を追加しました。よく使う文面を保存・呼び出しできます</span><span class="rstat">既読</span><span class="d">2026/06/05</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">5/30 に実施した緊急メンテナンスは完了しました。ご協力いただきありがとうございました</span><span class="rstat">既読</span><span class="d">2026/06/02</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">利用規約改定のお知らせ（2026年7月1日施行）。主な変更点を本ページにてご確認ください</span><span class="rstat">既読</span><span class="d">2026/05/28</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">応募者一覧のCSVエクスポート項目を拡張しました。出力するカラムを任意に選択できます</span><span class="rstat">既読</span><span class="d">2026/05/22</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">大型連休期間中のサポート対応についてのご案内。期間中は受付時間が変更となります</span><span class="rstat">既読</span><span class="d">2026/05/18</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">個人情報の取扱いに関するガイドラインを更新しました。ご利用前に必ずご確認ください</span><span class="rstat">既読</span><span class="d">2026/05/12</span></li>
     </ul>
   </section>
 
@@ -22808,12 +22808,12 @@ body.on-login-page{overflow:hidden}
       <div class="ch-body ch-donut">
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日）">
-            <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
-              <circle cx="60" cy="60" r="45" stroke="#0c472a" stroke-dasharray="107.44 175.30" stroke-dashoffset="0"/>
-              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="67.86 214.88" stroke-dashoffset="-107.44"/>
-              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="50.89 231.85" stroke-dashoffset="-175.30"/>
-              <circle cx="60" cy="60" r="45" stroke="#5bbf8c" stroke-dasharray="39.58 243.16" stroke-dashoffset="-226.19"/>
-              <circle cx="60" cy="60" r="45" stroke="#9BD4B5" stroke-dasharray="16.96 265.78" stroke-dashoffset="-265.78"/>
+            <g stroke-linejoin="round">
+              <path d="M60,6 A54 54 0 0 1 96.96,99.37 L84.64,86.24 A36 36 0 0 0 60,24 Z" fill="#0c472a" stroke="#0c472a" stroke-width="0.8"/>
+              <path d="M96.96,99.37 A54 54 0 0 1 23.04,99.37 L35.36,86.24 A36 36 0 0 0 84.64,86.24 Z" fill="#115A36" stroke="#115A36" stroke-width="0.8"/>
+              <path d="M23.04,99.37 A54 54 0 0 1 8.64,43.31 L25.76,48.88 A36 36 0 0 0 35.36,86.24 Z" fill="#1d8b56" stroke="#1d8b56" stroke-width="0.8"/>
+              <path d="M8.64,43.31 A54 54 0 0 1 40.12,9.79 L46.75,26.53 A36 36 0 0 0 25.76,48.88 Z" fill="#5bbf8c" stroke="#5bbf8c" stroke-width="0.8"/>
+              <path d="M40.12,9.79 A54 54 0 0 1 60,6 L60,24 A36 36 0 0 0 46.75,26.53 Z" fill="#9BD4B5" stroke="#9BD4B5" stroke-width="0.8"/>
             </g>
           </svg>
           <ul class="legend">
@@ -22833,11 +22833,11 @@ body.on-login-page{overflow:hidden}
       <div class="ch-body ch-donut">
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="応募者の年代内訳（直近30日）">
-            <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
-              <circle cx="60" cy="60" r="45" stroke="#0c472a" stroke-dasharray="118.75 163.99" stroke-dashoffset="0"/>
-              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="79.17 203.57" stroke-dashoffset="-118.75"/>
-              <circle cx="60" cy="60" r="45" stroke="#5bbf8c" stroke-dasharray="50.89 231.85" stroke-dashoffset="-197.92"/>
-              <circle cx="60" cy="60" r="45" stroke="#9BD4B5" stroke-dasharray="33.93 248.81" stroke-dashoffset="-248.81"/>
+            <g stroke-linejoin="round">
+              <path d="M60,6 A54 54 0 0 1 86.02,107.32 L77.34,91.55 A36 36 0 0 0 60,24 Z" fill="#0c472a" stroke="#0c472a" stroke-width="0.8"/>
+              <path d="M86.02,107.32 A54 54 0 0 1 8.64,76.69 L25.76,71.12 A36 36 0 0 0 77.34,91.55 Z" fill="#1d8b56" stroke="#1d8b56" stroke-width="0.8"/>
+              <path d="M8.64,76.69 A54 54 0 0 1 23.04,20.63 L35.36,33.76 A36 36 0 0 0 25.76,71.12 Z" fill="#5bbf8c" stroke="#5bbf8c" stroke-width="0.8"/>
+              <path d="M23.04,20.63 A54 54 0 0 1 60,6 L60,24 A36 36 0 0 0 35.36,33.76 Z" fill="#9BD4B5" stroke="#9BD4B5" stroke-width="0.8"/>
             </g>
           </svg>
           <ul class="legend">
