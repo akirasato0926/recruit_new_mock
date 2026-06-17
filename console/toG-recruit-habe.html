@@ -26992,11 +26992,6 @@ body.on-login-page{overflow:hidden}
           </div>
 
           <div class="d-mini-subsection">
-            <h3 class="d-subsection-title-sm">流入経路（Top4）</h3>
-            <ul class="d-mini-source" data-target="job"></ul>
-          </div>
-
-          <div class="d-mini-subsection">
             <h3 class="d-subsection-title-sm">応募者属性</h3>
             <div class="d-mini-attr-grid">
               <div>
@@ -50389,6 +50384,11 @@ window.toggleLoginPassword = function(btn){
 /* バーの質感：やや太く・角丸・トラック極薄 */
 #page-analytics .d-mini-attr .bw,#page-analytics .d-mini-source .bw{ height:8px; border-radius:999px; background:#EFF2F0; }
 #page-analytics .d-mini-attr .bf,#page-analytics .d-mini-source .bf{ border-radius:999px; }
+/* 応募者属性ミニ：ラベル全表示（潰れ解消）・バー充填・値右・2列均等 */
+#page-analytics .d-mini-attr-grid{ grid-template-columns:1fr 1fr; gap:28px; }
+#page-analytics .d-mini-attr li{ grid-template-columns:max-content minmax(40px,1fr) auto; gap:10px; align-items:center; }
+#page-analytics .d-mini-attr .lbl{ max-width:none; overflow:visible; white-space:nowrap; }
+#page-analytics .d-mini-attr .val{ text-align:right; }
 </style>
 
 <script>
