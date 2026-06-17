@@ -22648,18 +22648,29 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
 #page-top.dash-page .dc-h svg{width:18px;height:18px;color:#1d8b56;flex:none}
 #page-top.dash-page .dc-h .dc-sub{font-size:11px;font-weight:700;color:#909a94}
+#page-top.dash-page .dc-h .unread-chip{font-size:11px;font-weight:800;color:#115A36;background:#e6f5ec;border-radius:999px;padding:2px 9px}
 #page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none;white-space:nowrap}
 /* row1 お知らせ */
 #page-top.dash-page .dash-news{margin-bottom:16px}
-#page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:122px;overflow:auto}
-#page-top.dash-page .news-list li{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:8px}
+#page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:128px;overflow:auto}
+#page-top.dash-page .news-list li{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px}
 #page-top.dash-page .news-list li+li{border-top:1px solid #f1f5f3}
+#page-top.dash-page .ndot{width:8px;height:8px;border-radius:50%;flex:none}
+#page-top.dash-page .news-list li.unread .ndot{background:#1d8b56}
+#page-top.dash-page .news-list li.read .ndot{background:#fff;border:1.5px solid #d4dcd7;box-sizing:border-box}
 #page-top.dash-page .news-badge{flex:none;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
 #page-top.dash-page .nb-info{background:#e6f5ec;color:#115A36}
 #page-top.dash-page .nb-maint{background:#fef4e6;color:#9a6700}
 #page-top.dash-page .nb-new{background:#e7f0ff;color:#1b4f9b}
-#page-top.dash-page .news-list .t{flex:1;min-width:0;font-size:13.5px;color:#1A1A1A;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .news-list .t{flex:1;min-width:0;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .news-list li.unread .t{font-weight:700;color:#1A1A1A}
+#page-top.dash-page .news-list li.read .t{font-weight:400;color:#8a948d}
+#page-top.dash-page .news-list li.read .news-badge{opacity:.55}
 #page-top.dash-page .news-list .d{flex:none;font-size:12px;color:#909a94;font-variant-numeric:tabular-nums}
+#page-top.dash-page .news-list li.read .d{color:#b9c0bb}
+#page-top.dash-page .news-list .rstat{flex:none;font-size:11px;font-weight:700;width:30px;text-align:right}
+#page-top.dash-page .news-list li.unread .rstat{color:#1d8b56}
+#page-top.dash-page .news-list li.read .rstat{color:#b9c0bb}
 /* row2 */
 #page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:16px}
 #page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:300px}
@@ -22674,16 +22685,19 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .act-main .a b{font-weight:700}
 #page-top.dash-page .act-main .tm{font-size:11.5px;color:#909a94;margin-top:2px}
 /* jobs table */
-#page-top.dash-page .jt{width:100%;border-collapse:collapse;font-size:12.5px}
-#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:left;font-size:11px;font-weight:700;color:#767676;padding:8px 10px;border-bottom:1px solid #eef3f0;white-space:nowrap}
-#page-top.dash-page .jt td{padding:9px 10px;border-bottom:1px solid #f3f7f5;color:#333;white-space:nowrap;vertical-align:middle}
-#page-top.dash-page .jt td.num{text-align:right;font-variant-numeric:tabular-nums}
-#page-top.dash-page .jt .jname{font-weight:700;color:#115A36;max-width:170px;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .jt{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
+#page-top.dash-page .jt col.c-name{width:38%}
+#page-top.dash-page .jt col.c-cat{width:13%}
+#page-top.dash-page .jt col.c-num{width:12.25%}
+#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:center;font-size:11px;font-weight:700;color:#767676;padding:8px 8px;border-bottom:1px solid #eef3f0;white-space:nowrap}
+#page-top.dash-page .jt th.l{text-align:left}
+#page-top.dash-page .jt td{padding:9px 8px;border-bottom:1px solid #f3f7f5;color:#333;white-space:nowrap;vertical-align:middle;text-align:center}
+#page-top.dash-page .jt td.l{text-align:left}
+#page-top.dash-page .jt .jname{display:inline-block;max-width:210px;vertical-align:middle;font-weight:700;color:#115A36;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #page-top.dash-page .jt .cat{font-size:11px;color:#5a6862;background:#f1f5f3;border-radius:6px;padding:2px 8px}
-#page-top.dash-page .dl-chip{font-weight:800;font-variant-numeric:tabular-nums}
+#page-top.dash-page .jt .num{font-variant-numeric:tabular-nums}
+#page-top.dash-page .dl-chip{font-weight:700;color:#1A1A1A;font-variant-numeric:tabular-nums}
 #page-top.dash-page .dl-soon{color:#c0392b}
-#page-top.dash-page .dl-mid{color:#9a6700}
-#page-top.dash-page .dl-ok{color:#1d8b56}
 /* row3 charts */
 #page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
@@ -22696,13 +22710,14 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .ch-axis text{font-family:sans-serif;font-size:9px;fill:#a7b0aa}
 /* donut */
 #page-top.dash-page .donut-wrap{display:flex;align-items:center;gap:16px}
-#page-top.dash-page .donut{width:122px;height:122px;flex:none}
-#page-top.dash-page .donut-c{font-family:sans-serif;text-anchor:middle}
-#page-top.dash-page .donut-c .dn-num{font-size:22px;font-weight:800;fill:#115A36}
-#page-top.dash-page .donut-c .dn-unit{font-size:10px;font-weight:700;fill:#909a94}
+#page-top.dash-page .donut{width:120px;height:120px;flex:none}
 #page-top.dash-page .legend{flex:1;list-style:none;margin:0;padding:0;min-width:0}
 #page-top.dash-page .legend li{display:flex;align-items:center;gap:8px;padding:4.5px 0;font-size:12.5px}
 #page-top.dash-page .legend li+li{border-top:1px solid #f4f7f5}
+#page-top.dash-page .legend .lg-total{align-items:baseline;justify-content:space-between;padding:0 0 8px;margin-bottom:3px;border-bottom:1px solid #e3eae6}
+#page-top.dash-page .legend .lg-total+li{border-top:none}
+#page-top.dash-page .legend .lg-total .lname{flex:none;font-size:12px;font-weight:700;color:#5a6862}
+#page-top.dash-page .legend .lg-total .ltot{font-size:18px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums}
 #page-top.dash-page .legend .dot{width:10px;height:10px;border-radius:3px;flex:none}
 #page-top.dash-page .legend .lname{flex:1;color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #page-top.dash-page .legend .lcnt{font-variant-numeric:tabular-nums;color:#5a6862;font-weight:600}
@@ -22713,11 +22728,11 @@ body.on-login-page{overflow:hidden}
 
   <!-- 1段目: 運営からのお知らせ（横長） -->
   <section class="dc dash-news">
-    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
+    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 2件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
     <ul class="news-list">
-      <li><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 システムメンテナンスのお知らせ</span><span class="d">2026/06/16</span></li>
-      <li><span class="news-badge nb-new">新機能</span><span class="t">分析「他団体比較」に選考スピード分析を追加しました</span><span class="d">2026/06/13</span></li>
-      <li><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました</span><span class="d">2026/06/09</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 システムメンテナンスのお知らせ</span><span class="rstat">未読</span><span class="d">2026/06/16</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">分析「他団体比較」に選考スピード分析を追加しました</span><span class="rstat">未読</span><span class="d">2026/06/13</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました</span><span class="rstat">既読</span><span class="d">2026/06/09</span></li>
     </ul>
   </section>
 
@@ -22741,14 +22756,15 @@ body.on-login-page{overflow:hidden}
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>募集中の求人情報<a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
       <div class="dc-body" style="padding:0">
         <table class="jt">
-          <thead><tr><th>管理用求人名</th><th>職種</th><th class="num">PV数</th><th class="num">保存数</th><th class="num">応募数</th><th class="num">締切まで</th></tr></thead>
+          <colgroup><col class="c-name"><col class="c-cat"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
+          <thead><tr><th class="l">管理用求人名</th><th>職種</th><th>PV数</th><th>保存数</th><th>応募数</th><th>締切まで</th></tr></thead>
           <tbody>
-            <tr><td class="jname">R9一般事務（大卒）</td><td><span class="cat">事務職</span></td><td class="num">3,210</td><td class="num">142</td><td class="num">38</td><td class="num"><span class="dl-chip dl-soon">後3日</span></td></tr>
-            <tr><td class="jname">土木技師（経験者枠）</td><td><span class="cat">技術職</span></td><td class="num">1,884</td><td class="num">96</td><td class="num">17</td><td class="num"><span class="dl-chip dl-mid">後12日</span></td></tr>
-            <tr><td class="jname">保育士（会計年度）</td><td><span class="cat">保育士</span></td><td class="num">2,540</td><td class="num">120</td><td class="num">29</td><td class="num"><span class="dl-chip dl-ok">後24日</span></td></tr>
-            <tr><td class="jname">保健師（R9採用）</td><td><span class="cat">専門職</span></td><td class="num">1,102</td><td class="num">61</td><td class="num">11</td><td class="num"><span class="dl-chip dl-ok">後31日</span></td></tr>
-            <tr><td class="jname">電気技師（社会人）</td><td><span class="cat">技術職</span></td><td class="num">760</td><td class="num">33</td><td class="num">6</td><td class="num"><span class="dl-chip dl-mid">後9日</span></td></tr>
-            <tr><td class="jname">図書館司書（任期付）</td><td><span class="cat">専門職</span></td><td class="num">988</td><td class="num">47</td><td class="num">9</td><td class="num"><span class="dl-chip dl-ok">後40日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="R9一般事務職（大学卒業程度・前期日程）">R9一般事務職（大学卒業程度・前期日程）</span></td><td><span class="cat">事務職</span></td><td class="num">3,210</td><td class="num">142</td><td class="num">38</td><td><span class="dl-chip dl-soon">後3日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="土木技師（経験者採用枠）">土木技師（経験者採用枠）</span></td><td><span class="cat">技術職</span></td><td class="num">1,884</td><td class="num">96</td><td class="num">17</td><td><span class="dl-chip">後12日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="保育士（会計年度任用職員）">保育士（会計年度任用職員）</span></td><td><span class="cat">保育士</span></td><td class="num">2,540</td><td class="num">120</td><td class="num">29</td><td><span class="dl-chip">後24日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="保健師（R9採用）">保健師（R9採用）</span></td><td><span class="cat">専門職</span></td><td class="num">1,102</td><td class="num">61</td><td class="num">11</td><td><span class="dl-chip">後31日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="電気技師（社会人経験者）">電気技師（社会人経験者）</span></td><td><span class="cat">技術職</span></td><td class="num">760</td><td class="num">33</td><td class="num">6</td><td><span class="dl-chip dl-soon">後9日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="図書館司書（任期付職員）">図書館司書（任期付職員）</span></td><td><span class="cat">専門職</span></td><td class="num">988</td><td class="num">47</td><td class="num">9</td><td><span class="dl-chip">後40日</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -22775,45 +22791,45 @@ body.on-login-page{overflow:hidden}
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M12 3a9 9 0 0 1 9 9h-9z" opacity=".5"/></svg>流入経路<span class="dc-sub">直近30日</span></div>
       <div class="ch-body">
         <div class="donut-wrap">
-          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日・計4,900件）">
+          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日）">
             <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
-              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="107.44 175.30" stroke-dashoffset="0"/>
-              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="67.86 214.88" stroke-dashoffset="-107.44"/>
-              <circle cx="60" cy="60" r="45" stroke="#259d63" stroke-dasharray="50.89 231.85" stroke-dashoffset="-175.30"/>
-              <circle cx="60" cy="60" r="45" stroke="#7fc6a0" stroke-dasharray="39.58 243.16" stroke-dashoffset="-226.19"/>
-              <circle cx="60" cy="60" r="45" stroke="#d9a900" stroke-dasharray="16.96 265.78" stroke-dashoffset="-265.78"/>
+              <circle cx="60" cy="60" r="45" stroke="#0c472a" stroke-dasharray="107.44 175.30" stroke-dashoffset="0"/>
+              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="67.86 214.88" stroke-dashoffset="-107.44"/>
+              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="50.89 231.85" stroke-dashoffset="-175.30"/>
+              <circle cx="60" cy="60" r="45" stroke="#5bbf8c" stroke-dasharray="39.58 243.16" stroke-dashoffset="-226.19"/>
+              <circle cx="60" cy="60" r="45" stroke="#9BD4B5" stroke-dasharray="16.96 265.78" stroke-dashoffset="-265.78"/>
             </g>
-            <g class="donut-c"><text x="60" y="58" class="dn-num">4,900</text><text x="60" y="72" class="dn-unit">件 / 月</text></g>
           </svg>
           <ul class="legend">
-            <li><span class="dot" style="background:#115A36"></span><span class="lname">検索</span><span class="lcnt">1,862件</span><span class="lpc">38%</span></li>
-            <li><span class="dot" style="background:#1d8b56"></span><span class="lname">SNS</span><span class="lcnt">1,176件</span><span class="lpc">24%</span></li>
-            <li><span class="dot" style="background:#259d63"></span><span class="lname">直接</span><span class="lcnt">882件</span><span class="lpc">18%</span></li>
-            <li><span class="dot" style="background:#7fc6a0"></span><span class="lname">メディア</span><span class="lcnt">686件</span><span class="lpc">14%</span></li>
-            <li><span class="dot" style="background:#d9a900"></span><span class="lname">紹介</span><span class="lcnt">294件</span><span class="lpc">6%</span></li>
+            <li class="lg-total"><span class="lname">流入数（直近30日）</span><span class="ltot">4,900件</span></li>
+            <li><span class="dot" style="background:#0c472a"></span><span class="lname">検索</span><span class="lcnt">1,862件</span><span class="lpc">38%</span></li>
+            <li><span class="dot" style="background:#115A36"></span><span class="lname">SNS</span><span class="lcnt">1,176件</span><span class="lpc">24%</span></li>
+            <li><span class="dot" style="background:#1d8b56"></span><span class="lname">直接</span><span class="lcnt">882件</span><span class="lpc">18%</span></li>
+            <li><span class="dot" style="background:#5bbf8c"></span><span class="lname">メディア</span><span class="lcnt">686件</span><span class="lpc">14%</span></li>
+            <li><span class="dot" style="background:#9BD4B5"></span><span class="lname">紹介</span><span class="lcnt">294件</span><span class="lpc">6%</span></li>
           </ul>
         </div>
       </div>
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性<span class="dc-sub">募集中の求人・計110名</span></div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性<span class="dc-sub">募集中の求人</span></div>
       <div class="ch-body">
         <div class="donut-wrap">
-          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="募集中求人への応募者の年代内訳（計110名）">
+          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="応募者の年代内訳（直近30日）">
             <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
-              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="118.75 163.99" stroke-dashoffset="0"/>
+              <circle cx="60" cy="60" r="45" stroke="#0c472a" stroke-dasharray="118.75 163.99" stroke-dashoffset="0"/>
               <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="79.17 203.57" stroke-dashoffset="-118.75"/>
-              <circle cx="60" cy="60" r="45" stroke="#7fc6a0" stroke-dasharray="50.89 231.85" stroke-dashoffset="-197.92"/>
-              <circle cx="60" cy="60" r="45" stroke="#d9a900" stroke-dasharray="33.93 248.81" stroke-dashoffset="-248.81"/>
+              <circle cx="60" cy="60" r="45" stroke="#5bbf8c" stroke-dasharray="50.89 231.85" stroke-dashoffset="-197.92"/>
+              <circle cx="60" cy="60" r="45" stroke="#9BD4B5" stroke-dasharray="33.93 248.81" stroke-dashoffset="-248.81"/>
             </g>
-            <g class="donut-c"><text x="60" y="58" class="dn-num">110</text><text x="60" y="72" class="dn-unit">名</text></g>
           </svg>
           <ul class="legend">
-            <li><span class="dot" style="background:#115A36"></span><span class="lname">20代</span><span class="lcnt">46名</span><span class="lpc">42%</span></li>
+            <li class="lg-total"><span class="lname">直近30日の応募者数</span><span class="ltot">110名</span></li>
+            <li><span class="dot" style="background:#0c472a"></span><span class="lname">20代</span><span class="lcnt">46名</span><span class="lpc">42%</span></li>
             <li><span class="dot" style="background:#1d8b56"></span><span class="lname">30代</span><span class="lcnt">31名</span><span class="lpc">28%</span></li>
-            <li><span class="dot" style="background:#7fc6a0"></span><span class="lname">40代</span><span class="lcnt">20名</span><span class="lpc">18%</span></li>
-            <li><span class="dot" style="background:#d9a900"></span><span class="lname">50代～</span><span class="lcnt">13名</span><span class="lpc">12%</span></li>
+            <li><span class="dot" style="background:#5bbf8c"></span><span class="lname">40代</span><span class="lcnt">20名</span><span class="lpc">18%</span></li>
+            <li><span class="dot" style="background:#9BD4B5"></span><span class="lname">50代～</span><span class="lcnt">13名</span><span class="lpc">12%</span></li>
           </ul>
         </div>
       </div>
