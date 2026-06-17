@@ -27348,7 +27348,7 @@ body.on-login-page{overflow:hidden}
           <div class="d-board-head">
             <div class="d-board-head-text">
               <h2 class="d-board-title">選考プロセス分析（選考スピード）</h2>
-              <p class="d-board-sub">※応募締切から内定までの平均選考日数を、人口規模・エリア・職種の条件で比較。条件ごとの上位10自治体（固有名詞は非表示）と、選考ステップ別の辞退数（自団体 vs 比較対象平均）を表示。サンプルデータ。</p>
+              <p class="d-board-sub">※応募締切から内定までの平均選考日数を、人口規模・エリア・職種の条件で比較。条件ごとの上位10自治体（固有名詞は非表示）と、選考辞退率・内定辞退率（自団体 vs 比較対象平均）を表示。サンプルデータ。</p>
             </div>
           </div>
           <div class="dn-filter dn-filter-sec" role="region" aria-label="選考スピードの絞り込み">
@@ -47029,8 +47029,7 @@ ${style.blogQuote}
       { key:'followers', label:'フォロワー数',  self:DN_SELF.followers, unit:'人', higher:true },
       { key:'blog',      label:'ブログ閲覧数',  self:DN_SELF.blog,      unit:'回', higher:true },
       { key:'video',     label:'動画閲覧数',    self:DN_SELF.video,     unit:'回', higher:true },
-      { key:'reach',     label:'内定辞退率',    self:selfReach,         unit:'%', higher:false, pct:true },
-      { key:'jobs',      label:'求人公開数',    self:DN_SELF.jobs,      unit:'件', higher:true }
+      { key:'reach',     label:'内定辞退率',    self:selfReach,         unit:'%', higher:false, pct:true }
     ];
     var body = document.getElementById('dn-cmp-body');
     body.innerHTML = '';
@@ -47249,12 +47248,13 @@ ${style.blogQuote}
   var DN_SP_JOB_KEYS  = ['admin','tech','pro','nursery'];
   var DN_SP_JOB_LABEL = { all:'すべて', admin:'事務職', tech:'技術職', pro:'専門職', nursery:'保育士' };
   // 選考ステップ別の辞退数（自団体実数／比較対象平均の基準値。職種・規模・年度で変動）
+  // 辞退率（%）。選考辞退率＝応募者に対する選考辞退者の率、内定辞退率＝内定者に対する内定辞退者の率。
   var DN_DECLINE = [
-    { label:'応募 → 1次', self:42, peer:38 },
-    { label:'1次 → 2次', self:24, peer:26 },
-    { label:'2次 → 3次', self:16, peer:19 },
-    { label:'3次 → 4次', self:12, peer:14 },
-    { label:'内定後',     self:16, peer:12 }
+    { label:'応募 → 1次', kind:'sel',   self:8.8,  peer:8.0 },
+    { label:'1次 → 2次', kind:'sel',   self:5.0,  peer:5.4 },
+    { label:'2次 → 3次', kind:'sel',   self:3.3,  peer:4.0 },
+    { label:'3次 → 4次', kind:'sel',   self:2.5,  peer:2.9 },
+    { label:'内定後',     kind:'offer', self:26.7, peer:20.0 }
   ];
   function dnRenderSpeed(animate){
     var host = document.getElementById('dn-speed-body');
@@ -47344,12 +47344,15 @@ ${style.blogQuote}
       '</li>';
     }).join('');
 
-    // ── 段2：選考ステップ別の辞退数（自団体 vs 比較対象平均）──
+    // ── 段2：選考辞退率・内定辞退率（自団体 vs 比較対象平均）──
     var dcl = DN_DECLINE.map(function(d){
-      return { label: d.label,
-               self: Math.max(0, Math.round(d.self * jobF * yAdj)),
-               peer: Math.max(0, Math.round(d.peer * jobF * sizeF * yAdj)) };
+      return { label: d.label, kind: d.kind,
+               self: +Math.min(80, d.self * jobF * yAdj).toFixed(1),
+               peer: +Math.min(80, d.peer * jobF * sizeF * yAdj).toFixed(1) };
     });
+    var selSelf = 0, selPeer = 0, offSelf = 0, offPeer = 0;
+    dcl.forEach(function(d){ if(d.kind === 'offer'){ offSelf = d.self; offPeer = d.peer; } else { selSelf += d.self; selPeer += d.peer; } });
+    selSelf = +selSelf.toFixed(1); selPeer = +selPeer.toFixed(1);
     var dclMax = 1;
     dcl.forEach(function(d){ dclMax = Math.max(dclMax, d.self, d.peer); });
     var dclRows = dcl.map(function(d){
@@ -47357,10 +47360,20 @@ ${style.blogQuote}
       var pw = Math.round(d.peer / dclMax * 100);
       return '<div class="dn-dcl-row">' +
         '<div class="dn-dcl-stage">' + d.label + '</div>' +
-        '<div class="dn-dcl-line"><span class="dn-dcl-key">自団体</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span><span class="dn-dcl-val"><span data-dn-to="' + d.self + '" data-dn-fmt="int">' + d.self + '</span>名</span></div>' +
-        '<div class="dn-dcl-line"><span class="dn-dcl-key">比較対象平均</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-peer" data-dn-w="' + pw + '" style="width:0%"></span></span><span class="dn-dcl-val"><span data-dn-to="' + d.peer + '" data-dn-fmt="int">' + d.peer + '</span>名</span></div>' +
+        '<div class="dn-dcl-line"><span class="dn-dcl-key">自団体</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span><span class="dn-dcl-val">' + d.self.toFixed(1) + '%</span></div>' +
+        '<div class="dn-dcl-line"><span class="dn-dcl-key">比較対象平均</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-peer" data-dn-w="' + pw + '" style="width:0%"></span></span><span class="dn-dcl-val">' + d.peer.toFixed(1) + '%</span></div>' +
       '</div>';
     }).join('');
+    var dclCards = '<div class="dn-dcl-cards">' +
+        '<div class="dn-dcl-card"><div class="dn-dcl-card-label">選考辞退率</div>' +
+          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + selSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span></div>' +
+          '<div class="dn-dcl-card-sub">比較対象平均 ' + selPeer.toFixed(1) + '%</div>' +
+          '<div class="dn-dcl-card-note">応募者に対する選考辞退者の割合</div></div>' +
+        '<div class="dn-dcl-card"><div class="dn-dcl-card-label">内定辞退率</div>' +
+          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + offSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span></div>' +
+          '<div class="dn-dcl-card-sub">比較対象平均 ' + offPeer.toFixed(1) + '%</div>' +
+          '<div class="dn-dcl-card-note">内定者に対する内定辞退者の割合</div></div>' +
+      '</div>';
 
     html += '<div class="dn-sp-2col">' +
         '<div class="dn-sp-gapwrap">' +
@@ -47369,7 +47382,9 @@ ${style.blogQuote}
           '<div class="dn-rk-selfnote">※自治体名は非表示。（参考）自団体 ' + selfTotal + '日</div>' +
         '</div>' +
         '<div class="dn-sp-gapwrap">' +
-          '<div class="dn-sp-block-head">選考ステップ別の辞退数（自団体 vs 比較対象平均）</div>' +
+          '<div class="dn-sp-block-head">選考辞退率・内定辞退率（自団体 vs 比較対象平均）</div>' +
+          dclCards +
+          '<div class="dn-dcl-substage">選考ステップ別の辞退率</div>' +
           '<div class="dn-dcl-legend"><span class="dn-dcl-sw is-self"></span>自団体<span class="dn-dcl-sw is-peer"></span>比較対象平均</div>' +
           '<div class="dn-dcl">' + dclRows + '</div>' +
         '</div>' +
@@ -49902,6 +49917,10 @@ window.toggleLoginPassword = function(btn){
 }
 @media (max-width:980px){ #page-analytics .dn-kpi-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:620px){ #page-analytics .dn-kpi-grid{grid-template-columns:1fr;} }
+#page-analytics #dn-cmp-body.dn-kpi-grid{ grid-template-columns:repeat(5,1fr); }
+@media (max-width:1200px){ #page-analytics #dn-cmp-body.dn-kpi-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:820px){ #page-analytics #dn-cmp-body.dn-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px){ #page-analytics #dn-cmp-body.dn-kpi-grid{ grid-template-columns:1fr; } }
 #page-analytics .dn-kpi{
   background:#fff; border:1px solid #E6E6E6; border-radius:12px;
   padding:18px; min-height:188px; display:flex; flex-direction:column;
@@ -50169,6 +50188,15 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-rk-days{ flex:none; font-weight:800; color:#115A36; font-size:13px; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-rk-selfnote{ margin-top:8px; font-size:12px; color:#767676; }
 /* 選考ステップ別の辞退数（自団体 vs 比較対象平均） */
+#page-analytics .dn-dcl-cards{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:2px 0 16px; }
+#page-analytics .dn-dcl-card{ border:1px solid #E6E6E6; border-radius:10px; padding:12px 14px; background:#fff; }
+#page-analytics .dn-dcl-card-label{ font-size:12px; font-weight:700; color:#5A6862; }
+#page-analytics .dn-dcl-card-main{ margin:6px 0 3px; }
+#page-analytics .dn-dcl-card-num{ font-size:24px; font-weight:800; color:#CE0000; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-dcl-card-u{ font-size:14px; font-weight:700; margin-left:1px; }
+#page-analytics .dn-dcl-card-sub{ font-size:12px; color:#767676; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-dcl-card-note{ font-size:11px; color:#9AA29D; margin-top:7px; line-height:1.4; }
+#page-analytics .dn-dcl-substage{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin:4px 0 8px; }
 #page-analytics .dn-dcl-legend{ display:flex; align-items:center; gap:4px; font-size:12px; color:#5A6862; margin:2px 0 12px; }
 #page-analytics .dn-dcl-sw{ display:inline-block; width:12px; height:12px; border-radius:3px; margin-left:8px; }
 #page-analytics .dn-dcl-sw.is-self{ background:#CE0000; }
