@@ -22640,14 +22640,15 @@ body.on-login-page{overflow:hidden}
 <!-- Page Top: 公共市 採用サイト（公開ページ） -->
 <div id="page-top" class="page-container dash-page" data-page="top">
 <style>
-#page-top.dash-page .dash-wrap{padding:20px 26px 40px;max-width:1400px}
+#page-top.dash-page .dash-wrap{padding:22px 26px 40px;max-width:1400px}
 #page-top.dash-page .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px}
 #page-top.dash-page .dash-head h1{font-size:22px;font-weight:800;color:#1A1A1A;margin:0}
 #page-top.dash-page .dash-date{font-size:13px;color:#767676;font-weight:700}
 #page-top.dash-page .dc{background:#fff;border:1px solid #e3eae6;border-radius:14px;box-shadow:0 1px 3px rgba(16,60,38,.05)}
-#page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:14px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
+#page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
 #page-top.dash-page .dc-h svg{width:18px;height:18px;color:#1d8b56;flex:none}
-#page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none}
+#page-top.dash-page .dc-h .dc-sub{font-size:11px;font-weight:700;color:#909a94}
+#page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none;white-space:nowrap}
 /* row1 お知らせ */
 #page-top.dash-page .dash-news{margin-bottom:16px}
 #page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:122px;overflow:auto}
@@ -22661,7 +22662,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .news-list .d{flex:none;font-size:12px;color:#909a94;font-variant-numeric:tabular-nums}
 /* row2 */
 #page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:16px}
-#page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:316px}
+#page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:300px}
 #page-top.dash-page .dc-body{flex:1;overflow:auto;padding:8px 10px}
 #page-top.dash-page .act-list{list-style:none;margin:0;padding:0}
 #page-top.dash-page .act-list li{display:flex;gap:11px;padding:10px 8px;position:relative}
@@ -22686,13 +22687,26 @@ body.on-login-page{overflow:hidden}
 /* row3 charts */
 #page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
-#page-top.dash-page .ch-body{padding:16px 18px}
-#page-top.dash-page .ch-body svg{width:100%;height:auto;display:block}
-#page-top.dash-page .flow-row{display:flex;align-items:center;gap:10px;padding:7px 0}
-#page-top.dash-page .flow-row .fl{flex:0 0 70px;font-size:12.5px;color:#1A1A1A}
-#page-top.dash-page .flow-row .tr{flex:1;height:12px;background:#eef3f0;border-radius:6px;overflow:hidden}
-#page-top.dash-page .flow-row .fi{height:100%;background:#259d63;border-radius:6px}
-#page-top.dash-page .flow-row .pc{flex:0 0 42px;text-align:right;font-size:12.5px;font-weight:700;color:#115A36;font-variant-numeric:tabular-nums}
+#page-top.dash-page .ch-body{padding:14px 18px 16px}
+#page-top.dash-page .ch-metric{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+#page-top.dash-page .ch-metric .big{font-size:26px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums;line-height:1}
+#page-top.dash-page .ch-metric .unit{font-size:13px;font-weight:700;color:#115A36}
+#page-top.dash-page .ch-metric .delta{margin-left:auto;font-size:12px;font-weight:800;color:#1d8b56;font-variant-numeric:tabular-nums}
+#page-top.dash-page .ch-grid line{stroke:#eef3f0;stroke-width:1}
+#page-top.dash-page .ch-axis text{font-family:sans-serif;font-size:9px;fill:#a7b0aa}
+/* donut */
+#page-top.dash-page .donut-wrap{display:flex;align-items:center;gap:16px}
+#page-top.dash-page .donut{width:122px;height:122px;flex:none}
+#page-top.dash-page .donut-c{font-family:sans-serif;text-anchor:middle}
+#page-top.dash-page .donut-c .dn-num{font-size:22px;font-weight:800;fill:#115A36}
+#page-top.dash-page .donut-c .dn-unit{font-size:10px;font-weight:700;fill:#909a94}
+#page-top.dash-page .legend{flex:1;list-style:none;margin:0;padding:0;min-width:0}
+#page-top.dash-page .legend li{display:flex;align-items:center;gap:8px;padding:4.5px 0;font-size:12.5px}
+#page-top.dash-page .legend li+li{border-top:1px solid #f4f7f5}
+#page-top.dash-page .legend .dot{width:10px;height:10px;border-radius:3px;flex:none}
+#page-top.dash-page .legend .lname{flex:1;color:#1A1A1A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .legend .lcnt{font-variant-numeric:tabular-nums;color:#5a6862;font-weight:600}
+#page-top.dash-page .legend .lpc{width:40px;text-align:right;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums}
 </style>
 <div class="dash-wrap">
   <div class="dash-head"><h1>トップページ</h1><span class="dash-date">2026年6月17日（水）</span></div>
@@ -22744,44 +22758,64 @@ body.on-login-page{overflow:hidden}
   <!-- 3段目: フォロワー数の推移 / 流入経路 / 応募者属性 -->
   <div class="dash-row3">
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/></svg>フォロワー数の推移</div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/></svg>フォロワー数の推移<span class="dc-sub">直近30日</span></div>
       <div class="ch-body">
-        <svg viewBox="0 0 300 150" role="img" aria-label="フォロワー数の推移（直近6ヶ月・右肩上がり）">
-          <line x1="8" y1="120" x2="292" y2="120" stroke="#e3eae6" stroke-width="1"/>
-          <path d="M14,104 L62,96 L110,84 L158,70 L206,56 L254,42 L290,32 L290,120 L14,120 Z" fill="#e9f7ef"/>
-          <polyline points="14,104 62,96 110,84 158,70 206,56 254,42 290,32" fill="none" stroke="#1d8b56" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="254" cy="42" r="4" fill="#1d8b56"/><circle cx="290" cy="32" r="4" fill="#1d8b56"/>
-          <g font-family="sans-serif" font-size="9" fill="#909a94"><text x="14" y="136">1月</text><text x="104" y="136">3月</text><text x="196" y="136">5月</text><text x="276" y="136">6月</text></g>
+        <div class="ch-metric"><span class="big">5,240</span><span class="unit">人</span><span class="delta">＋214（+4.3%）</span></div>
+        <svg viewBox="0 0 300 132" role="img" aria-label="フォロワー数の推移（直近30日・右肩上がり）">
+          <g class="ch-grid"><line x1="8" y1="24" x2="292" y2="24"/><line x1="8" y1="52" x2="292" y2="52"/><line x1="8" y1="80" x2="292" y2="80"/><line x1="8" y1="108" x2="292" y2="108"/></g>
+          <path d="M14,98 L68,90 L122,80 L176,68 L230,56 L286,46 L286,108 L14,108 Z" fill="#e9f7ef"/>
+          <polyline points="14,98 68,90 122,80 176,68 230,56 286,46" fill="none" stroke="#1d8b56" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <g fill="#fff" stroke="#1d8b56" stroke-width="2"><circle cx="14" cy="98" r="3.2"/><circle cx="68" cy="90" r="3.2"/><circle cx="122" cy="80" r="3.2"/><circle cx="176" cy="68" r="3.2"/><circle cx="230" cy="56" r="3.2"/><circle cx="286" cy="46" r="3.6" fill="#1d8b56"/></g>
+          <g class="ch-axis" text-anchor="middle"><text x="14" y="124">5/18</text><text x="95" y="124">5/25</text><text x="176" y="124">6/8</text><text x="280" y="124">6/17</text></g>
         </svg>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px"><span style="font-size:12px;color:#767676">現在</span><span style="font-size:20px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums">5,240<span style="font-size:12px;font-weight:700">人</span></span><span style="font-size:12px;font-weight:700;color:#1d8b56">＋214 / 月</span></div>
       </div>
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" opacity="0"/><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 4"/></svg>流入経路</div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M12 3a9 9 0 0 1 9 9h-9z" opacity=".5"/></svg>流入経路<span class="dc-sub">直近30日</span></div>
       <div class="ch-body">
-        <div class="flow-row"><span class="fl">検索</span><span class="tr"><span class="fi" style="width:38%"></span></span><span class="pc">38%</span></div>
-        <div class="flow-row"><span class="fl">SNS</span><span class="tr"><span class="fi" style="width:24%"></span></span><span class="pc">24%</span></div>
-        <div class="flow-row"><span class="fl">直接</span><span class="tr"><span class="fi" style="width:18%"></span></span><span class="pc">18%</span></div>
-        <div class="flow-row"><span class="fl">メディア</span><span class="tr"><span class="fi" style="width:14%"></span></span><span class="pc">14%</span></div>
-        <div class="flow-row"><span class="fl">紹介</span><span class="tr"><span class="fi" style="width:6%"></span></span><span class="pc">6%</span></div>
+        <div class="donut-wrap">
+          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日・計4,900件）">
+            <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
+              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="107.44 175.30" stroke-dashoffset="0"/>
+              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="67.86 214.88" stroke-dashoffset="-107.44"/>
+              <circle cx="60" cy="60" r="45" stroke="#259d63" stroke-dasharray="50.89 231.85" stroke-dashoffset="-175.30"/>
+              <circle cx="60" cy="60" r="45" stroke="#7fc6a0" stroke-dasharray="39.58 243.16" stroke-dashoffset="-226.19"/>
+              <circle cx="60" cy="60" r="45" stroke="#d9a900" stroke-dasharray="16.96 265.78" stroke-dashoffset="-265.78"/>
+            </g>
+            <g class="donut-c"><text x="60" y="58" class="dn-num">4,900</text><text x="60" y="72" class="dn-unit">件 / 月</text></g>
+          </svg>
+          <ul class="legend">
+            <li><span class="dot" style="background:#115A36"></span><span class="lname">検索</span><span class="lcnt">1,862件</span><span class="lpc">38%</span></li>
+            <li><span class="dot" style="background:#1d8b56"></span><span class="lname">SNS</span><span class="lcnt">1,176件</span><span class="lpc">24%</span></li>
+            <li><span class="dot" style="background:#259d63"></span><span class="lname">直接</span><span class="lcnt">882件</span><span class="lpc">18%</span></li>
+            <li><span class="dot" style="background:#7fc6a0"></span><span class="lname">メディア</span><span class="lcnt">686件</span><span class="lpc">14%</span></li>
+            <li><span class="dot" style="background:#d9a900"></span><span class="lname">紹介</span><span class="lcnt">294件</span><span class="lpc">6%</span></li>
+          </ul>
+        </div>
       </div>
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性（年代）</div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性<span class="dc-sub">募集中の求人・計110名</span></div>
       <div class="ch-body">
-        <svg viewBox="0 0 300 150" role="img" aria-label="応募者の年代分布">
-          <line x1="8" y1="116" x2="292" y2="116" stroke="#e3eae6" stroke-width="1"/>
-          <g>
-            <rect x="30" y="40" width="40" height="76" rx="4" fill="#1d8b56"/>
-            <rect x="98" y="62" width="40" height="54" rx="4" fill="#259d63"/>
-            <rect x="166" y="82" width="40" height="34" rx="4" fill="#7fc6a0"/>
-            <rect x="234" y="94" width="40" height="22" rx="4" fill="#bfe3cf"/>
-          </g>
-          <g font-family="sans-serif" font-size="11" font-weight="700" fill="#115A36" text-anchor="middle"><text x="50" y="34">42%</text><text x="118" y="56">28%</text><text x="186" y="76">18%</text><text x="254" y="88">12%</text></g>
-          <g font-family="sans-serif" font-size="10" fill="#5a6862" text-anchor="middle"><text x="50" y="132">20代</text><text x="118" y="132">30代</text><text x="186" y="132">40代</text><text x="254" y="132">50代～</text></g>
-        </svg>
+        <div class="donut-wrap">
+          <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="募集中求人への応募者の年代内訳（計110名）">
+            <g transform="rotate(-90 60 60)" fill="none" stroke-width="18">
+              <circle cx="60" cy="60" r="45" stroke="#115A36" stroke-dasharray="118.75 163.99" stroke-dashoffset="0"/>
+              <circle cx="60" cy="60" r="45" stroke="#1d8b56" stroke-dasharray="79.17 203.57" stroke-dashoffset="-118.75"/>
+              <circle cx="60" cy="60" r="45" stroke="#7fc6a0" stroke-dasharray="50.89 231.85" stroke-dashoffset="-197.92"/>
+              <circle cx="60" cy="60" r="45" stroke="#d9a900" stroke-dasharray="33.93 248.81" stroke-dashoffset="-248.81"/>
+            </g>
+            <g class="donut-c"><text x="60" y="58" class="dn-num">110</text><text x="60" y="72" class="dn-unit">名</text></g>
+          </svg>
+          <ul class="legend">
+            <li><span class="dot" style="background:#115A36"></span><span class="lname">20代</span><span class="lcnt">46名</span><span class="lpc">42%</span></li>
+            <li><span class="dot" style="background:#1d8b56"></span><span class="lname">30代</span><span class="lcnt">31名</span><span class="lpc">28%</span></li>
+            <li><span class="dot" style="background:#7fc6a0"></span><span class="lname">40代</span><span class="lcnt">20名</span><span class="lpc">18%</span></li>
+            <li><span class="dot" style="background:#d9a900"></span><span class="lname">50代～</span><span class="lcnt">13名</span><span class="lpc">12%</span></li>
+          </ul>
+        </div>
       </div>
     </section>
   </div>
@@ -42586,8 +42620,8 @@ ${style.blogQuote}
   if(typeof origShowPage === 'function'){
     window.showPage = function(page){
       origShowPage.call(this, page);
-      document.body.classList.toggle('showing-top', page === 'top');
-      if(page === 'top') window.scrollTo(0, 0);
+      document.body.classList.toggle('showing-top', page === 'site-edit');
+      if(page === 'top' || page === 'site-edit') window.scrollTo(0, 0);
     };
   }
 })();
