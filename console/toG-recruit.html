@@ -50191,10 +50191,12 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-range-marker.avg .dn-range-tag{ top:15px; color:#767676; }
 #page-analytics .dn-range-marker.self .dn-range-tag{ bottom:15px; color:#115A36; }
 #page-analytics .dn-range-ends{ display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:#767676; font-variant-numeric:tabular-nums; }
-#page-analytics .dn-sp-2col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start; }
+#page-analytics .dn-sp-2col{ display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:stretch; }
 #page-analytics .dn-sp-left{ display:flex; flex-direction:column; }
 #page-analytics .dn-rk3{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:14px; }
 #page-analytics .dn-rk-resthead{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin:2px 0 6px; }
+#page-analytics .dn-sp-left .dn-rk{ flex:1; display:flex; flex-direction:column; justify-content:space-between; }
+#page-analytics .dn-sp-left .dn-rk .dn-rk-row{ flex:1; }
 #page-analytics .dn-rk3-card{ display:flex; flex-direction:column; gap:10px; min-height:128px; border:1px solid #E6E6E6; border-radius:10px; padding:14px; background:#fff; }
 #page-analytics .dn-rk3-card.is-top{ border-color:#9BD4B5; background:#F4FBF7; }
 #page-analytics .dn-rk3-rank{ align-self:flex-start; display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:22px; padding:0 8px; border-radius:999px; background:#E6F5EC; color:#115A36; font-size:12px; font-weight:800; }
