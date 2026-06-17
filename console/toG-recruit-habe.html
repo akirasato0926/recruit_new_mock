@@ -26898,22 +26898,22 @@ body.on-login-page{overflow:hidden}
               <label class="d-pr-range-label">終了日<input type="date" id="d-inflow-to" onchange="dInflowApplyRange()" aria-label="終了日"></label>
               <span class="d-pr-range-meta" id="d-inflow-range-days">30日間</span>
             </div>
-            <div class="d-inflow-stats">
-              <div class="d-inflow-stat">
-                <span class="d-inflow-stat-label">PV数（ページ閲覧数）</span>
-                <span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-pv">124,500</span></span>
-              </div>
-              <div class="d-inflow-stat">
-                <span class="d-inflow-stat-label">UU数（ページ訪問者数）</span>
-                <span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-uu">38,200</span></span>
-              </div>
-            </div>
             <div class="d-donut-block vertical">
               <div class="d-donut-wrap">
                 <svg class="d-donut-svg" viewBox="0 0 100 100" id="d-source-donut" aria-hidden="true"></svg>
                 <div class="d-donut-center">
                   <span class="d-donut-center-num"><span class="d-num" id="d-source-total">124,500</span></span>
                   <span class="d-donut-center-unit">PV</span>
+                </div>
+              </div>
+              <div class="d-inflow-stats">
+                <div class="d-inflow-stat">
+                  <span class="d-inflow-stat-label">PV数（ページ閲覧数）</span>
+                  <span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-pv">124,500</span></span>
+                </div>
+                <div class="d-inflow-stat">
+                  <span class="d-inflow-stat-label">UU数（ページ訪問者数）</span>
+                  <span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-uu">38,200</span></span>
                 </div>
               </div>
               <ul class="d-donut-legend" id="d-source-legend"></ul>
@@ -50408,6 +50408,17 @@ window.toggleLoginPassword = function(btn){
 .page-container:not(#page-top):not(#page-analytics):not(.top-page) .sv-summary-value{ font-weight:700; }
 /* 節パネルのサーフェス統一（緑寄り枠→中立・角丸12・微影） */
 .rk-sec{ border-color:#E6E6E6; border-radius:12px; box-shadow:0 1px 2px rgba(15,23,19,.045); }
+/* 3列カードの凡例＝表形式・縦方向に均等分散（カード高さ統一・余白を活用） */
+#page-analytics .d-attr-card{ display:flex; flex-direction:column; }
+#page-analytics .d-attr-card .d-subsection-title{ min-height:38px; display:flex; align-items:center; }
+#page-analytics .d-attr-card .d-inflow-head{ min-height:38px; display:flex; align-items:center; justify-content:space-between; }
+#page-analytics .d-attr-card .d-donut-block.vertical{ flex:1; display:flex; flex-direction:column; align-items:stretch; }
+#page-analytics .d-attr-card .d-inflow-stats{ justify-content:center; gap:32px; margin:4px 0 6px; }
+#page-analytics .d-attr-card .d-donut-legend{ flex:1; width:100%; max-width:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; justify-content:space-between; gap:0; }
+#page-analytics .d-attr-card .d-donut-legend li{ display:grid; grid-template-columns:14px 1fr auto; align-items:center; gap:10px; padding:8px 2px; border-top:1px solid #F1F4F2; }
+#page-analytics .d-attr-card .d-donut-legend li:first-child{ border-top:none; }
+#page-analytics .d-attr-card .d-donut-legend .nm{ text-align:left; }
+#page-analytics .d-attr-card .d-donut-legend .stat{ justify-self:end; text-align:right; white-space:nowrap; }
 </style>
 
 <script>
