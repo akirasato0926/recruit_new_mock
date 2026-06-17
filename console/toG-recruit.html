@@ -16238,7 +16238,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 
 /* ───── SVGチャートスタイル ───── */
 .an-svg-chart{width:100%;height:auto;overflow:visible}
-.an-svg-chart .gridline{stroke:var(--an-border);stroke-width:0.5;stroke-dasharray:2,2}
+.an-svg-chart .gridline{stroke:#EEF0EF;stroke-width:1;stroke-dasharray:none}
 .an-svg-chart .axis-line{stroke:var(--an-border-muted);stroke-width:1}
 .an-svg-chart .axis-label{
   font-family:'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:10px;fill:var(--an-text-muted);font-weight:600;
@@ -47958,7 +47958,7 @@ ${style.blogQuote}
       const d = new Date(today);
       d.setDate(d.getDate() - i);
       // 日々のランダムな増加（8〜28人／日）
-      const daily = 8 + Math.floor(Math.sin(i*0.4)*6 + 10 + Math.random()*8);
+      const daily = 8 + Math.floor(Math.sin(i*0.4)*6 + 10 + (Math.abs(Math.sin(i*12.9898)*43758.5)%1)*8); // 決定論的擬似ノイズ（Math.random不使用）
       base += daily;
       data.push({
         date: `${d.getMonth()+1}/${d.getDate()}`,
