@@ -50418,6 +50418,12 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-attr-card .d-donut-legend li:first-child{ border-top:none; }
 #page-analytics .d-attr-card .d-donut-legend .nm{ text-align:left; }
 #page-analytics .d-attr-card .d-donut-legend .stat{ justify-self:end; text-align:right; white-space:nowrap; }
+/* PRランキング自団体行：1行に収め、本数・順位を大きく */
+#page-analytics .dn-rank-self{ flex-wrap:nowrap; align-items:baseline; gap:10px; }
+#page-analytics .dn-rank-self .dn-rank-name{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#page-analytics .dn-rank-self .dn-rank-val{ flex:none; font-size:16px; font-weight:800; color:#115A36; }
+#page-analytics .dn-rank-self .dn-rank-val .d-num{ font-size:16px; }
+#page-analytics .dn-rank-self-rank{ flex:none; width:auto; font-size:13.5px; font-weight:700; color:#115A36; white-space:nowrap; text-align:right; }
 </style>
 
 <script>
