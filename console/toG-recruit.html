@@ -22652,7 +22652,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none;white-space:nowrap}
 /* row1 お知らせ */
 #page-top.dash-page .dash-news{margin-bottom:16px}
-#page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:128px;overflow:auto}
+#page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:176px;overflow:auto}
 #page-top.dash-page .news-list li{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px}
 #page-top.dash-page .news-list li+li{border-top:1px solid #f1f5f3}
 #page-top.dash-page .ndot{width:8px;height:8px;border-radius:50%;flex:none}
@@ -22689,11 +22689,13 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .jt col.c-name{width:38%}
 #page-top.dash-page .jt col.c-cat{width:13%}
 #page-top.dash-page .jt col.c-num{width:12.25%}
-#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:center;font-size:11px;font-weight:700;color:#767676;padding:8px 8px;border-bottom:1px solid #eef3f0;white-space:nowrap}
+#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:center;font-size:11px;font-weight:700;color:#767676;padding:9px 8px;border-bottom:1px solid #eef3f0;white-space:nowrap;z-index:1}
 #page-top.dash-page .jt th.l{text-align:left}
 #page-top.dash-page .jt td{padding:9px 8px;border-bottom:1px solid #f3f7f5;color:#333;white-space:nowrap;vertical-align:middle;text-align:center}
 #page-top.dash-page .jt td.l{text-align:left}
-#page-top.dash-page .jt .jname{display:inline-block;max-width:210px;vertical-align:middle;font-weight:700;color:#115A36;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#page-top.dash-page .jt th:first-child,#page-top.dash-page .jt td:first-child{padding-left:18px}
+#page-top.dash-page .jt th:last-child,#page-top.dash-page .jt td:last-child{padding-right:18px}
+#page-top.dash-page .jt .jname{display:inline-block;max-width:230px;vertical-align:middle;font-weight:700;color:#115A36;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #page-top.dash-page .jt .cat{font-size:11px;color:#5a6862;background:#f1f5f3;border-radius:6px;padding:2px 8px}
 #page-top.dash-page .jt .num{font-variant-numeric:tabular-nums}
 #page-top.dash-page .dl-chip{font-weight:700;color:#1A1A1A;font-variant-numeric:tabular-nums}
@@ -22726,13 +22728,20 @@ body.on-login-page{overflow:hidden}
 <div class="dash-wrap">
   <div class="dash-head"><h1>トップページ</h1><span class="dash-date">2026年6月17日（水）</span></div>
 
-  <!-- 1段目: 運営からのお知らせ（横長） -->
+  <!-- 1段目: 運営からのお知らせ（横長・スクロール） -->
   <section class="dc dash-news">
-    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 2件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
+    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
     <ul class="news-list">
       <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 システムメンテナンスのお知らせ</span><span class="rstat">未読</span><span class="d">2026/06/16</span></li>
       <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">分析「他団体比較」に選考スピード分析を追加しました</span><span class="rstat">未読</span><span class="d">2026/06/13</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">6月の操作説明ウェビナー（オンライン）参加申込を受付中です</span><span class="rstat">未読</span><span class="d">2026/06/11</span></li>
       <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました</span><span class="rstat">既読</span><span class="d">2026/06/09</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">スカウトメールのテンプレート機能を追加しました</span><span class="rstat">既読</span><span class="d">2026/06/05</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">5/30 緊急メンテナンス完了のご報告</span><span class="rstat">既読</span><span class="d">2026/06/02</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">利用規約改定のお知らせ（2026年7月1日施行）</span><span class="rstat">既読</span><span class="d">2026/05/28</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">応募者一覧のCSVエクスポート項目を拡張しました</span><span class="rstat">既読</span><span class="d">2026/05/22</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">大型連休期間中のサポート対応についてのご案内</span><span class="rstat">既読</span><span class="d">2026/05/18</span></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">個人情報の取扱いに関するガイドライン更新のお知らせ</span><span class="rstat">既読</span><span class="d">2026/05/12</span></li>
     </ul>
   </section>
 
@@ -22753,18 +22762,22 @@ body.on-login-page{overflow:hidden}
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>募集中の求人情報<a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>募集中の求人情報<span class="dc-sub">締切が近い順</span><a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
       <div class="dc-body" style="padding:0">
         <table class="jt">
           <colgroup><col class="c-name"><col class="c-cat"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
           <thead><tr><th class="l">管理用求人名</th><th>職種</th><th>PV数</th><th>保存数</th><th>応募数</th><th>締切まで</th></tr></thead>
           <tbody>
-            <tr><td class="l"><span class="jname" title="R9一般事務職（大学卒業程度・前期日程）">R9一般事務職（大学卒業程度・前期日程）</span></td><td><span class="cat">事務職</span></td><td class="num">3,210</td><td class="num">142</td><td class="num">38</td><td><span class="dl-chip dl-soon">後3日</span></td></tr>
-            <tr><td class="l"><span class="jname" title="土木技師（経験者採用枠）">土木技師（経験者採用枠）</span></td><td><span class="cat">技術職</span></td><td class="num">1,884</td><td class="num">96</td><td class="num">17</td><td><span class="dl-chip">後12日</span></td></tr>
-            <tr><td class="l"><span class="jname" title="保育士（会計年度任用職員）">保育士（会計年度任用職員）</span></td><td><span class="cat">保育士</span></td><td class="num">2,540</td><td class="num">120</td><td class="num">29</td><td><span class="dl-chip">後24日</span></td></tr>
-            <tr><td class="l"><span class="jname" title="保健師（R9採用）">保健師（R9採用）</span></td><td><span class="cat">専門職</span></td><td class="num">1,102</td><td class="num">61</td><td class="num">11</td><td><span class="dl-chip">後31日</span></td></tr>
-            <tr><td class="l"><span class="jname" title="電気技師（社会人経験者）">電気技師（社会人経験者）</span></td><td><span class="cat">技術職</span></td><td class="num">760</td><td class="num">33</td><td class="num">6</td><td><span class="dl-chip dl-soon">後9日</span></td></tr>
-            <tr><td class="l"><span class="jname" title="図書館司書（任期付職員）">図書館司書（任期付職員）</span></td><td><span class="cat">専門職</span></td><td class="num">988</td><td class="num">47</td><td class="num">9</td><td><span class="dl-chip">後40日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="A-1 行政事務職（大卒以上・既卒含む・SPIテストセンター方式）">A-1 行政事務職（大卒以上・既卒含む・SPIテストセンター方式）</span></td><td><span class="cat">事務職</span></td><td class="num">4,120</td><td class="num">198</td><td class="num">52</td><td><span class="dl-chip dl-soon">後2日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="A-2 行政事務職（高校卒業程度・第1回）">A-2 行政事務職（高校卒業程度・第1回）</span></td><td><span class="cat">事務職</span></td><td class="num">2,980</td><td class="num">140</td><td class="num">36</td><td><span class="dl-chip dl-soon">後3日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="C-1 土木技師（経験者採用枠・社会人経験5年以上）">C-1 土木技師（経験者採用枠・社会人経験5年以上）</span></td><td><span class="cat">技術職</span></td><td class="num">1,884</td><td class="num">96</td><td class="num">17</td><td><span class="dl-chip dl-soon">後5日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="H-1 保育士（会計年度任用職員・令和9年度）">H-1 保育士（会計年度任用職員・令和9年度）</span></td><td><span class="cat">保育士</span></td><td class="num">2,540</td><td class="num">120</td><td class="num">29</td><td><span class="dl-chip dl-soon">後8日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="E-1 電気技師（社会人経験者・即戦力採用）">E-1 電気技師（社会人経験者・即戦力採用）</span></td><td><span class="cat">技術職</span></td><td class="num">760</td><td class="num">33</td><td class="num">6</td><td><span class="dl-chip dl-soon">後9日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="B-1 一般事務（障害者を対象とする選考・令和9年度採用）">B-1 一般事務（障害者を対象とする選考・令和9年度採用）</span></td><td><span class="cat">事務職</span></td><td class="num">1,210</td><td class="num">58</td><td class="num">14</td><td><span class="dl-chip">後12日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="P-1 保健師（令和9年度採用・新卒/既卒）">P-1 保健師（令和9年度採用・新卒/既卒）</span></td><td><span class="cat">専門職</span></td><td class="num">1,102</td><td class="num">61</td><td class="num">11</td><td><span class="dl-chip">後18日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="N-1 看護師（病院局・夜勤あり常勤）">N-1 看護師（病院局・夜勤あり常勤）</span></td><td><span class="cat">専門職</span></td><td class="num">1,640</td><td class="num">88</td><td class="num">22</td><td><span class="dl-chip">後24日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="L-1 図書館司書（任期付職員・中央図書館）">L-1 図書館司書（任期付職員・中央図書館）</span></td><td><span class="cat">専門職</span></td><td class="num">988</td><td class="num">47</td><td class="num">9</td><td><span class="dl-chip">後31日</span></td></tr>
+            <tr><td class="l"><span class="jname" title="W-1 福祉総合職（生活保護ケースワーカー業務含む）">W-1 福祉総合職（生活保護ケースワーカー業務含む）</span></td><td><span class="cat">専門職</span></td><td class="num">1,330</td><td class="num">70</td><td class="num">13</td><td><span class="dl-chip">後40日</span></td></tr>
           </tbody>
         </table>
       </div>
