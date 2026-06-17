@@ -22638,7 +22638,157 @@ body.on-login-page{overflow:hidden}
 </div>
 
 <!-- Page Top: 波部市 採用サイト（公開ページ） -->
-<div id="page-top" class="page-container top-page">
+<div id="page-top" class="page-container dash-page" data-page="top">
+<style>
+#page-top.dash-page .dash-wrap{padding:20px 26px 40px;max-width:1400px}
+#page-top.dash-page .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px}
+#page-top.dash-page .dash-head h1{font-size:22px;font-weight:800;color:#1A1A1A;margin:0}
+#page-top.dash-page .dash-date{font-size:13px;color:#767676;font-weight:700}
+#page-top.dash-page .dc{background:#fff;border:1px solid #e3eae6;border-radius:14px;box-shadow:0 1px 3px rgba(16,60,38,.05)}
+#page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:14px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
+#page-top.dash-page .dc-h svg{width:18px;height:18px;color:#1d8b56;flex:none}
+#page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none}
+/* row1 お知らせ */
+#page-top.dash-page .dash-news{margin-bottom:16px}
+#page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:122px;overflow:auto}
+#page-top.dash-page .news-list li{display:flex;align-items:center;gap:12px;padding:9px 10px;border-radius:8px}
+#page-top.dash-page .news-list li+li{border-top:1px solid #f1f5f3}
+#page-top.dash-page .news-badge{flex:none;font-size:11px;font-weight:800;padding:2px 9px;border-radius:999px}
+#page-top.dash-page .nb-info{background:#e6f5ec;color:#115A36}
+#page-top.dash-page .nb-maint{background:#fef4e6;color:#9a6700}
+#page-top.dash-page .nb-new{background:#e7f0ff;color:#1b4f9b}
+#page-top.dash-page .news-list .t{flex:1;min-width:0;font-size:13.5px;color:#1A1A1A;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .news-list .d{flex:none;font-size:12px;color:#909a94;font-variant-numeric:tabular-nums}
+/* row2 */
+#page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:16px}
+#page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:316px}
+#page-top.dash-page .dc-body{flex:1;overflow:auto;padding:8px 10px}
+#page-top.dash-page .act-list{list-style:none;margin:0;padding:0}
+#page-top.dash-page .act-list li{display:flex;gap:11px;padding:10px 8px;position:relative}
+#page-top.dash-page .act-list li+li{border-top:1px solid #f1f5f3}
+#page-top.dash-page .act-ic{flex:none;width:30px;height:30px;border-radius:9px;background:#e6f5ec;color:#1d8b56;display:flex;align-items:center;justify-content:center}
+#page-top.dash-page .act-ic svg{width:16px;height:16px}
+#page-top.dash-page .act-main{flex:1;min-width:0}
+#page-top.dash-page .act-main .a{font-size:13px;color:#1A1A1A;line-height:1.5}
+#page-top.dash-page .act-main .a b{font-weight:700}
+#page-top.dash-page .act-main .tm{font-size:11.5px;color:#909a94;margin-top:2px}
+/* jobs table */
+#page-top.dash-page .jt{width:100%;border-collapse:collapse;font-size:12.5px}
+#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:left;font-size:11px;font-weight:700;color:#767676;padding:8px 10px;border-bottom:1px solid #eef3f0;white-space:nowrap}
+#page-top.dash-page .jt td{padding:9px 10px;border-bottom:1px solid #f3f7f5;color:#333;white-space:nowrap;vertical-align:middle}
+#page-top.dash-page .jt td.num{text-align:right;font-variant-numeric:tabular-nums}
+#page-top.dash-page .jt .jname{font-weight:700;color:#115A36;max-width:170px;overflow:hidden;text-overflow:ellipsis}
+#page-top.dash-page .jt .cat{font-size:11px;color:#5a6862;background:#f1f5f3;border-radius:6px;padding:2px 8px}
+#page-top.dash-page .dl-chip{font-weight:800;font-variant-numeric:tabular-nums}
+#page-top.dash-page .dl-soon{color:#c0392b}
+#page-top.dash-page .dl-mid{color:#9a6700}
+#page-top.dash-page .dl-ok{color:#1d8b56}
+/* row3 charts */
+#page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
+#page-top.dash-page .ch-body{padding:16px 18px}
+#page-top.dash-page .ch-body svg{width:100%;height:auto;display:block}
+#page-top.dash-page .flow-row{display:flex;align-items:center;gap:10px;padding:7px 0}
+#page-top.dash-page .flow-row .fl{flex:0 0 70px;font-size:12.5px;color:#1A1A1A}
+#page-top.dash-page .flow-row .tr{flex:1;height:12px;background:#eef3f0;border-radius:6px;overflow:hidden}
+#page-top.dash-page .flow-row .fi{height:100%;background:#259d63;border-radius:6px}
+#page-top.dash-page .flow-row .pc{flex:0 0 42px;text-align:right;font-size:12.5px;font-weight:700;color:#115A36;font-variant-numeric:tabular-nums}
+</style>
+<div class="dash-wrap">
+  <div class="dash-head"><h1>トップページ</h1><span class="dash-date">2026年6月17日（水）</span></div>
+
+  <!-- 1段目: 運営からのお知らせ（横長） -->
+  <section class="dc dash-news">
+    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
+    <ul class="news-list">
+      <li><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 システムメンテナンスのお知らせ</span><span class="d">2026/06/16</span></li>
+      <li><span class="news-badge nb-new">新機能</span><span class="t">分析「他団体比較」に選考スピード分析を追加しました</span><span class="d">2026/06/13</span></li>
+      <li><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました</span><span class="d">2026/06/09</span></li>
+    </ul>
+  </section>
+
+  <!-- 2段目: 最近のアクティビティ / 募集中の求人情報 -->
+  <div class="dash-row2">
+    <section class="dc">
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>最近のアクティビティ</div>
+      <div class="dc-body">
+        <ul class="act-list">
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>に新規応募が <b>3件</b> 届きました</div><div class="tm">10分前</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div class="act-main"><div class="a">スカウトに <b>2名</b> から返信がありました</div><div class="tm">1時間前</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><div class="act-main"><div class="a"><b>土木技師（経験者採用枠）</b>を公開しました</div><div class="tm">3時間前</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H5.2L4 17.2z"/></svg></span><div class="act-main"><div class="a">記事「先輩職員インタビュー」が <b>1,240回</b> 閲覧されました</div><div class="tm">昨日</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div class="act-main"><div class="a"><b>保育士</b>の1次面接日程が確定しました（4名）</div><div class="tm">昨日</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div class="act-main"><div class="a">新規フォロワーが <b>18名</b> 増えました</div><div class="tm">2日前</div></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="dc">
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>募集中の求人情報<a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
+      <div class="dc-body" style="padding:0">
+        <table class="jt">
+          <thead><tr><th>管理用求人名</th><th>職種</th><th class="num">PV数</th><th class="num">保存数</th><th class="num">応募数</th><th class="num">締切まで</th></tr></thead>
+          <tbody>
+            <tr><td class="jname">R9一般事務（大卒）</td><td><span class="cat">事務職</span></td><td class="num">3,210</td><td class="num">142</td><td class="num">38</td><td class="num"><span class="dl-chip dl-soon">後3日</span></td></tr>
+            <tr><td class="jname">土木技師（経験者枠）</td><td><span class="cat">技術職</span></td><td class="num">1,884</td><td class="num">96</td><td class="num">17</td><td class="num"><span class="dl-chip dl-mid">後12日</span></td></tr>
+            <tr><td class="jname">保育士（会計年度）</td><td><span class="cat">保育士</span></td><td class="num">2,540</td><td class="num">120</td><td class="num">29</td><td class="num"><span class="dl-chip dl-ok">後24日</span></td></tr>
+            <tr><td class="jname">保健師（R9採用）</td><td><span class="cat">専門職</span></td><td class="num">1,102</td><td class="num">61</td><td class="num">11</td><td class="num"><span class="dl-chip dl-ok">後31日</span></td></tr>
+            <tr><td class="jname">電気技師（社会人）</td><td><span class="cat">技術職</span></td><td class="num">760</td><td class="num">33</td><td class="num">6</td><td class="num"><span class="dl-chip dl-mid">後9日</span></td></tr>
+            <tr><td class="jname">図書館司書（任期付）</td><td><span class="cat">専門職</span></td><td class="num">988</td><td class="num">47</td><td class="num">9</td><td class="num"><span class="dl-chip dl-ok">後40日</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- 3段目: フォロワー数の推移 / 流入経路 / 応募者属性 -->
+  <div class="dash-row3">
+    <section class="dc">
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/></svg>フォロワー数の推移</div>
+      <div class="ch-body">
+        <svg viewBox="0 0 300 150" role="img" aria-label="フォロワー数の推移（直近6ヶ月・右肩上がり）">
+          <line x1="8" y1="120" x2="292" y2="120" stroke="#e3eae6" stroke-width="1"/>
+          <path d="M14,104 L62,96 L110,84 L158,70 L206,56 L254,42 L290,32 L290,120 L14,120 Z" fill="#e9f7ef"/>
+          <polyline points="14,104 62,96 110,84 158,70 206,56 254,42 290,32" fill="none" stroke="#1d8b56" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="254" cy="42" r="4" fill="#1d8b56"/><circle cx="290" cy="32" r="4" fill="#1d8b56"/>
+          <g font-family="sans-serif" font-size="9" fill="#909a94"><text x="14" y="136">1月</text><text x="104" y="136">3月</text><text x="196" y="136">5月</text><text x="276" y="136">6月</text></g>
+        </svg>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:6px"><span style="font-size:12px;color:#767676">現在</span><span style="font-size:20px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums">5,240<span style="font-size:12px;font-weight:700">人</span></span><span style="font-size:12px;font-weight:700;color:#1d8b56">＋214 / 月</span></div>
+      </div>
+    </section>
+
+    <section class="dc">
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20" opacity="0"/><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6 4"/></svg>流入経路</div>
+      <div class="ch-body">
+        <div class="flow-row"><span class="fl">検索</span><span class="tr"><span class="fi" style="width:38%"></span></span><span class="pc">38%</span></div>
+        <div class="flow-row"><span class="fl">SNS</span><span class="tr"><span class="fi" style="width:24%"></span></span><span class="pc">24%</span></div>
+        <div class="flow-row"><span class="fl">直接</span><span class="tr"><span class="fi" style="width:18%"></span></span><span class="pc">18%</span></div>
+        <div class="flow-row"><span class="fl">メディア</span><span class="tr"><span class="fi" style="width:14%"></span></span><span class="pc">14%</span></div>
+        <div class="flow-row"><span class="fl">紹介</span><span class="tr"><span class="fi" style="width:6%"></span></span><span class="pc">6%</span></div>
+      </div>
+    </section>
+
+    <section class="dc">
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性（年代）</div>
+      <div class="ch-body">
+        <svg viewBox="0 0 300 150" role="img" aria-label="応募者の年代分布">
+          <line x1="8" y1="116" x2="292" y2="116" stroke="#e3eae6" stroke-width="1"/>
+          <g>
+            <rect x="30" y="40" width="40" height="76" rx="4" fill="#1d8b56"/>
+            <rect x="98" y="62" width="40" height="54" rx="4" fill="#259d63"/>
+            <rect x="166" y="82" width="40" height="34" rx="4" fill="#7fc6a0"/>
+            <rect x="234" y="94" width="40" height="22" rx="4" fill="#bfe3cf"/>
+          </g>
+          <g font-family="sans-serif" font-size="11" font-weight="700" fill="#115A36" text-anchor="middle"><text x="50" y="34">42%</text><text x="118" y="56">28%</text><text x="186" y="76">18%</text><text x="254" y="88">12%</text></g>
+          <g font-family="sans-serif" font-size="10" fill="#5a6862" text-anchor="middle"><text x="50" y="132">20代</text><text x="118" y="132">30代</text><text x="186" y="132">40代</text><text x="254" y="132">50代～</text></g>
+        </svg>
+      </div>
+    </section>
+  </div>
+</div>
+</div>
+
+<div id="page-site-edit" class="page-container top-page">
   <!-- プレビューモードバー（管理画面内で表示していることを明示） -->
   <div class="tp-preview-bar">
     <div class="tp-preview-bar-inner">
@@ -30334,6 +30484,11 @@ body.on-login-page{overflow:hidden}
   </div></div>
   <main class="main"><div class="main-inner">
     <section class="rk-sec">
+      <div class="sec-title" style="margin-bottom:8px">求人サイト・トップページの編集</div>
+      <p class="rk-note" style="margin:0 0 12px;color:#5a6862;font-size:13px;line-height:1.6">公開する採用サイト・トップページのデザインや掲載コンテンツを編集します。編集画面では各セクションのレイアウト・テキスト・画像を変更できます。</p>
+      <button type="button" class="btn btn-sm btn-outline" onclick="if(window.showPage)showPage('site-edit')">デザイン編集を開く</button>
+    </section>
+    <section class="rk-sec">
       <div class="sec-title" style="margin-bottom:14px">メールアドレス</div>
       <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><span style="font-size:14px;color:#1A1A1A">yamada.k@koukyo-city.jp</span><button class="btn btn-sm btn-outline">変更</button></div>
     </section>
@@ -34726,10 +34881,11 @@ function dhDeleteRow(btn){
 // ═══════════════════════════════════════════════════════
 // ページ切り替え (ハッシュベースルーティング)
 // ═══════════════════════════════════════════════════════
-const PAGES = ['domain','login','top','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
+const PAGES = ['domain','login','top','site-edit','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
 const PAGE_LABELS = {
   'login': 'ログイン',
   'top': 'トップページ',
+  'site-edit': 'サイト・トップページ編集',
   '01': '応募者管理',
   '02': '新規求人を作成',
   '03': '求人管理',
@@ -49427,7 +49583,7 @@ function showLoginLoading(){
   const loading = document.getElementById('login-loading');
   if(!loading){
     // フォールバック: ローディング画面がなければ即遷移
-    if(typeof window.showPage === 'function') window.showPage('analytics');
+    if(typeof window.showPage === 'function') window.showPage('top');
     return;
   }
   loading.classList.add('show');
@@ -49435,7 +49591,7 @@ function showLoginLoading(){
   
   // 画面遷移: 先にanalyticsページを裏で切り替えてから、ローディングをフェードアウト
   setTimeout(() => {
-    if(typeof window.showPage === 'function') window.showPage('analytics');
+    if(typeof window.showPage === 'function') window.showPage('top');
   }, 600);
   
   // ローディング画面を閉じる（合計 約1秒）
