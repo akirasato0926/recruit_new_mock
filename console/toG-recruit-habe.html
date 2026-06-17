@@ -47246,6 +47246,8 @@ ${style.blogQuote}
   var DN_SP_SIZE_F = { all:1.0, s1:0.9, s2:0.95, s3:1.0, s4:1.06, s5:1.12, s6:1.2 };
   var DN_SP_SIZE_KEYS = ['s1','s2','s3','s4','s5','s6'];
   var DN_SP_AREA_KEYS = ['a1','a2','a3','a4','a5','a6','a7'];
+  var DN_SP_JOB_KEYS  = ['admin','tech','pro','nursery'];
+  var DN_SP_JOB_LABEL = { all:'すべて', admin:'事務職', tech:'技術職', pro:'専門職', nursery:'保育士' };
   // 選考ステップ別の辞退数（自団体実数／比較対象平均の基準値。職種・規模・年度で変動）
   var DN_DECLINE = [
     { label:'応募 → 1次', self:42, peer:38 },
@@ -47288,7 +47290,8 @@ ${style.blogQuote}
       var total = Math.max(20, Math.round((24 + steps * 15) * jobF * sizeF * yAdj * (0.82 + rng() * 0.42)));
       var pSize = (size !== 'all') ? size : DN_SP_SIZE_KEYS[Math.floor(rng() * DN_SP_SIZE_KEYS.length)];
       var pArea = (area !== 'all') ? area : DN_SP_AREA_KEYS[Math.floor(rng() * DN_SP_AREA_KEYS.length)];
-      peers.push({ steps: steps, total: total, size: pSize, area: pArea });
+      var pJob  = (job !== 'all')  ? job  : DN_SP_JOB_KEYS[Math.floor(rng() * DN_SP_JOB_KEYS.length)];
+      peers.push({ steps: steps, total: total, size: pSize, area: pArea, job: pJob });
     }
     var totals = peers.map(function(p){ return p.total; });
     var avgTotal = dnMean(totals);
@@ -47330,11 +47333,13 @@ ${style.blogQuote}
     // ── 段1：選考スピード上位10自治体（比較対象のうち最速順・固有名詞は伏せる）──
     var ranked = peers.slice().sort(function(a, b){ return a.total - b.total; }).slice(0, 10);
     var rankRows = ranked.map(function(p, k){
-      var anon = '自治体' + String.fromCharCode(65 + k); // 自治体A〜J（固有名詞は非表示）
       return '<li class="dn-rk-row">' +
         '<span class="dn-rk-no">' + (k + 1) + '</span>' +
-        '<span class="dn-rk-name">' + anon + '</span>' +
-        '<span class="dn-rk-attr">' + DN_SIZE_LABEL[p.size] + ' ・ ' + DN_AREA_LABEL[p.area] + '</span>' +
+        '<span class="dn-rk-tags">' +
+          '<span class="dn-rk-tag t-attr">' + DN_SIZE_LABEL[p.size] + '</span>' +
+          '<span class="dn-rk-tag t-attr">' + DN_AREA_LABEL[p.area] + '</span>' +
+          '<span class="dn-rk-tag t-job">' + DN_SP_JOB_LABEL[p.job] + '</span>' +
+        '</span>' +
         '<span class="dn-rk-days"><span data-dn-to="' + p.total + '" data-dn-fmt="int">' + p.total + '</span>日</span>' +
       '</li>';
     }).join('');
@@ -50169,8 +50174,10 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-rk-row{ display:flex; align-items:center; gap:12px; padding:7px 4px; }
 #page-analytics .dn-rk-row + .dn-rk-row{ border-top:1px solid #F0F3F1; }
 #page-analytics .dn-rk-no{ flex:none; width:22px; height:22px; border-radius:6px; background:#E6F5EC; color:#115A36; font-weight:800; font-size:12px; display:flex; align-items:center; justify-content:center; }
-#page-analytics .dn-rk-name{ flex:none; width:84px; font-weight:700; color:#1A1A1A; font-size:13px; }
-#page-analytics .dn-rk-attr{ flex:1; min-width:0; font-size:12px; color:#5A6862; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#page-analytics .dn-rk-tags{ flex:1; min-width:0; display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+#page-analytics .dn-rk-tag{ font-size:11.5px; font-weight:700; border-radius:999px; padding:2px 10px; white-space:nowrap; line-height:1.6; }
+#page-analytics .dn-rk-tag.t-attr{ color:#115A36; background:#E6F5EC; }
+#page-analytics .dn-rk-tag.t-job{ color:#115A36; background:#FFFFFF; border:1px solid #9BD4B5; }
 #page-analytics .dn-rk-days{ flex:none; font-weight:800; color:#115A36; font-size:13px; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-rk-selfnote{ margin-top:8px; font-size:12px; color:#767676; }
 /* 選考ステップ別の辞退数（自団体 vs 比較対象平均） */
