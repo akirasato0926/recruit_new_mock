@@ -27042,7 +27042,7 @@ body.on-login-page{overflow:hidden}
         <div class="d-board-head">
           <div class="d-board-head-text">
             <h2 class="d-board-title" id="d-sec-process">選考プロセス分析</h2>
-            <p class="d-board-sub">選考スピード・辞退の発生区間と理由</p>
+            <p class="d-board-sub">応募締切から内定までの平均日数、選考辞退の発生段階と理由</p>
           </div>
           <div class="dp-controls">
             <select class="d-select d-board-select" id="dp-job" onchange="renderProcessAnalysis()" aria-label="職種">
@@ -27060,15 +27060,12 @@ body.on-login-page{overflow:hidden}
           </div>
         </div>
         <div class="d-subsection">
-          <h3 class="d-subsection-title">選考スピード（平均選考日数）</h3>
-          <p class="dp-speed-total"><span class="dp-st-label">応募〜内定 平均</span><span class="dp-st-num d-num">78</span><span class="dp-st-unit">日</span></p>
-          <div class="dp-speed-board">
-            <div class="dp-speed-track" id="dp-speed-track" aria-hidden="true"></div>
-          </div>
+          <h3 class="d-subsection-title">応募締切から内定までの平均日数</h3>
+          <p class="dp-speed-total"><span class="dp-st-label">応募締切〜内定 平均</span><span class="dp-st-num d-num">78</span><span class="dp-st-unit">日</span></p>
         </div>
         <div class="d-overall-grid">
           <div class="d-subsection">
-            <h3 class="d-subsection-title">辞退タイミング</h3>
+            <h3 class="d-subsection-title">選考辞退の発生段階</h3>
             <div id="dp-decline-bars"></div>
           </div>
           <div class="d-subsection">
@@ -51018,8 +51015,8 @@ window.toggleLoginPassword = function(btn){
     requestAnimationFrame(() => requestAnimationFrame(cb));
   }
   function renderProcessAnalysis(){
-    const track = document.getElementById('dp-speed-track');
-    if(!track) return;
+    const sec = document.getElementById('d-section-process');
+    if(!sec) return;
     const reduce = dpReduceMotion();
     const ANIM = reduce ? 0 : 900;
     // フィルタ（職種×年度）→ 決定的な変動係数
@@ -51031,53 +51028,15 @@ window.toggleLoginPassword = function(btn){
     const YEAR_F = { r8:1, r7:1.06, r6:0.9 };
     const f = (JOB_F[job] || 1) * (YEAR_F[year] || 1);
 
-    // ① 選考スピード：区間平均日数（既定合計78日／職種×年度で変動）
-    const SPEED_BASE = [10, 18, 26, 12, 12]; // 締切→1次 / 1次→2次 / 2次→3次 / 3次→4次 / 4次→内定
-    const SPEED = SPEED_BASE.map(d => Math.max(1, Math.round(d * f)));
-    const NODES = ['締切', '1次', '2次', '3次', '4次', '内定'];
-    const maxDays = Math.max.apply(null, SPEED);
-    let html = '';
-    NODES.forEach((n, i) => {
-      const edge = i === 0 ? ' is-first' : (i === NODES.length - 1 ? ' is-last' : '');
-      html += '<span class="dp-speed-node' + edge + '"><span class="dp-speed-nodelabel">' + n + '</span></span>';
-      if(i < SPEED.length){
-        const d = SPEED[i];
-        const isMax = d === maxDays;
-        // レイアウト（区間幅＝flex:日数）は最初から確定。塗り(.dp-speed-seg-fill)を左から伸ばして順次表示。
-        html += '<span class="dp-speed-seg' + (isMax ? ' is-max' : '') + '" style="flex:' + d + ' 1 0">'
-              + '<span class="dp-speed-seg-fill"></span>'
-              + '<span class="dp-seg-days"><span class="d-num">' + (reduce ? d.toFixed(1) : '0.0') + '</span>日</span></span>';
-      }
-    });
-    track.innerHTML = html;
-    const segEls = track.querySelectorAll('.dp-speed-seg');
-    const SEG_STEP = 200; // 区間ごとの開始ずらし（締切→内定の順に左から）
-    if(reduce){
-      segEls.forEach((el, i) => {
-        const fill = el.querySelector('.dp-speed-seg-fill');
-        if(fill) fill.style.transform = 'scaleX(1)';
-        const num = el.querySelector('.dp-seg-days .d-num');
-        if(num) num.textContent = SPEED[i].toFixed(1);
-      });
-    } else {
-      segEls.forEach((el, i) => {
-        const fill = el.querySelector('.dp-speed-seg-fill');
-        if(fill) fill.style.transitionDelay = (i * SEG_STEP) + 'ms';
-      });
-      dpAfterTwoFrames(() => {
-        segEls.forEach((el, i) => {
-          const fill = el.querySelector('.dp-speed-seg-fill');
-          if(fill) fill.style.transform = 'scaleX(1)';
-          setTimeout(() => setNumEl(el.querySelector('.dp-seg-days .d-num'), SPEED[i], 500, true), i * SEG_STEP);
-        });
-      });
-    }
+    // ① 応募締切→内定 平均日数（職種×年度で変動。選考プロセスごとの区間日数は表示しない）
+    const TOTAL_BASE = 78;
+    const totalDays = Math.max(1, Math.round(TOTAL_BASE * f));
     const totEl = document.querySelector('#d-section-process .dp-st-num');
-    if(totEl) setNumEl(totEl, SPEED.reduce((a,b) => a + b, 0), ANIM, false);
+    if(totEl) setNumEl(totEl, totalDays, ANIM, false);
 
     // ② 辞退タイミング横棒バー（既定合計110名・%構成は固定／件数はフィルタで変動）
     const DECLINE = [
-      { label: '1次試験前',     base: 42, pct: 38 },
+      { label: '応募 → 1次',     base: 42, pct: 38 },
       { label: '1次 → 2次',     base: 24, pct: 22 },
       { label: '2次 → 3次',     base: 16, pct: 14 },
       { label: '3次 → 4次',     base: 12, pct: 11 },
