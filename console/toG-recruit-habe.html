@@ -47038,6 +47038,21 @@ ${style.blogQuote}
     return { peers: peers, size: size, area: area, job: job, year: year, scale: scale, jScale: jScale, yScale: yScale };
   }
 
+  // 他団体比較：自団体バー＋平均リファレンス目盛りの「ブレットバー」HTMLを生成
+  function dnBullet(selfV, selfNum, avgV, avgNum, selfW, avgW, fmtType, hasAvg){
+    var ref = hasAvg ? '<span class="dn-bul-ref" style="left:' + avgW + '%"></span>' : '';
+    var keyA = hasAvg
+      ? '<span class="k-a">平均 <b>' + avgNum + '</b></span>'
+      : '<span class="k-a k-na">平均 —</span>';
+    return '<div class="dn-bul">' +
+        '<span class="dn-bul-track">' +
+          '<span class="dn-mini-fill dn-bul-fill" data-dn-w="' + selfW + '" style="width:0%"></span>' +
+          ref +
+        '</span>' +
+        '<span class="dn-bul-val"><span data-dn-to="' + selfV + '" data-dn-fmt="' + fmtType + '">' + selfNum + '</span></span>' +
+      '</div>' +
+      '<div class="dn-bul-key"><span class="k-s">自団体</span>' + keyA + '</div>';
+  }
   function dnRender(animate){
     if(!document.getElementById('dn-cmp-body')) return;
     var ctx = dnBuildPeers();
@@ -47089,12 +47104,7 @@ ${style.blogQuote}
         card.innerHTML = head +
           '<div class="dn-diff neu dn-kpi-diff">サンプル不足（n&lt;5）</div>' +
           '<div class="dn-kpi-bars">' +
-            '<div class="dn-mini-row"><span class="dn-mini-lbl">自団体</span>' +
-              '<span class="dn-mini-track"><span class="dn-mini-fill dn-mini-self" data-dn-w="100" style="width:0%"></span></span>' +
-              '<span class="dn-mini-val"><span data-dn-to="' + m.self + '" data-dn-fmt="' + fmtType + '">' + selfNum + '</span></span></div>' +
-            '<div class="dn-mini-row"><span class="dn-mini-lbl">平均</span>' +
-              '<span class="dn-mini-track"></span>' +
-              '<span class="dn-mini-val">—</span></div>' +
+            dnBullet(m.self, selfNum, null, null, 92, 0, fmtType, false) +
           '</div>' +
           '<div class="dn-kpi-median">中央値 —</div>';
       } else {
@@ -47111,7 +47121,7 @@ ${style.blogQuote}
         var diffSuffix = m.pct ? 'pt' : unit;
         // 矢印（▲▼＝）は .dn-kpi-diff の dir-* ::before で付与、色は pos/neg/neu（絵文字不可）
         // ミニ対比バー：指標内で max(自団体,平均)=100% 正規化
-        var barMax = Math.max(m.self, avg) || 1;
+        var barMax = (Math.max(m.self, avg) || 1) * 1.08;
         var selfW = Math.round(m.self / barMax * 100);
         var avgW = Math.round(avg / barMax * 100);
         var avgNum = m.pct ? avg.toFixed(1) : dnFmt(avg);
@@ -47122,12 +47132,7 @@ ${style.blogQuote}
             '<span data-dn-to="' + diffAbs + '" data-dn-fmt="' + fmtType + '">' + diffNum + '</span>' + diffSuffix +
             '<span class="dn-kpi-diff-note">(平均比)</span></div>' +
           '<div class="dn-kpi-bars">' +
-            '<div class="dn-mini-row"><span class="dn-mini-lbl">自団体</span>' +
-              '<span class="dn-mini-track"><span class="dn-mini-fill dn-mini-self" data-dn-w="' + selfW + '" style="width:0%"></span></span>' +
-              '<span class="dn-mini-val"><span data-dn-to="' + m.self + '" data-dn-fmt="' + fmtType + '">' + selfNum + '</span></span></div>' +
-            '<div class="dn-mini-row"><span class="dn-mini-lbl">平均</span>' +
-              '<span class="dn-mini-track"><span class="dn-mini-fill dn-mini-avg" data-dn-w="' + avgW + '" style="width:0%"></span></span>' +
-              '<span class="dn-mini-val"><span data-dn-to="' + avg + '" data-dn-fmt="' + fmtType + '">' + avgNum + '</span></span></div>' +
+            dnBullet(m.self, selfNum, avg, avgNum, selfW, avgW, fmtType, true) +
           '</div>' +
           '<div class="dn-kpi-median">中央値 <span data-dn-to="' + med + '" data-dn-fmt="' + fmtType + '">' + medNum + '</span>' + unit + '</div>';
       }
@@ -47227,7 +47232,7 @@ ${style.blogQuote}
       var diffSuffix = c.pct ? 'pt' : c.unit;
       var fmtType = c.pct ? 'pct' : 'int';
 
-      var barMax = Math.max(c.self, avg) || 1;
+      var barMax = (Math.max(c.self, avg) || 1) * 1.08;
       var selfW = Math.round(c.self / barMax * 100);
       var avgW  = Math.round(avg / barMax * 100);
 
@@ -47241,12 +47246,7 @@ ${style.blogQuote}
           '<span data-dn-to="' + diffAbs + '" data-dn-fmt="' + fmtType + '">' + diffNum + '</span>' + diffSuffix +
           '<span class="dn-kpi-diff-note">(平均比)</span></div>' +
         '<div class="dn-kpi-bars">' +
-          '<div class="dn-mini-row"><span class="dn-mini-lbl">自団体</span>' +
-            '<span class="dn-mini-track"><span class="dn-mini-fill dn-mini-self" data-dn-w="' + selfW + '" style="width:0%"></span></span>' +
-            '<span class="dn-mini-val"><span data-dn-to="' + c.self + '" data-dn-fmt="' + fmtType + '">' + selfNum + '</span></span></div>' +
-          '<div class="dn-mini-row"><span class="dn-mini-lbl">平均</span>' +
-            '<span class="dn-mini-track"><span class="dn-mini-fill dn-mini-avg" data-dn-w="' + avgW + '" style="width:0%"></span></span>' +
-            '<span class="dn-mini-val"><span data-dn-to="' + avg + '" data-dn-fmt="' + fmtType + '">' + avgNum + '</span></span></div>' +
+          dnBullet(c.self, selfNum, avg, avgNum, selfW, avgW, fmtType, true) +
         '</div>' +
         '<div class="dn-kpi-median">中央値 <span data-dn-to="' + med + '" data-dn-fmt="' + fmtType + '">' + medNum + '</span>' + c.unit + '</div>';
       host.appendChild(card);
@@ -50326,6 +50326,39 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-mini-track{ background:#EEF1EF; border-radius:999px; }
 #page-analytics .dn-mini-fill{ border-radius:999px; }
 #page-analytics .dn-mini-fill.avg{ background:#D5DAD7; }
+/* ═══ 他団体比較：ブレットバー（自団体バー＋平均リファレンス目盛り） ═══ */
+#page-analytics .dn-bul{ display:flex; align-items:center; gap:12px; margin-top:auto; }
+#page-analytics .dn-bul-track{
+  position:relative; flex:1; height:8px; background:#EDF1EE; border-radius:2px;
+}
+#page-analytics .dn-mini-fill.dn-bul-fill{
+  display:block; height:100%; background:#2E7D54; border-radius:2px;
+}
+#page-analytics .dn-bul-ref{
+  position:absolute; top:50%; width:2px; height:15px; margin-top:-7.5px;
+  background:#8A938D; border-radius:1px; transform:translateX(-1px); pointer-events:none;
+}
+#page-analytics .dn-bul-val{
+  flex:0 0 auto; min-width:54px; text-align:right;
+  font-size:14px; font-weight:600; color:#1A1A1A;
+  font-variant-numeric:tabular-nums; letter-spacing:.01em; line-height:1;
+}
+#page-analytics .dn-bul-key{
+  display:flex; align-items:center; gap:16px; margin-top:10px;
+  font-size:11px; font-weight:500; letter-spacing:.04em; color:#8A938D;
+}
+#page-analytics .dn-bul-key .k-s{ position:relative; padding-left:15px; }
+#page-analytics .dn-bul-key .k-s::before{
+  content:''; position:absolute; left:0; top:50%; transform:translateY(-50%);
+  width:10px; height:10px; border-radius:2px; background:#2E7D54;
+}
+#page-analytics .dn-bul-key .k-a{ position:relative; padding-left:13px; }
+#page-analytics .dn-bul-key .k-a::before{
+  content:''; position:absolute; left:4px; top:50%; transform:translateY(-50%);
+  width:2px; height:12px; background:#8A938D; border-radius:1px;
+}
+#page-analytics .dn-bul-key b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-bul-key .k-na{ color:#B0B6B2; }
 #page-analytics .dn-rank-bar{ height:8px; border-radius:999px; background:#EEF1EF; }
 #page-analytics .dn-rank-bar-fill{ border-radius:999px; }
 #page-analytics .dn-dcl-track{ height:10px; border-radius:999px; background:#EEF1EF; }
