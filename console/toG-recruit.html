@@ -26700,25 +26700,26 @@ body.on-login-page{overflow:hidden}
           <h1 class="d-page-title">分析</h1>
           <p class="d-page-sub" id="d-page-sub">公共市役所 採用プラットフォーム / 令和8年度</p>
         </div>
-        <div class="d-page-head-filter">
-          <label class="d-filter-label" for="d-fp-global">期間</label>
-          <select class="d-select" id="d-fp-global" onchange="dApplyGlobalFilter()">
-            <option value="fy">令和8年度</option>
-            <option value="fy-1">令和7年度</option>
-            <option value="fy-2">令和6年度</option>
-            <option value="3m">直近3ヶ月</option>
-            <option value="1m">直近1ヶ月</option>
-            <option value="1w">直近1週間</option>
-          </select>
-          <button class="d-filter-reset" onclick="dResetGlobalFilter()">リセット</button>
+        <div class="d-page-head-actions">
+          <!-- ── 分析 大タブ（自団体分析／他団体比較） ── -->
+          <nav class="d-tabbar" role="tablist" aria-label="分析の表示切替">
+            <button class="d-tab d-tab-active" role="tab" aria-selected="true" onclick="dSwitchAnalyticsTab('self',this)">自団体分析</button>
+            <button class="d-tab" role="tab" aria-selected="false" onclick="dSwitchAnalyticsTab('network',this)">他団体比較</button>
+          </nav>
+          <div class="d-page-head-filter">
+            <label class="d-filter-label" for="d-fp-global">期間</label>
+            <select class="d-select" id="d-fp-global" onchange="dApplyGlobalFilter()">
+              <option value="fy">令和8年度</option>
+              <option value="fy-1">令和7年度</option>
+              <option value="fy-2">令和6年度</option>
+              <option value="3m">直近3ヶ月</option>
+              <option value="1m">直近1ヶ月</option>
+              <option value="1w">直近1週間</option>
+            </select>
+            <button class="d-filter-reset" onclick="dResetGlobalFilter()">リセット</button>
+          </div>
         </div>
       </header>
-
-      <!-- ── 分析 大タブ（自団体分析／PUBLIC CONNECTネットワーク比較） ── -->
-      <nav class="d-tabbar" role="tablist" aria-label="分析の表示切替">
-        <button class="d-tab d-tab-active" role="tab" aria-selected="true" onclick="dSwitchAnalyticsTab('self',this)">自団体分析</button>
-        <button class="d-tab" role="tab" aria-selected="false" onclick="dSwitchAnalyticsTab('network',this)">他団体比較</button>
-      </nav>
 
       <!-- ══════════ 大タブ pane：自団体分析（既存） ══════════ -->
       <div id="d-tab-self" class="d-tabpane d-tabpane-active">
@@ -27253,14 +27254,8 @@ body.on-login-page{overflow:hidden}
       <!-- ══════════ 大タブ pane：PUBLIC CONNECTネットワーク（比較） ══════════ -->
       <div id="d-tab-network" class="d-tabpane">
 
-        <!-- (1) 自団体情報バナー（自団体の情報のみ）＋グローバルなサンプルデータ注記 -->
-        <div class="dn-filter" role="region" aria-label="自団体情報">
-          <div class="dn-self-attr">
-            <span class="dn-self-attr-label">自団体</span>
-            <span class="dn-self-attr-value">公共市役所</span>
-            <span class="dn-self-attr-meta">人口規模 10〜20万人 ・ 関東</span>
-          </div>
-        </div>
+        <!-- (1) 自団体情報バナーは非表示（団体名はグラフ凡例用に保持） -->
+        <span class="dn-self-attr-value" hidden>公共市役所</span>
 
         <!-- (2) 比較サマリ：自団体 vs 比較対象 平均・中央値 -->
         <section class="d-board dn-board">
@@ -50456,6 +50451,10 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-page-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
 #page-analytics .d-page-head-text{ min-width:0; }
 #page-analytics .d-page-head-filter{ display:flex; align-items:center; gap:10px; flex:none; }
+/* 分析タブをヘッダー右側（期間/リセットの左）に配置 */
+#page-analytics .d-page-head-actions{ display:flex; align-items:center; gap:24px; flex:none; flex-wrap:wrap; }
+#page-analytics .d-page-head .d-tabbar{ border-bottom:none; margin:0; }
+#page-analytics .d-page-head .d-tab{ padding:8px 14px; margin-bottom:0; }
 /* トップ円グラフ：ホバー時に該当セグメントを強調 */
 #page-top.dash-page .donut path{ transition:opacity .12s ease; cursor:default; }
 #page-top.dash-page .donut:hover path{ opacity:.45; }
