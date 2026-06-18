@@ -26753,6 +26753,7 @@ body.on-login-page{overflow:hidden}
               <span class="d-pr-range-sep" aria-hidden="true">〜</span>
               <label class="d-pr-range-label">終了日<input type="date" id="d-fol-to" onchange="dFolApplyRange()" aria-label="終了日"></label>
               <span class="d-pr-range-meta" id="d-fol-range-days">30日間</span>
+              <button type="button" class="d-range-apply" onclick="this.closest('.d-pr-range').hidden=true">適用</button>
             </div>
             <div class="d-fol-current">
               <span class="d-fol-current-label">現在のフォロワー数</span>
@@ -26786,6 +26787,7 @@ body.on-login-page{overflow:hidden}
               <span class="d-pr-range-sep" aria-hidden="true">〜</span>
               <label class="d-pr-range-label">終了日<input type="date" id="d-inflow-to" onchange="dInflowApplyRange()" aria-label="終了日"></label>
               <span class="d-pr-range-meta" id="d-inflow-range-days">30日間</span>
+              <button type="button" class="d-range-apply" onclick="this.closest('.d-pr-range').hidden=true">適用</button>
             </div>
             <div class="d-inflow-stats">
               <div class="d-inflow-stat"><span class="d-inflow-stat-label">PV数（ページ閲覧数）</span><span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-pv">124,500</span></span></div>
@@ -26795,18 +26797,31 @@ body.on-login-page{overflow:hidden}
               <span class="d-sv-leg"><span class="d-sv-sw pv"></span>PV数</span>
               <span class="d-sv-leg"><span class="d-sv-sw uu"></span>UU数</span>
             </div>
-            <svg class="d-sv-chart" viewBox="0 0 560 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="PV数・UU数の推移（折れ線）">
-              <g stroke="#EFEFEF" stroke-width="1"><line x1="64" y1="70" x2="540" y2="70"/><line x1="64" y1="130" x2="540" y2="130"/><line x1="64" y1="190" x2="540" y2="190"/><line x1="64" y1="250" x2="540" y2="250"/><line x1="64" y1="310" x2="540" y2="310"/></g>
-              <polyline points="64,270 143,256 222,236 301,210 381,178 461,135 540,90" fill="none" stroke="#259D63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="64,330 143,325 222,318 301,308 381,296 461,282 540,265" fill="none" stroke="#115A36" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="540" cy="90" r="5" fill="#fff" stroke="#259D63" stroke-width="2.5"/>
-              <circle cx="540" cy="265" r="5" fill="#fff" stroke="#115A36" stroke-width="2.5"/>
-              <g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="13" text-anchor="middle"><text x="64" y="384">5/11</text><text x="302" y="384">5/25</text><text x="540" y="384">6/8</text></g>
-            </svg>
+            <div class="d-sv-chart" id="d-sv-chart"></div>
           </div>
           <!-- カードC：流入経路分析 -->
           <div class="d-subsection d-attr-card">
-            <h3 class="d-subsection-title">流入経路分析</h3>
+            <div class="d-inflow-head">
+              <h3 class="d-subsection-title">流入経路分析</h3>
+              <div class="d-inflow-controls">
+                <select class="d-select d-board-select" id="d-source-period" onchange="dSourcePeriodChange()" aria-label="流入経路の期間を選択">
+                  <option value="7">直近1週間</option>
+                  <option value="30" selected>直近1ヶ月</option>
+                  <option value="90">直近3ヶ月</option>
+                  <option value="180">直近6ヶ月</option>
+                  <option value="365">直近1年</option>
+                  <option value="custom">期間を指定</option>
+                </select>
+              </div>
+            </div>
+            <div class="d-pr-range d-source-range" id="d-source-range" hidden>
+              <span class="d-pr-range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+              <label class="d-pr-range-label">開始日<input type="date" id="d-source-from" onchange="dSourceApplyRange()" aria-label="開始日"></label>
+              <span class="d-pr-range-sep" aria-hidden="true">〜</span>
+              <label class="d-pr-range-label">終了日<input type="date" id="d-source-to" onchange="dSourceApplyRange()" aria-label="終了日"></label>
+              <span class="d-pr-range-meta" id="d-source-range-days">30日間</span>
+              <button type="button" class="d-range-apply" onclick="this.closest('.d-pr-range').hidden=true">適用</button>
+            </div>
             <div class="d-donut-block vertical">
               <div class="d-donut-wrap">
                 <svg class="d-donut-svg" viewBox="0 0 100 100" id="d-source-donut" aria-hidden="true"></svg>
@@ -50447,11 +50462,28 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-attr-card .d-fol-range,
 #page-analytics .d-attr-card .d-inflow-range{ position:absolute; z-index:40; top:56px; right:14px; left:auto; width:auto; max-width:none; margin:0; background:#fff; border:1px solid #E6E6E6; box-shadow:0 10px 30px rgba(0,0,0,.16); }
 /* チャートをカード下まで充填 */
-#page-analytics .d-attr-card .d-fol-chart-wrap{ flex:1; min-height:180px; display:flex; }
-#page-analytics .d-attr-card .d-fol-chart-wrap > svg{ width:100%; height:100%; }
+#page-analytics .d-attr-card .d-fol-chart-wrap{ flex:1; min-height:180px; display:flex; align-items:center; }
+#page-analytics .d-attr-card .d-fol-chart-wrap > svg{ width:100%; height:auto; max-height:100%; }
 #page-analytics .d-attr-card .d-sv-chart{ flex:1; min-height:180px; height:100%; }
 /* PVスワッチを線表現に（PV/UUとも折れ線） */
 #page-analytics .d-sv-sw.pv{ width:18px; height:0; border:0; border-top:3px solid #259D63; border-radius:0; background:transparent; }
+/* 流入経路の期間ポップオーバー＋適用ボタン */
+#page-analytics .d-attr-card .d-source-range{ position:absolute; z-index:40; top:56px; right:14px; left:auto; width:auto; max-width:none; margin:0; background:#fff; border:1px solid #E6E6E6; box-shadow:0 10px 30px rgba(0,0,0,.16); }
+#page-analytics .d-range-apply{ margin-left:8px; height:30px; padding:0 14px; border:0; border-radius:8px; background:#115A36; color:#fff; font-size:12px; font-weight:700; letter-spacing:.02em; cursor:pointer; }
+/* サイト閲覧数チャート（div→SVG）を充填 */
+#page-analytics .d-attr-card .d-sv-chart{ flex:1; min-height:180px; display:flex; align-items:center; width:100%; margin-top:6px; }
+#page-analytics .d-attr-card .d-sv-chart > svg{ width:100%; height:auto; max-height:100%; }
+/* 3列/2列カードを確実に等高（flexで align-items:stretch） */
+#page-analytics .d-overall-grid.d-overall-3col{ display:flex; gap:16px; align-items:stretch; }
+#page-analytics .d-overall-grid.d-overall-3col > .d-attr-card{ flex:1 1 0; min-width:0; margin-top:0; }
+#page-analytics .d-overall-grid.d-overall-2col{ display:flex; gap:16px; align-items:stretch; }
+#page-analytics .d-overall-grid.d-overall-2col > .d-attr-card{ flex:1 1 0; min-width:0; margin-top:0; }
+/* フォロワーKPI行を1行に収め、3カードの高さを揃える */
+#page-analytics .d-attr-card .d-fol-current{ flex-wrap:nowrap; align-items:baseline; gap:8px; margin:10px 0 2px; }
+#page-analytics .d-attr-card .d-fol-current-label{ font-size:12px; white-space:nowrap; }
+#page-analytics .d-attr-card .d-fol-current-value{ font-size:26px; }
+#page-analytics .d-attr-card .d-fol-current-unit{ font-size:13px; }
+#page-analytics .d-attr-card .d-fol-current-delta{ font-size:12px; white-space:nowrap; margin-left:auto; }
 </style>
 
 <script>
@@ -51215,24 +51247,74 @@ window.toggleLoginPassword = function(btn){
     const map = { '7': 0.25, '30': 1.0, '90': 2.8, '180': 5.3, '365': 10.0 };
     return map[mode] != null ? map[mode] : 1.0;
   }
-  function renderInflow(){
+  function inflowFactorFor(selId, fromId, toId){
+    const sel = document.getElementById(selId);
+    const mode = sel ? sel.value : '30';
+    if(mode === 'custom'){
+      const f = document.getElementById(fromId), t = document.getElementById(toId);
+      const fv = f && f.value ? new Date(f.value) : null, tv = t && t.value ? new Date(t.value) : null;
+      if(fv && tv && !isNaN(fv) && !isNaN(tv)){ let d = Math.round(Math.abs(tv - fv) / 86400000) + 1; if(d < 1) d = 1; return d / 30; }
+      return 1.0;
+    }
+    const map = { '7': 0.25, '30': 1.0, '90': 2.8, '180': 5.3, '365': 10.0 };
+    return map[mode] != null ? map[mode] : 1.0;
+  }
+  function inflowDaysFor(selId, fromId, toId){
+    const sel = document.getElementById(selId);
+    const mode = sel ? sel.value : '30';
+    if(mode === 'custom'){
+      const f = document.getElementById(fromId), t = document.getElementById(toId);
+      const fv = f && f.value ? new Date(f.value) : null, tv = t && t.value ? new Date(t.value) : null;
+      if(fv && tv && !isNaN(fv) && !isNaN(tv)){ return Math.max(1, Math.round(Math.abs(tv - fv) / 86400000) + 1); }
+      return 30;
+    }
+    return ({ '7':7, '30':30, '90':90, '180':180, '365':365 })[mode] || 30;
+  }
+  function svNoise(i){ return Math.abs(Math.sin((i + 1) * 12.9898) * 43758.5) % 1; }
+  function renderSiteChart(days){
+    const wrap = document.getElementById('d-sv-chart'); if(!wrap) return;
+    const pvPerDay = INFLOW_BASE_PV / 30, uuPerDay = INFLOW_BASE_UU / 30;
+    let arr = [];
+    for(let i = 0; i < days; i++){ arr.push({ pv: Math.round(pvPerDay * (0.72 + svNoise(i) * 0.56)), uu: Math.round(uuPerDay * (0.72 + svNoise(i + 137) * 0.56)) }); }
+    let B = arr;
+    if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length) }); } }
+    const n = B.length;
+    const W=560,H=400,pl=64,pr=20,pt=28,pb=46,iw=W-pl-pr,ih=H-pt-pb;
+    const maxV = Math.max.apply(null, B.map(b=>b.pv)); const hi = (Math.ceil(maxV/500)*500) || 500;
+    const X = i => pl + (n<=1 ? iw/2 : iw*i/(n-1));
+    const Y = v => pt + ih*(1 - v/hi);
+    let svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="1日あたりPV数・UU数の推移">';
+    for(let g=0; g<=4; g++){ const yy = pt + ih*g/4; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#999999" font-family="Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/4)).toLocaleString()+'</text>'; }
+    const pvPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.pv).toFixed(1)).join(' ');
+    const uuPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.uu).toFixed(1)).join(' ');
+    svg += '<polyline points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    svg += '<polyline points="'+uuPts+'" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].pv).toFixed(1)+'" r="4.2" fill="#fff" stroke="#259D63" stroke-width="2.5"/>';
+    svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].uu).toFixed(1)+'" r="4.2" fill="#fff" stroke="#115A36" stroke-width="2.5"/>';
+    svg += '<g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="12">';
+    svg += '<text x="'+pl+'" y="'+(H-16)+'" text-anchor="start">'+days+'日前</text>';
+    svg += '<text x="'+(((pl+(W-pr))/2).toFixed(0))+'" y="'+(H-16)+'" text-anchor="middle">'+Math.round(days/2)+'日前</text>';
+    svg += '<text x="'+(W-pr)+'" y="'+(H-16)+'" text-anchor="end">今日</text>';
+    svg += '</g></svg>';
+    wrap.innerHTML = svg;
+  }
+  function renderSiteViews(){
+    const f = inflowFactorFor('d-inflow-period','d-inflow-from','d-inflow-to');
+    const totalPV = Math.round(INFLOW_BASE_PV * f), totalUU = Math.round(INFLOW_BASE_UU * f);
+    setNumEl(document.getElementById('d-inflow-pv'), totalPV, 900);
+    setNumEl(document.getElementById('d-inflow-uu'), totalUU, 900);
+    renderSiteChart(inflowDaysFor('d-inflow-period','d-inflow-from','d-inflow-to'));
+  }
+  function renderSourceDonut(){
     const donut = document.getElementById('d-source-donut');
     const legend = document.getElementById('d-source-legend');
     if(!donut || !legend) return;
-    const f = inflowFactor();
+    const f = inflowFactorFor('d-source-period','d-source-from','d-source-to');
     const totalPV = Math.round(INFLOW_BASE_PV * f);
-    const totalUU = Math.round(INFLOW_BASE_UU * f);
     const dur = 900;
-    // 総PV / 総UU スタット（カウントアップ）
-    setNumEl(document.getElementById('d-inflow-pv'), totalPV, dur);
-    setNumEl(document.getElementById('d-inflow-uu'), totalUU, dur);
-    // ドーナツ中央＝総PV（桁数に応じて文字サイズを調整：100万以上で縮小して枠内に収める）
     var centerEl = document.getElementById('d-source-total');
     setNumEl(centerEl, totalPV, dur);
-    if(centerEl && centerEl.parentNode){
-      centerEl.parentNode.style.fontSize = (totalPV >= 1000000) ? '22px' : (totalPV >= 100000 ? '26px' : '30px');
-    }
-    // チャネル別PV配分（シェアで按分、端数は最終チャネルで調整）
+    if(centerEl && centerEl.parentNode){ centerEl.parentNode.style.fontSize = (totalPV >= 1000000) ? '22px' : (totalPV >= 100000 ? '26px' : '30px'); }
     let assigned = 0;
     const rows = INFLOW_CHANNELS.map((c, i) => {
       let pv;
@@ -51248,6 +51330,7 @@ window.toggleLoginPassword = function(btn){
           <span class="stat"><span class="d-num">${fmt(r.count)}</span><span class="u">PV</span><span class="pct"><span class="d-num">${r.pct.toFixed(1)}</span>%</span></span>
         </li>`).join('');
   }
+  function renderInflow(){ renderSiteViews(); renderSourceDonut(); }
   function inflowCustomDays(){
     const f = document.getElementById('d-inflow-from');
     const t = document.getElementById('d-inflow-to');
@@ -51285,10 +51368,25 @@ window.toggleLoginPassword = function(btn){
       if(tEl && !tEl.value) tEl.value = iso(to);
     }
     updateInflowRangeDays();
-    renderInflow();
+    renderSiteViews();
   };
-  window.dInflowApplyRange = function(){ updateInflowRangeDays(); renderInflow(); };
+  window.dInflowApplyRange = function(){ updateInflowRangeDays(); renderSiteViews(); };
   window.renderInflow = renderInflow;
+  function updateSourceRange(){
+    const sel=document.getElementById('d-source-period');
+    const daysEl=document.getElementById('d-source-range-days');
+    if(daysEl && sel && sel.value==='custom'){ daysEl.textContent=inflowDaysFor('d-source-period','d-source-from','d-source-to')+'日間'; }
+    const opt=sel && sel.querySelector('option[value="custom"]');
+    if(opt){ const fe=document.getElementById('d-source-from'),te=document.getElementById('d-source-to'); const md=v=>{const p=(v||'').split('-');return p.length===3?(p[1]+'/'+p[2]):'';}; if(sel&&sel.value==='custom'&&fe&&fe.value&&te&&te.value){opt.textContent='指定: '+md(fe.value)+'〜'+md(te.value);} else if(sel&&sel.value!=='custom'){opt.textContent='期間を指定';} }
+  }
+  window.dSourcePeriodChange=function(){
+    const sel=document.getElementById('d-source-period');
+    const range=document.getElementById('d-source-range');
+    if(range) range.hidden=!(sel&&sel.value==='custom');
+    if(sel&&sel.value==='custom'){ const to=new Date(),from=new Date(to.getFullYear(),to.getMonth(),to.getDate()-29); const iso=d=>d.toISOString().slice(0,10); const fEl=document.getElementById('d-source-from'),tEl=document.getElementById('d-source-to'); if(fEl&&!fEl.value)fEl.value=iso(from); if(tEl&&!tEl.value)tEl.value=iso(to); }
+    updateSourceRange(); renderSourceDonut();
+  };
+  window.dSourceApplyRange=function(){ updateSourceRange(); renderSourceDonut(); };
 
   // ─────────────────────────────────────────────────
   // 選考プロセス分析（決定的サンプル定数・Math.random不使用）
