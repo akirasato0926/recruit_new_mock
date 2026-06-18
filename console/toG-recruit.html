@@ -47408,12 +47408,13 @@ ${style.blogQuote}
     var dclMax = 1;
     dcl.forEach(function(d){ dclMax = Math.max(dclMax, d.self, d.peer); });
     var dclRows = dcl.map(function(d){
-      var sw = Math.round(d.self / dclMax * 100);
-      var pw = Math.round(d.peer / dclMax * 100);
-      return '<div class="dn-dcl-row">' +
+      var dclScale = dclMax * 1.08;
+      var sw = Math.round(d.self / dclScale * 100);
+      var pw = Math.round(d.peer / dclScale * 100);
+      return '<div class="dn-dcl-row dn-dcl-rowb">' +
         '<div class="dn-dcl-stage">' + d.label + '</div>' +
-        '<div class="dn-dcl-line"><span class="dn-dcl-key">自団体</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-self" data-dn-w="' + sw + '" style="width:0%"></span></span><span class="dn-dcl-val">' + d.self.toFixed(1) + '%</span></div>' +
-        '<div class="dn-dcl-line"><span class="dn-dcl-key">比較対象平均</span><span class="dn-dcl-track"><span class="dn-dcl-fill is-peer" data-dn-w="' + pw + '" style="width:0%"></span></span><span class="dn-dcl-val">' + d.peer.toFixed(1) + '%</span></div>' +
+        '<div class="dn-dcl-bul"><span class="dn-dcl-btrack"><span class="dn-dcl-bfill" data-dn-w="' + sw + '" style="width:0%"></span><span class="dn-dcl-bref" style="left:' + pw + '%"></span></span><span class="dn-dcl-bval">' + d.self.toFixed(1) + '<span class="dn-dcl-bu">%</span></span></div>' +
+        '<div class="dn-dcl-bsub">比較対象平均 <b>' + d.peer.toFixed(1) + '%</b></div>' +
       '</div>';
     }).join('');
     var dclCards = '<div class="dn-dcl-cards">' +
@@ -50360,6 +50361,24 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-bul-key b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-bul-key .k-na{ color:#B0B6B2; }
 #page-analytics .dn-rank-bar{ height:8px; border-radius:999px; background:#EEF1EF; }
+/* ═══ タブ内 横棒の統一（選考ステップ別辞退率＝ブレット／PRランキング＝クラフト刷新） ═══ */
+/* 選考ステップ別の辞退率：自団体バー＋比較対象平均リファレンス目盛り（負の指標なので抑えた赤） */
+#page-analytics .dn-dcl-rowb{ margin-bottom:16px; }
+#page-analytics .dn-dcl-bul{ display:flex; align-items:center; gap:12px; }
+#page-analytics .dn-dcl-btrack{ position:relative; flex:1; height:8px; background:#F2ECEC; border-radius:2px; }
+#page-analytics .dn-dcl-bfill{ display:block; height:100%; background:#C0392B; border-radius:2px; transition:width .9s ease; }
+#page-analytics .dn-dcl-bref{ position:absolute; top:50%; width:2px; height:15px; margin-top:-7.5px; background:#8A938D; border-radius:1px; transform:translateX(-1px); pointer-events:none; }
+#page-analytics .dn-dcl-bval{ flex:0 0 auto; min-width:48px; text-align:right; font-size:14px; font-weight:600; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-dcl-bu{ font-size:11px; font-weight:600; margin-left:1px; color:#5A6862; }
+#page-analytics .dn-dcl-bsub{ margin-top:8px; font-size:11px; font-weight:500; letter-spacing:.04em; color:#8A938D; padding-left:13px; position:relative; }
+#page-analytics .dn-dcl-bsub::before{ content:''; position:absolute; left:4px; top:50%; transform:translateY(-50%); width:2px; height:11px; background:#8A938D; border-radius:1px; }
+#page-analytics .dn-dcl-bsub b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
+/* 凡例：自団体＝四角スウォッチ（赤）／比較対象平均＝縦目盛り */
+#page-analytics .dn-dcl-sw.is-self{ background:#C0392B; border-radius:2px; }
+#page-analytics .dn-dcl-sw.is-peer{ width:3px; height:13px; border-radius:1px; background:#8A938D; }
+/* PRランキング：順位の magnitude バーはクラフトのみ統一（緑#2E7D54・角丸2px・緑寄りレール） */
+#page-analytics .dn-rank-bar{ border-radius:2px; background:#EDF1EE; }
+#page-analytics .dn-rank-bar-fill{ background:#2E7D54; border-radius:2px; }
 #page-analytics .dn-rank-bar-fill{ border-radius:999px; }
 #page-analytics .dn-dcl-track{ height:10px; border-radius:999px; background:#EEF1EF; }
 #page-analytics .dn-dcl-fill{ border-radius:999px; }
