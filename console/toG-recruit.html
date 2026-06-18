@@ -47407,16 +47407,17 @@ ${style.blogQuote}
     selSelf = +selSelf.toFixed(1); selPeer = +selPeer.toFixed(1);
     var dclMax = 1;
     dcl.forEach(function(d){ dclMax = Math.max(dclMax, d.self, d.peer); });
-    var dclRows = dcl.map(function(d){
-      var dclScale = dclMax * 1.08;
-      var sw = Math.round(d.self / dclScale * 100);
-      var pw = Math.round(d.peer / dclScale * 100);
-      return '<div class="dn-dcl-row dn-dcl-rowb">' +
-        '<div class="dn-dcl-stage">' + d.label + '</div>' +
-        '<div class="dn-dcl-bul"><span class="dn-dcl-btrack"><span class="dn-dcl-bfill" data-dn-w="' + sw + '" style="width:0%"></span><span class="dn-dcl-bref" style="left:' + pw + '%"></span></span><span class="dn-dcl-bval">' + d.self.toFixed(1) + '<span class="dn-dcl-bu">%</span></span></div>' +
-        '<div class="dn-dcl-bsub">比較対象平均 <b>' + d.peer.toFixed(1) + '%</b></div>' +
-      '</div>';
-    }).join('');
+    var dclScaleMax = dclMax * 1.18; // 縦棒：上の値ラベル分のヘッドルーム
+    var dclPairs = '', dclLabels = '';
+    dcl.forEach(function(d){
+      var sh = Math.round(d.self / dclScaleMax * 100);
+      var ah = Math.round(d.peer / dclScaleMax * 100);
+      dclPairs += '<div class="dn-colc-grp"><div class="dn-colc-pair">' +
+          '<div class="dn-colc-bar self" data-dn-h="' + sh + '" style="height:0%"><span class="dn-colc-v vs">' + d.self.toFixed(1) + '<i>%</i></span></div>' +
+          '<div class="dn-colc-bar avg" data-dn-h="' + ah + '" style="height:0%"><span class="dn-colc-v va">' + d.peer.toFixed(1) + '<i>%</i></span></div>' +
+        '</div></div>';
+      dclLabels += '<div class="dn-colc-lcell">' + d.label + '</div>';
+    });
     var dclCards = '<div class="dn-dcl-cards">' +
         '<div class="dn-dcl-card"><div class="dn-dcl-card-label">選考辞退率</div>' +
           '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + selSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span></div>' +
@@ -47441,7 +47442,7 @@ ${style.blogQuote}
           dclCards +
           '<div class="dn-dcl-substage">選考ステップ別の辞退率</div>' +
           '<div class="dn-dcl-legend"><span class="dn-dcl-sw is-self"></span>自団体<span class="dn-dcl-sw is-peer"></span>比較対象平均</div>' +
-          '<div class="dn-dcl">' + dclRows + '</div>' +
+          '<div class="dn-colc"><div class="dn-colc-plot">' + dclPairs + '</div><div class="dn-colc-labels">' + dclLabels + '</div></div>' +
         '</div>' +
       '</div>';
 
@@ -47454,6 +47455,14 @@ ${style.blogQuote}
     } else {
       requestAnimationFrame(function(){ requestAnimationFrame(function(){
         spFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
+      }); });
+    }
+    var spCols = host.querySelectorAll('[data-dn-h]');
+    if(dnReduceMotion()){
+      spCols.forEach(function(f){ f.style.height = (parseFloat(f.getAttribute('data-dn-h'))||0) + '%'; });
+    } else {
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){
+        spCols.forEach(function(f){ f.style.height = (parseFloat(f.getAttribute('data-dn-h'))||0) + '%'; });
       }); });
     }
   }
@@ -50376,6 +50385,23 @@ window.toggleLoginPassword = function(btn){
 /* 凡例：自団体＝四角スウォッチ（赤）／比較対象平均＝縦目盛り */
 #page-analytics .dn-dcl-sw.is-self{ background:#C0392B; border-radius:2px; }
 #page-analytics .dn-dcl-sw.is-peer{ width:3px; height:13px; border-radius:1px; background:#8A938D; }
+/* 選考ステップ別の辞退率：順序データのため縦グループ棒グラフ（自団体 赤／比較対象平均 グレー） */
+#page-analytics .dn-dcl-sw.is-self{ background:#C0392B; border-radius:2px; width:12px; height:12px; }
+#page-analytics .dn-dcl-sw.is-peer{ background:#C9CFCB; border-radius:2px; width:12px; height:12px; }
+#page-analytics .dn-colc{ margin-top:6px; }
+#page-analytics .dn-colc-plot{ display:flex; align-items:flex-end; gap:12px; height:188px; border-bottom:1.5px solid #D9DEDB; padding-top:24px; }
+#page-analytics .dn-colc-grp{ flex:1; height:100%; display:flex; align-items:flex-end; justify-content:center; min-width:0; }
+#page-analytics .dn-colc-pair{ display:flex; align-items:flex-end; justify-content:center; gap:8px; height:100%; width:100%; }
+#page-analytics .dn-colc-bar{ position:relative; width:26px; max-width:40%; border-radius:3px 3px 0 0; transition:height .9s cubic-bezier(.22,.61,.36,1); }
+#page-analytics .dn-colc-bar.self{ background:#C0392B; }
+#page-analytics .dn-colc-bar.avg{ background:#C9CFCB; }
+#page-analytics .dn-colc-v{ position:absolute; top:-18px; left:50%; transform:translateX(-50%); font-size:11px; font-weight:700; white-space:nowrap; font-variant-numeric:tabular-nums; }
+#page-analytics .dn-colc-v.vs{ color:#A93226; }
+#page-analytics .dn-colc-v.va{ color:#8A938D; }
+#page-analytics .dn-colc-v i{ font-style:normal; font-size:9px; font-weight:600; margin-left:1px; }
+#page-analytics .dn-colc-labels{ display:flex; gap:12px; margin-top:9px; }
+#page-analytics .dn-colc-lcell{ flex:1; text-align:center; font-size:11.5px; font-weight:600; letter-spacing:.02em; color:#5A6862; white-space:nowrap; }
+@media (prefers-reduced-motion: reduce){ #page-analytics .dn-colc-bar{ transition:none; } }
 /* PRランキング：順位の magnitude バーはクラフトのみ統一（緑#2E7D54・角丸2px・緑寄りレール） */
 #page-analytics .dn-rank-bar{ border-radius:2px; background:#EDF1EE; }
 #page-analytics .dn-rank-bar-fill{ background:#2E7D54; border-radius:2px; }
