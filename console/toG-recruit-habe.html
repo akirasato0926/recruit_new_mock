@@ -26795,14 +26795,13 @@ body.on-login-page{overflow:hidden}
               <span class="d-sv-leg"><span class="d-sv-sw pv"></span>PV数</span>
               <span class="d-sv-leg"><span class="d-sv-sw uu"></span>UU数</span>
             </div>
-            <svg class="d-sv-chart" viewBox="0 0 300 96" role="img" aria-label="PV/UUの推移（直近30日）">
-              <g stroke="#EEF0EF" stroke-width="1"><line x1="6" y1="20" x2="294" y2="20"/><line x1="6" y1="44" x2="294" y2="44"/><line x1="6" y1="68" x2="294" y2="68"/></g>
-              <path d="M14,58 L60,54 L106,49 L152,44 L198,39 L244,33 L286,28 L286,72 L14,72 Z" fill="#E3F3EA"/>
-              <polyline points="14,58 60,54 106,49 152,44 198,39 244,33 286,28" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <polyline points="14,68 60,66 106,64 152,61 198,59 244,56 286,53" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="286" cy="28" r="3.4" fill="#fff" stroke="#259D63" stroke-width="2"/>
-              <circle cx="286" cy="53" r="3.4" fill="#fff" stroke="#115A36" stroke-width="2"/>
-              <g fill="#a7b0aa" font-family="sans-serif" font-size="9" text-anchor="middle"><text x="14" y="92">5/11</text><text x="152" y="92">5/25</text><text x="286" y="92">6/8</text></g>
+            <svg class="d-sv-chart" viewBox="0 0 560 400" preserveAspectRatio="xMidYMid meet" role="img" aria-label="PV数・UU数の推移（折れ線）">
+              <g stroke="#EFEFEF" stroke-width="1"><line x1="64" y1="70" x2="540" y2="70"/><line x1="64" y1="130" x2="540" y2="130"/><line x1="64" y1="190" x2="540" y2="190"/><line x1="64" y1="250" x2="540" y2="250"/><line x1="64" y1="310" x2="540" y2="310"/></g>
+              <polyline points="64,270 143,256 222,236 301,210 381,178 461,135 540,90" fill="none" stroke="#259D63" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="64,330 143,325 222,318 301,308 381,296 461,282 540,265" fill="none" stroke="#115A36" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="540" cy="90" r="5" fill="#fff" stroke="#259D63" stroke-width="2.5"/>
+              <circle cx="540" cy="265" r="5" fill="#fff" stroke="#115A36" stroke-width="2.5"/>
+              <g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="13" text-anchor="middle"><text x="64" y="384">5/11</text><text x="302" y="384">5/25</text><text x="540" y="384">6/8</text></g>
             </svg>
           </div>
           <!-- カードC：流入経路分析 -->
@@ -50443,6 +50442,16 @@ window.toggleLoginPassword = function(btn){
 #page-top.dash-page .donut path{ transition:opacity .12s ease; cursor:default; }
 #page-top.dash-page .donut:hover path{ opacity:.45; }
 #page-top.dash-page .donut path:hover{ opacity:1; }
+/* カスタム期間：インライン→ポップオーバー（レイアウト崩れ防止） */
+#page-analytics .d-attr-card{ position:relative; }
+#page-analytics .d-attr-card .d-fol-range,
+#page-analytics .d-attr-card .d-inflow-range{ position:absolute; z-index:40; top:56px; right:14px; left:auto; width:auto; max-width:none; margin:0; background:#fff; border:1px solid #E6E6E6; box-shadow:0 10px 30px rgba(0,0,0,.16); }
+/* チャートをカード下まで充填 */
+#page-analytics .d-attr-card .d-fol-chart-wrap{ flex:1; min-height:180px; display:flex; }
+#page-analytics .d-attr-card .d-fol-chart-wrap > svg{ width:100%; height:100%; }
+#page-analytics .d-attr-card .d-sv-chart{ flex:1; min-height:180px; height:100%; }
+/* PVスワッチを線表現に（PV/UUとも折れ線） */
+#page-analytics .d-sv-sw.pv{ width:18px; height:0; border:0; border-top:3px solid #259D63; border-radius:0; background:transparent; }
 </style>
 
 <script>
@@ -51253,6 +51262,13 @@ window.toggleLoginPassword = function(btn){
     const daysEl = document.getElementById('d-inflow-range-days');
     if(daysEl && sel && sel.value === 'custom'){
       daysEl.textContent = inflowCustomDays() + '日間';
+    }
+    const opt = sel && sel.querySelector('option[value="custom"]');
+    if(opt){
+      const fe = document.getElementById('d-inflow-from'), te = document.getElementById('d-inflow-to');
+      const md = (v) => { const p=(v||'').split('-'); return p.length===3 ? (p[1]+'/'+p[2]) : ''; };
+      if(sel && sel.value==='custom' && fe && fe.value && te && te.value){ opt.textContent = '指定: ' + md(fe.value)+'〜'+md(te.value); }
+      else if(sel && sel.value!=='custom'){ opt.textContent = '期間を指定'; }
     }
   }
   window.dInflowPeriodChange = function(){
@@ -53329,7 +53345,7 @@ window.toggleLoginPassword = function(btn){
     if(dEl){ dEl.className='d-fol-current-delta '+(periodDelta>=0?'pos':'neg'); dEl.innerHTML='期間増減 <span id="d-fol-delta-num">0</span>人'; countUp(document.getElementById('d-fol-delta-num'), 0, periodDelta, 900, function(v){return (v>=0?'+':'')+v.toLocaleString();}); }
 
     var B=bucketize(visible), n=B.length;
-    var W=860,H=320, pl=78,pr=74,pt=30,pb=44, iw=W-pl-pr, ih=H-pt-pb;
+    var W=560,H=400, pl=74,pr=70,pt=28,pb=44, iw=W-pl-pr, ih=H-pt-pb;
     var totals=B.map(function(b){return b.total;}), deltas=B.map(function(b){return b.delta;});
     var tMax=Math.max.apply(null,totals), tMin=Math.min.apply(null,totals), tSpan=Math.max(1,tMax-tMin);
     // 目盛りを切りの良い単位に（左軸=フォロワー数:100単位 / 右軸=増減数:10単位）
@@ -53404,6 +53420,13 @@ window.toggleLoginPassword = function(btn){
     var sel=document.getElementById('d-fol-period');
     var daysEl=document.getElementById('d-fol-range-days');
     if(daysEl && sel && sel.value==='custom'){ daysEl.textContent=folCustomDays()+'日間'; }
+    var opt=sel&&sel.querySelector('option[value="custom"]');
+    if(opt){
+      var fe=document.getElementById('d-fol-from'), te=document.getElementById('d-fol-to');
+      var md=function(v){ var p=(v||'').split('-'); return p.length===3?(p[1]+'/'+p[2]):''; };
+      if(sel && sel.value==='custom' && fe && fe.value && te && te.value){ opt.textContent='指定: '+md(fe.value)+'〜'+md(te.value); }
+      else if(sel && sel.value!=='custom'){ opt.textContent='期間を指定'; }
+    }
   }
   window.dFolPeriodChange=function(){
     var sel=document.getElementById('d-fol-period');
