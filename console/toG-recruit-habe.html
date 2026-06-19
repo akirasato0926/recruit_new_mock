@@ -50397,9 +50397,10 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-donut-block.vertical .d-donut-legend,
 #page-analytics .d-donut-block.horizontal .d-donut-legend{ display:block; width:100%; max-width:none; align-self:stretch; }
 #page-analytics .d-donut-block.vertical,
-#page-analytics .d-donut-block.horizontal{ display:block !important; }
-/* 既存の凡例幅ルール（中央寄せ/max-width/grid等）が積層しているため、順位バー用に強制上書き */
-#page-analytics .d-donut-block .d-donut-legend{ display:block !important; width:100% !important; max-width:none !important; margin:0 !important; }
+#page-analytics .d-donut-block.horizontal{ display:flex !important; flex-direction:column; height:100%; }
+#page-analytics .d-attr-card .d-donut-block{ flex:1; }
+/* 既存の凡例幅ルール（中央寄せ/max-width/grid等）が積層しているため強制上書き＋順位バーを高さいっぱいに均等配置 */
+#page-analytics .d-donut-block .d-donut-legend{ display:flex !important; flex-direction:column; justify-content:space-between; flex:1 1 auto; width:100% !important; max-width:none !important; margin:0 !important; }
 #page-analytics .d-donut-block .d-donut-legend .d-rb{ display:block; width:100%; }
 #page-analytics .dn-rank-bar{ height:8px; border-radius:999px; background:#EEF1EF; }
 /* ═══ タブ内 横棒の統一（選考ステップ別辞退率＝ブレット／PRランキング＝クラフト刷新） ═══ */
