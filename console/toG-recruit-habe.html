@@ -26886,6 +26886,7 @@ body.on-login-page{overflow:hidden}
               <p class="d-funnel-label">1次選考</p>
               <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s1">485</span><span class="d-u">名</span></p>
               <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s1-rate">55.5</span>%</p>
+              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s1">42</span>名</p>
             </div>
             <div class="d-funnel-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -26894,6 +26895,7 @@ body.on-login-page{overflow:hidden}
               <p class="d-funnel-label">2次選考</p>
               <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s2">218</span><span class="d-u">名</span></p>
               <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s2-rate">44.9</span>%</p>
+              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s2">24</span>名</p>
             </div>
             <div class="d-funnel-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -26902,6 +26904,7 @@ body.on-login-page{overflow:hidden}
               <p class="d-funnel-label">3次選考</p>
               <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s3">98</span><span class="d-u">名</span></p>
               <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s3-rate">45.0</span>%</p>
+              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s3">16</span>名</p>
             </div>
             <div class="d-funnel-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -26910,6 +26913,7 @@ body.on-login-page{overflow:hidden}
               <p class="d-funnel-label">4次選考</p>
               <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s4">42</span><span class="d-u">名</span></p>
               <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s4-rate">42.9</span>%</p>
+              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s4">12</span>名</p>
             </div>
             <div class="d-funnel-arrow" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
@@ -27007,19 +27011,6 @@ body.on-login-page{overflow:hidden}
             <div class="d-mini-funnel-neg" data-target="job"></div>
           </div>
 
-          <div class="d-mini-subsection">
-            <h3 class="d-subsection-title-sm">応募者属性</h3>
-            <div class="d-mini-attr-grid">
-              <div>
-                <h4 class="d-attr-title-sm">年代別</h4>
-                <ul class="d-mini-attr" data-target="job-age"></ul>
-              </div>
-              <div>
-                <h4 class="d-attr-title-sm">居住地別</h4>
-                <ul class="d-mini-attr" data-target="job-loc"></ul>
-              </div>
-            </div>
-          </div>
         </section>
 
         <!-- 右：職種別ダッシュボード -->
@@ -27061,19 +27052,6 @@ body.on-login-page{overflow:hidden}
             <div class="d-mini-funnel-neg" data-target="cat"></div>
           </div>
 
-          <div class="d-mini-subsection">
-            <h3 class="d-subsection-title-sm">応募者属性</h3>
-            <div class="d-mini-attr-grid">
-              <div>
-                <h4 class="d-attr-title-sm">年代別</h4>
-                <ul class="d-mini-attr" data-target="cat-age"></ul>
-              </div>
-              <div>
-                <h4 class="d-attr-title-sm">居住地別</h4>
-                <ul class="d-mini-attr" data-target="cat-loc"></ul>
-              </div>
-            </div>
-          </div>
         </section>
       </div>
 
@@ -27084,7 +27062,7 @@ body.on-login-page{overflow:hidden}
         <div class="d-board-head">
           <div class="d-board-head-text">
             <h2 class="d-board-title" id="d-sec-process">選考プロセス分析</h2>
-            <p class="d-board-sub">応募締切から内定までの平均日数、選考辞退の発生段階と理由</p>
+            <p class="d-board-sub">応募締切から内定までの平均日数と、選考辞退の理由（発生段階は採用ファネルに統合）</p>
           </div>
           <div class="dp-controls">
             <select class="d-select d-board-select" id="dp-job" onchange="renderProcessAnalysis()" aria-label="職種">
@@ -27105,11 +27083,7 @@ body.on-login-page{overflow:hidden}
           <h3 class="d-subsection-title">応募締切から内定までの平均日数</h3>
           <p class="dp-speed-total"><span class="dp-st-label">応募締切〜内定 平均</span><span class="dp-st-num d-num">78</span><span class="dp-st-unit">日</span></p>
         </div>
-        <div class="d-overall-grid">
-          <div class="d-subsection">
-            <h3 class="d-subsection-title">選考辞退の発生段階</h3>
-            <div id="dp-decline-bars"></div>
-          </div>
+        <div class="d-overall-1col">
           <div class="d-subsection">
             <h3 class="d-subsection-title">選考辞退理由</h3>
             <div class="d-donut-block horizontal">
@@ -50393,6 +50367,9 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-rb-num em{ font-style:normal; font-size:11px; font-weight:600; color:#767676; margin-left:2px; }
 #page-analytics .d-rb-bar{ height:8px; background:#ECECEC; border-radius:2px; overflow:hidden; }
 #page-analytics .d-rb-bar > i{ display:block; height:100%; border-radius:2px; transition:width .8s cubic-bezier(.22,.61,.36,1); }
+/* ファネル各段階の辞退注記（発生段階をファネルへ統合） */
+#page-analytics .d-funnel-decline{ font-size:11px; color:#C0392B; margin-top:4px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics .d-overall-1col{ display:block; }
 /* 凡例コンテナはドーナツ用に中央寄せ/幅制約されているため、順位バー用に全幅block化 */
 #page-analytics .d-donut-block.vertical .d-donut-legend,
 #page-analytics .d-donut-block.horizontal .d-donut-legend{ display:block; width:100%; max-width:none; align-self:stretch; }
@@ -51545,6 +51522,8 @@ window.toggleLoginPassword = function(btn){
       { label: '3次 → 4次',     base: 12, pct: 11 },
       { label: '内定後',         base: 16, pct: 15 }
     ].map(r => ({ label: r.label, pct: r.pct, count: Math.round(r.base * f) }));
+    // 発生段階を採用ファネルの各段階カードへ注記（応募→1次=42を1次カードへ…動的連動）
+    ['s1','s2','s3','s4'].forEach(function(k,i){ var el=document.querySelector('#d-funnel-active [data-decl="'+k+'"]'); if(el) setNumEl(el, DECLINE[i].count, ANIM, false); });
     const maxCount = Math.max.apply(null, DECLINE.map(r => r.count));
     const barWrap = document.getElementById('dp-decline-bars');
     if(barWrap){
