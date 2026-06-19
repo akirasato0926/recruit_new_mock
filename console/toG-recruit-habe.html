@@ -50384,6 +50384,23 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:600; }
 #page-analytics .dn-cmpt-row.is-self .dn-cmpt-k{ color:#115A36; font-weight:700; }
 #page-analytics .dn-cmpt-row.is-self .dn-cmpt-v{ color:#115A36; font-weight:700; }
+/* 構成比モジュール：ドーナツ→順位＋構成比バー（ラベル＋値＝上段、バー＝下段で長いラベルも崩れない） */
+#page-analytics .d-donut-legend .d-rb{ list-style:none; padding:9px 0; }
+#page-analytics .d-donut-legend .d-rb + .d-rb{ border-top:1px solid #F0F2F1; }
+#page-analytics .d-rb-top{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:7px; }
+#page-analytics .d-rb-nm{ font-size:13px; color:#1A1A1A; letter-spacing:.01em; min-width:0; }
+#page-analytics .d-rb-num{ font-size:14px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics .d-rb-num em{ font-style:normal; font-size:11px; font-weight:600; color:#767676; margin-left:2px; }
+#page-analytics .d-rb-bar{ height:8px; background:#ECECEC; border-radius:2px; overflow:hidden; }
+#page-analytics .d-rb-bar > i{ display:block; height:100%; border-radius:2px; transition:width .8s cubic-bezier(.22,.61,.36,1); }
+/* 凡例コンテナはドーナツ用に中央寄せ/幅制約されているため、順位バー用に全幅block化 */
+#page-analytics .d-donut-block.vertical .d-donut-legend,
+#page-analytics .d-donut-block.horizontal .d-donut-legend{ display:block; width:100%; max-width:none; align-self:stretch; }
+#page-analytics .d-donut-block.vertical,
+#page-analytics .d-donut-block.horizontal{ display:block !important; }
+/* 既存の凡例幅ルール（中央寄せ/max-width/grid等）が積層しているため、順位バー用に強制上書き */
+#page-analytics .d-donut-block .d-donut-legend{ display:block !important; width:100% !important; max-width:none !important; margin:0 !important; }
+#page-analytics .d-donut-block .d-donut-legend .d-rb{ display:block; width:100%; }
 #page-analytics .dn-rank-bar{ height:8px; border-radius:999px; background:#EEF1EF; }
 /* ═══ タブ内 横棒の統一（選考ステップ別辞退率＝ブレット／PRランキング＝クラフト刷新） ═══ */
 /* 選考ステップ別の辞退率：自団体バー＋比較対象平均リファレンス目盛り（負の指標なので抑えた赤） */
@@ -50866,34 +50883,37 @@ window.toggleLoginPassword = function(btn){
 
     const ageDonut = document.querySelector('#d-section-overall [data-target="age-donut"]');
     const ageLegend = document.querySelector('#d-section-overall [data-target="age-legend"]');
-    if(ageDonut){
-      const ageSegs = d.ages.map((v, i) => ({label: ageL[i], color: ageColors[i], pct: v}));
-      renderDonutWithTooltip(ageDonut, ageSegs, { strokeWidth: 18 });
-    }
+    dHideDonut(ageDonut);
     if(ageLegend){
-      ageLegend.innerHTML = d.ages.map((v, i) => `
-        <li>
-          <span class="dot" style="background:${ageColors[i]}"></span>
-          <span class="nm">${ageL[i]}</span>
-          <span class="stat"><span class="pct"><span class="d-num">${v}</span>%</span></span>
-        </li>`).join('');
+      ageLegend.innerHTML = dRankLis(d.ages.map((v, i) => ({label: ageL[i], num: ''+v, unit: '%', share: v})), '#2E7D54');
     }
     const locDonut = document.querySelector('#d-section-overall [data-target="loc-donut"]');
     const locLegend = document.querySelector('#d-section-overall [data-target="loc-legend"]');
-    if(locDonut){
-      const locSegs = d.locs.map((v, i) => ({label: locL[i], color: locColors[i], pct: v}));
-      renderDonutWithTooltip(locDonut, locSegs, { strokeWidth: 18 });
-    }
+    dHideDonut(locDonut);
     if(locLegend){
-      locLegend.innerHTML = d.locs.map((v, i) => `
-        <li>
-          <span class="dot" style="background:${locColors[i]}"></span>
-          <span class="nm">${locL[i]}</span>
-          <span class="stat"><span class="pct"><span class="d-num">${v}</span>%</span></span>
-        </li>`).join('');
+      locLegend.innerHTML = dRankLis(d.locs.map((v, i) => ({label: locL[i], num: ''+v, unit: '%', share: v})), '#2E7D54');
     }
   }
 
+  // ─────────────────────────────────────────────────
+  // 構成比は「順位＋バー」で（ドーナツより最大が一目で分かる）。ドーナツ本体は隠す。
+  // ─────────────────────────────────────────────────
+  function dHideDonut(svgEl){
+    if(!svgEl) return;
+    var wrap = svgEl.closest('.d-donut-wrap');
+    if(wrap) wrap.style.display = 'none';
+  }
+  function dRankLis(items, barColor){
+    var col = barColor || '#2E7D54';
+    return items.map(function(x){
+      var w = Math.max(3, Math.min(100, Math.round(x.share)));
+      return '<li class="d-rb">'
+        + '<div class="d-rb-top"><span class="d-rb-nm">' + x.label + '</span>'
+        + '<span class="d-rb-num"><span class="d-num">' + x.num + '</span>' + (x.unit ? '<em>' + x.unit + '</em>' : '') + '</span></div>'
+        + '<div class="d-rb-bar"><i style="width:' + w + '%;background:' + col + '"></i></div>'
+      + '</li>';
+    }).join('');
+  }
   // ─────────────────────────────────────────────────
   // ドーナツチャート描画 + ホバーツールチップ
   // ─────────────────────────────────────────────────
@@ -51425,12 +51445,8 @@ window.toggleLoginPassword = function(btn){
       const pct = totalPV ? (pv / totalPV * 100) : 0;
       return { label: c[0], color: c[1], count: pv, pct };
     });
-    renderDonutWithTooltip(donut, rows, { strokeWidth: 18 });
-    legend.innerHTML = rows.map(r => `<li>
-          <span class="dot" style="background:${r.color}"></span>
-          <span class="nm">${r.label}</span>
-          <span class="stat"><span class="d-num">${fmt(r.count)}</span><span class="u">PV</span></span>
-        </li>`).join('');
+    dHideDonut(donut);
+    legend.innerHTML = dRankLis(rows.map(r => ({label: r.label, num: fmt(r.count), unit: 'PV', share: r.pct})), '#2E7D54');
   }
   function renderInflow(){ renderSiteViews(); renderSourceDonut(); }
   function inflowCustomDays(){
@@ -51569,21 +51585,9 @@ window.toggleLoginPassword = function(btn){
     if(reasonCenter) setNumEl(reasonCenter, REASONS.reduce((a, r) => a + r.count, 0), ANIM, false);
     const reasonDonut = document.querySelector('#d-section-process [data-target="reason-donut"]');
     const reasonLegend = document.querySelector('#d-section-process [data-target="reason-legend"]');
-    if(reasonDonut && typeof renderDonutWithTooltip === 'function'){
-      renderDonutWithTooltip(reasonDonut, REASONS.map(r => ({ label: r.label, color: r.color, count: r.count, pct: r.pct })), { strokeWidth: 18 });
-      // ドーナツ本体を当セクション限定で fade+scale-in（再描画ごとに再生・他ドーナツ非干渉）
-      if(!reduce){
-        reasonDonut.classList.remove('dp-donut-in');
-        void reasonDonut.getBoundingClientRect(); // 強制リフロー（アニメ再トリガ）
-        reasonDonut.classList.add('dp-donut-in');
-      }
-    }
+    dHideDonut(reasonDonut);
     if(reasonLegend){
-      reasonLegend.innerHTML = REASONS.map(r => '<li>'
-        + '<span class="dot" style="background:' + r.color + '"></span>'
-        + '<span class="nm">' + r.label + '</span>'
-        + '<span class="stat"><span class="pct"><span class="d-num">' + r.pct + '</span>%</span></span>'
-        + '</li>').join('');
+      reasonLegend.innerHTML = dRankLis(REASONS.map(r => ({label: r.label, num: '' + r.pct, unit: '%', share: r.pct})), '#C0392B');
     }
   }
   window.renderProcessAnalysis = renderProcessAnalysis;
