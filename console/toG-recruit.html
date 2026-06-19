@@ -50389,7 +50389,10 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-sw.is-self{ background:#C0392B; border-radius:2px; width:12px; height:12px; }
 #page-analytics .dn-dcl-sw.is-peer{ background:#C9CFCB; border-radius:2px; width:12px; height:12px; }
 #page-analytics .dn-colc{ margin-top:6px; }
-#page-analytics .dn-colc-plot{ display:flex; align-items:flex-end; gap:12px; height:188px; border-bottom:1.5px solid #D9DEDB; padding-top:24px; }
+/* 右カード（辞退率）を縦flex化し、縦棒グラフを高さいっぱいに伸ばして左カードと高さバランスを揃える */
+#page-analytics .dn-sp-2col > .dn-sp-gapwrap{ display:flex; flex-direction:column; }
+#page-analytics .dn-sp-2col > .dn-sp-gapwrap > .dn-colc{ flex:1; display:flex; flex-direction:column; }
+#page-analytics .dn-colc-plot{ display:flex; align-items:flex-end; gap:12px; flex:1; min-height:188px; border-bottom:1.5px solid #D9DEDB; padding-top:24px; }
 #page-analytics .dn-colc-grp{ flex:1; height:100%; display:flex; align-items:flex-end; justify-content:center; min-width:0; }
 #page-analytics .dn-colc-pair{ display:flex; align-items:flex-end; justify-content:center; gap:8px; height:100%; width:100%; }
 #page-analytics .dn-colc-bar{ position:relative; width:26px; max-width:40%; border-radius:3px 3px 0 0; transition:height .9s cubic-bezier(.22,.61,.36,1); }
