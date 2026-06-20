@@ -50348,12 +50348,16 @@ window.toggleLoginPassword = function(btn){
 }
 #page-analytics .dn-bul-key b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-bul-key .k-na{ color:#B0B6B2; }
-/* 比較サマリ/職種別：自団体は上の大きな数字と重複のため省略。平均・中央値を横並びでコンパクトに。 */
-#page-analytics .dn-cmpt{ margin-top:auto; padding-top:11px; display:flex; gap:10px; border-top:1px solid #F0F2F1; }
-#page-analytics .dn-cmpt-cell{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+/* 比較サマリ/職種別：自団体（左の大きな数字）の右に、平均・中央値を縦並びでコンパクト配置 */
+#page-analytics .dn-kpi{ display:grid; grid-template-columns:1fr auto; grid-template-areas:"label label" "value cmpt" "diff cmpt"; column-gap:14px; align-content:start; }
+#page-analytics .dn-kpi-label{ grid-area:label; }
+#page-analytics .dn-kpi-value{ grid-area:value; }
+#page-analytics .dn-kpi-diff{ grid-area:diff; align-self:start; }
+#page-analytics .dn-cmpt{ grid-area:cmpt; align-self:center; justify-self:end; display:flex; flex-direction:column; gap:7px; text-align:right; margin:0; padding:0 0 0 6px; border:none; }
+#page-analytics .dn-cmpt-cell{ display:flex; align-items:baseline; justify-content:flex-end; gap:6px; white-space:nowrap; }
 #page-analytics .dn-cmpt-k{ font-size:11px; color:#767676; letter-spacing:.03em; }
-#page-analytics .dn-cmpt-v{ font-size:15px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.1; }
-#page-analytics .dn-cmpt-v i{ font-style:normal; font-size:11px; font-weight:600; margin-left:1px; color:#767676; }
+#page-analytics .dn-cmpt-v{ font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.15; }
+#page-analytics .dn-cmpt-v i{ font-style:normal; font-size:10px; font-weight:600; margin-left:1px; color:#767676; }
 #page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:700; }
 /* 構成比モジュール：ドーナツ→順位＋構成比バー（ラベル＋値＝上段、バー＝下段で長いラベルも崩れない） */
 #page-analytics .d-donut-legend .d-rb{ list-style:none; padding:9px 0; }
