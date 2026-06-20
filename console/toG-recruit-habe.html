@@ -25011,7 +25011,7 @@ body.on-login-page{overflow:hidden}
 #page-analytics .d-fol-current-delta{font-size:14px;font-weight:700}
 #page-analytics .d-fol-current-delta.pos{color:#115a36}
 #page-analytics .d-fol-current-delta.neg{color:#a90000}
-#page-analytics .d-fol-legend{display:flex;gap:18px;margin:10px 0 6px;font-size:13px;color:#4D4D4D}
+#page-analytics .d-fol-legend{display:flex;gap:18px;margin:10px 0 6px;font-size:12px;color:#4D4D4D}
 #page-analytics .d-web-2col .d-fol-legend{ justify-content:flex-end; font-size:12px; }
 #page-analytics .d-fol-leg{display:inline-flex;align-items:center;gap:6px}
 #page-analytics .d-fol-leg-bar{width:14px;height:14px;background:#9BD4B5;border:1px solid #51B883;border-radius:2px;display:inline-block}
@@ -50570,7 +50570,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-line:has(.dn-dcl-fill.is-peer) .dn-dcl-val{ color:#767676; }
 /* 応募者属性 2列・サイト閲覧数(PV/UU)グラフ */
 #page-analytics .d-overall-2col{ grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
-#page-analytics .d-sv-legend{ display:flex; gap:18px; font-size:12px; color:#4D4D4D; margin:10px 0 8px; }
+#page-analytics .d-sv-legend{ display:flex; gap:18px; font-size:12px; color:#4D4D4D; margin:10px 0 6px; }
 #page-analytics .d-sv-leg{ display:inline-flex; align-items:center; gap:6px; }
 #page-analytics .d-sv-sw{ display:inline-block; }
 #page-analytics .d-sv-sw.pv{ width:14px; height:10px; border-radius:2px; background:#9BD4B5; border:1px solid #51B883; }
@@ -51510,12 +51510,12 @@ window.toggleLoginPassword = function(btn){
     let B = arr;
     if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length), date: seg[seg.length-1].date }); } }
     const n = B.length;
-    const W=560,H=469,pl=64,pr=20,pt=28,pb=46,iw=W-pl-pr,ih=H-pt-pb;
+    const W=478,H=400,pl=64,pr=20,pt=28,pb=44,iw=W-pl-pr,ih=H-pt-pb;
     const maxV = Math.max.apply(null, B.map(b=>b.pv)); const hi = (Math.ceil(maxV/500)*500) || 500;
     const X = i => pl + (n<=1 ? iw/2 : iw*i/(n-1));
     const Y = v => pt + ih*(1 - v/hi);
     let svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="1日あたりPV数・UU数の推移">';
-    for(let g=0; g<=4; g++){ const yy = pt + ih*g/4; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#999999" font-family="Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/4)).toLocaleString()+'</text>'; }
+    for(let g=0; g<=4; g++){ const yy = pt + ih*g/4; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="#767676" font-family="Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/4)).toLocaleString()+'</text>'; }
     const pvPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.pv).toFixed(1)).join(' ');
     const uuPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.uu).toFixed(1)).join(' ');
     svg += '<polyline points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
@@ -53716,17 +53716,17 @@ window.toggleLoginPassword = function(btn){
     for(var val=lo; val<=hi+0.5; val+=LA.step){
       var yy=yT(val);
       svg+='<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>';
-      svg+='<text class="d-fol-axis" x="'+(pl-10)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="11" fill="#999999" font-family="Noto Sans JP, sans-serif">'+ax(val)+'</text>';
+      svg+='<text class="d-fol-axis" x="'+(pl-10)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="#767676" font-family="Noto Sans JP, sans-serif">'+ax(val)+'</text>';
     }
     for(var dv=dLo; dv<=dHi+0.5; dv+=RA.step){
       var yy2=yD(dv);
-      svg+='<text class="d-fol-axis" x="'+(W-pr+10)+'" y="'+(yy2+4).toFixed(1)+'" text-anchor="start" font-size="11" fill="#999999" font-family="Noto Sans JP, sans-serif">'+(dv>0?'+':'')+Math.round(dv)+'</text>';
+      svg+='<text class="d-fol-axis" x="'+(W-pr+10)+'" y="'+(yy2+4).toFixed(1)+'" text-anchor="start" font-size="12" fill="#767676" font-family="Noto Sans JP, sans-serif">'+(dv>0?'+':'')+Math.round(dv)+'</text>';
     }
     if(dLo<0){ var zy=yD(0); svg+='<line x1="'+pl+'" y1="'+zy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+zy.toFixed(1)+'" stroke="#E0E0E0" stroke-width="1" stroke-dasharray="3 4"/>'; }
     // 軸ラベル（左＝フォロワー数 / 右＝増減数）
     var axCy=pt+ih/2;
-    svg+='<text transform="translate(16,'+axCy.toFixed(1)+') rotate(-90)" text-anchor="middle" font-size="11" font-weight="700" fill="#767676" font-family="Noto Sans JP, sans-serif">フォロワー数（人）</text>';
-    svg+='<text transform="translate('+(W-16)+','+axCy.toFixed(1)+') rotate(90)" text-anchor="middle" font-size="11" font-weight="700" fill="#767676" font-family="Noto Sans JP, sans-serif">増減数（人）</text>';
+    svg+='<text transform="translate(16,'+axCy.toFixed(1)+') rotate(-90)" text-anchor="middle" font-size="12" font-weight="700" fill="#767676" font-family="Noto Sans JP, sans-serif">フォロワー数（人）</text>';
+    svg+='<text transform="translate('+(W-16)+','+axCy.toFixed(1)+') rotate(90)" text-anchor="middle" font-size="12" font-weight="700" fill="#767676" font-family="Noto Sans JP, sans-serif">増減数（人）</text>';
     // 棒（フォロワー数）細く淡く＋伸びるアニメ
     for(var i=0;i<n;i++){
       var cx=pl+slot*i+slot/2, bx=cx-barW/2, by=yT(B[i].total), bh=Math.max(0,baseY-by);
