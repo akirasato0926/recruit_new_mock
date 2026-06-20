@@ -47273,7 +47273,7 @@ ${style.blogQuote}
     // ── 段1：選考スピード上位10自治体（比較対象のうち最速順・固有名詞は伏せる）──
     var sortedPeers = peers.slice().sort(function(a, b){ return a.total - b.total; });
     var top3 = sortedPeers.slice(0, 3);
-    var rest = sortedPeers.slice(3, 10);
+    var rest = sortedPeers.slice(3, 20);
     var rankCards = top3.map(function(p, k){
       return '<div class="dn-rk3-card' + (k === 0 ? ' is-top' : '') + '">' +
         '<span class="dn-rk3-rank">' + (k + 1) + '位</span>' +
@@ -47341,13 +47341,19 @@ ${style.blogQuote}
           '<div class="dn-dcl-card-note">内定者に対する内定辞退者の割合</div></div>' +
       '</div>';
 
+    var selfCard = '<div class="dn-rk-selfcard">' +
+        '<span class="dn-rk-self-badge">自団体</span>' +
+        '<span class="dn-rk-self-org">' + selfName + '</span>' +
+        '<span class="dn-rk-self-diff">' + diffText + '</span>' +
+        '<span class="dn-rk-self-days"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span><span class="u">日</span></span>' +
+      '</div>';
     html += '<div class="dn-sp-2col">' +
         '<div class="dn-sp-gapwrap dn-sp-left">' +
-          '<div class="dn-sp-block-head">選考スピード上位10自治体（' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '）</div>' +
+          '<div class="dn-sp-block-head">選考スピード上位20自治体（' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '）</div>' +
+          selfCard +
           '<div class="dn-rk3">' + rankCards + '</div>' +
-          '<div class="dn-rk-resthead">4位以下</div>' +
-          '<ol class="dn-rk">' + restRows + '</ol>' +
-          '<div class="dn-rk-selfnote">※自治体名は非表示。（参考）自団体 ' + selfTotal + '日</div>' +
+          '<ol class="dn-rk dn-rk-scroll">' + restRows + '</ol>' +
+          '<div class="dn-rk-selfnote">※比較対象の自治体名は非表示</div>' +
         '</div>' +
         '<div class="dn-sp-gapwrap">' +
           '<div class="dn-sp-block-head">選考辞退率・内定辞退率（自団体 vs 比較対象平均）</div>' +
@@ -50195,6 +50201,15 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-card-pk{ font-size:12px; color:#767676; letter-spacing:.02em; }
 #page-analytics .dn-dcl-card-pv{ font-size:18px; font-weight:700; color:#5A6862; font-variant-numeric:tabular-nums; line-height:1; }
 #page-analytics .dn-dcl-card-pv i{ font-style:normal; font-size:12px; font-weight:600; margin-left:1px; }
+/* 選考スピード上位20：自団体カード／規模・エリアタグを職種と同じ枠線スタイルに統一／4位以下を20位までカード内スクロール */
+#page-analytics .dn-rk-tag.t-attr{ background:#FFFFFF; border:1px solid #9BD4B5; }
+#page-analytics .dn-sp-left .dn-rk.dn-rk-scroll{ max-height:288px; overflow-y:auto; padding-right:6px; }
+#page-analytics .dn-rk-selfcard{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; background:#E6F5EC; border:1px solid #9BD4B5; border-radius:10px; padding:11px 16px; margin-bottom:12px; }
+#page-analytics .dn-rk-self-badge{ flex:0 0 auto; display:inline-flex; align-items:center; height:22px; padding:0 9px; border-radius:11px; background:#115A36; color:#fff; font-size:12px; font-weight:700; }
+#page-analytics .dn-rk-self-org{ font-size:14px; font-weight:700; color:#115A36; }
+#page-analytics .dn-rk-self-diff{ font-size:12px; color:#5A6862; }
+#page-analytics .dn-rk-self-days{ margin-left:auto; font-size:24px; font-weight:700; color:#115A36; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-rk-self-days .u{ font-size:13px; font-weight:700; margin-left:2px; }
 /* ───────── 他団体比較 リファイン（UI/UXレビュー反映） ───────── */
 /* 1) 平均/中央値の配置を比較サマリも職種別と同じ「ヒーロー下・縦並び」に統一（右端フロートの死に空白を解消） */
 #page-analytics #dn-cmp-body .dn-kpi{ display:flex; flex-direction:column; align-items:stretch; }
