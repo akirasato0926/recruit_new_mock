@@ -27349,71 +27349,7 @@ body.on-login-page{overflow:hidden}
             </div>
           </div>
           <div id="dn-ja-cards" class="dn-kpi-grid"></div>
-        </section>
-
-        <!-- (2c) 選考プロセス分析（選考スピード） -->
-        <section class="d-board dn-board">
-          <div class="d-board-head">
-            <div class="d-board-head-text">
-              <h2 class="d-board-title">選考プロセス分析（選考スピード）</h2>
-            </div>
-          </div>
-          <div class="dn-filter dn-filter-sec" role="region" aria-label="選考スピードの絞り込み">
-            <div class="dn-filter-row">
-              <div class="dn-fg">
-                <label class="dn-flabel" for="dn-sp-size">人口規模</label>
-                <select class="d-select" id="dn-sp-size">
-                  <option value="all" selected>すべて</option>
-                  <option value="s1">5万人以下</option>
-                  <option value="s2">5〜10万人</option>
-                  <option value="s3">10〜20万人</option>
-                  <option value="s4">20〜30万人</option>
-                  <option value="s5">30〜50万人</option>
-                  <option value="s6">50万人以上</option>
-                </select>
-              </div>
-              <div class="dn-fg">
-                <label class="dn-flabel" for="dn-sp-area">エリア</label>
-                <select class="d-select" id="dn-sp-area">
-                  <option value="all" selected>すべて</option>
-                  <option value="a1">北海道・東北</option>
-                  <option value="a2">関東</option>
-                  <option value="a3">中部</option>
-                  <option value="a4">近畿</option>
-                  <option value="a5">中国</option>
-                  <option value="a6">四国</option>
-                  <option value="a7">九州・沖縄</option>
-                </select>
-              </div>
-              <div class="dn-fg">
-                <label class="dn-flabel" for="dn-sp-job">職種</label>
-                <select class="d-select" id="dn-sp-job">
-                  <option value="all" selected>すべて</option>
-                  <option value="admin">事務職</option>
-                  <option value="tech">技術職</option>
-                  <option value="pro">専門職</option>
-                  <option value="nursery">保育士</option>
-                </select>
-              </div>
-              <div class="dn-fg">
-                <label class="dn-flabel" for="dn-sp-year">年度</label>
-                <select class="d-select" id="dn-sp-year">
-                  <option value="r8" selected>令和8年度</option>
-                  <option value="r7">令和7年度</option>
-                  <option value="r6">令和6年度</option>
-                </select>
-              </div>
-              <button type="button" class="dn-search-btn" onclick="dnRenderSpeed(true)" aria-label="選考スピードを検索して更新">
-                <svg class="dn-search-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
-                <span>検索</span>
-              </button>
-              <button type="button" class="dn-reset-btn" onclick="dnResetFilters('dn-sp', dnRenderSpeed)" aria-label="選考スピードのフィルタをリセット">
-                <svg class="dn-reset-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
-                <span>リセット</span>
-              </button>
-            </div>
-          </div>
-          <div id="dn-speed-body"></div>
+          <div id="dn-speed-body" class="dn-ja-speed"></div>
         </section>
 
         <!-- (3) PRコンテンツ（上位20） -->
@@ -47247,6 +47183,8 @@ ${style.blogQuote}
     } else {
       jaFills.forEach(function(f){ f.style.width = (parseFloat(f.getAttribute('data-dn-w'))||0) + '%'; });
     }
+    // 選考スピード上位10・辞退率も職種別フィルタで連動再描画
+    if(typeof dnRenderSpeed === 'function'){ dnRenderSpeed(animate); }
   }
   window.dnRenderJobAnalysis = dnRenderJobAnalysis;
 
@@ -47282,10 +47220,10 @@ ${style.blogQuote}
     var host = document.getElementById('dn-speed-body');
     if(!host) return;
     var spSnap = animate ? dnSnapshot(host) : null;
-    var szSel = document.getElementById('dn-sp-size');
-    var arSel = document.getElementById('dn-sp-area');
-    var jbSel = document.getElementById('dn-sp-job');
-    var yrSel = document.getElementById('dn-sp-year');
+    var szSel = document.getElementById('dn-ja-size');
+    var arSel = document.getElementById('dn-ja-area');
+    var jbSel = document.getElementById('dn-ja-job');
+    var yrSel = document.getElementById('dn-ja-year');
     var size = (szSel && szSel.value) || 'all';
     var area = (arSel && arSel.value) || 'all';
     var job  = (jbSel && jbSel.value) || 'all';
@@ -50366,6 +50304,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:700; }
 /* 職種別分析：5カード（5列）＋辞退率の2値カード */
 #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(6,1fr); }
+#page-analytics .dn-ja-speed{ margin-top:24px; }
 /* 職種別6カード：narrow幅で平均/中央値を右に置くと広い数値(16,277回)と衝突するため、ヒーロー下に縦並びで統一 */
 #page-analytics #dn-ja-cards .dn-kpi{ display:flex; flex-direction:column; align-items:stretch; }
 #page-analytics #dn-ja-cards .dn-kpi-diff{ margin:6px 0 0; }
