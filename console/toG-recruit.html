@@ -47522,6 +47522,8 @@ ${style.blogQuote}
   }
 
   // 団体別ランキング：比率バー＋自団体ピン行＋上位5件（残りはトグル）。固有名詞なし・開くボタンなし。
+  // PRランキング各行の遷移アイコン（外部リンク・シンプル）。モックのためhrefはダミー。
+  var DN_RANK_LINK = '<a class="dn-rank-link" href="#" aria-label="ページを開く" title="ページを開く" onclick="return false;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>';
   function dnRenderRankOrg(elId, arr, key, unit, selfVal, selfName, selfRank, totalOrgs){
     var el = document.getElementById(elId);
     if(!el) return;
@@ -47534,7 +47536,7 @@ ${style.blogQuote}
       html += '<li class="dn-rank-self dn-emph">' +
         '<span class="dn-rank-self-badge">あなた</span>' +
         '<span class="dn-rank-name">' + (selfName || '自団体') + '</span>' +
-        '<span class="dn-rank-val"><span data-dn-to="' + selfVal + '" data-dn-fmt="int">' + dnFmt(selfVal) + '</span>' + unit + '</span>' +
+        '<span class="dn-rank-val"><span data-dn-to="' + selfVal + '" data-dn-fmt="int">' + dnFmt(selfVal) + '</span>' + unit + '</span>' + DN_RANK_LINK +
         '<span class="dn-rank-self-rank">全' + (totalOrgs || 370) + '団体中 ' + selfRank + '位</span></li>';
     }
     sorted.forEach(function(p, i){
@@ -47545,7 +47547,7 @@ ${style.blogQuote}
         '<span class="dn-rank-no' + noCls + '">' + rankNo + '</span>' +
         '<span class="dn-rank-name">' + p.name + '</span>' +
         '<span class="dn-rank-bar"><span class="dn-rank-bar-fill" data-dn-w="' + w + '" style="width:0%"></span></span>' +
-        '<span class="dn-rank-val"><span data-dn-to="' + p[key] + '" data-dn-fmt="int">' + dnFmt(p[key]) + '</span>' + unit + '</span></li>';
+        '<span class="dn-rank-val"><span data-dn-to="' + p[key] + '" data-dn-fmt="int">' + dnFmt(p[key]) + '</span>' + unit + '</span>' + DN_RANK_LINK + '</li>';
     });
     el.innerHTML = html;
   }
@@ -47566,7 +47568,7 @@ ${style.blogQuote}
         '<span class="dn-rank-body"><span class="dn-rank-title">' + p.title + '</span>' +
         '<span class="dn-rank-org">' + p.org + '</span></span>' +
         '<span class="dn-rank-bar"><span class="dn-rank-bar-fill" data-dn-w="' + w + '" style="width:0%"></span></span>' +
-        '<span class="dn-rank-val"><span data-dn-to="' + p.val + '" data-dn-fmt="int">' + dnFmt(p.val) + '</span>' + unit + '</span></li>';
+        '<span class="dn-rank-val"><span data-dn-to="' + p.val + '" data-dn-fmt="int">' + dnFmt(p.val) + '</span>' + unit + '</span>' + DN_RANK_LINK + '</li>';
     });
     el.innerHTML = html;
   }
@@ -50187,6 +50189,32 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-card-diff{ margin:5px 0 7px; font-size:13px; }
 #page-analytics .dn-dcl-card-sub .dn-dcl-card-sk{ color:#767676; }
 #page-analytics .dn-dcl-card-sub b{ font-weight:700; color:#333; font-variant-numeric:tabular-nums; }
+/* ───────── 他団体比較 リファイン（UI/UXレビュー反映） ───────── */
+/* 1) 平均/中央値の配置を比較サマリも職種別と同じ「ヒーロー下・縦並び」に統一（右端フロートの死に空白を解消） */
+#page-analytics #dn-cmp-body .dn-kpi{ display:flex; flex-direction:column; align-items:stretch; }
+#page-analytics #dn-cmp-body .dn-kpi-diff{ margin:6px 0 0; }
+#page-analytics #dn-cmp-body .dn-cmpt{ align-self:stretch; justify-self:stretch; margin:11px 0 0; padding:11px 0 0; border-top:1px solid #F0F2F1; display:flex; flex-direction:column; gap:6px; text-align:left; }
+#page-analytics #dn-cmp-body .dn-cmpt-cell{ flex-direction:row; align-items:baseline; justify-content:space-between; gap:8px; }
+/* 2) 主従の明確化：平均/中央値の値は14px/600（ヒーロー28pxとの対比を強める） */
+#page-analytics .dn-cmpt-v{ font-size:14px; font-weight:600; }
+#page-analytics #dn-ja-cards .dn-cmpt{ gap:6px; }
+/* 3) 12px下限：グラフ/タグ/注記の極小フォントを底上げ */
+#page-analytics .dn-colc-v{ font-size:12px; }
+#page-analytics .dn-colc-v i{ font-size:11px; }
+#page-analytics .dn-colc-lcell{ font-size:12px; font-weight:500; }
+#page-analytics .dn-dcl-card-note{ font-size:11.5px; }
+#page-analytics .dn-rk-tag{ font-size:12px; }
+#page-analytics .dn-flow-stage{ font-size:12px; }
+/* 4) 辞退カードのラベル色を補足グレーに統一 */
+#page-analytics .dn-dcl-card-label{ color:#767676; }
+/* 5) ウェイト統一（700）＋tabular-nums漏れ補完 */
+#page-analytics .dn-rk-days,#page-analytics .dn-rk3-days{ font-weight:700; }
+#page-analytics .dn-rk3-rank,#page-analytics .dn-rk3-u,#page-analytics .dn-rank-self-rank,#page-analytics .dn-rk-resthead{ font-variant-numeric:tabular-nums; }
+/* 6) PRランキングの遷移アイコンリンク（シンプルなアイコンボタン） */
+#page-analytics .dn-rank-link{ flex:0 0 auto; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; margin-left:8px; border-radius:6px; color:#767676; text-decoration:none; transition:background .15s, color .15s; }
+#page-analytics .dn-rank-link:hover{ background:#EEF3F0; color:#115A36; }
+#page-analytics .dn-rank-link:focus-visible{ outline:2px solid #9BD4B5; outline-offset:1px; }
+#page-analytics .dn-rank-link svg{ width:15px; height:15px; }
 #page-analytics .dn-dcl-substage{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin:4px 0 8px; }
 #page-analytics .dn-dcl-legend{ display:flex; align-items:center; gap:4px; font-size:12px; color:#5A6862; margin:2px 0 12px; }
 #page-analytics .dn-dcl-sw{ display:inline-block; width:12px; height:12px; border-radius:3px; margin-left:8px; }
