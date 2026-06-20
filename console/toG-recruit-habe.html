@@ -27291,7 +27291,7 @@ body.on-login-page{overflow:hidden}
         <section class="d-board dn-board">
           <div class="d-board-head">
             <div class="d-board-head-text">
-              <h2 class="d-board-title">職種別分析</h2>
+              <h2 class="d-board-title">職種別分析（自団体 vs 比較対象）</h2>
               <p class="d-board-sub">※自団体の職種別×年度別の状況。比較対象（同規模/エリア）の平均と併記。サンプルデータ。</p>
             </div>
           </div>
@@ -47172,6 +47172,9 @@ ${style.blogQuote}
     var selfOffers = Math.max(1, Math.round(selfApps * (0.06 + selfRng()*0.04))); // 内定数＝応募の6〜10%程度
     var selfDecline= Math.round((8 + selfRng()*4) * 10) / 10; // 内定辞退率 8〜12%（削除カード用・未使用）
     var selfPV     = Math.max(1, Math.round(14200 * jobScale * yScale * (0.85 + selfRng()*0.3))); // 求人ページPV数
+    var selfSpeed  = Math.max(45, Math.round(70 + selfRng()*16)); // 選考スピード（応募締切→内定の平均日数）
+    var selfSelDec = Math.round((18 + selfRng()*4)*10)/10;  // 選考辞退率
+    var selfOffDec = Math.round((24 + selfRng()*7)*10)/10;  // 内定辞退率
 
     // 比較対象（選択した規模/エリアの平均・中央値）。規模・エリア・職種・年度をシードに含める
     function peerVals(metric, base, lo, hi, isPct){
@@ -47188,10 +47191,14 @@ ${style.blogQuote}
     var offersArr  = peerVals('offers',  874 * jobScale * yScale * szScale * 0.08, 0.7, 1.3, false);
     var declineArr = peerVals('decline', 1, 7, 10, true); // 平均7〜10%（削除カード用・未使用）
     var pvArr      = peerVals('pv', 14200 * jobScale * yScale * szScale, 0.78, 1.18, false);
+    var speedArr   = peerVals('speed', 79, 0.85, 1.15, false);
+    var selDecArr  = peerVals('seldec', 20.3, 0.92, 1.08, true);
+    var offDecArr  = peerVals('offdec', 20.0, 0.92, 1.12, true);
 
     var cards = [
       { label:'求人ページPV数', self:selfPV,     arr:pvArr,     unit:'回', higher:true,  pct:false },
       { label:'応募者数',       self:selfApps,   arr:appsArr,   unit:'件', higher:true,  pct:false },
+      { label:'選考スピード',   self:selfSpeed,  arr:speedArr,  unit:'日', higher:false, pct:false },
       { label:'内定数',         self:selfOffers, arr:offersArr, unit:'件', higher:true,  pct:false }
     ];
 
@@ -47230,6 +47237,23 @@ ${style.blogQuote}
         dnCompare(c.self, selfNum, avg, avgNum, med, medNum, fmtType, c.unit, true);
       host.appendChild(card);
     });
+
+    // 辞退率（選考辞退/内定辞退）：1枚で2値を表示するカード（辞退率は低いほど良い＝平均超で赤）
+    (function(){
+      var selAvg = dnMean(selDecArr), offAvg = dnMean(offDecArr);
+      function row(k, self, avg){
+        var bad = self > avg;
+        return '<div class="dn-dual-row"><span class="dn-dual-k">' + k + '</span>'
+          + '<span class="dn-dual-main"><span class="dn-dual-v' + (bad ? ' is-bad' : '') + '">' + self.toFixed(1) + '<i>%</i></span>'
+          + '<span class="dn-dual-avg">平均 ' + avg.toFixed(1) + '%</span></span></div>';
+      }
+      var dc = document.createElement('div');
+      dc.className = 'dn-kpi dn-kpi-dual';
+      dc.innerHTML = '<div class="dn-kpi-label">辞退率（選考辞退/内定辞退）</div>'
+        + row('選考辞退', selfSelDec, selAvg)
+        + row('内定辞退', selfOffDec, offAvg);
+      host.appendChild(dc);
+    })();
 
     // バー幅・数値のアニメ適用（検索クリック時のみ）
     var jaFills = host.querySelectorAll('.dn-mini-fill[data-dn-w]');
@@ -50359,6 +50383,19 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-cmpt-v{ font-size:15px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.15; }
 #page-analytics .dn-cmpt-v i{ font-style:normal; font-size:11px; font-weight:600; margin-left:1px; color:#767676; }
 #page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:700; }
+/* 職種別分析：5カード（5列）＋辞退率の2値カード */
+#page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(5,1fr); }
+@media (max-width:1200px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:820px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:560px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:1fr; } }
+#page-analytics .dn-kpi.dn-kpi-dual{ display:flex; flex-direction:column; justify-content:center; gap:13px; }
+#page-analytics .dn-dual-row{ display:flex; flex-direction:column; gap:3px; }
+#page-analytics .dn-dual-k{ font-size:12px; color:#767676; letter-spacing:.02em; }
+#page-analytics .dn-dual-main{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+#page-analytics .dn-dual-v{ font-size:22px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.1; }
+#page-analytics .dn-dual-v.is-bad{ color:#CE0000; }
+#page-analytics .dn-dual-v i{ font-style:normal; font-size:12px; font-weight:600; color:#767676; margin-left:1px; }
+#page-analytics .dn-dual-avg{ font-size:12px; color:#767676; font-variant-numeric:tabular-nums; }
 /* 構成比モジュール：ドーナツ→順位＋構成比バー（ラベル＋値＝上段、バー＝下段で長いラベルも崩れない） */
 #page-analytics .d-donut-legend .d-rb{ list-style:none; padding:9px 0; }
 #page-analytics .d-donut-legend .d-rb + .d-rb{ border-top:1px solid #F0F2F1; }
