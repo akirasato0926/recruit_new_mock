@@ -26732,7 +26732,21 @@ body.on-login-page{overflow:hidden}
       <!-- セクション 0：フォロワー数の推移（採用全体の上） -->
       <!-- ═══════════════════════════════════════════════════════ -->
       <section class="d-section d-board" aria-labelledby="d-sec-fol" id="d-section-followers">
-        <div class="d-overall-grid d-overall-3col">
+        <div class="d-web-head">
+          <h2 class="d-board-title" id="d-sec-fol2">ウェブ広報の動向</h2>
+          <div class="d-web-period-wrap">
+            <label class="d-filter-label" for="d-web-period">期間</label>
+            <select class="d-select d-board-select" id="d-web-period" onchange="dWebPeriodChange()" aria-label="期間を選択（フォロワー・サイト閲覧・流入経路に適用）">
+              <option value="7">直近1週間</option>
+              <option value="14">直近2週間</option>
+              <option value="30" selected>直近1ヶ月</option>
+              <option value="90">直近3ヶ月</option>
+              <option value="180">直近6ヶ月</option>
+              <option value="365">直近1年</option>
+            </select>
+          </div>
+        </div>
+        <div class="d-overall-grid d-web-2col">
           <!-- カードA：フォロワー数推移 -->
           <div class="d-subsection d-attr-card">
             <div class="d-inflow-head">
@@ -26740,8 +26754,8 @@ body.on-login-page{overflow:hidden}
               <div class="d-inflow-controls">
                 <select class="d-select d-board-select" id="d-fol-period" onchange="dFolPeriodChange()" aria-label="期間を選択">
                   <option value="7">直近1週間</option>
-                  <option value="14" selected>直近2週間</option>
-                  <option value="30">直近1ヶ月</option>
+                  <option value="14">直近2週間</option>
+                  <option value="30" selected>直近1ヶ月</option>
                   <option value="90">直近3ヶ月</option>
                   <option value="180">直近6ヶ月</option>
                   <option value="365">直近1年</option>
@@ -26768,15 +26782,16 @@ body.on-login-page{overflow:hidden}
             </div>
             <div class="d-fol-chart-wrap" id="d-fol-chart"><div class="d-fol-tooltip" id="d-fol-tooltip"></div></div>
           </div>
-          <!-- カードB：サイト閲覧数（PV / UU） -->
-          <div class="d-subsection d-attr-card">
+          <!-- 統合カード：サイト閲覧数 ＋ 流入経路（横幅60%） -->
+          <div class="d-subsection d-attr-card d-web-merged"><div class="d-web-inner">
+          <div class="d-web-sub">
             <div class="d-inflow-head">
               <h3 class="d-subsection-title">サイト閲覧数（PV / UU）</h3>
               <div class="d-inflow-controls">
                 <select class="d-select d-board-select d-inflow-period" id="d-inflow-period" onchange="dInflowPeriodChange()" aria-label="サイト閲覧数の期間を選択">
                   <option value="7">直近1週間</option>
-                  <option value="14" selected>直近2週間</option>
-                  <option value="30">直近1ヶ月</option>
+                  <option value="14">直近2週間</option>
+                  <option value="30" selected>直近1ヶ月</option>
                   <option value="90">直近3ヶ月</option>
                   <option value="180">直近6ヶ月</option>
                   <option value="365">直近1年</option>
@@ -26802,8 +26817,7 @@ body.on-login-page{overflow:hidden}
             </div>
             <div class="d-sv-chart" id="d-sv-chart"></div>
           </div>
-          <!-- カードC：流入経路分析 -->
-          <div class="d-subsection d-attr-card">
+          <div class="d-web-sub">
             <div class="d-inflow-head">
               <h3 class="d-subsection-title">流入経路分析</h3>
               <div class="d-inflow-controls">
@@ -26833,7 +26847,7 @@ body.on-login-page{overflow:hidden}
               </div>
               <ul class="d-donut-legend" id="d-source-legend"></ul>
             </div>
-          </div>
+          </div></div></div>
         </div>
       </section>
 
@@ -50624,6 +50638,19 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-rank-title{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 #page-analytics .dn-rank-org{ display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 #page-analytics .dn-rank-name{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+/* ═══ ウェブ広報の動向：フォロワー40% ｜ サイト+流入 統合60% ＋ 期間1つに統合 ═══ */
+#page-analytics #d-section-followers .d-web-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:14px; }
+#page-analytics #d-section-followers .d-web-period-wrap{ display:flex; align-items:center; gap:10px; flex:none; }
+#page-analytics .d-web-2col{ display:flex; gap:16px; align-items:stretch; }
+#page-analytics .d-web-2col > .d-attr-card{ margin-top:0; }
+#page-analytics .d-web-2col > .d-attr-card:first-child{ flex:0 0 40%; max-width:40%; min-width:0; }
+#page-analytics .d-web-merged{ flex:1 1 60%; min-width:0; }
+#page-analytics .d-web-merged .d-web-inner{ display:flex; gap:20px; height:100%; }
+#page-analytics .d-web-merged .d-web-sub{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; }
+#page-analytics .d-web-merged .d-web-sub + .d-web-sub{ border-left:1px solid #EEF1EF; padding-left:20px; }
+/* 各カードの個別期間セレクタ・カスタム範囲は隠す（統合セレクタで一括制御。DOMは残し既存renderが参照） */
+#page-analytics #d-section-followers .d-inflow-controls{ display:none; }
+#page-analytics #d-section-followers .d-pr-range{ display:none !important; }
 /* カスタム期間：インライン→ポップオーバー（レイアウト崩れ防止） */
 #page-analytics .d-attr-card{ position:relative; }
 #page-analytics .d-attr-card .d-fol-range,
@@ -51465,6 +51492,11 @@ window.toggleLoginPassword = function(btn){
     svg += '<polyline points="'+uuPts+'" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
     svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].pv).toFixed(1)+'" r="4.2" fill="#fff" stroke="#259D63" stroke-width="2.5"/>';
     svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].uu).toFixed(1)+'" r="4.2" fill="#fff" stroke="#115A36" stroke-width="2.5"/>';
+    // ホバーで数値表示（透明ヒット円＋ネイティブ<title>）
+    B.forEach(function(b,i){
+      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="7" fill="transparent" style="cursor:pointer"><title>PV '+b.pv.toLocaleString()+'</title></circle>';
+      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="7" fill="transparent" style="cursor:pointer"><title>UU '+b.uu.toLocaleString()+'</title></circle>';
+    });
     svg += '<g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="12">';
     svg += '<text x="'+pl+'" y="'+(H-16)+'" text-anchor="start">'+days+'日前</text>';
     svg += '<text x="'+(((pl+(W-pr))/2).toFixed(0))+'" y="'+(H-16)+'" text-anchor="middle">'+Math.round(days/2)+'日前</text>';
@@ -53701,6 +53733,13 @@ window.toggleLoginPassword = function(btn){
     render();
   };
   window.dFolApplyRange=function(){ updateFolRangeDays(); render(); };
+  // 統合期間セレクタ：フォロワー・サイト閲覧・流入経路を一括で再描画
+  window.dWebPeriodChange=function(){
+    var v=(document.getElementById('d-web-period')||{}).value||'30';
+    ['d-fol-period','d-inflow-period','d-source-period'].forEach(function(id){ var s=document.getElementById(id); if(s) s.value=v; });
+    if(typeof window.dFolPeriodChange==='function') window.dFolPeriodChange();
+    if(typeof window.renderInflow==='function') window.renderInflow();
+  };
 
   function init(){
     var page=document.getElementById('page-analytics'); if(!page) return;
