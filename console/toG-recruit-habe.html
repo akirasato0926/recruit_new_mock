@@ -51499,10 +51499,12 @@ window.toggleLoginPassword = function(btn){
   function renderSiteChart(days){
     const wrap = document.getElementById('d-sv-chart'); if(!wrap) return;
     const pvPerDay = INFLOW_BASE_PV / 30, uuPerDay = INFLOW_BASE_UU / 30;
+    var svBase = window.dChartBase ? new Date(window.dChartBase) : new Date(2026,5,9);
+    var svDay = function(j){ return new Date(svBase.getFullYear(), svBase.getMonth(), svBase.getDate()-(days-1-j)); };
     let arr = [];
-    for(let i = 0; i < days; i++){ arr.push({ pv: Math.round(pvPerDay * (0.72 + svNoise(i) * 0.56)), uu: Math.round(uuPerDay * (0.72 + svNoise(i + 137) * 0.56)) }); }
+    for(let i = 0; i < days; i++){ arr.push({ pv: Math.round(pvPerDay * (0.72 + svNoise(i) * 0.56)), uu: Math.round(uuPerDay * (0.72 + svNoise(i + 137) * 0.56)), date: svDay(i) }); }
     let B = arr;
-    if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length) }); } }
+    if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length), date: seg[seg.length-1].date }); } }
     const n = B.length;
     const W=560,H=469,pl=64,pr=20,pt=28,pb=46,iw=W-pl-pr,ih=H-pt-pb;
     const maxV = Math.max.apply(null, B.map(b=>b.pv)); const hi = (Math.ceil(maxV/500)*500) || 500;
@@ -51519,10 +51521,10 @@ window.toggleLoginPassword = function(btn){
       svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="3.4" fill="#fff" stroke="#259D63" stroke-width="2"/>';
       svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115A36" stroke-width="2"/>';
     });
-    svg += '<g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="12">';
-    svg += '<text x="'+pl+'" y="'+(H-16)+'" text-anchor="start">'+days+'日前</text>';
-    svg += '<text x="'+(((pl+(W-pr))/2).toFixed(0))+'" y="'+(H-16)+'" text-anchor="middle">'+Math.round(days/2)+'日前</text>';
-    svg += '<text x="'+(W-pr)+'" y="'+(H-16)+'" text-anchor="end">今日</text>';
+    var svIdx = (window.dPickLabelIdx ? window.dPickLabelIdx(n, days) : [0, n-1]);
+    var svFmt = window.dFmtAxisDate || function(d){ return (d.getMonth()+1)+'/'+d.getDate(); };
+    svg += '<g fill="#767676" font-family="Noto Sans JP, sans-serif" font-size="12">';
+    svIdx.forEach(function(k){ var anc=(k===0?'start':(k===n-1?'end':'middle')); svg += '<text x="'+X(k).toFixed(1)+'" y="'+(H-16)+'" text-anchor="'+anc+'">'+svFmt(B[k].date, days)+'</text>'; });
     svg += '</g>';
     // ホバー用ヒット矩形（x位置ごと・全高）
     var svSlot = (n>1) ? iw/(n-1) : iw;
@@ -51535,9 +51537,8 @@ window.toggleLoginPassword = function(btn){
       r.addEventListener('mouseenter', function(){
         var idx = +r.dataset.i, b = B[idx];
         var cx = X(idx), cy = Math.min(Y(b.pv), Y(b.uu));
-        var ago = (n>1) ? Math.round((n-1-idx)/(n-1)*(days-1)) : 0;
-        var dl = ago===0 ? '今日' : ago+'日前';
-        svTip.innerHTML = '<div class="d-fol-tt-date">'+dl+'</div>PV '+b.pv.toLocaleString()+'<br>UU '+b.uu.toLocaleString();
+        var bd = b.date; var md = (bd.getMonth()+1)+'/'+bd.getDate();
+        svTip.innerHTML = '<div class="d-fol-tt-date">'+md+'</div>PV '+b.pv.toLocaleString()+'<br>UU '+b.uu.toLocaleString();
         svTip.style.left = (cx/W*100)+'%'; svTip.style.top = (cy/H*100)+'%';
         svTip.classList.add('show');
       });
@@ -53634,6 +53635,18 @@ window.toggleLoginPassword = function(btn){
   function fmtMD(d){ return (d.getMonth()+1)+'/'+d.getDate(); }
   function fmtFull(d){ return d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate(); }
   function fromISO(v){ var p=(v||'').split('-'); if(p.length!==3) return null; return new Date(+p[0],+p[1]-1,+p[2]); }
+  // 折れ線の横軸日付ラベル共通ロジック（フォロワー・サイトで共用）。データは前日まで＝右端は最新日付（「今日」は出さない）
+  function fmtAxisDate(d, days){ return days > 92 ? (d.getMonth()+1)+'月' : (d.getMonth()+1)+'/'+d.getDate(); }
+  function pickLabelIdx(n, days){
+    var stepDays = days<=7 ? 1 : days<=14 ? 2 : days<=31 ? 7 : 0; // 1週間=全点/2週間=2日/1ヶ月=7日刻み/長期=ラベル数基準
+    var idx=[], i, pstep;
+    if(stepDays){ pstep = Math.max(1, Math.round(stepDays*(n-1)/Math.max(1,(days-1)))); }
+    else { pstep = Math.max(1, Math.ceil((n-1)/6)); }
+    for(i=n-1; i>=0; i-=pstep) idx.unshift(i);   // 末尾(最新)起点で逆走査＝右端を必ず表示
+    if(idx.length && idx[0] !== 0 && idx[0] >= pstep*0.6) idx.unshift(0);
+    return idx;
+  }
+  window.dFmtAxisDate = fmtAxisDate; window.dPickLabelIdx = pickLabelIdx; window.dChartBase = BASE;
 
   function getVisible(){
     var sel=document.getElementById('d-fol-period');
@@ -53649,12 +53662,12 @@ window.toggleLoginPassword = function(btn){
     return DATA.slice(-days);
   }
   function bucketize(arr){
-    if(arr.length<=32) return arr.map(function(d){ return {label:fmtMD(d.date), total:d.total, delta:d.delta, sub:fmtFull(d.date)}; });
+    if(arr.length<=32) return arr.map(function(d){ return {label:fmtMD(d.date), date:d.date, total:d.total, delta:d.delta, sub:fmtFull(d.date)}; });
     var n=arr.length, size=Math.ceil(n/28), out=[];
     for(var i=0;i<n;i+=size){
       var seg=arr.slice(i,i+size), last=seg[seg.length-1];
       var dsum=seg.reduce(function(a,b){return a+b.delta;},0);
-      out.push({label:fmtMD(last.date), total:last.total, delta:dsum, sub:fmtFull(seg[0].date)+'〜'+fmtFull(last.date)});
+      out.push({label:fmtMD(last.date), date:last.date, total:last.total, delta:dsum, sub:fmtFull(seg[0].date)+'〜'+fmtFull(last.date)});
     }
     return out;
   }
@@ -53720,9 +53733,10 @@ window.toggleLoginPassword = function(btn){
     svg+='<polyline class="d-fol-line" points="'+pts+'" fill="none" stroke="#115a36" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
     for(var j=0;j<n;j++){ var dcx=pl+slot*j+slot/2; svg+='<circle class="d-fol-dot" style="animation-delay:'+(450+j/Math.max(1,n-1)*550)+'ms" cx="'+dcx.toFixed(1)+'" cy="'+yD(B[j].delta).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115a36" stroke-width="2"/>'; }
     // 横軸：日次表示（バケット=1日）は1週間（7日）単位でMM/DD、集約表示時は約8等分
-    var isDaily = visible.length<=32;
-    var step = isDaily ? 7 : Math.ceil(n/8);
-    for(var k=0;k<n;k+=step){ var lx=pl+slot*k+slot/2; svg+='<text class="d-fol-axis" x="'+lx.toFixed(1)+'" y="'+(H-16)+'" text-anchor="middle" font-size="11" fill="#999999" font-family="Noto Sans JP, sans-serif">'+B[k].label+'</text>'; }
+    var folDays = visible.length;
+    var folIdx = (window.dPickLabelIdx ? window.dPickLabelIdx(n, folDays) : [0, n-1]);
+    var folFmt = window.dFmtAxisDate || function(d){ return (d.getMonth()+1)+'/'+d.getDate(); };
+    folIdx.forEach(function(k){ var lx=pl+slot*k+slot/2; var anc=(k===0?'start':(k===n-1?'end':'middle')); var lab=(B[k].date?folFmt(B[k].date, folDays):B[k].label); svg+='<text class="d-fol-axis" x="'+lx.toFixed(1)+'" y="'+(H-16)+'" text-anchor="'+anc+'" font-size="12" fill="#767676" font-family="Noto Sans JP, sans-serif">'+lab+'</text>'; });
     for(var h=0;h<n;h++){ var hx=pl+slot*h; svg+='<rect class="d-fol-hit" data-i="'+h+'" x="'+hx.toFixed(1)+'" y="'+pt+'" width="'+slot.toFixed(1)+'" height="'+ih+'" fill="transparent" style="cursor:pointer"/>'; }
     svg+='</svg>';
 
