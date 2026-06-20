@@ -50651,6 +50651,14 @@ window.toggleLoginPassword = function(btn){
 /* 各カードの個別期間セレクタ・カスタム範囲は隠す（統合セレクタで一括制御。DOMは残し既存renderが参照） */
 #page-analytics #d-section-followers .d-inflow-controls{ display:none; }
 #page-analytics #d-section-followers .d-pr-range{ display:none !important; }
+/* 流入経路：円グラフ（ドーナツ）＋12経路の凡例をカード内スクロール */
+#page-analytics .d-web-sub .d-donut-wrap{ display:flex !important; width:148px; height:148px; margin:2px auto 12px; }
+#page-analytics #d-source-legend{ display:block !important; flex:none !important; width:100% !important; max-width:none !important; max-height:184px; overflow-y:auto; padding-right:6px; margin:0 !important; }
+#page-analytics #d-source-legend li{ display:grid; grid-template-columns:12px minmax(0,1fr) auto; align-items:center; gap:8px; padding:6px 0; }
+#page-analytics #d-source-legend li + li{ border-top:1px solid #F2F2F2; }
+#page-analytics #d-source-legend .dot{ width:10px; height:10px; border-radius:3px; flex:none; }
+#page-analytics #d-source-legend .nm{ font-size:12px; color:#1A1A1A; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+#page-analytics #d-source-legend .pct{ font-size:13px; font-weight:700; color:#115A36; font-variant-numeric:tabular-nums; white-space:nowrap; }
 /* カスタム期間：インライン→ポップオーバー（レイアウト崩れ防止） */
 #page-analytics .d-attr-card{ position:relative; }
 #page-analytics .d-attr-card .d-fol-range,
@@ -51422,12 +51430,18 @@ window.toggleLoginPassword = function(btn){
   const INFLOW_BASE_PV = 124500;
   const INFLOW_BASE_UU = 38200;
   const INFLOW_CHANNELS = [
-    ['自治体公式サイト',     '#115A36', 0.40],
-    ['検索エンジン',         '#259D63', 0.24],
-    ['SNS（Instagram / X）', '#51B883', 0.18],
-    ['提携メディア',         '#9BD4B5', 0.09],
-    ['紹介・口コミ',         '#767676', 0.05],
-    ['その他・直接',         '#CCCCCC', 0.04]
+    ['自治体公式サイト',         '#115A36', 0.22],
+    ['検索エンジン（Google等）', '#1E7F4F', 0.16],
+    ['SNS（Instagram）',         '#2E9E63', 0.11],
+    ['SNS（X / Twitter）',       '#45B377', 0.09],
+    ['求人・転職媒体',           '#6BC394', 0.08],
+    ['提携メディア',             '#9BD4B5', 0.07],
+    ['採用イベント・説明会',     '#5A8F76', 0.06],
+    ['メールマガジン',           '#7BA88F', 0.05],
+    ['動画（YouTube等）',        '#A0BCAE', 0.05],
+    ['Web広告',                  '#C3E6D2', 0.04],
+    ['紹介・口コミ',             '#8A938D', 0.04],
+    ['その他・直接',             '#CCCCCC', 0.03]
   ];
   // 期間→基準(=30日)に対する倍率
   function inflowFactor(){
@@ -51529,8 +51543,13 @@ window.toggleLoginPassword = function(btn){
       const pct = totalPV ? (pv / totalPV * 100) : 0;
       return { label: c[0], color: c[1], count: pv, pct };
     });
-    dHideDonut(donut);
-    legend.innerHTML = dRankLis(rows.map(r => ({label: r.label, num: fmt(r.count), unit: 'PV', share: r.pct})), '#2E7D54');
+    var wrap = donut.closest('.d-donut-wrap'); if(wrap) wrap.style.display = '';
+    if(typeof renderDonutWithTooltip === 'function'){ renderDonutWithTooltip(donut, rows, { strokeWidth: 16 }); }
+    legend.innerHTML = rows.map(function(r){ return '<li>'
+      + '<span class="dot" style="background:' + r.color + '"></span>'
+      + '<span class="nm">' + r.label + '</span>'
+      + '<span class="pct"><span class="d-num">' + r.pct.toFixed(1) + '</span>%</span>'
+      + '</li>'; }).join('');
   }
   function renderInflow(){ renderSiteViews(); renderSourceDonut(); }
   function inflowCustomDays(){
