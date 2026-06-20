@@ -50370,6 +50370,11 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:700; }
 /* 職種別分析：5カード（5列）＋辞退率の2値カード */
 #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(6,1fr); }
+/* 職種別6カード：narrow幅で平均/中央値を右に置くと広い数値(16,277回)と衝突するため、ヒーロー下に縦並びで統一 */
+#page-analytics #dn-ja-cards .dn-kpi{ display:flex; flex-direction:column; align-items:stretch; }
+#page-analytics #dn-ja-cards .dn-kpi-diff{ margin:6px 0 0; }
+#page-analytics #dn-ja-cards .dn-cmpt{ align-self:stretch; justify-self:stretch; margin:11px 0 0; padding:11px 0 0; border-top:1px solid #F0F2F1; display:flex; flex-direction:column; gap:5px; text-align:left; }
+#page-analytics #dn-ja-cards .dn-cmpt-cell{ flex-direction:row; align-items:baseline; justify-content:space-between; gap:8px; }
 @media (max-width:1200px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(3,1fr); } }
 @media (max-width:820px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width:560px){ #page-analytics #dn-ja-cards.dn-kpi-grid{ grid-template-columns:1fr; } }
