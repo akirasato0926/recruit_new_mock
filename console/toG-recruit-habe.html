@@ -50649,6 +50649,9 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-web-merged .d-web-sub{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; }
 #page-analytics .d-web-merged .d-web-inner > .d-web-sub:first-child{ flex:3 1 0; }
 #page-analytics .d-web-merged .d-web-inner > .d-web-sub:last-child{ flex:2 1 0; }
+/* サイト閲覧数チャートの高さをフォロワー推移に合わせる（縦長viewBox＋キャップ解除） */
+#page-analytics .d-web-merged .d-sv-chart{ flex:none; align-items:flex-start; }
+#page-analytics .d-web-merged .d-sv-chart > svg{ max-height:none; height:auto; width:100%; }
 #page-analytics .d-web-merged .d-web-sub + .d-web-sub{ border-left:1px solid #EEF1EF; padding-left:20px; }
 /* 各カードの個別期間セレクタ・カスタム範囲は隠す（統合セレクタで一括制御。DOMは残し既存renderが参照） */
 #page-analytics #d-section-followers .d-inflow-controls{ display:none; }
@@ -50656,13 +50659,13 @@ window.toggleLoginPassword = function(btn){
 /* 流入経路：円グラフ（ドーナツ）＋12経路の凡例をカード内スクロール */
 #page-analytics .d-web-sub .d-donut-wrap{ display:flex !important; width:148px; height:148px; margin:2px auto 12px; }
 #page-analytics #d-source-legend{ display:block !important; flex:none !important; width:100% !important; max-width:none !important; max-height:184px; overflow-y:auto; padding-right:6px; margin:0 !important; }
-#page-analytics #d-source-legend li{ display:grid; grid-template-columns:12px minmax(0,1fr) auto; align-items:center; gap:8px; padding:6px 0; }
+#page-analytics #d-source-legend li{ display:flex; align-items:center; gap:8px; padding:6px 0; }
 #page-analytics #d-source-legend li + li{ border-top:1px solid #F2F2F2; }
 #page-analytics #d-source-legend .dot{ width:10px; height:10px; border-radius:3px; flex:none; }
 #page-analytics #d-source-legend .nm{ font-size:12px; color:#1A1A1A; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
-#page-analytics #d-source-legend .val{ justify-self:end; text-align:right; font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics #d-source-legend .nm{ flex:1 1 auto; min-width:0; text-align:left; }
+#page-analytics #d-source-legend .val{ flex:none; margin-left:auto; text-align:right; font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; white-space:nowrap; }
 #page-analytics #d-source-legend .val .u{ font-size:10px; font-weight:600; color:#767676; margin-left:2px; }
-#page-analytics #d-source-legend .nm{ justify-self:start; }
 /* サイト閲覧数：PV/UU統計を左寄せ・グラフ凡例を右寄せ */
 #page-analytics .d-web-merged .d-inflow-stats{ justify-content:flex-start; }
 #page-analytics .d-web-merged .d-sv-legend{ justify-content:flex-end; }
@@ -51501,7 +51504,7 @@ window.toggleLoginPassword = function(btn){
     let B = arr;
     if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length) }); } }
     const n = B.length;
-    const W=560,H=400,pl=64,pr=20,pt=28,pb=46,iw=W-pl-pr,ih=H-pt-pb;
+    const W=560,H=469,pl=64,pr=20,pt=28,pb=46,iw=W-pl-pr,ih=H-pt-pb;
     const maxV = Math.max.apply(null, B.map(b=>b.pv)); const hi = (Math.ceil(maxV/500)*500) || 500;
     const X = i => pl + (n<=1 ? iw/2 : iw*i/(n-1));
     const Y = v => pt + ih*(1 - v/hi);
