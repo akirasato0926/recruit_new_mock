@@ -50572,7 +50572,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-sv-sw{ display:inline-block; }
 #page-analytics .d-sv-sw.pv{ width:14px; height:10px; border-radius:2px; background:#9BD4B5; border:1px solid #51B883; }
 #page-analytics .d-sv-sw.uu{ width:18px; height:0; border-top:3px solid #115A36; }
-#page-analytics .d-sv-chart{ display:block; width:100%; height:auto; margin-top:4px; }
+#page-analytics .d-sv-chart{ display:block; width:100%; height:auto; margin-top:4px; position:relative; }
 /* 分析ヘッダー：期間フィルタをタイトル行右に統合（1行化） */
 #page-analytics .d-page-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
 #page-analytics .d-page-head-text{ min-width:0; }
@@ -51504,19 +51504,35 @@ window.toggleLoginPassword = function(btn){
     const uuPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.uu).toFixed(1)).join(' ');
     svg += '<polyline points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
     svg += '<polyline points="'+uuPts+'" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
-    svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].pv).toFixed(1)+'" r="4.2" fill="#fff" stroke="#259D63" stroke-width="2.5"/>';
-    svg += '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+Y(B[n-1].uu).toFixed(1)+'" r="4.2" fill="#fff" stroke="#115A36" stroke-width="2.5"/>';
-    // ホバーで数値表示（透明ヒット円＋ネイティブ<title>）
+    // マーカー（◯白塗り＋折れ線色の縁線）を全点に
     B.forEach(function(b,i){
-      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="7" fill="transparent" style="cursor:pointer"><title>PV '+b.pv.toLocaleString()+'</title></circle>';
-      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="7" fill="transparent" style="cursor:pointer"><title>UU '+b.uu.toLocaleString()+'</title></circle>';
+      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="3.4" fill="#fff" stroke="#259D63" stroke-width="2"/>';
+      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115A36" stroke-width="2"/>';
     });
     svg += '<g fill="#999999" font-family="Noto Sans JP, sans-serif" font-size="12">';
     svg += '<text x="'+pl+'" y="'+(H-16)+'" text-anchor="start">'+days+'日前</text>';
     svg += '<text x="'+(((pl+(W-pr))/2).toFixed(0))+'" y="'+(H-16)+'" text-anchor="middle">'+Math.round(days/2)+'日前</text>';
     svg += '<text x="'+(W-pr)+'" y="'+(H-16)+'" text-anchor="end">今日</text>';
-    svg += '</g></svg>';
-    wrap.innerHTML = svg;
+    svg += '</g>';
+    // ホバー用ヒット矩形（x位置ごと・全高）
+    var svSlot = (n>1) ? iw/(n-1) : iw;
+    for(var hh=0; hh<n; hh++){ var hx = X(hh) - svSlot/2; svg += '<rect class="d-sv-hit" data-i="'+hh+'" x="'+hx.toFixed(1)+'" y="'+pt+'" width="'+svSlot.toFixed(1)+'" height="'+ih+'" fill="transparent" style="cursor:pointer"/>'; }
+    svg += '</svg>';
+    wrap.innerHTML = svg + '<div class="d-fol-tooltip d-sv-tooltip" id="d-sv-tooltip"></div>';
+    // ホバーで数値表示（カスタムツールチップ：PV/UU値＋日）
+    var svTip = document.getElementById('d-sv-tooltip');
+    wrap.querySelectorAll('.d-sv-hit').forEach(function(r){
+      r.addEventListener('mouseenter', function(){
+        var idx = +r.dataset.i, b = B[idx];
+        var cx = X(idx), cy = Math.min(Y(b.pv), Y(b.uu));
+        var ago = (n>1) ? Math.round((n-1-idx)/(n-1)*(days-1)) : 0;
+        var dl = ago===0 ? '今日' : ago+'日前';
+        svTip.innerHTML = '<div class="d-fol-tt-date">'+dl+'</div>PV '+b.pv.toLocaleString()+'<br>UU '+b.uu.toLocaleString();
+        svTip.style.left = (cx/W*100)+'%'; svTip.style.top = (cy/H*100)+'%';
+        svTip.classList.add('show');
+      });
+      r.addEventListener('mouseleave', function(){ svTip.classList.remove('show'); });
+    });
   }
   function renderSiteViews(){
     const f = inflowFactorFor('d-inflow-period','d-inflow-from','d-inflow-to');
@@ -53692,7 +53708,7 @@ window.toggleLoginPassword = function(btn){
     // 折れ線（増減数）描画アニメ
     var pts=B.map(function(b,i){ return (pl+slot*i+slot/2).toFixed(1)+','+yD(b.delta).toFixed(1); }).join(' ');
     svg+='<polyline class="d-fol-line" points="'+pts+'" fill="none" stroke="#115a36" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
-    for(var j=0;j<n;j++){ var dcx=pl+slot*j+slot/2; svg+='<circle class="d-fol-dot" style="animation-delay:'+(450+j/Math.max(1,n-1)*550)+'ms" cx="'+dcx.toFixed(1)+'" cy="'+yD(B[j].delta).toFixed(1)+'" r="3" fill="#115a36"/>'; }
+    for(var j=0;j<n;j++){ var dcx=pl+slot*j+slot/2; svg+='<circle class="d-fol-dot" style="animation-delay:'+(450+j/Math.max(1,n-1)*550)+'ms" cx="'+dcx.toFixed(1)+'" cy="'+yD(B[j].delta).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115a36" stroke-width="2"/>'; }
     // 横軸：日次表示（バケット=1日）は1週間（7日）単位でMM/DD、集約表示時は約8等分
     var isDaily = visible.length<=32;
     var step = isDaily ? 7 : Math.ceil(n/8);
