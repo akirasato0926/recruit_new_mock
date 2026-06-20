@@ -47029,16 +47029,16 @@ ${style.blogQuote}
   }
   // 他団体比較：自団体／平均／中央値の数値比較表（上限のない指標はバーでなく数値で正確に見せる）
   function dnCompare(selfV, selfNum, avgV, avgNum, medV, medNum, fmtType, unit, hasAvg){
-    function row(k, dto, num, cls){
+    // 自団体は上の大きな数字と重複するため省略。平均・中央値を横並びでコンパクトに。
+    function cell(k, dto, num){
       var val = (dto == null)
         ? '<span class="dn-cmpt-na">—</span>'
         : '<span data-dn-to="' + dto + '" data-dn-fmt="' + fmtType + '">' + num + '</span><i>' + unit + '</i>';
-      return '<div class="dn-cmpt-row' + (cls ? ' ' + cls : '') + '"><span class="dn-cmpt-k">' + k + '</span><span class="dn-cmpt-v">' + val + '</span></div>';
+      return '<div class="dn-cmpt-cell"><span class="dn-cmpt-k">' + k + '</span><span class="dn-cmpt-v">' + val + '</span></div>';
     }
     return '<div class="dn-cmpt">' +
-        row('自団体', selfV, selfNum, 'is-self') +
-        row('平均', hasAvg ? avgV : null, avgNum, '') +
-        row('中央値', hasAvg ? medV : null, medNum, '') +
+        cell('平均', hasAvg ? avgV : null, avgNum) +
+        cell('中央値', hasAvg ? medV : null, medNum) +
       '</div>';
   }
   function dnRender(animate){
@@ -50348,16 +50348,13 @@ window.toggleLoginPassword = function(btn){
 }
 #page-analytics .dn-bul-key b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-bul-key .k-na{ color:#B0B6B2; }
-/* 比較サマリ/職種別：上限のない指標はバーを廃止し、自団体/平均/中央値の数値比較表で正確に */
-#page-analytics .dn-cmpt{ margin-top:auto; padding-top:4px; }
-#page-analytics .dn-cmpt-row{ display:flex; align-items:baseline; justify-content:space-between; padding:7px 0; }
-#page-analytics .dn-cmpt-row + .dn-cmpt-row{ border-top:1px solid #F0F2F1; }
-#page-analytics .dn-cmpt-k{ font-size:12px; color:#767676; letter-spacing:.02em; }
-#page-analytics .dn-cmpt-v{ font-size:14px; font-weight:600; color:#333; font-variant-numeric:tabular-nums; }
+/* 比較サマリ/職種別：自団体は上の大きな数字と重複のため省略。平均・中央値を横並びでコンパクトに。 */
+#page-analytics .dn-cmpt{ margin-top:auto; padding-top:11px; display:flex; gap:10px; border-top:1px solid #F0F2F1; }
+#page-analytics .dn-cmpt-cell{ flex:1; min-width:0; display:flex; flex-direction:column; gap:3px; }
+#page-analytics .dn-cmpt-k{ font-size:11px; color:#767676; letter-spacing:.03em; }
+#page-analytics .dn-cmpt-v{ font-size:15px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.1; }
 #page-analytics .dn-cmpt-v i{ font-style:normal; font-size:11px; font-weight:600; margin-left:1px; color:#767676; }
-#page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:600; }
-#page-analytics .dn-cmpt-row.is-self .dn-cmpt-k{ color:#115A36; font-weight:700; }
-#page-analytics .dn-cmpt-row.is-self .dn-cmpt-v{ color:#115A36; font-weight:700; }
+#page-analytics .dn-cmpt-na{ color:#B0B6B2; font-weight:700; }
 /* 構成比モジュール：ドーナツ→順位＋構成比バー（ラベル＋値＝上段、バー＝下段で長いラベルも崩れない） */
 #page-analytics .d-donut-legend .d-rb{ list-style:none; padding:9px 0; }
 #page-analytics .d-donut-legend .d-rb + .d-rb{ border-top:1px solid #F0F2F1; }
