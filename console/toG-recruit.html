@@ -49955,7 +49955,7 @@ window.toggleLoginPassword = function(btn){
 /* ═══ 分析「他団体比較」：KPI比較カード／ランクカード（最終上書き） ═══ */
 /* (b) 比較サマリ KPIカードグリッド */
 #page-analytics .dn-kpi-grid{
-  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:start;
 }
 @media (max-width:980px){ #page-analytics .dn-kpi-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:620px){ #page-analytics .dn-kpi-grid{grid-template-columns:1fr;} }
@@ -49975,7 +49975,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-kpi-value.dn-kpi-value-neg{ color:#CE0000; }
 #page-analytics .dn-kpi-unit{ font-size:14px; font-weight:400; color:#767676; }
 #page-analytics .dn-kpi-diff{
-  font-size:13px; font-weight:700; margin:8px 0 12px;
+  font-size:13px; font-weight:700; margin:6px 0 0;
   display:inline-flex; align-items:center;
 }
 /* 矢印は実際の増減方向（dir-*）、色は good/bad（pos/neg/neu）で分離 */
@@ -50304,7 +50304,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-board-sub{ font-size:13px; letter-spacing:.02em; color:#767676; }
 #page-analytics .d-board,#page-analytics .dn-board{ border-radius:12px; }
 #page-analytics .d-kpi{ border-radius:12px; min-height:112px; }
-#page-analytics .dn-kpi{ border-radius:12px; min-height:152px; }
+#page-analytics .dn-kpi{ border-radius:12px; min-height:0; }
 #page-analytics .d-kpi-label,#page-analytics .dn-kpi-label,#page-analytics .dn-flabel,#page-analytics .dn-bar-row-label,#page-analytics .dn-sub-title{ letter-spacing:.03em; }
 #page-analytics .d-kpi-value,#page-analytics .dn-kpi-value{ letter-spacing:-.01em; }
 #page-analytics .d-fol-current-value{ font-size:34px; }
@@ -50349,7 +50349,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-bul-key b{ font-weight:700; color:#5B635E; font-variant-numeric:tabular-nums; }
 #page-analytics .dn-bul-key .k-na{ color:#B0B6B2; }
 /* 比較サマリ/職種別：自団体（左の大きな数字）の右に、平均・中央値を縦並びでコンパクト配置 */
-#page-analytics .dn-kpi{ display:grid; grid-template-columns:1fr auto; grid-template-areas:"label label" "value cmpt" "diff cmpt"; column-gap:14px; align-content:start; }
+#page-analytics .dn-kpi{ display:grid; grid-template-columns:1fr auto; grid-template-areas:"label label" "value cmpt" "diff diff"; column-gap:14px; row-gap:2px; align-content:start; align-items:center; }
 #page-analytics .dn-kpi-label{ grid-area:label; }
 #page-analytics .dn-kpi-value{ grid-area:value; }
 #page-analytics .dn-kpi-diff{ grid-area:diff; align-self:start; }
