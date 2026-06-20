@@ -50599,6 +50599,21 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-rk-tag.t-attr,#page-analytics .dn-rk-tag.t-job{ border-color:var(--t-border); }
 /* font-weight 800/900 → 700 の取りこぼし是正 */
 #page-analytics .dn-rk-days,#page-analytics .dn-rk3-days,#page-analytics .dn-rk3-rank{ font-weight:700; }
+/* ═══════════ テキストルールv1 フェーズ2/3：色を役割トークンへ集約 ═══════════ */
+:root{ --t-neg-fill:#C0392B; }
+/* NEG赤テキストを #CE0000(--t-neg) に正規化（#a90000/#A93226/#C0392B等の散在を集約） */
+#page-analytics .d-fol-current-delta.neg{ color:var(--t-neg); }
+#page-analytics .dn-colc-v.vs{ color:var(--t-neg); }
+#page-analytics .d-funnel-decline{ color:var(--t-neg); }
+/* NEG赤の塗り（バー/スウォッチ）は面積効果に配慮し muted の --t-neg-fill に集約 */
+#page-analytics .dn-colc-bar.self,#page-analytics .dn-dcl-bfill,#page-analytics .dn-dcl-sw.is-self{ background:var(--t-neg-fill); }
+/* 締切間近は「悪化」ではなく「注意」=warn橙（PM指摘の状態色4値ルール） */
+#page-top.dash-page .dl-soon{ color:var(--t-warn); }
+/* 補足グレーを #767676(--t-caption) に正規化（トップ残り＋分析の#5A6862キャプション群） */
+#page-top.dash-page .legend .lcnt{ color:var(--t-caption); }
+#page-analytics .dn-dcl-card-label,#page-analytics .dn-dcl-legend,#page-analytics .dn-dcl-key,#page-analytics .dn-dcl-bu,#page-analytics .dn-rk-self-diff{ color:var(--t-caption); }
+/* フェーズ3（安全部分）：本文/見出しの純黒(#000=--d-n-900)を #1A1A1A(--t-heading)へ寄せる */
+#page-analytics .d-funnel-value,#page-analytics .d-funnel-num{ color:var(--t-heading); }
 /* カスタム期間：インライン→ポップオーバー（レイアウト崩れ防止） */
 #page-analytics .d-attr-card{ position:relative; }
 #page-analytics .d-attr-card .d-fol-range,
