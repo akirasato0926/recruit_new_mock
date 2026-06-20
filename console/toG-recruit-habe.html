@@ -25012,6 +25012,7 @@ body.on-login-page{overflow:hidden}
 #page-analytics .d-fol-current-delta.pos{color:#115a36}
 #page-analytics .d-fol-current-delta.neg{color:#a90000}
 #page-analytics .d-fol-legend{display:flex;gap:18px;margin:10px 0 6px;font-size:13px;color:#4D4D4D}
+#page-analytics .d-web-2col .d-fol-legend{ justify-content:flex-end; font-size:12px; }
 #page-analytics .d-fol-leg{display:inline-flex;align-items:center;gap:6px}
 #page-analytics .d-fol-leg-bar{width:14px;height:14px;background:#9BD4B5;border:1px solid #51B883;border-radius:2px;display:inline-block}
 #page-analytics .d-fol-leg-line{width:18px;border-top:3px solid #115a36;display:inline-block}
@@ -50693,9 +50694,9 @@ window.toggleLoginPassword = function(btn){
 /* フォロワーKPI行を1行に収め、3カードの高さを揃える */
 #page-analytics .d-attr-card .d-fol-current{ flex-wrap:nowrap; align-items:baseline; gap:8px; margin:10px 0 2px; }
 #page-analytics .d-attr-card .d-fol-current-label{ font-size:12px; white-space:nowrap; }
-#page-analytics .d-attr-card .d-fol-current-value{ font-size:26px; }
-#page-analytics .d-attr-card .d-fol-current-unit{ font-size:13px; }
-#page-analytics .d-attr-card .d-fol-current-delta{ font-size:12px; white-space:nowrap; margin-left:auto; }
+#page-analytics .d-attr-card .d-fol-current-value{ font-size:30px; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
+#page-analytics .d-attr-card .d-fol-current-unit{ font-size:15px; }
+#page-analytics .d-attr-card .d-fol-current-delta{ font-size:13px; white-space:nowrap; margin-left:0; }
 /* 流入経路凡例：PV数を少し大きく */
 #page-analytics #d-source-legend .stat{ font-size:14.5px; }
 #page-analytics #d-source-legend .stat .d-num{ font-size:14.5px; }
@@ -53690,7 +53691,7 @@ window.toggleLoginPassword = function(btn){
     if(numEl){ var prev=parseInt((numEl.textContent||'0').replace(/[^0-9]/g,''),10)||0; countUp(numEl, prev, current, 900); }
     // 期間増減（毎回0→値でアニメーション）
     var dEl=document.getElementById('d-fol-current-delta');
-    if(dEl){ dEl.className='d-fol-current-delta '+(periodDelta>=0?'pos':'neg'); dEl.innerHTML='期間増減 <span id="d-fol-delta-num">0</span>人'; countUp(document.getElementById('d-fol-delta-num'), 0, periodDelta, 900, function(v){return (v>=0?'+':'')+v.toLocaleString();}); }
+    if(dEl){ dEl.className='d-fol-current-delta '+(periodDelta>=0?'pos':'neg'); dEl.innerHTML='（期間増減 <span id="d-fol-delta-num">0</span>人）'; countUp(document.getElementById('d-fol-delta-num'), 0, periodDelta, 900, function(v){return (v>=0?'+':'')+v.toLocaleString();}); }
 
     var B=bucketize(visible), n=B.length;
     var W=560,H=400, pl=74,pr=70,pt=28,pb=44, iw=W-pl-pr, ih=H-pt-pb;
