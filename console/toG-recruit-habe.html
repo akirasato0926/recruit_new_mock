@@ -26774,8 +26774,10 @@ body.on-login-page{overflow:hidden}
             </div>
             <div class="d-fol-current">
               <span class="d-fol-current-label">現在のフォロワー数</span>
-              <span class="d-fol-current-value"><span id="d-fol-current-num">—</span><span class="d-fol-current-unit">人</span></span>
-              <span class="d-fol-current-delta" id="d-fol-current-delta"></span>
+              <div class="d-fol-current-main">
+                <span class="d-fol-current-value"><span id="d-fol-current-num">—</span><span class="d-fol-current-unit">人</span></span>
+                <span class="d-fol-current-delta" id="d-fol-current-delta"></span>
+              </div>
             </div>
             <div class="d-fol-legend">
               <span class="d-fol-leg"><span class="d-fol-leg-bar"></span>フォロワー数</span>
@@ -50692,8 +50694,9 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-overall-grid.d-overall-2col{ display:flex; gap:16px; align-items:stretch; }
 #page-analytics .d-overall-grid.d-overall-2col > .d-attr-card{ flex:1 1 0; min-width:0; margin-top:0; }
 /* フォロワーKPI行を1行に収め、3カードの高さを揃える */
-#page-analytics .d-attr-card .d-fol-current{ flex-wrap:nowrap; align-items:baseline; gap:8px; margin:10px 0 2px; }
-#page-analytics .d-attr-card .d-fol-current-label{ font-size:12px; white-space:nowrap; }
+#page-analytics .d-attr-card .d-fol-current{ flex-direction:column; align-items:flex-start; gap:4px; margin:4px 0 18px; }
+#page-analytics .d-fol-current-main{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+#page-analytics .d-attr-card .d-fol-current-label{ font-size:13px; font-weight:700; color:#767676; }
 #page-analytics .d-attr-card .d-fol-current-value{ font-size:30px; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
 #page-analytics .d-attr-card .d-fol-current-unit{ font-size:15px; }
 #page-analytics .d-attr-card .d-fol-current-delta{ font-size:13px; white-space:nowrap; margin-left:0; }
