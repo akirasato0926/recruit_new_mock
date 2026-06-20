@@ -47267,28 +47267,8 @@ ${style.blogQuote}
                  : (diff < 0 ? ('比較対象平均より ' + Math.abs(r0(diff)) + '日 短い') : ('比較対象平均より ' + r0(diff) + '日 長い'));
 
     // ── サマリカード（総選考日数＋選考ステップ数）──
-    var html = '<div class="dn-sp-cards">' +
-      '<div class="dn-sp-card is-self dn-emph">' +
-        '<div class="dn-sp-card-label">自団体<span class="dn-sp-card-badge">あなた</span></div>' +
-        '<div class="dn-sp-card-num"><span data-dn-to="' + selfTotal + '" data-dn-fmt="int">' + selfTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
-        '<div class="dn-sp-card-name">' + selfName + '（' + selfSteps + 'ステップ）</div>' +
-        '<div class="dn-sp-card-diff neu">' + diffText + '</div>' +
-      '</div>' +
-      '<div class="dn-sp-card">' +
-        '<div class="dn-sp-card-label">比較対象 平均</div>' +
-        '<div class="dn-sp-card-num"><span data-dn-to="' + avgTotal + '" data-dn-fmt="int">' + r0(avgTotal) + '</span><span class="dn-sp-card-unit">日</span></div>' +
-        '<div class="dn-sp-card-name">' + DN_SIZE_LABEL[size] + ' ／ ' + DN_AREA_LABEL[area] + '（n=' + n + '）</div>' +
-        '<div class="dn-sp-card-diff neu">平均 ' + avgSteps.toFixed(1) + ' ステップ</div>' +
-      '</div>' +
-      '<div class="dn-sp-card is-fast">' +
-        '<div class="dn-sp-card-label">最も選考が早い自治体<span class="dn-sp-card-badge">最速</span></div>' +
-        '<div class="dn-sp-card-num"><span data-dn-to="' + minTotal + '" data-dn-fmt="int">' + minTotal + '</span><span class="dn-sp-card-unit">日</span></div>' +
-        '<div class="dn-sp-card-name">比較対象団体のうち最短水準</div>' +
-        '<div class="dn-sp-card-diff neu">自団体との差 ' + (selfTotal - minTotal >= 0 ? '−' : '＋') + Math.abs(selfTotal - minTotal) + '日</div>' +
-      '</div>' +
-    '</div>';
-
-    html += '<div class="dn-sp-note">※選考プロセスは自治体ごとに段階数が異なります（2次で内定する団体も、4次まで行う団体もあります）。段階構成に依存しない「総選考日数（応募締切→内定）」と「選考ステップ数」で比較しています。</div>';
+    // 概要KPIカード・注記は非表示（選考スピード上位10・辞退率の2列のみ表示）
+    var html = '';
 
     // ── 段1：選考スピード上位10自治体（比較対象のうち最速順・固有名詞は伏せる）──
     var sortedPeers = peers.slice().sort(function(a, b){ return a.total - b.total; });
