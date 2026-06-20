@@ -47330,14 +47330,14 @@ ${style.blogQuote}
     }
     var dclCards = '<div class="dn-dcl-cards">' +
         '<div class="dn-dcl-card"><div class="dn-dcl-card-label">選考辞退率</div>' +
-          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + selSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span></div>' +
+          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + selSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span>' +
+            '<span class="dn-dcl-card-peer"><span class="dn-dcl-card-pk">比較対象平均</span><span class="dn-dcl-card-pv">' + selPeer.toFixed(1) + '<i>%</i></span></span></div>' +
           dclDiff(selSelf, selPeer) +
-          '<div class="dn-dcl-card-sub"><span class="dn-dcl-card-sk">比較対象平均</span> <b>' + selPeer.toFixed(1) + '%</b></div>' +
           '<div class="dn-dcl-card-note">応募者に対する選考辞退者の割合</div></div>' +
         '<div class="dn-dcl-card"><div class="dn-dcl-card-label">内定辞退率</div>' +
-          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + offSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span></div>' +
+          '<div class="dn-dcl-card-main"><span class="dn-dcl-card-num">' + offSelf.toFixed(1) + '<span class="dn-dcl-card-u">%</span></span>' +
+            '<span class="dn-dcl-card-peer"><span class="dn-dcl-card-pk">比較対象平均</span><span class="dn-dcl-card-pv">' + offPeer.toFixed(1) + '<i>%</i></span></span></div>' +
           dclDiff(offSelf, offPeer) +
-          '<div class="dn-dcl-card-sub"><span class="dn-dcl-card-sk">比較対象平均</span> <b>' + offPeer.toFixed(1) + '%</b></div>' +
           '<div class="dn-dcl-card-note">内定者に対する内定辞退者の割合</div></div>' +
       '</div>';
 
@@ -50189,6 +50189,12 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-card-diff{ margin:5px 0 7px; font-size:13px; }
 #page-analytics .dn-dcl-card-sub .dn-dcl-card-sk{ color:#767676; }
 #page-analytics .dn-dcl-card-sub b{ font-weight:700; color:#333; font-variant-numeric:tabular-nums; }
+/* 比較対象平均を自団体数値の右へ大きく表示（目立たせる） */
+#page-analytics .dn-dcl-card-main{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+#page-analytics .dn-dcl-card-peer{ display:inline-flex; align-items:baseline; gap:6px; white-space:nowrap; }
+#page-analytics .dn-dcl-card-pk{ font-size:12px; color:#767676; letter-spacing:.02em; }
+#page-analytics .dn-dcl-card-pv{ font-size:18px; font-weight:700; color:#5A6862; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-dcl-card-pv i{ font-style:normal; font-size:12px; font-weight:600; margin-left:1px; }
 /* ───────── 他団体比較 リファイン（UI/UXレビュー反映） ───────── */
 /* 1) 平均/中央値の配置を比較サマリも職種別と同じ「ヒーロー下・縦並び」に統一（右端フロートの死に空白を解消） */
 #page-analytics #dn-cmp-body .dn-kpi{ display:flex; flex-direction:column; align-items:stretch; }
