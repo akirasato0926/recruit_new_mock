@@ -50647,6 +50647,8 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-web-merged{ flex:1 1 60%; min-width:0; }
 #page-analytics .d-web-merged .d-web-inner{ display:flex; gap:20px; height:100%; }
 #page-analytics .d-web-merged .d-web-sub{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; }
+#page-analytics .d-web-merged .d-web-inner > .d-web-sub:first-child{ flex:3 1 0; }
+#page-analytics .d-web-merged .d-web-inner > .d-web-sub:last-child{ flex:2 1 0; }
 #page-analytics .d-web-merged .d-web-sub + .d-web-sub{ border-left:1px solid #EEF1EF; padding-left:20px; }
 /* 各カードの個別期間セレクタ・カスタム範囲は隠す（統合セレクタで一括制御。DOMは残し既存renderが参照） */
 #page-analytics #d-section-followers .d-inflow-controls{ display:none; }
@@ -50658,7 +50660,9 @@ window.toggleLoginPassword = function(btn){
 #page-analytics #d-source-legend li + li{ border-top:1px solid #F2F2F2; }
 #page-analytics #d-source-legend .dot{ width:10px; height:10px; border-radius:3px; flex:none; }
 #page-analytics #d-source-legend .nm{ font-size:12px; color:#1A1A1A; letter-spacing:.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
-#page-analytics #d-source-legend .pct{ font-size:13px; font-weight:700; color:#115A36; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics #d-source-legend .val{ justify-self:end; text-align:right; font-size:13px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; white-space:nowrap; }
+#page-analytics #d-source-legend .val .u{ font-size:10px; font-weight:600; color:#767676; margin-left:2px; }
+#page-analytics #d-source-legend .nm{ justify-self:start; }
 /* カスタム期間：インライン→ポップオーバー（レイアウト崩れ防止） */
 #page-analytics .d-attr-card{ position:relative; }
 #page-analytics .d-attr-card .d-fol-range,
@@ -51564,7 +51568,7 @@ window.toggleLoginPassword = function(btn){
     legend.innerHTML = rows.map(function(r){ return '<li>'
       + '<span class="dot" style="background:' + r.color + '"></span>'
       + '<span class="nm">' + r.label + '</span>'
-      + '<span class="pct"><span class="d-num">' + r.pct.toFixed(1) + '</span>%</span>'
+      + '<span class="val"><span class="d-num">' + fmt(r.count) + '</span><span class="u">PV</span></span>'
       + '</li>'; }).join('');
   }
   function renderInflow(){ renderSiteViews(); renderSourceDonut(); }
