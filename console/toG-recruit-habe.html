@@ -18894,6 +18894,20 @@ body.on-login-page{overflow:hidden}
 .jd-select-status strong{color:#1A1A1A;font-weight:700}
 .jd-period-label{font-size:12px;color:#767676;white-space:nowrap}
 .jd-period-select{height:38px}
+.jd-modal-period-row{display:flex;align-items:center;gap:10px;padding:0 0 12px;border-bottom:1px solid #EDF1EF;margin-bottom:12px}
+.jd-modal-period-row .jd-period-select{height:36px}
+.jd-modal-period-meta{font-size:12.5px;color:#5F6B65;margin-left:auto}
+.jd-modal-period-meta strong{color:#115A36;font-weight:700}
+.jd-cat-group{margin-bottom:14px}
+.jd-cat-head{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:#F2F8F4;border-radius:7px;margin-bottom:8px}
+.jd-cat-name{font-size:13px;font-weight:700;color:#115A36}
+.jd-cat-count{color:#7FA793;font-weight:400;margin-left:6px}
+.jd-cat-all{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5F6B65;background:none;border:none;cursor:pointer;padding:2px 4px}
+.jd-cat-all-box{width:16px;height:16px;border:1.5px solid #C2CCC7;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:#fff}
+.jd-cat-all-box svg{width:11px;height:11px;opacity:0}
+.jd-cat-all.on .jd-cat-all-box{background:#115A36;border-color:#115A36}
+.jd-cat-all.on .jd-cat-all-box svg{opacity:1}
+.jd-grouped .an-job-select-item{margin-bottom:7px}
 .jd-grid{display:grid;grid-template-columns:60% 40%;align-items:stretch;gap:12px}
 .jd-cell{min-width:0}
 .jd-card{background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:16px;display:flex;flex-direction:column}
@@ -26928,13 +26942,7 @@ body.on-login-page{overflow:hidden}
             <h2 class="d-board-title" id="d-sec-overall">求人別ダッシュボード</h2>
           </div>
           <div class="jd-selectbar">
-            <label class="jd-period-label" for="jd-period">年度</label>
-            <select class="d-select jd-period-select" id="jd-period" onchange="dApplyGlobalFilter()">
-              <option value="fy" selected>令和8年度</option>
-              <option value="fy-1">令和7年度</option>
-              <option value="fy-2">令和6年度</option>
-            </select>
-            <span class="jd-select-status">選択中：<strong id="jd-select-status-text">全8求人</strong></span>
+            <span class="jd-select-status">表示中：<strong id="jd-select-status-text">令和8年度 ・ 全求人</strong></span>
             <button type="button" class="jd-select-btn" onclick="jdOpenModal()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
               求人を選択
@@ -28212,10 +28220,16 @@ body.on-login-page{overflow:hidden}
       </button>
     </div>
     <div class="an-modal-body">
-      <div class="an-job-select-count-display">
-        公開中の求人 <strong id="jd-select-total">0</strong> 件
+      <div class="jd-modal-period-row">
+        <label class="jd-period-label" for="jd-period">年度</label>
+        <select class="d-select jd-period-select" id="jd-period" onchange="jdModalPeriodChange()">
+          <option value="fy" selected>令和8年度</option>
+          <option value="fy-1">令和7年度</option>
+          <option value="fy-2">令和6年度</option>
+        </select>
+        <span class="jd-modal-period-meta">公開中の求人 <strong id="jd-select-total">0</strong> 件</span>
       </div>
-      <div class="an-job-select-list" id="jd-select-list"></div>
+      <div class="an-job-select-list jd-grouped" id="jd-select-list"></div>
     </div>
     <div class="an-modal-foot">
       <div class="an-modal-foot-left">
@@ -28225,7 +28239,7 @@ body.on-login-page{overflow:hidden}
         <button class="an-modal-btn-sub" onclick="jdCloseModal()">キャンセル</button>
         <button class="an-modal-btn-primary" onclick="jdConfirm()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span id="jd-select-count-btn">0</span>件で確定
+          <span id="jd-confirm-label">年度全体で確定</span>
         </button>
       </div>
     </div>
@@ -45867,14 +45881,14 @@ ${style.blogQuote}
   // ═══════════════════════════════════════════════════════
   // 公開中求人のモックデータ
   window.__publishedJobs = [
-    { id:'j-r8-admin-d', title:'【令和8年度】事務職（大卒程度）総合職員募集', type:'事務職', applicants: 412, exam:'2026年6月7日' },
-    { id:'j-r8-admin-h', title:'【令和8年度】事務職（高卒程度）',         type:'事務職', applicants: 187, exam:'2026年9月15日' },
-    { id:'j-r8-civil',   title:'【令和8年度】土木技術職',                   type:'技術職', applicants:  38, exam:'2026年6月7日' },
-    { id:'j-r8-arch',    title:'【令和8年度】建築技術職',                   type:'技術職', applicants:  24, exam:'2026年6月7日' },
-    { id:'j-r8-ict',     title:'【令和8年度】ICT職',                       type:'技術職', applicants:  62, exam:'2026年7月12日' },
-    { id:'j-r8-elec',    title:'【令和8年度】電気職',                       type:'技術職', applicants:  19, exam:'2026年6月7日' },
-    { id:'j-r8-health',  title:'【令和8年度】保健師',                       type:'専門職', applicants:  41, exam:'2026年6月7日' },
-    { id:'j-r8-nursery', title:'【令和8年度】保育士',                       type:'専門職', applicants:  88, exam:'2026年8月23日' }
+    { id:'j-r8-admin-d', title:'【令和8年度】事務職（大卒程度）総合職員募集', adminTitle:'令和8年度 事務職（大卒程度）総合職員募集', period:'2026/04/01〜2026/05/15', type:'事務職', applicants: 412, exam:'2026年6月7日' },
+    { id:'j-r8-admin-h', title:'【令和8年度】事務職（高卒程度）',         adminTitle:'令和8年度 事務職（高卒程度）',           period:'2026/07/01〜2026/08/22', type:'事務職', applicants: 187, exam:'2026年9月15日' },
+    { id:'j-r8-civil',   title:'【令和8年度】土木技術職',                   adminTitle:'令和8年度 土木技術職 募集（新卒）',     period:'2026/04/01〜2026/05/15', type:'技術職', applicants:  38, exam:'2026年6月7日' },
+    { id:'j-r8-arch',    title:'【令和8年度】建築技術職',                   adminTitle:'建築技術職 キャリア採用',               period:'2026/04/15〜2026/05/29', type:'技術職', applicants:  24, exam:'2026年6月7日' },
+    { id:'j-r8-ict',     title:'【令和8年度】ICT職',                       adminTitle:'【社会人経験者】ICT職（DX推進担当）募集', period:'2026/04/15〜2026/06/15', type:'技術職', applicants:  62, exam:'2026年7月12日' },
+    { id:'j-r8-elec',    title:'【令和8年度】電気職',                       adminTitle:'令和8年度 電気職',                       period:'2026/04/01〜2026/05/15', type:'技術職', applicants:  19, exam:'2026年6月7日' },
+    { id:'j-r8-health',  title:'【令和8年度】保健師',                       adminTitle:'保健師 募集（新卒・中途）',             period:'2026/04/01〜2026/05/15', type:'専門職', applicants:  41, exam:'2026年6月7日' },
+    { id:'j-r8-nursery', title:'【令和8年度】保育士',                       adminTitle:'令和8年度 保育士 募集（正規職員）',     period:'2026/06/01〜2026/07/31', type:'専門職', applicants:  88, exam:'2026年8月23日' }
   ];
 
   // 対象に応じた指標の選択肢マッピング
@@ -50763,8 +50777,11 @@ window.toggleLoginPassword = function(btn){
   // 選考ステップ別 選考辞退の配分重み（応募→1次/1次→2次/2次→3次/3次→4次/4次→内定）
   const JD_STEP_W = [0.40,0.26,0.17,0.11,0.06];
   const JD_STEP_LABEL = ['応募→1次','1次→2次','2次→3次','3次→4次','4次→内定','内定後'];
-  // ダッシュボードの選択求人集合（既定=全8件）
-  let jdSelected = Object.keys(JOB_LABEL).slice();
+  // ダッシュボードの選択求人集合（既定=未選択＝年度全体）／対象年度はモーダルで指定
+  let jdSelected = [];
+  let jdPeriod = 'fy';
+  let jdTempPeriod = 'fy';
+  const PERIOD_FY_LABEL = { 'fy':'令和8年度', 'fy-1':'令和7年度', 'fy-2':'令和6年度' };
 
   // PR記事 / PR動画 ダミー
   const PR_BASE = {
@@ -51006,8 +51023,11 @@ window.toggleLoginPassword = function(btn){
     const stxt = document.getElementById('jd-select-status-text');
     if(stxt){
       const n = jdSelected.length;
-      stxt.textContent = (n >= Object.keys(JOB_LABEL).length) ? ('全' + n + '求人')
-                       : (n === 1 ? JOB_LABEL[jdSelected[0]] : (n + '求人'));
+      const yl = PERIOD_FY_LABEL[jdPeriod] || '令和8年度';
+      const sel = (n === 0) ? '全求人'
+                : (n >= Object.keys(JOB_LABEL).length) ? ('全' + n + '求人')
+                : (n === 1 ? JOB_LABEL[jdSelected[0]] : (n + '求人'));
+      stxt.textContent = yl + ' ・ ' + sel;
     }
 
     // 行1 KPI
@@ -51120,22 +51140,49 @@ window.toggleLoginPassword = function(btn){
 
   // ─── 求人選択モーダル（jd-接頭辞）───
   let jdTempSel = [];
+  const JD_FY_OFFSET = { 'fy':0, 'fy-1':-1, 'fy-2':-2 };
   function jdRenderList(){
     const el = document.getElementById('jd-select-list'); if(!el) return;
-    const jobs = (window.__publishedJobs || []).filter(j => JOB_LABEL[j.id]);
-    el.innerHTML = jobs.map(j=>{
-      const on = jdTempSel.includes(j.id);
-      return '<div class="an-job-select-item '+(on?'selected':'')+'" data-jdid="'+j.id+'" onclick="jdToggle(\''+j.id+'\')">'
-        + '<div class="an-job-select-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
-        + '<div class="an-job-select-body"><div class="an-job-select-title">'+JOB_LABEL[j.id]+'</div>'
-        + '<div class="an-job-select-meta"><span class="an-job-select-meta-item">応募者 <strong>'+j.applicants+'</strong>名</span>'
-        + '<span class="an-job-select-meta-item">試験日 '+j.exam+'</span></div></div>'
-        + '<span class="an-job-select-type">'+j.type+'</span></div>';
+    const pubs = (window.__publishedJobs || []).filter(j => JOB_LABEL[j.id]);
+    const byId = {}; pubs.forEach(j=>{ byId[j.id]=j; });
+    const off = JD_FY_OFFSET[jdTempPeriod] || 0;
+    const m = (PERIOD_MULT[jdTempPeriod] != null) ? PERIOD_MULT[jdTempPeriod] : 1.0;
+    const fyName = '令和'+(8+off)+'年度';
+    const yr = 2026 + off;
+    const order = ['admin','tech','spec'];
+    el.innerHTML = order.map(catKey=>{
+      const cat = CATEGORY[catKey]; if(!cat) return '';
+      const jobs = cat.jobs.filter(id=>byId[id]).map(id=>byId[id]);
+      if(!jobs.length) return '';
+      const allOn = jobs.every(j=>jdTempSel.includes(j.id));
+      const head = '<div class="jd-cat-head">'
+        + '<span class="jd-cat-name">'+cat.name+'<span class="jd-cat-count">'+jobs.length+'件</span></span>'
+        + '<button type="button" class="jd-cat-all'+(allOn?' on':'')+'" onclick="jdToggleCat(\''+catKey+'\')">'
+        + '<span class="jd-cat-all-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>'
+        + 'この職種をすべて選択</button></div>';
+      const cards = jobs.map(j=>{
+        const on = jdTempSel.includes(j.id);
+        const nm = (j.adminTitle||JOB_LABEL[j.id]||'').replace('令和8年度', fyName);
+        const pd = (j.period||'').replace(/2026/g, String(yr));
+        const apps = Math.round((j.applicants||0)*m);
+        return '<div class="an-job-select-item '+(on?'selected':'')+'" data-jdid="'+j.id+'" onclick="jdToggle(\''+j.id+'\')">'
+          + '<div class="an-job-select-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
+          + '<div class="an-job-select-body"><div class="an-job-select-title">'+nm+'</div>'
+          + '<div class="an-job-select-meta"><span class="an-job-select-meta-item">応募者 <strong>'+apps+'</strong>名</span>'
+          + '<span class="an-job-select-meta-item">応募期間 '+pd+'</span></div></div>'
+          + '<span class="an-job-select-type">'+j.type+'</span></div>';
+      }).join('');
+      return '<div class="jd-cat-group">'+head+cards+'</div>';
     }).join('');
   }
-  function jdUpdateCount(){ const el=document.getElementById('jd-select-count-btn'); if(el) el.textContent=jdTempSel.length; }
+  function jdUpdateCount(){
+    const el=document.getElementById('jd-confirm-label');
+    if(el) el.textContent = (jdTempSel.length===0) ? '年度全体で確定' : (jdTempSel.length+'件で確定');
+  }
   window.jdOpenModal = function(){
     jdTempSel = jdSelected.slice();
+    jdTempPeriod = jdPeriod;
+    const ps=document.getElementById('jd-period'); if(ps) ps.value = jdTempPeriod;
     jdRenderList();
     const total = (window.__publishedJobs||[]).filter(j=>JOB_LABEL[j.id]).length;
     const tEl=document.getElementById('jd-select-total'); if(tEl) tEl.textContent=total;
@@ -51143,22 +51190,34 @@ window.toggleLoginPassword = function(btn){
     const m=document.getElementById('jd-job-select-modal'); if(m) m.classList.add('show');
   };
   window.jdCloseModal = function(){ const m=document.getElementById('jd-job-select-modal'); if(m) m.classList.remove('show'); };
+  window.jdModalPeriodChange = function(){
+    const ps=document.getElementById('jd-period'); jdTempPeriod = ps ? ps.value : 'fy';
+    jdRenderList();
+  };
   window.jdToggle = function(id){
     const i = jdTempSel.indexOf(id);
     if(i>=0) jdTempSel.splice(i,1); else jdTempSel.push(id);
-    const item=document.querySelector('#jd-select-list .an-job-select-item[data-jdid="'+id+'"]');
-    if(item) item.classList.toggle('selected');
-    jdUpdateCount();
+    jdRenderList(); jdUpdateCount();
+  };
+  window.jdToggleCat = function(catKey){
+    const cat = CATEGORY[catKey]; if(!cat) return;
+    const pubIds = (window.__publishedJobs||[]).filter(j=>JOB_LABEL[j.id]).map(j=>j.id);
+    const ids = cat.jobs.filter(id=>pubIds.includes(id));
+    const allOn = ids.length>0 && ids.every(id=>jdTempSel.includes(id));
+    if(allOn){ jdTempSel = jdTempSel.filter(id=>!ids.includes(id)); }
+    else { ids.forEach(id=>{ if(!jdTempSel.includes(id)) jdTempSel.push(id); }); }
+    jdRenderList(); jdUpdateCount();
   };
   window.jdSelectAll = function(){
     jdTempSel = (window.__publishedJobs||[]).filter(j=>JOB_LABEL[j.id]).map(j=>j.id);
     jdRenderList(); jdUpdateCount();
   };
   window.jdConfirm = function(){
-    if(jdTempSel.length === 0){ if(typeof showToast==='function') showToast('1件以上選択してください'); return; }
     jdSelected = jdTempSel.slice();
+    jdPeriod = jdTempPeriod;
     window.jdCloseModal();
-    renderOverall(currentPeriod(), true);
+    if(typeof applyGlobalFilter==='function'){ applyGlobalFilter(); }
+    else { renderOverall(currentPeriod(), true); }
   };
 
   // ─────────────────────────────────────────────────
@@ -51542,8 +51601,7 @@ window.toggleLoginPassword = function(btn){
   // フィルタハンドラ
   // ============================================================
   function currentPeriod(){
-    const el = document.getElementById('jd-period');
-    return el ? el.value : 'fy';
+    return jdPeriod || 'fy';
   }
   function currentJob(){
     const el = document.getElementById('d-fjob');
