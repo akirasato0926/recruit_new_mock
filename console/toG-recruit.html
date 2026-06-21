@@ -22777,6 +22777,8 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .act-list li+li{border-top:1px solid #f1f5f3}
 #page-top.dash-page .act-ic{flex:none;width:28px;height:28px;border-radius:8px;background:#e6f5ec;color:#115A36;display:flex;align-items:center;justify-content:center}
 #page-top.dash-page .act-ic svg{width:15px;height:15px}
+#page-top.dash-page .act-list li{cursor:pointer;border-radius:8px;transition:background .12s}
+#page-top.dash-page .act-list li:hover{background:#f5f9f7}
 #page-top.dash-page .act-main{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px}
 #page-top.dash-page .act-main .a{flex:1;min-width:0;font-size:13px;color:#1A1A1A;line-height:1.45}
 #page-top.dash-page .act-main .a b{font-weight:700}
@@ -22896,12 +22898,10 @@ body.on-login-page{overflow:hidden}
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.5 2"/></svg>最近のアクティビティ</div>
       <div class="dc-body">
         <ul class="act-list">
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M18 8v6M21 11h-6"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>に新規応募が <b>3件</b> 届きました</div><div class="tm">10分前</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div class="act-main"><div class="a">スカウトに <b>2名</b> から返信がありました</div><div class="tm">1時間前</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><div class="act-main"><div class="a"><b>土木技師（経験者採用枠）</b>を公開しました</div><div class="tm">3時間前</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><div class="act-main"><div class="a">記事「先輩職員インタビュー」が <b>1,240回</b> 閲覧されました</div><div class="tm">昨日</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 15l2 2 4-4"/></svg></span><div class="act-main"><div class="a"><b>保育士</b>の1次面接日程が確定しました（4名）</div><div class="tm">昨日</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div class="act-main"><div class="a">新規フォロワーが <b>18名</b> 増えました</div><div class="tm">2日前</div></div></li>
+          <li onclick="if(window.showPage){showPage('03');}return false;"><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 10v3.5l2 1.5"/><path d="M5 3 2.5 5.5"/><path d="M19 3l2.5 2.5"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>の応募受付が <b>3日後（6/25）</b> に締め切られます</div><div class="tm">本日</div></div></li>
+          <li onclick="if(window.showPage){showPage('01');}return false;"><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M18 8v6M21 11h-6"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>に新規応募が <b>3件</b> 届きました</div><div class="tm">10分前</div></div></li>
+          <li onclick="if(window.showPage){showPage('07');}return false;"><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg></span><div class="act-main"><div class="a">スカウトした候補者 <b>2名</b> から返信が届きました</div><div class="tm">1時間前</div></div></li>
+          <li onclick="if(window.showPage){showPage('05');}return false;"><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 15l2 2 4-4"/></svg></span><div class="act-main"><div class="a"><b>保育士</b> 1次面接の日程が確定しました（<b>4名</b>／7/3）</div><div class="tm">昨日</div></div></li>
         </ul>
       </div>
     </section>
