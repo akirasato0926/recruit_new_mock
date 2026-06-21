@@ -51085,6 +51085,7 @@ window.toggleLoginPassword = function(btn){
     if(!donut || !legend) return;
     const rows = a.sources;
     donut.innerHTML = renderDonutSegments(rows.map(r=>({color:r.color, pct:r.pct})), { strokeWidth:16 });
+    attachDonutTooltip(donut, rows);
     legend.innerHTML = rows.map(r => '<li>'
       + '<span class="dot" style="background:'+r.color+'"></span>'
       + '<span class="nm">'+r.label+'</span>'
@@ -51102,6 +51103,7 @@ window.toggleLoginPassword = function(btn){
       .sort((x,y)=>y.num-x.num);
     const sum = rows.reduce((s,r)=>s+r.num,0) || 1;
     donut.innerHTML = renderDonutSegments(rows.map(r=>({color:r.color, pct: 100*r.num/sum})), { strokeWidth:16 });
+    attachDonutTooltip(donut, rows.map(r=>({label:r.label, color:r.color, count:r.num, pct:100*r.num/sum})), '名');
     legend.innerHTML = rows.map(r => '<li>'
       + '<span class="dot" style="background:'+r.color+'"></span>'
       + '<span class="nm">'+r.label+'</span>'
@@ -51189,7 +51191,7 @@ window.toggleLoginPassword = function(btn){
     document.body.appendChild(donutTooltipEl);
     return donutTooltipEl;
   }
-  function attachDonutTooltip(svg, segments){
+  function attachDonutTooltip(svg, segments, unit){
     const tip = ensureDonutTooltip();
     const circles = svg.querySelectorAll('circle[data-segment]');
     circles.forEach(circle => {
@@ -51198,7 +51200,7 @@ window.toggleLoginPassword = function(btn){
       if(!s) return;
       circle.addEventListener('mouseenter', () => {
         let stat = (s.count != null)
-          ? `<div class="dtt-stat"><span class="dtt-val">${fmt(s.count)}</span><span class="dtt-u">PV</span><span class="dtt-pct">${(s.pct).toFixed(1)}%</span></div>`
+          ? `<div class="dtt-stat"><span class="dtt-val">${fmt(s.count)}</span><span class="dtt-u">${unit||'PV'}</span><span class="dtt-pct">${(s.pct).toFixed(1)}%</span></div>`
           : `<div class="dtt-stat"><span class="dtt-val">${s.pct}</span><span class="dtt-u">%</span></div>`;
         tip.innerHTML = `<div class="dtt-label"><span class="dtt-dot" style="background:${s.color}"></span>${s.label}</div>${stat}`;
         tip.classList.add('show');
