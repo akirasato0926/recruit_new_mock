@@ -22799,7 +22799,8 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dash-row3 .dc{display:flex;flex-direction:column}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
 #page-top.dash-page .ch-body{flex:1;padding:14px 18px 16px}
-#page-top.dash-page .ch-body.ch-donut{display:flex;flex-direction:column;justify-content:center;padding-top:10px;padding-bottom:12px}
+#page-top.dash-page .ch-body.ch-donut{display:flex;flex-direction:column;padding-top:14px;padding-bottom:16px}
+#page-top.dash-page .ch-body.ch-donut .donut-wrap{flex:1}
 #page-top.dash-page .ch-body>svg{display:block;width:100%;height:auto}
 #page-top.dash-page .ch-stats{display:flex;gap:28px;margin-bottom:10px}
 #page-top.dash-page .ch-stat{display:flex;flex-direction:column;gap:4px}
@@ -22945,6 +22946,7 @@ body.on-login-page{overflow:hidden}
     <section class="dc">
       <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-9-9v9z"/><path d="M12 3a9 9 0 0 1 9 9h-9z" opacity=".5"/></svg>流入経路<span class="dc-sub">直近30日</span><a class="more" href="#" onclick="if(window.showPage){showPage('analytics');}return false;">詳細を見る ›</a></div>
       <div class="ch-body ch-donut">
+        <div class="ch-stats"><div class="ch-stat"><span class="lbl">流入数（直近30日）</span><span class="val">4,900<span class="u">PV</span></span></div></div>
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日）">
             <g stroke-linejoin="round">
@@ -22956,7 +22958,6 @@ body.on-login-page{overflow:hidden}
             </g>
           </svg>
           <ul class="legend">
-            <li class="lg-total"><span class="lname">流入数（直近30日）</span><span class="ltot">4,900PV</span></li>
             <li><span class="dot" style="background:#0c472a"></span><span class="lname">検索</span><span class="lcnt">1,862PV</span></li>
             <li><span class="dot" style="background:#115A36"></span><span class="lname">SNS</span><span class="lcnt">1,176PV</span></li>
             <li><span class="dot" style="background:#115A36"></span><span class="lname">直接</span><span class="lcnt">882PV</span></li>
