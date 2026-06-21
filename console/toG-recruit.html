@@ -53730,10 +53730,13 @@ window.toggleLoginPassword = function(btn){
     var W=560,H=400, pl=74,pr=70,pt=28,pb=44, iw=W-pl-pr, ih=H-pt-pb;
     var totals=B.map(function(b){return b.total;}), deltas=B.map(function(b){return b.delta;});
     var tMax=Math.max.apply(null,totals), tMin=Math.min.apply(null,totals), tSpan=Math.max(1,tMax-tMin);
-    // 目盛りを切りの良い単位に（左軸=フォロワー数:100単位 / 右軸=増減数:10単位）
+    // 目盛りを切りの良い単位に（左軸=フォロワー数:データ範囲に応じ適応 / 右軸=増減数:10単位）
+    function niceUnit(span, tt){ var raw=span/tt; var pow=Math.pow(10, Math.floor(Math.log10(raw))); var f=raw/pow; var nice=f<=1?1:f<=2?2:f<=5?5:10; return Math.max(1, Math.round(nice*pow)); }
     function niceAxis(mn, mx, unit, tt){ if(mx<=mn) mx=mn+unit; var st=Math.ceil(((mx-mn)/tt)/unit)*unit; if(st<unit) st=unit; return {lo:Math.floor(mn/st)*st, hi:Math.ceil(mx/st)*st, step:st}; }
-    var LA=niceAxis(Math.max(0, tMin-tSpan*0.10), tMax+tSpan*0.45, 100, 3);   // 100単位
-    var lo=LA.lo, hi=LA.hi; if(hi<=lo) hi=lo+100;
+    var lPad=tSpan*0.10, uPad=tSpan*0.45;
+    var lUnit=niceUnit((tMax+uPad)-(tMin-lPad), 4);
+    var LA=niceAxis(Math.max(0, tMin-lPad), tMax+uPad, lUnit, 4);
+    var lo=LA.lo, hi=LA.hi; if(hi<=lo) hi=lo+lUnit;
     var dMax=Math.max.apply(null,deltas), dMin=Math.min.apply(null,deltas);
     var RA=niceAxis(Math.min(0, dMin), Math.max(dMax, 10), 10, 3);            // 10単位
     var dLo=RA.lo, dHi=RA.hi; if(dHi<=dLo) dHi=dLo+10;
