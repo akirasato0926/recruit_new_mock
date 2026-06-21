@@ -22734,7 +22734,7 @@ body.on-login-page{overflow:hidden}
 #page-top .ch-tip.show{opacity:1}
 #page-top .ch-tip b{font-weight:700}
 #page-top .ch-hit circle,#page-top .ch-hit rect{cursor:pointer}
-#page-top.dash-page .dash-wrap{padding:16px 26px 40px;max-width:1440px;margin:0 auto}
+#page-top.dash-page .dash-wrap{padding:16px 26px 40px;max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 #page-top.dash-page .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px}
 #page-top.dash-page .dash-head h1{font-size:22px;font-weight:800;color:#1A1A1A;margin:0}
 #page-top.dash-page .dash-date{font-size:13px;color:#767676;font-weight:700}
@@ -22746,7 +22746,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dc-h .unread-chip{font-size:11px;font-weight:800;color:#115A36;background:#e6f5ec;border-radius:999px;padding:2px 9px}
 #page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#115A36;text-decoration:none;white-space:nowrap}
 /* row1 お知らせ */
-#page-top.dash-page .dash-news{margin-bottom:16px}
+#page-top.dash-page .dash-news{margin-bottom:0;order:2}
 #page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:176px;overflow:auto}
 #page-top.dash-page .news-list li{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:8px}
 #page-top.dash-page .news-list li+li{border-top:1px solid #f1f5f3}
@@ -22769,7 +22769,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .news-list li.unread .rstat{color:#115A36}
 #page-top.dash-page .news-list li.read .rstat{color:#b9c0bb}
 /* row2 */
-#page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:16px}
+#page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:0;order:3}
 #page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:300px}
 #page-top.dash-page .dc-body{flex:1;overflow:auto;padding:8px 10px}
 #page-top.dash-page .act-list{list-style:none;margin:0;padding:0}
@@ -22799,7 +22799,7 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dl-warn{color:#C9711F}
 #page-top.dash-page .dl-danger{color:#CE0000}
 /* row3 charts */
-#page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#page-top.dash-page .dash-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;order:1}
 #page-top.dash-page .dash-row3 .dc{display:flex;flex-direction:column}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
 #page-top.dash-page .ch-body{flex:1;padding:14px 18px 16px}
@@ -22955,18 +22955,18 @@ body.on-login-page{overflow:hidden}
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="流入経路の内訳（直近30日）">
             <g stroke-linejoin="round">
-              <path d="M60.0,6.0 A54 54 0 0 1 113.04,49.88 L95.36,53.25 A36 36 0 0 0 60.0,24.0 Z" fill="#115A36" stroke="#115A36" stroke-width="0.8"><title>自治体公式サイト：1,320PV（22%）</title></path>
-              <path d="M113.04,49.88 A54 54 0 0 1 96.97,99.36 L84.64,86.24 A36 36 0 0 0 95.36,53.25 Z" fill="#1E7F4F" stroke="#1E7F4F" stroke-width="0.8"><title>検索エンジン（Google等）：960PV（16%）</title></path>
-              <path d="M96.97,99.36 A54 54 0 0 1 63.39,113.89 L62.26,95.93 A36 36 0 0 0 84.64,86.24 Z" fill="#2E9E63" stroke="#2E9E63" stroke-width="0.8"><title>SNS（Instagram）：660PV（11%）</title></path>
-              <path d="M63.39,113.89 A54 54 0 0 1 33.99,107.32 L42.66,91.55 A36 36 0 0 0 62.26,95.93 Z" fill="#45B377" stroke="#45B377" stroke-width="0.8"><title>SNS（X / Twitter）：540PV（9%）</title></path>
-              <path d="M33.99,107.32 A54 54 0 0 1 14.41,88.93 L29.6,79.29 A36 36 0 0 0 42.66,91.55 Z" fill="#6BC394" stroke="#6BC394" stroke-width="0.8"><title>求人・転職媒体：480PV（8%）</title></path>
-              <path d="M14.41,88.93 A54 54 0 0 1 6.43,66.77 L24.28,64.51 A36 36 0 0 0 29.6,79.29 Z" fill="#9BD4B5" stroke="#9BD4B5" stroke-width="0.8"><title>提携メディア：420PV（7%）</title></path>
-              <path d="M6.43,66.77 A54 54 0 0 1 7.7,46.57 L25.13,51.05 A36 36 0 0 0 24.28,64.51 Z" fill="#5A8F76" stroke="#5A8F76" stroke-width="0.8"><title>採用イベント・説明会：360PV（6%）</title></path>
-              <path d="M7.7,46.57 A54 54 0 0 1 14.41,31.07 L29.6,40.71 A36 36 0 0 0 25.13,51.05 Z" fill="#7BA88F" stroke="#7BA88F" stroke-width="0.8"><title>メールマガジン：300PV（5%）</title></path>
-              <path d="M14.41,31.07 A54 54 0 0 1 25.58,18.39 L37.05,32.26 A36 36 0 0 0 29.6,40.71 Z" fill="#A0BCAE" stroke="#A0BCAE" stroke-width="0.8"><title>動画（YouTube等）：300PV（5%）</title></path>
-              <path d="M25.58,18.39 A54 54 0 0 1 37.01,11.14 L44.67,27.43 A36 36 0 0 0 37.05,32.26 Z" fill="#C3E6D2" stroke="#C3E6D2" stroke-width="0.8"><title>Web広告：240PV（4%）</title></path>
-              <path d="M37.01,11.14 A54 54 0 0 1 49.88,6.96 L53.25,24.64 A36 36 0 0 0 44.67,27.43 Z" fill="#8A938D" stroke="#8A938D" stroke-width="0.8"><title>紹介・口コミ：240PV（4%）</title></path>
-              <path d="M49.88,6.96 A54 54 0 0 1 60.0,6.0 L60.0,24.0 A36 36 0 0 0 53.25,24.64 Z" fill="#CCCCCC" stroke="#CCCCCC" stroke-width="0.8"><title>その他・直接：180PV（3%）</title></path>
+              <path d="M60.0,6.0 A54 54 0 0 1 113.04,49.88 L95.36,53.25 A36 36 0 0 0 60.0,24.0 Z" fill="#115A36" stroke="#115A36" stroke-width="0.8" data-tip="&lt;b&gt;自治体公式サイト&lt;/b&gt;&lt;br&gt;1,320PV（22%）"><title>自治体公式サイト：1,320PV（22%）</title></path>
+              <path d="M113.04,49.88 A54 54 0 0 1 96.97,99.36 L84.64,86.24 A36 36 0 0 0 95.36,53.25 Z" fill="#1E7F4F" stroke="#1E7F4F" stroke-width="0.8" data-tip="&lt;b&gt;検索エンジン（Google等）&lt;/b&gt;&lt;br&gt;960PV（16%）"><title>検索エンジン（Google等）：960PV（16%）</title></path>
+              <path d="M96.97,99.36 A54 54 0 0 1 63.39,113.89 L62.26,95.93 A36 36 0 0 0 84.64,86.24 Z" fill="#2E9E63" stroke="#2E9E63" stroke-width="0.8" data-tip="&lt;b&gt;SNS（Instagram）&lt;/b&gt;&lt;br&gt;660PV（11%）"><title>SNS（Instagram）：660PV（11%）</title></path>
+              <path d="M63.39,113.89 A54 54 0 0 1 33.99,107.32 L42.66,91.55 A36 36 0 0 0 62.26,95.93 Z" fill="#45B377" stroke="#45B377" stroke-width="0.8" data-tip="&lt;b&gt;SNS（X / Twitter）&lt;/b&gt;&lt;br&gt;540PV（9%）"><title>SNS（X / Twitter）：540PV（9%）</title></path>
+              <path d="M33.99,107.32 A54 54 0 0 1 14.41,88.93 L29.6,79.29 A36 36 0 0 0 42.66,91.55 Z" fill="#6BC394" stroke="#6BC394" stroke-width="0.8" data-tip="&lt;b&gt;求人・転職媒体&lt;/b&gt;&lt;br&gt;480PV（8%）"><title>求人・転職媒体：480PV（8%）</title></path>
+              <path d="M14.41,88.93 A54 54 0 0 1 6.43,66.77 L24.28,64.51 A36 36 0 0 0 29.6,79.29 Z" fill="#9BD4B5" stroke="#9BD4B5" stroke-width="0.8" data-tip="&lt;b&gt;提携メディア&lt;/b&gt;&lt;br&gt;420PV（7%）"><title>提携メディア：420PV（7%）</title></path>
+              <path d="M6.43,66.77 A54 54 0 0 1 7.7,46.57 L25.13,51.05 A36 36 0 0 0 24.28,64.51 Z" fill="#5A8F76" stroke="#5A8F76" stroke-width="0.8" data-tip="&lt;b&gt;採用イベント・説明会&lt;/b&gt;&lt;br&gt;360PV（6%）"><title>採用イベント・説明会：360PV（6%）</title></path>
+              <path d="M7.7,46.57 A54 54 0 0 1 14.41,31.07 L29.6,40.71 A36 36 0 0 0 25.13,51.05 Z" fill="#7BA88F" stroke="#7BA88F" stroke-width="0.8" data-tip="&lt;b&gt;メールマガジン&lt;/b&gt;&lt;br&gt;300PV（5%）"><title>メールマガジン：300PV（5%）</title></path>
+              <path d="M14.41,31.07 A54 54 0 0 1 25.58,18.39 L37.05,32.26 A36 36 0 0 0 29.6,40.71 Z" fill="#A0BCAE" stroke="#A0BCAE" stroke-width="0.8" data-tip="&lt;b&gt;動画（YouTube等）&lt;/b&gt;&lt;br&gt;300PV（5%）"><title>動画（YouTube等）：300PV（5%）</title></path>
+              <path d="M25.58,18.39 A54 54 0 0 1 37.01,11.14 L44.67,27.43 A36 36 0 0 0 37.05,32.26 Z" fill="#C3E6D2" stroke="#C3E6D2" stroke-width="0.8" data-tip="&lt;b&gt;Web広告&lt;/b&gt;&lt;br&gt;240PV（4%）"><title>Web広告：240PV（4%）</title></path>
+              <path d="M37.01,11.14 A54 54 0 0 1 49.88,6.96 L53.25,24.64 A36 36 0 0 0 44.67,27.43 Z" fill="#8A938D" stroke="#8A938D" stroke-width="0.8" data-tip="&lt;b&gt;紹介・口コミ&lt;/b&gt;&lt;br&gt;240PV（4%）"><title>紹介・口コミ：240PV（4%）</title></path>
+              <path d="M49.88,6.96 A54 54 0 0 1 60.0,6.0 L60.0,24.0 A36 36 0 0 0 53.25,24.64 Z" fill="#CCCCCC" stroke="#CCCCCC" stroke-width="0.8" data-tip="&lt;b&gt;その他・直接&lt;/b&gt;&lt;br&gt;180PV（3%）"><title>その他・直接：180PV（3%）</title></path>
             </g>
           </svg>
           <ul class="legend legend-scroll">
