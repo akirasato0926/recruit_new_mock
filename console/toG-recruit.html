@@ -26819,8 +26819,8 @@ body.on-login-page{overflow:hidden}
               <button type="button" class="d-range-apply" onclick="this.closest('.d-pr-range').hidden=true">適用</button>
             </div>
             <div class="d-inflow-stats">
-              <div class="d-inflow-stat"><span class="d-inflow-stat-label">PV数（ページ閲覧数）</span><span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-pv">124,500</span></span></div>
-              <div class="d-inflow-stat"><span class="d-inflow-stat-label">UU数（ページ訪問者数）</span><span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-uu">38,200</span></span></div>
+              <div class="d-inflow-stat"><span class="d-inflow-stat-label">PV数（ページ閲覧数）</span><span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-pv">6,000</span></span></div>
+              <div class="d-inflow-stat"><span class="d-inflow-stat-label">UU数（ページ訪問者数）</span><span class="d-inflow-stat-value"><span class="d-num" id="d-inflow-uu">2,400</span></span></div>
             </div>
             <div class="d-sv-legend">
               <span class="d-sv-leg"><span class="d-sv-sw pv"></span>PV数</span>
@@ -26854,7 +26854,7 @@ body.on-login-page{overflow:hidden}
             <div class="d-donut-block vertical">
               <div class="d-donut-wrap">
                 <svg class="d-donut-svg" viewBox="0 0 100 100" id="d-source-donut" aria-hidden="true"></svg>
-                <div class="d-donut-center"><span class="d-donut-center-num"><span class="d-num" id="d-source-total">124,500</span></span><span class="d-donut-center-unit">PV</span></div>
+                <div class="d-donut-center"><span class="d-donut-center-num"><span class="d-num" id="d-source-total">6,000</span></span><span class="d-donut-center-unit">PV</span></div>
               </div>
               <ul class="d-donut-legend" id="d-source-legend"></ul>
             </div>
@@ -51450,8 +51450,8 @@ window.toggleLoginPassword = function(btn){
   // 流入経路（PV / UU）：期間ソート対応・独立描画
   // ============================================================
   // 基準（直近1ヶ月）の総PV/総UU と チャネル別PVシェア（緑系＋グレー）
-  const INFLOW_BASE_PV = 124500;
-  const INFLOW_BASE_UU = 38200;
+  const INFLOW_BASE_PV = 6000;
+  const INFLOW_BASE_UU = 2400;
   const INFLOW_CHANNELS = [
     ['自治体公式サイト',         '#115A36', 0.22],
     ['検索エンジン（Google等）', '#1E7F4F', 0.16],
@@ -53656,11 +53656,14 @@ window.toggleLoginPassword = function(btn){
   var N=400, DATA=[], total=8200;
   for(var i=N-1;i>=0;i--){
     var d=new Date(BASE.getFullYear(),BASE.getMonth(),BASE.getDate()-i);
-    var delta = Math.round(9 + rnd()*42 + Math.sin(i/8)*7);
-    if(rnd()<0.12) delta = -Math.round(rnd()*16);   // 時々減少
+    var delta = Math.round(rnd()*1.8 + Math.sin(i/22)*0.5);
+    if(rnd()<0.13) delta = -Math.round(rnd()*2);   // 時々減少（アンフォロー）
     total += delta;
     DATA.push({date:d, total:total, delta:delta});
   }
+  // 現在のフォロワー数を608人に正規化（増減パターンは維持し水準だけ平行移動）
+  var __folOff = 608 - DATA[DATA.length-1].total;
+  for(var fo=0; fo<DATA.length; fo++){ DATA[fo].total += __folOff; }
   function pad2(n){ return (n<10?'0':'')+n; }
   function toISO(d){ return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate()); }
   function fmtMD(d){ return (d.getMonth()+1)+'/'+d.getDate(); }
