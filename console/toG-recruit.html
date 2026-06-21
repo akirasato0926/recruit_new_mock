@@ -25868,6 +25868,10 @@ body.on-login-page{overflow:hidden}
   margin: 0 0 8px;
   letter-spacing: 0.04em;
 }
+#page-analytics .d-pr-rank{ max-height:300px; overflow-y:auto; padding-right:6px; }
+#page-analytics .d-pr-rank-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+#page-analytics .d-pr-tag{ display:inline-block; font-size:11px; font-weight:700; color:#115A36; background:#E6F5EC; border-radius:4px; padding:1px 8px; letter-spacing:.02em; }
+#page-analytics .d-pr-pub{ font-size:12px; color:#767676; }
 #page-analytics .d-pr-rank{
   list-style: none;
   margin: 0;
@@ -27083,7 +27087,6 @@ body.on-login-page{overflow:hidden}
               </div>
             </div>
 
-            <h4 class="d-pr-rank-title">人気記事ランキング Top5</h4>
             <ol class="d-pr-rank" data-target="article-rank"></ol>
           </div>
 
@@ -27113,7 +27116,6 @@ body.on-login-page{overflow:hidden}
               </div>
             </div>
 
-            <h4 class="d-pr-rank-title">新着の採用情報</h4>
             <ol class="d-pr-rank" data-target="recruit-rank"></ol>
           </div>
 
@@ -27143,7 +27145,6 @@ body.on-login-page{overflow:hidden}
               </div>
             </div>
 
-            <h4 class="d-pr-rank-title">人気動画ランキング Top5</h4>
             <ol class="d-pr-rank" data-target="video-rank"></ol>
           </div>
 
@@ -50775,7 +50776,20 @@ window.toggleLoginPassword = function(btn){
     { title:'ICT職の挑戦：自治体DXの推進と求められるスキル',      cat:'技術職', date:'03/15', views:2470, cvr:3.9 },
     { title:'保健師レポート：地域の健康を守る現場の声',           cat:'専門職', date:'02/28', views:1980, cvr:4.6 },
     { title:'女性活躍：管理職へのキャリアパスと両立支援',         cat:'横断',   date:'02/14', views:1740, cvr:3.2 },
-    { title:'人事担当者が答える：採用選考でよくある質問',         cat:'横断',   date:'01/30', views:1360, cvr:2.8 }
+    { title:'人事担当者が答える：採用選考でよくある質問',         cat:'横断',   date:'01/30', views:1360, cvr:2.8 },
+    { title:'入庁1年目の1日：事務職の働き方',                     cat:'事務職', date:'01/20', views:1180, cvr:3.1 },
+    { title:'建築技術職インタビュー：公共施設をつくる',           cat:'技術職', date:'01/10', views:1090, cvr:3.4 },
+    { title:'福利厚生・休暇制度をわかりやすく解説',               cat:'横断',   date:'12/18', views:1010, cvr:2.6 },
+    { title:'防災・危機管理の最前線で働く',                       cat:'技術職', date:'12/06', views:940,  cvr:3.0 },
+    { title:'子育てと両立：時短勤務という選択',                   cat:'横断',   date:'11/26', views:880,  cvr:2.9 },
+    { title:'移住して公務員に：地方で働く魅力',                   cat:'横断',   date:'11/12', views:820,  cvr:3.3 },
+    { title:'行政職の研修制度：成長を支える仕組み',               cat:'事務職', date:'10/30', views:760,  cvr:2.7 },
+    { title:'図書館司書の仕事：地域の学びを支える',               cat:'専門職', date:'10/16', views:700,  cvr:3.5 },
+    { title:'環境職の挑戦：脱炭素に向けた取り組み',               cat:'技術職', date:'10/02', views:640,  cvr:2.8 },
+    { title:'窓口業務のリアル：市民と向き合う毎日',               cat:'事務職', date:'09/20', views:590,  cvr:2.5 },
+    { title:'栄養士として給食を支える現場',                       cat:'専門職', date:'09/06', views:540,  cvr:3.2 },
+    { title:'採用試験の流れと対策ポイント',                       cat:'横断',   date:'08/22', views:480,  cvr:2.4 },
+    { title:'先輩からのメッセージ：受験を考える方へ',             cat:'横断',   date:'08/08', views:430,  cvr:2.6 }
   ];
   const PR_VIDEOS = [
     { title:'公共市役所で働くということ：30秒CM版',                 cat:'横断',   date:'04/22', views:3160, completion:84, cvr:6.4 },
@@ -50783,14 +50797,43 @@ window.toggleLoginPassword = function(btn){
     { title:'技術職員密着：建築技術職の現場対応',                   cat:'技術職', date:'03/26', views:1680, completion:68, cvr:4.8 },
     { title:'保育士インタビュー：子どもたちと過ごす1日',           cat:'専門職', date:'03/10', views:1420, completion:74, cvr:5.6 },
     { title:'ICT職紹介：DX推進プロジェクトの裏側',                  cat:'技術職', date:'02/24', views:980,  completion:62, cvr:3.9 },
-    { title:'保健師の現場：訪問業務の1日に密着',                   cat:'専門職', date:'02/05', views:760,  completion:69, cvr:4.2 }
+    { title:'保健師の現場：訪問業務の1日に密着',                   cat:'専門職', date:'02/05', views:760,  completion:69, cvr:4.2 },
+    { title:'事務職の1日：窓口から政策まで',                       cat:'事務職', date:'01/24', views:690, completion:66, cvr:3.7 },
+    { title:'採用説明会ダイジェスト2026',                         cat:'横断',   date:'01/12', views:640, completion:70, cvr:4.1 },
+    { title:'土木職の現場：道路・橋梁を守る',                     cat:'技術職', date:'12/22', views:580, completion:64, cvr:3.6 },
+    { title:'先輩職員クロストーク：入庁の決め手',                 cat:'横断',   date:'12/08', views:520, completion:67, cvr:3.8 },
+    { title:'防災訓練の舞台裏',                                   cat:'技術職', date:'11/24', views:470, completion:60, cvr:3.2 },
+    { title:'栄養士の仕事：給食づくりの現場',                     cat:'専門職', date:'11/10', views:420, completion:72, cvr:4.0 },
+    { title:'環境政策の最前線',                                   cat:'技術職', date:'10/27', views:380, completion:61, cvr:3.1 },
+    { title:'窓口対応の研修風景',                                 cat:'事務職', date:'10/13', views:340, completion:65, cvr:3.0 },
+    { title:'移住者インタビュー：地方公務員という選択',           cat:'横断',   date:'09/29', views:300, completion:63, cvr:3.3 },
+    { title:'図書館の1日：司書の仕事',                           cat:'専門職', date:'09/15', views:270, completion:70, cvr:3.5 },
+    { title:'新人研修オリエンテーション',                         cat:'横断',   date:'09/01', views:240, completion:58, cvr:2.9 },
+    { title:'企画政策課の1日',                                   cat:'事務職', date:'08/18', views:210, completion:64, cvr:3.0 },
+    { title:'消防・救急連携の紹介',                               cat:'横断',   date:'08/04', views:180, completion:62, cvr:3.1 },
+    { title:'採用担当からのメッセージ',                           cat:'横断',   date:'07/21', views:160, completion:66, cvr:3.4 }
   ];
   const PR_RECRUIT = [
     { title:'【オンライン】6/28 採用説明会の参加者を募集します', type:'説明会', date:'06/15', views:1240 },
     { title:'夏季就業体験（事務・技術コース）の募集を開始しました', type:'インターン', date:'06/12', views:980 },
-    { title:'土木・建築職 職場見学会のご案内', type:'説明会', date:'06/05', views:760 },
+    { title:'土木・建築職 職場見学会のご案内', type:'見学会', date:'06/05', views:760 },
     { title:'1day仕事体験（保育・福祉コース）受付中です', type:'インターン', date:'05/30', views:540 },
-    { title:'秋季 採用説明会（合同開催型）の実施が決定しました', type:'説明会', date:'05/22', views:430 }
+    { title:'秋季 採用説明会（合同開催型）の実施が決定しました', type:'説明会', date:'05/22', views:430 },
+    { title:'ICT職 オンライン職場説明会のお知らせ', type:'説明会', date:'05/14', views:390 },
+    { title:'保健師・栄養士向け 個別相談会', type:'相談会', date:'05/06', views:350 },
+    { title:'技術職 現場見学バスツアー参加者募集', type:'見学会', date:'04/24', views:320 },
+    { title:'既卒・社会人経験者向け 採用説明会', type:'説明会', date:'04/12', views:290 },
+    { title:'春季インターンシップ（行政コース）募集', type:'インターン', date:'03/28', views:260 },
+    { title:'障がい者採用 個別相談会のご案内', type:'相談会', date:'03/14', views:230 },
+    { title:'保育士 職場体験プログラム受付', type:'インターン', date:'02/28', views:210 },
+    { title:'オンライン庁舎見学会の開催', type:'見学会', date:'02/12', views:190 },
+    { title:'採用試験 説明会（筆記・面接対策）', type:'説明会', date:'01/29', views:170 },
+    { title:'技術職 1day仕事体験の募集', type:'インターン', date:'01/15', views:150 },
+    { title:'UIターン就職 個別相談会', type:'相談会', date:'12/18', views:130 },
+    { title:'高校生向け 職場見学会のお知らせ', type:'見学会', date:'12/04', views:110 },
+    { title:'冬季インターンシップ参加者募集', type:'インターン', date:'11/20', views:95 },
+    { title:'採用説明会（女性活躍テーマ）', type:'説明会', date:'11/06', views:82 },
+    { title:'専門職合同 オンライン相談会', type:'相談会', date:'10/23', views:70 }
   ];
 
   // ============================================================
@@ -51430,13 +51473,13 @@ window.toggleLoginPassword = function(btn){
       const items = PR_ARTICLES
         .map(a => Object.assign({}, a, { _views: mult(a.views, m) }))
         .sort((a,b) => b._views - a._views)
-        .slice(0, 5);
+        .slice(0, 20);
       aRank.innerHTML = items.map((a, i) => `
         <li class="d-pr-rank-item">
           <span class="d-pr-rank-no">${i+1}</span>
           <div class="d-pr-rank-body">
             <div class="d-pr-rank-name">${a.title}</div>
-            <div class="d-pr-rank-meta">${a.cat} ／ 公開 ${a.date}</div>
+            <div class="d-pr-rank-meta"><span class="d-pr-tag">${a.cat}</span><span class="d-pr-pub">公開日 2026/${a.date}</span></div>
           </div>
           <div class="d-pr-rank-stat">
             <span class="views"><span class="d-num">${fmt(a._views)}</span><span class="u">閲覧</span></span>
@@ -51446,13 +51489,13 @@ window.toggleLoginPassword = function(btn){
     // 採用情報ランキング（新着順）
     const rRank = document.querySelector('[data-target="recruit-rank"]');
     if(rRank){
-      const items = PR_RECRUIT.slice(0, 5);
+      const items = PR_RECRUIT.slice(0, 20);
       rRank.innerHTML = items.map((r, i) => `
         <li class="d-pr-rank-item">
           <span class="d-pr-rank-no">${i+1}</span>
           <div class="d-pr-rank-body">
             <div class="d-pr-rank-name">${r.title}</div>
-            <div class="d-pr-rank-meta">${r.type} ／ 公開 ${r.date}</div>
+            <div class="d-pr-rank-meta"><span class="d-pr-tag">${r.type}</span><span class="d-pr-pub">公開日 2026/${r.date}</span></div>
           </div>
           <div class="d-pr-rank-stat">
             <span class="views"><span class="d-num">${fmt(mult(r.views, m))}</span><span class="u">閲覧</span></span>
@@ -51465,13 +51508,13 @@ window.toggleLoginPassword = function(btn){
       const items = PR_VIDEOS
         .map(v => Object.assign({}, v, { _views: mult(v.views, m) }))
         .sort((a,b) => b._views - a._views)
-        .slice(0, 5);
+        .slice(0, 20);
       vRank.innerHTML = items.map((v, i) => `
         <li class="d-pr-rank-item">
           <span class="d-pr-rank-no">${i+1}</span>
           <div class="d-pr-rank-body">
             <div class="d-pr-rank-name">${v.title}</div>
-            <div class="d-pr-rank-meta">${v.cat} ／ 公開 ${v.date} ／ 完了 ${v.completion}%</div>
+            <div class="d-pr-rank-meta"><span class="d-pr-tag">${v.cat}</span><span class="d-pr-pub">公開日 2026/${v.date}</span><span class="d-pr-pub">完了 ${v.completion}%</span></div>
           </div>
           <div class="d-pr-rank-stat">
             <span class="views"><span class="d-num">${fmt(v._views)}</span><span class="u">再生</span></span>
