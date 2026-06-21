@@ -22831,6 +22831,8 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .news-list li+li,#page-top.dash-page .act-list li+li{border-top-color:#f0f3f1}
 #page-top.dash-page .news-list .t{font-size:13px;line-height:1.6;letter-spacing:.025em}
 #page-top.dash-page .news-list .d{font-size:12px;color:#6b7670}
+#page-top.dash-page .news-more{flex:none;font-size:12px;font-weight:700;color:#1d8b56;text-decoration:none;white-space:nowrap;letter-spacing:.02em}
+#page-top.dash-page .news-more:hover{color:#115A36;text-decoration:underline}
 #page-top.dash-page .news-list .rstat{font-size:12px}
 #page-top.dash-page .news-badge{font-size:12px;letter-spacing:.02em}
 #page-top.dash-page .act-main .a{font-size:13px;line-height:1.6;letter-spacing:.025em}
@@ -22861,16 +22863,16 @@ body.on-login-page{overflow:hidden}
   <section class="dc dash-news">
     <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
     <ul class="news-list">
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">【重要】6/22(日) 2:00〜4:00 にシステムメンテナンスを実施します。時間中は一部機能をご利用いただけません</span><span class="rstat">未読</span><span class="d">2026/06/16</span></li>
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">新機能リリース情報「メッセージ未読・既読機能」を10月25日（予定）にリリースします</span><span class="rstat">未読</span><span class="d">2026/06/13</span></li>
-      <li class="unread"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">6月の操作説明ウェビナー（オンライン）の参加お申込みを受付中です。ぜひご参加ください</span><span class="rstat">未読</span><span class="d">2026/06/11</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました。掲載手順は本ガイドをご確認ください</span><span class="rstat">既読</span><span class="d">2026/06/09</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">スカウトメールのテンプレート機能を追加しました。よく使う文面を保存・呼び出しできます</span><span class="rstat">既読</span><span class="d">2026/06/05</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="t">5/30 に実施した緊急メンテナンスは完了しました。ご協力いただきありがとうございました</span><span class="rstat">既読</span><span class="d">2026/06/02</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">利用規約改定のお知らせ（2026年7月1日施行）。主な変更点を本ページにてご確認ください</span><span class="rstat">既読</span><span class="d">2026/05/28</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="t">応募者一覧のCSVエクスポート項目を拡張しました。出力するカラムを任意に選択できます</span><span class="rstat">既読</span><span class="d">2026/05/22</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">大型連休期間中のサポート対応についてのご案内。期間中は受付時間が変更となります</span><span class="rstat">既読</span><span class="d">2026/05/18</span></li>
-      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="t">個人情報の取扱いに関するガイドラインを更新しました。ご利用前に必ずご確認ください</span><span class="rstat">既読</span><span class="d">2026/05/12</span></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="d">2026/06/16</span><span class="t">【重要】6/22(日) 2:00〜4:00 にシステムメンテナンスを実施します。時間中は一部機能をご利用いただけません</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="d">2026/06/13</span><span class="t">新機能リリース情報「メッセージ未読・既読機能」を10月25日（予定）にリリースします</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="unread"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="d">2026/06/11</span><span class="t">6月の操作説明ウェビナー（オンライン）の参加お申込みを受付中です。ぜひご参加ください</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="d">2026/06/09</span><span class="t">採用説明会イベント掲載機能のご利用ガイドを公開しました。掲載手順は本ガイドをご確認ください</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="d">2026/06/05</span><span class="t">スカウトメールのテンプレート機能を追加しました。よく使う文面を保存・呼び出しできます</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="d">2026/06/02</span><span class="t">5/30 に実施した緊急メンテナンスは完了しました。ご協力いただきありがとうございました</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="d">2026/05/28</span><span class="t">利用規約改定のお知らせ（2026年7月1日施行）。主な変更点を本ページにてご確認ください</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="d">2026/05/22</span><span class="t">応募者一覧のCSVエクスポート項目を拡張しました。出力するカラムを任意に選択できます</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="d">2026/05/18</span><span class="t">大型連休期間中のサポート対応についてのご案内。期間中は受付時間が変更となります</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
+      <li class="read"><span class="ndot"></span><span class="news-badge nb-info">お知らせ</span><span class="d">2026/05/12</span><span class="t">個人情報の取扱いに関するガイドラインを更新しました。ご利用前に必ずご確認ください</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
     </ul>
   </section>
 
