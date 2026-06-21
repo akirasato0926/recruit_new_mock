@@ -18886,7 +18886,7 @@ body.on-login-page{overflow:hidden}
 .p07-msg-reason-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#F2F2F2;color:#767676;border:1px solid #E6E6E6;margin-left:6px;white-space:nowrap}
 
 /* ═══ 求人別ダッシュボード（#d-section-overall 再構成）═══ */
-.jd-selectbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.jd-selectbar{display:flex;align-items:center;gap:12px;flex-wrap:nowrap;flex:0 0 auto}
 .jd-select-btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;background:#115A36;color:#fff;border:none;border-radius:8px;font-family:'Inter','Noto Sans JP',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
 .jd-select-btn:hover{background:#0c472a}
 .jd-select-btn svg{width:16px;height:16px}
@@ -26933,15 +26933,13 @@ body.on-login-page{overflow:hidden}
           <div class="d-board-head-text">
             <h2 class="d-board-title" id="d-sec-overall">求人別ダッシュボード</h2>
           </div>
-        </div>
-
-        <!-- 求人選択バー -->
-        <div class="jd-selectbar">
-          <button type="button" class="jd-select-btn" onclick="jdOpenModal()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            求人を選択
-          </button>
-          <span class="jd-select-status">選択中：<strong id="jd-select-status-text">全8求人</strong></span>
+          <div class="jd-selectbar">
+            <span class="jd-select-status">選択中：<strong id="jd-select-status-text">全8求人</strong></span>
+            <button type="button" class="jd-select-btn" onclick="jdOpenModal()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              求人を選択
+            </button>
+          </div>
         </div>
 
         <!-- 2列×3行グリッド -->
@@ -50298,7 +50296,7 @@ window.toggleLoginPassword = function(btn){
 @media (max-width:720px){ #page-analytics .dn-flow-stage{ font-size:10.5px; } #page-analytics .dn-step-lbl{ flex:0 0 96px; } }
 /* 強調（ソフトパルス）：単色グリーンのリングがゆっくり明滅＝呼吸。点滅ではない。prefers-reduced-motionで停止し静的リングに。 */
 #page-analytics .dn-emph{ position:relative; }
-#page-analytics #d-section-overall .d-board-head{ margin-bottom:8px; }
+#page-analytics #d-section-overall .d-board-head{ margin-bottom:8px; align-items:center; }
 #page-analytics .dn-emph::after{ content:''; position:absolute; inset:-2px; border-radius:inherit; pointer-events:none; border:2px solid #259D63; opacity:0; animation:dnEmphPulse 1.8s ease-in-out infinite; }
 @keyframes dnEmphPulse{ 0%,100%{ opacity:0; } 50%{ opacity:.85; } }
 @media (prefers-reduced-motion: reduce){ #page-analytics .dn-emph::after{ animation:none; opacity:.6; } }/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
