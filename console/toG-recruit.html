@@ -22730,13 +22730,14 @@ body.on-login-page{overflow:hidden}
 <div id="page-top" class="page-container dash-page" data-page="top">
 <style>
 #page-top.dash-page{background:#fff;min-height:100vh}
-#page-top.dash-page .dash-wrap{padding:22px 26px 40px;max-width:1440px;margin:0 auto}
+#page-top.dash-page .dash-wrap{padding:16px 26px 40px;max-width:1440px;margin:0 auto}
 #page-top.dash-page .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px}
 #page-top.dash-page .dash-head h1{font-size:22px;font-weight:800;color:#1A1A1A;margin:0}
 #page-top.dash-page .dash-date{font-size:13px;color:#767676;font-weight:700}
 #page-top.dash-page .dc{background:#fff;border:1px solid #e3eae6;border-radius:14px;box-shadow:0 1px 3px rgba(16,60,38,.05)}
 #page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
-#page-top.dash-page .dc-h svg{width:18px;height:18px;color:#115A36;flex:none}
+#page-top.dash-page .dc-h svg{width:18px;height:18px;color:#115A36;flex:none;display:block}
+#page-top.dash-page .dc-h svg,#page-top.dash-page .act-ic svg{stroke-linecap:round;stroke-linejoin:round}
 #page-top.dash-page .dc-h .dc-sub{font-size:11px;font-weight:700;color:#909a94}
 #page-top.dash-page .dc-h .unread-chip{font-size:11px;font-weight:800;color:#115A36;background:#e6f5ec;border-radius:999px;padding:2px 9px}
 #page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#115A36;text-decoration:none;white-space:nowrap}
@@ -22747,6 +22748,8 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .news-list li+li{border-top:1px solid #f1f5f3}
 #page-top.dash-page .ndot{width:8px;height:8px;border-radius:50%;flex:none}
 #page-top.dash-page .news-list li.unread .ndot{background:#115A36}
+@keyframes ndotPulse{0%{box-shadow:0 0 0 0 rgba(17,90,54,.55);opacity:1}70%{box-shadow:0 0 0 5px rgba(17,90,54,0);opacity:.55}100%{box-shadow:0 0 0 0 rgba(17,90,54,0);opacity:1}}
+#page-top.dash-page .news-list li.unread .ndot{animation:ndotPulse 1.5s ease-out infinite}
 #page-top.dash-page .news-list li.read .ndot{background:#fff;border:1.5px solid #d4dcd7;box-sizing:border-box}
 #page-top.dash-page .news-badge{flex:none;width:68px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font-size:11px;font-weight:800;padding:3px 0;border-radius:999px}
 #page-top.dash-page .nb-info{background:#e6f5ec;color:#115A36}
@@ -22857,11 +22860,9 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .news-badge{font-weight:700}
 </style>
 <div class="dash-wrap">
-  <div class="dash-head"><h1>トップページ</h1><span class="dash-date">2026年6月17日（水）</span></div>
-
   <!-- 1段目: 運営からのお知らせ（横長・スクロール） -->
   <section class="dc dash-news">
-    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 0 1-5.8-1.6"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
+    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
     <ul class="news-list">
       <li class="unread"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="d">2026/06/16</span><span class="t">【重要】6/22(日) 2:00〜4:00 にシステムメンテナンスを実施します。時間中は一部機能をご利用いただけません</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
       <li class="unread"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="d">2026/06/13</span><span class="t">新機能リリース情報「メッセージ未読・既読機能」を10月25日（予定）にリリースします</span><a class="news-more" href="#" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}return false;">詳細はこちら ›</a></li>
@@ -22879,21 +22880,21 @@ body.on-login-page{overflow:hidden}
   <!-- 2段目: 最近のアクティビティ / 募集中の求人情報 -->
   <div class="dash-row2">
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>最近のアクティビティ</div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5l3.5 2"/></svg>最近のアクティビティ</div>
       <div class="dc-body">
         <ul class="act-list">
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>に新規応募が <b>3件</b> 届きました</div><div class="tm">10分前</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="8" cy="7" r="4"/><path d="M18 8v6M21 11h-6"/></svg></span><div class="act-main"><div class="a"><b>一般事務職（大学卒業程度）</b>に新規応募が <b>3件</b> 届きました</div><div class="tm">10分前</div></div></li>
           <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><div class="act-main"><div class="a">スカウトに <b>2名</b> から返信がありました</div><div class="tm">1時間前</div></div></li>
           <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg></span><div class="act-main"><div class="a"><b>土木技師（経験者採用枠）</b>を公開しました</div><div class="tm">3時間前</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v12H5.2L4 17.2z"/></svg></span><div class="act-main"><div class="a">記事「先輩職員インタビュー」が <b>1,240回</b> 閲覧されました</div><div class="tm">昨日</div></div></li>
-          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><div class="act-main"><div class="a"><b>保育士</b>の1次面接日程が確定しました（4名）</div><div class="tm">昨日</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span><div class="act-main"><div class="a">記事「先輩職員インタビュー」が <b>1,240回</b> 閲覧されました</div><div class="tm">昨日</div></div></li>
+          <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M9 15l2 2 4-4"/></svg></span><div class="act-main"><div class="a"><b>保育士</b>の1次面接日程が確定しました（4名）</div><div class="tm">昨日</div></div></li>
           <li><span class="act-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span><div class="act-main"><div class="a">新規フォロワーが <b>18名</b> 増えました</div><div class="tm">2日前</div></div></li>
         </ul>
       </div>
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>募集中の求人情報<span class="dc-sub">締切が近い順</span><a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12.5h18"/></svg>募集中の求人情報<span class="dc-sub">締切が近い順</span><a class="more" href="#" onclick="if(window.showPage){showPage('03');}return false;">求人管理 ›</a></div>
       <div class="dc-body" style="padding:0">
         <table class="jt">
           <colgroup><col class="c-name"><col class="c-cat"><col class="c-num"><col class="c-num"><col class="c-num"><col class="c-num"></colgroup>
@@ -22918,7 +22919,7 @@ body.on-login-page{overflow:hidden}
   <!-- 3段目: フォロワー数の推移 / 流入経路 / 応募者属性 -->
   <div class="dash-row3">
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/></svg>フォロワー数の推移<span class="dc-sub">直近30日</span></div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 7-7"/><path d="M17 8h4v4"/></svg>フォロワー数の推移<span class="dc-sub">直近30日</span></div>
       <div class="ch-body">
         <div class="ch-stats">
           <div class="ch-stat"><span class="lbl">現在のフォロワー数</span><span class="val">5,240<span class="u">人</span></span></div>
@@ -22960,7 +22961,7 @@ body.on-login-page{overflow:hidden}
     </section>
 
     <section class="dc">
-      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>応募者属性<span class="dc-sub">募集中の求人</span></div>
+      <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>応募者属性<span class="dc-sub">募集中の求人</span></div>
       <div class="ch-body ch-donut">
         <div class="donut-wrap">
           <svg class="donut" viewBox="0 0 120 120" role="img" aria-label="応募者の年代内訳（直近30日）">
