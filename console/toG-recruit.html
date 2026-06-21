@@ -18892,6 +18892,8 @@ body.on-login-page{overflow:hidden}
 .jd-select-btn svg{width:16px;height:16px}
 .jd-select-status{font-size:13px;color:#767676}
 .jd-select-status strong{color:#1A1A1A;font-weight:700}
+.jd-period-label{font-size:12px;color:#767676;white-space:nowrap}
+.jd-period-select{height:38px}
 .jd-grid{display:grid;grid-template-columns:60% 40%;align-items:stretch;gap:12px}
 .jd-cell{min-width:0}
 .jd-card{background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:16px;display:flex;flex-direction:column}
@@ -26770,18 +26772,6 @@ body.on-login-page{overflow:hidden}
             <button class="d-tab d-tab-active" role="tab" aria-selected="true" onclick="dSwitchAnalyticsTab('self',this)">自団体分析</button>
             <button class="d-tab" role="tab" aria-selected="false" onclick="dSwitchAnalyticsTab('network',this)">他団体比較</button>
           </nav>
-          <div class="d-page-head-filter">
-            <label class="d-filter-label" for="d-fp-global">期間</label>
-            <select class="d-select" id="d-fp-global" onchange="dApplyGlobalFilter()">
-              <option value="fy">令和8年度</option>
-              <option value="fy-1">令和7年度</option>
-              <option value="fy-2">令和6年度</option>
-              <option value="3m">直近3ヶ月</option>
-              <option value="1m">直近1ヶ月</option>
-              <option value="1w">直近1週間</option>
-            </select>
-            <button class="d-filter-reset" onclick="dResetGlobalFilter()">リセット</button>
-          </div>
         </div>
       </header>
 
@@ -26934,6 +26924,12 @@ body.on-login-page{overflow:hidden}
             <h2 class="d-board-title" id="d-sec-overall">求人別ダッシュボード</h2>
           </div>
           <div class="jd-selectbar">
+            <label class="jd-period-label" for="jd-period">年度</label>
+            <select class="d-select jd-period-select" id="jd-period" onchange="dApplyGlobalFilter()">
+              <option value="fy" selected>令和8年度</option>
+              <option value="fy-1">令和7年度</option>
+              <option value="fy-2">令和6年度</option>
+            </select>
             <span class="jd-select-status">選択中：<strong id="jd-select-status-text">全8求人</strong></span>
             <button type="button" class="jd-select-btn" onclick="jdOpenModal()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -51494,7 +51490,7 @@ window.toggleLoginPassword = function(btn){
   // フィルタハンドラ
   // ============================================================
   function currentPeriod(){
-    const el = document.getElementById('d-fp-global');
+    const el = document.getElementById('jd-period');
     return el ? el.value : 'fy';
   }
   function currentJob(){
