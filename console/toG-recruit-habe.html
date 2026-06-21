@@ -18926,12 +18926,13 @@ body.on-login-page{overflow:hidden}
 .jd-inflow{flex-direction:row;align-items:center;gap:18px}
 .jd-donut-wrap{flex-shrink:0;width:150px;height:150px}
 .jd-donut-svg{width:100%;height:100%;transform:rotate(0)}
-.jd-donut-legend{list-style:none;margin:0;padding:0;flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
-.jd-donut-legend li{display:flex;align-items:center;gap:8px;font-size:12px;color:#333}
+.jd-donut-legend{list-style:none;margin:0;padding:0;flex:1;min-width:0;min-height:0;max-height:150px;overflow-y:auto;display:block}
+.jd-donut-legend li{display:flex;align-items:center;gap:8px;font-size:12px;padding:6px 0}
+.jd-donut-legend li + li{border-top:1px solid #F2F2F2}
 .jd-donut-legend .dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
-.jd-donut-legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#767676}
-.jd-donut-legend .val{font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif;white-space:nowrap}
-.jd-donut-legend .val .u{font-size:11px;font-weight:400;color:#767676;margin-left:2px}
+.jd-donut-legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1A1A1A}
+.jd-donut-legend .val{margin-left:auto;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums}
+.jd-donut-legend .val .u{font-size:10px;font-weight:600;color:#767676;margin-left:2px}
 /* 辞退理由（横バー） */
 .jd-reason-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center}
 .jd-reason-row{}
@@ -50795,8 +50796,15 @@ window.toggleLoginPassword = function(btn){
     'j-r8-ict':84,'j-r8-elec':90,'j-r8-health':70,'j-r8-nursery':75
   };
   // 辞退理由（比率）→ 総辞退×比率で人数化、多い順
+  const JD_SOURCE = [
+    ['自治体公式サイト',0.24,'#115A36'],['検索エンジン（Google等）',0.17,'#1E7F4F'],
+    ['SNS（Instagram）',0.12,'#259D63'],['SNS（X / Twitter）',0.10,'#3FAE78'],
+    ['求人・転職媒体',0.09,'#51B883'],['提携メディア',0.08,'#6BC394'],
+    ['採用イベント・説明会',0.07,'#9BD4B5'],['動画（YouTube等）',0.05,'#C2E5D1'],
+    ['Web広告',0.04,'#8A938D'],['その他・直接',0.04,'#CCCCCC']
+  ];
   const JD_REASON = [
-    ['国機関（国家公務員等）',0.28,'#C0392B'],['都道府県庁',0.22,'#D35F52'],['民間企業',0.18,'#E08879'],['進学',0.13,'#EDB4AB'],['その他',0.19,'#CCCCCC']
+    ['他市町村',0.27,'#C0392B'],['国機関（国家公務員等）',0.21,'#D35F52'],['都道府県庁',0.16,'#E08879'],['民間企業',0.13,'#EBAFA4'],['進学',0.09,'#F0CFC8'],['不明',0.08,'#B0A8A6'],['その他',0.06,'#CCCCCC']
   ];
   // 選考ステップ別 選考辞退の配分重み（応募→1次/1次→2次/2次→3次/3次→4次/4次→内定）
   const JD_STEP_W = [0.40,0.26,0.17,0.11,0.06];
@@ -51083,7 +51091,10 @@ window.toggleLoginPassword = function(btn){
     const donut = document.getElementById('jd-source-donut');
     const legend = document.getElementById('jd-source-legend');
     if(!donut || !legend) return;
-    const rows = a.sources;
+    const pv = a.pv;
+    const rows = JD_SOURCE.map(c=>({label:c[0], color:c[2], count:Math.round(pv*c[1])}));
+    const ssum = rows.reduce((t,r)=>t+r.count,0)||1;
+    rows.forEach(r=>{ r.pct = 100*r.count/ssum; });
     donut.innerHTML = renderDonutSegments(rows.map(r=>({color:r.color, pct:r.pct})), { strokeWidth:16 });
     attachDonutTooltip(donut, rows);
     legend.innerHTML = rows.map(r => '<li>'
