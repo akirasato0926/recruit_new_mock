@@ -18884,6 +18884,68 @@ body.on-login-page{overflow:hidden}
 .p07-cancel-reason:has(input:checked){border-color:#115A36;background:#E6F5EC}
 .p07-cancel-reason:has(input:checked) span{color:#115A36;font-weight:700}
 .p07-msg-reason-tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:#F2F2F2;color:#767676;border:1px solid #E6E6E6;margin-left:6px;white-space:nowrap}
+
+/* ═══ 求人別ダッシュボード（#d-section-overall 再構成）═══ */
+.jd-selectbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.jd-select-btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 18px;background:#115A36;color:#fff;border:none;border-radius:8px;font-family:'Inter','Noto Sans JP',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
+.jd-select-btn:hover{background:#0c472a}
+.jd-select-btn svg{width:16px;height:16px}
+.jd-select-status{font-size:13px;color:#767676}
+.jd-select-status strong{color:#1A1A1A;font-weight:700}
+.jd-grid{display:grid;grid-template-columns:60% 40%;align-items:stretch;gap:12px}
+.jd-cell{min-width:0}
+.jd-card{background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:16px;display:flex;flex-direction:column}
+.jd-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px}
+.jd-card-title{font-size:16px;font-weight:700;color:#1A1A1A;margin:0}
+.jd-chart{flex:1;display:flex;flex-direction:column;min-height:0}
+/* KPIカード群 */
+.jd-kpi5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.jd-kpi2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.jd-kpi{background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:14px 14px;display:flex;flex-direction:column;justify-content:center}
+.jd-kpi-label{font-size:12px;color:#767676;margin:0 0 6px;line-height:1.3}
+.jd-kpi-value{font-size:24px;font-weight:700;color:#1A1A1A;margin:0;line-height:1.1;font-family:'Inter','Noto Sans JP',sans-serif}
+.jd-kpi-value.pos{color:#115A36}
+.jd-kpi-u{font-size:13px;font-weight:700;color:#767676;margin-left:3px}
+/* ミニカード（採用倍率/採用率・選考辞退/内定辞退） */
+.jd-minicards{display:flex;gap:8px;flex-shrink:0}
+.jd-minicard{display:flex;align-items:baseline;gap:6px;background:#F2F2F2;border:1px solid #E6E6E6;border-radius:6px;padding:6px 10px;white-space:nowrap}
+.jd-minicard-lb{font-size:12px;color:#767676}
+.jd-minicard-vl{font-size:14px;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif}
+.jd-minicard.neg .jd-minicard-vl{color:#CE0000}
+/* 縦棒チャート（ファネル／ステップ辞退） */
+.jd-bars{display:flex;align-items:flex-end;gap:8px;flex:1;min-height:0}
+.jd-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
+.jd-bar-area{flex:1;width:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.jd-bar-num{font-size:13px;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif;margin-bottom:4px;line-height:1}
+.jd-bar{width:84%;max-width:48px;border-radius:4px 4px 0 0;min-height:3px;transition:height .6s ease}
+.jd-bar.decl{max-width:44px;background:#C0392B}
+.jd-bar-label{font-size:12px;color:#767676;margin-top:6px;text-align:center;line-height:1.25;word-break:keep-all}
+.jd-funnel-bars .jd-bar-area{min-height:150px}
+.jd-step-bars .jd-bar-area{min-height:96px}
+/* 流入経路ドーナツ */
+.jd-inflow{flex-direction:row;align-items:center;gap:18px}
+.jd-donut-wrap{flex-shrink:0;width:150px;height:150px}
+.jd-donut-svg{width:100%;height:100%;transform:rotate(0)}
+.jd-donut-legend{list-style:none;margin:0;padding:0;flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.jd-donut-legend li{display:flex;align-items:center;gap:8px;font-size:12px;color:#333}
+.jd-donut-legend .dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.jd-donut-legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#767676}
+.jd-donut-legend .val{font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif;white-space:nowrap}
+.jd-donut-legend .val .u{font-size:11px;font-weight:400;color:#767676;margin-left:2px}
+/* 辞退理由（横バー） */
+.jd-reason-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center}
+.jd-reason-row{}
+.jd-reason-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.jd-reason-nm{font-size:13px;color:#333}
+.jd-reason-vl{font-size:13px;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif}
+.jd-reason-bar{height:8px;background:#F2F2F2;border-radius:4px;overflow:hidden}
+.jd-reason-bar i{display:block;height:100%;background:#C0392B;border-radius:4px;transition:width .6s ease}
+@media (max-width:767px){
+  .jd-grid{grid-template-columns:1fr}
+  .jd-kpi5{grid-template-columns:repeat(2,1fr)}
+  .jd-inflow{flex-direction:column;align-items:stretch}
+  .jd-donut-wrap{align-self:center}
+}
 </style>
 </head>
 <body>
@@ -26868,121 +26930,98 @@ body.on-login-page{overflow:hidden}
       <section class="d-section d-board d-board-overall" aria-labelledby="d-sec-overall" id="d-section-overall">
         <div class="d-board-head">
           <div class="d-board-head-text">
-            <h2 class="d-board-title" id="d-sec-overall">採用全体ダッシュボード</h2>
+            <h2 class="d-board-title" id="d-sec-overall">求人別ダッシュボード</h2>
+            <p class="d-board-sub">公開求人ごとの採用情報を1画面で確認。複数選択で平均／合計を表示</p>
           </div>
         </div>
 
-        <!-- KPIストリップ -->
-        <div class="d-kpi-strip" style="margin-bottom: 16px">
-          <div class="d-kpi">
-            <p class="d-kpi-label">採用目標</p>
-            <p class="d-kpi-value"><span class="d-num" data-ov="target">28</span><span class="d-u">名</span></p>
-            <p class="d-kpi-delta neu">令和8年度</p>
-          </div>
-          <div class="d-kpi">
-            <p class="d-kpi-label">採用承諾</p>
-            <p class="d-kpi-value"><span class="d-num" data-ov="accepted">26</span><span class="d-u">名</span></p>
-            <p class="d-kpi-delta pos">前年比 +<span class="d-num">5</span>名</p>
-          </div>
-          <div class="d-kpi">
-            <p class="d-kpi-label">累計応募数</p>
-            <p class="d-kpi-value"><span class="d-num" data-ov="apps">874</span><span class="d-u">件</span></p>
-            <p class="d-kpi-delta pos">前年比 +<span class="d-num">38.5</span>%</p>
-          </div>
-          <div class="d-kpi">
-            <p class="d-kpi-label">充足率</p>
-            <p class="d-kpi-value"><span class="d-num" id="d-kpi-rate-val">93</span><span class="d-u">%</span></p>
-            <p class="d-kpi-delta pos">採用目標 <span class="d-num" id="d-kpi-rate-goal">28</span>名中 <span class="d-num" id="d-kpi-rate-actual">26</span>名</p>
-          </div>
+        <!-- 求人選択バー -->
+        <div class="jd-selectbar">
+          <button type="button" class="jd-select-btn" onclick="jdOpenModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            求人を選択
+          </button>
+          <span class="jd-select-status">選択中：<strong id="jd-select-status-text">全8求人</strong></span>
         </div>
 
-        <!-- 採用ファネル -->
-        <div class="d-subsection">
-          <h3 class="d-subsection-title">採用ファネル</h3>
-          <div class="d-funnel" id="d-funnel-active">
-            <div class="d-funnel-stage" data-em="true" data-stage="entry">
-              <p class="d-funnel-label">エントリー</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="entry">874</span><span class="d-u">件</span></p>
+        <!-- 2列×3行グリッド -->
+        <div class="jd-grid">
+          <!-- 行1 左：KPI5枚 -->
+          <div class="jd-cell jd-kpi5">
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">採用目標</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-target">28</span><span class="jd-kpi-u">名</span></p>
             </div>
-            <div class="d-funnel-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">応募数</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-apps">874</span><span class="jd-kpi-u">件</span></p>
             </div>
-            <div class="d-funnel-stage" data-stage="s1">
-              <p class="d-funnel-label">1次選考</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s1">485</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s1-rate">55.5</span>%</p>
-              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s1">42</span>名</p>
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">内定数</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-naitei">26</span><span class="jd-kpi-u">名</span></p>
             </div>
-            <div class="d-funnel-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">充足率</p>
+              <p class="jd-kpi-value pos"><span class="d-num" id="jd-kpi-fill">93</span><span class="jd-kpi-u">%</span></p>
             </div>
-            <div class="d-funnel-stage" data-stage="s2">
-              <p class="d-funnel-label">2次選考</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s2">218</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s2-rate">44.9</span>%</p>
-              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s2">24</span>名</p>
-            </div>
-            <div class="d-funnel-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-            <div class="d-funnel-stage" data-stage="s3">
-              <p class="d-funnel-label">3次選考</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s3">98</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s3-rate">45.0</span>%</p>
-              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s3">16</span>名</p>
-            </div>
-            <div class="d-funnel-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-            <div class="d-funnel-stage" data-stage="s4">
-              <p class="d-funnel-label">4次選考</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="s4">42</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="s4-rate">42.9</span>%</p>
-              <p class="d-funnel-decline">辞退 <span class="d-num" data-decl="s4">12</span>名</p>
-            </div>
-            <div class="d-funnel-arrow" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-            <div class="d-funnel-stage" data-em="true" data-stage="naitei">
-              <p class="d-funnel-label">内定</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="naitei">26</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate">通過率 <span class="d-num d-funnel-rate-num" data-key="naitei-rate">61.9</span>%</p>
-            </div>
-            <div class="d-funnel-divider" aria-hidden="true"></div>
-            <div class="d-funnel-stage neg" data-stage="select-decline">
-              <p class="d-funnel-label">選考辞退</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="select-decline">94</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate danger">候補者都合</p>
-            </div>
-            <div class="d-funnel-stage neg" data-stage="offer-decline">
-              <p class="d-funnel-label">内定辞退</p>
-              <p class="d-funnel-value"><span class="d-num d-funnel-num" data-key="offer-decline">16</span><span class="d-u">名</span></p>
-              <p class="d-funnel-rate danger">承諾前辞退</p>
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">選考スピード</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-speed">81</span><span class="jd-kpi-u">日</span></p>
             </div>
           </div>
-        </div>
+          <!-- 行1 右：KPI2枚 -->
+          <div class="jd-cell jd-kpi2">
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">求人ページPV</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-pv">12,848</span></p>
+            </div>
+            <div class="jd-kpi">
+              <p class="jd-kpi-label">訪問者数（UU）</p>
+              <p class="jd-kpi-value"><span class="d-num" id="jd-kpi-uu">5,139</span></p>
+            </div>
+          </div>
 
-        <!-- 流入経路 + 応募者属性 (2分割：高さ揃え) -->
-        <div class="d-overall-grid d-overall-2col">
-          <!-- カード：応募者属性・年代別 -->
-          <div class="d-subsection d-attr-card">
-            <h3 class="d-subsection-title">応募者属性・年代別</h3>
-            <div class="d-donut-block vertical">
-              <div class="d-donut-wrap">
-                <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="age-donut" aria-hidden="true"></svg>
+          <!-- 行2 左：採用ファネル -->
+          <div class="jd-cell jd-card">
+            <div class="jd-card-head">
+              <h3 class="jd-card-title">採用ファネル</h3>
+              <div class="jd-minicards">
+                <div class="jd-minicard"><span class="jd-minicard-lb">採用倍率</span><span class="jd-minicard-vl"><span class="d-num" id="jd-ratio">33.6</span>倍</span></div>
+                <div class="jd-minicard"><span class="jd-minicard-lb">採用率</span><span class="jd-minicard-vl"><span class="d-num" id="jd-acceptrate">3.0</span>%</span></div>
               </div>
-              <ul class="d-donut-legend" data-target="age-legend"></ul>
+            </div>
+            <div class="jd-chart" id="jd-funnel"></div>
+          </div>
+          <!-- 行2 右：流入経路 -->
+          <div class="jd-cell jd-card">
+            <div class="jd-card-head">
+              <h3 class="jd-card-title">流入経路</h3>
+            </div>
+            <div class="jd-chart jd-inflow">
+              <div class="jd-donut-wrap">
+                <svg class="jd-donut-svg" viewBox="0 0 100 100" id="jd-source-donut" aria-hidden="true"></svg>
+              </div>
+              <ul class="jd-donut-legend" id="jd-source-legend"></ul>
             </div>
           </div>
-          <!-- カード3：応募者属性・居住地別 -->
-          <div class="d-subsection d-attr-card">
-            <h3 class="d-subsection-title">応募者属性・居住地別</h3>
-            <div class="d-donut-block vertical">
-              <div class="d-donut-wrap">
-                <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="loc-donut" aria-hidden="true"></svg>
+
+          <!-- 行3 左：選考ステップ別の辞退者数 -->
+          <div class="jd-cell jd-card">
+            <div class="jd-card-head">
+              <h3 class="jd-card-title">選考ステップ別の辞退者数</h3>
+              <div class="jd-minicards">
+                <div class="jd-minicard neg"><span class="jd-minicard-lb">選考辞退</span><span class="jd-minicard-vl"><span class="d-num" id="jd-seldecl">94</span>名</span></div>
+                <div class="jd-minicard neg"><span class="jd-minicard-lb">内定辞退</span><span class="jd-minicard-vl"><span class="d-num" id="jd-ofdecl">16</span>名</span></div>
               </div>
-              <ul class="d-donut-legend" data-target="loc-legend"></ul>
             </div>
+            <div class="jd-chart" id="jd-stepdecl"></div>
+          </div>
+          <!-- 行3 右：辞退理由 -->
+          <div class="jd-cell jd-card">
+            <div class="jd-card-head">
+              <h3 class="jd-card-title">辞退理由</h3>
+            </div>
+            <div class="jd-chart"><ul class="jd-reason-list" id="jd-reason-list"></ul></div>
           </div>
         </div>
       </section>
@@ -28199,6 +28238,47 @@ body.on-login-page{overflow:hidden}
 <!-- ═══════════════════════════════════════════════════════ -->
 <!-- 求人選択モーダル（分析対象として複数選択） -->
 <!-- ═══════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- 求人別ダッシュボード 求人選択モーダル（jd-接頭辞） -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div id="jd-job-select-modal" class="an-modal" role="dialog" aria-modal="true">
+  <div class="an-modal-backdrop" onclick="jdCloseModal()"></div>
+  <div class="an-modal-box" style="max-width:580px">
+    <div class="an-modal-head">
+      <div class="an-modal-head-left">
+        <div class="an-modal-head-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div style="flex:1;min-width:0">
+          <h2 class="an-modal-title">求人を選択</h2>
+          <p class="an-modal-desc">ダッシュボードに表示する公開求人を選択してください（複数選択可）</p>
+        </div>
+      </div>
+      <button class="an-modal-close" onclick="jdCloseModal()" aria-label="閉じる">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="an-modal-body">
+      <div class="an-job-select-count-display">
+        公開中の求人 <strong id="jd-select-total">0</strong> 件
+      </div>
+      <div class="an-job-select-list" id="jd-select-list"></div>
+    </div>
+    <div class="an-modal-foot">
+      <div class="an-modal-foot-left">
+        <button class="an-modal-btn-sub" onclick="jdSelectAll()">全選択</button>
+      </div>
+      <div class="an-modal-foot-right">
+        <button class="an-modal-btn-sub" onclick="jdCloseModal()">キャンセル</button>
+        <button class="an-modal-btn-primary" onclick="jdConfirm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span id="jd-select-count-btn">0</span>件で確定
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="an-job-select-modal" class="an-modal" role="dialog" aria-modal="true">
   <div class="an-modal-backdrop" onclick="closeJobSelectModal()"></div>
   <div class="an-modal-box" style="max-width:580px">
@@ -50703,6 +50783,22 @@ window.toggleLoginPassword = function(btn){
                       ages:[4,46,28,15,5,2], locs:[44,44,8,4] }
   };
 
+  // 求人別ダッシュボード：補足ダミー
+  // 選考スピード（応募〜内定 平均日数：apps加重平均の素材）
+  const JD_SPEED = {
+    'j-r8-admin-d':72,'j-r8-admin-h':80,'j-r8-civil':95,'j-r8-arch':88,
+    'j-r8-ict':84,'j-r8-elec':90,'j-r8-health':70,'j-r8-nursery':75
+  };
+  // 辞退理由（比率）→ 総辞退×比率で人数化、多い順
+  const JD_REASON = [
+    ['国機関（国家公務員等）',0.28],['都道府県庁',0.22],['民間企業',0.18],['進学',0.13],['その他',0.19]
+  ];
+  // 選考ステップ別 選考辞退の配分重み（応募→1次/1次→2次/2次→3次/3次→4次/4次→内定）
+  const JD_STEP_W = [0.40,0.26,0.17,0.11,0.06];
+  const JD_STEP_LABEL = ['応募→1次','1次→2次','2次→3次','3次→4次','4次→内定','内定後'];
+  // ダッシュボードの選択求人集合（既定=全8件）
+  let jdSelected = Object.keys(JOB_LABEL).slice();
+
   // PR記事 / PR動画 ダミー
   const PR_BASE = {
     article: { count:24, views:18420, time:'2:48', cvr:3.6 },
@@ -50849,69 +50945,206 @@ window.toggleLoginPassword = function(btn){
   }
 
   // ============================================================
-  // ① 採用全体ダッシュボード
+  // ① 求人別ダッシュボード
   // ============================================================
-  function renderOverall(period, animate){
-    const d = getJobData('all', period) || JOB_DATA['all'];
-    // m=1 で all はそのまま。期間スケールは getJobData が処理
-    const dur = animate ? 1100 : 0;
-
-    // 目標は通年。承諾は all の場合は固定。
-    const m = PERIOD_MULT[period] != null ? PERIOD_MULT[period] : 1.0;
-    const target = d.target;
-    const accepted = m === 1.0 ? JOB_DATA['all'].accepted
-                               : Math.min(target, mult(JOB_DATA['all'].accepted, Math.max(m, 0.5)));
-    const apps = d.apps;
-    const rate = target ? Math.round(100 * accepted / target) : 0;
-
-    setNumEl(document.querySelector('#page-analytics [data-ov="target"]'),   target,   dur);
-    setNumEl(document.querySelector('#page-analytics [data-ov="accepted"]'), accepted, dur);
-    setNumEl(document.querySelector('#page-analytics [data-ov="apps"]'),     apps,     dur);
-
-    // 充足率：数値表示のみ
-    setNumEl(document.getElementById('d-kpi-rate-val'),    rate,     dur);
-    setNumEl(document.getElementById('d-kpi-rate-goal'),   target,   dur);
-    setNumEl(document.getElementById('d-kpi-rate-actual'), accepted, dur);
-
-    // ファネル
-    const fnl = document.querySelector('#d-section-overall .d-funnel');
-    if(fnl){
-      setFnl(fnl, 'entry', d.entry, dur);
-      setFnl(fnl, 's1', d.s1, dur);
-      setFnl(fnl, 's2', d.s2, dur);
-      setFnl(fnl, 's3', d.s3, dur);
-      setFnl(fnl, 's4', d.s4, dur);
-      setFnl(fnl, 'naitei', d.naitei, dur);
-      setFnl(fnl, 'select-decline', d.selDecline, dur);
-      setFnl(fnl, 'offer-decline', d.ofDecline, dur);
-      setFnlR(fnl, 's1-rate',     d.entry ? (100 * d.s1 / d.entry) : 0, dur);
-      setFnlR(fnl, 's2-rate',     d.s1    ? (100 * d.s2 / d.s1)    : 0, dur);
-      setFnlR(fnl, 's3-rate',     d.s2    ? (100 * d.s3 / d.s2)    : 0, dur);
-      setFnlR(fnl, 's4-rate',     d.s3    ? (100 * d.s4 / d.s3)    : 0, dur);
-      setFnlR(fnl, 'naitei-rate', d.s4    ? (100 * d.naitei / d.s4): 0, dur);
-    }
-
-    // 流入経路（PV / UU）は renderInflow() が単独所有（期間UIに連動して別途描画）
-
-    // 応募者属性：年代別（6区分）・居住地別（4区分）それぞれドーナツチャート
-    const ageColors = ['#115A36', '#259D63', '#51B883', '#9BD4B5', '#767676', '#CCCCCC'];
-    const locColors = ['#115A36', '#259D63', '#51B883', '#9BD4B5'];
-    const ageL = ['10代','20代','30代','40代','50代','60代以上'];
-    const locL = ['市区町村内（地元居住者）','県内他自治体','県外','その他'];
-
-    const ageDonut = document.querySelector('#d-section-overall [data-target="age-donut"]');
-    const ageLegend = document.querySelector('#d-section-overall [data-target="age-legend"]');
-    dHideDonut(ageDonut);
-    if(ageLegend){
-      ageLegend.innerHTML = dRankLis(d.ages.map((v, i) => ({label: ageL[i], num: ''+v, unit: '%', share: v})), '#2E7D54');
-    }
-    const locDonut = document.querySelector('#d-section-overall [data-target="loc-donut"]');
-    const locLegend = document.querySelector('#d-section-overall [data-target="loc-legend"]');
-    dHideDonut(locDonut);
-    if(locLegend){
-      locLegend.innerHTML = dRankLis(d.locs.map((v, i) => ({label: locL[i], num: ''+v, unit: '%', share: v})), '#2E7D54');
-    }
+  // 選択された求人群を集計（件数=Σ、率=Σ分子/Σ分母、属性=apps加重平均、流入=同名合算）
+  function aggregateJobs(ids, period){
+    const list = (ids && ids.length ? ids : Object.keys(JOB_LABEL)).filter(id => JOB_DATA[id]);
+    let target=0, accepted=0, apps=0, entry=0, s1=0, s2=0, s3=0, s4=0, naitei=0, selDecl=0, ofDecl=0;
+    let pv=0, uu=0, speedW=0;
+    const ages=[0,0,0,0,0,0], locs=[0,0,0,0];
+    let weight=0;
+    const srcMap={};
+    list.forEach(id => {
+      const d = getJobData(id, period); if(!d) return;
+      target+=d.target; accepted+=d.accepted; apps+=d.apps; entry+=d.entry;
+      s1+=d.s1; s2+=d.s2; s3+=d.s3; s4+=d.s4; naitei+=d.naitei;
+      selDecl+=d.selDecline; ofDecl+=d.ofDecline;
+      // PV/UV：応募数から換算
+      const jpv = Math.round(d.apps*14.7); pv += jpv; uu += Math.round(jpv*0.4);
+      // 選考スピード：apps加重
+      speedW += (JD_SPEED[id]||0) * (d.apps||0);
+      // 属性：apps加重
+      const w = d.apps || 1;
+      d.ages.forEach((v,i)=>{ ages[i]+=v*w; });
+      d.locs.forEach((v,i)=>{ locs[i]+=v*w; });
+      weight += w;
+      // 流入：同名のPV換算を合算（sourcesの数を集計）
+      d.sources.forEach(s=>{
+        const [label,color,cnt]=s;
+        if(!srcMap[label]) srcMap[label]={label,color,count:0};
+        srcMap[label].count += cnt;
+      });
+    });
+    if(weight>0){ ages.forEach((v,i)=>{ages[i]=Math.round(v/weight);}); locs.forEach((v,i)=>{locs[i]=Math.round(v/weight);}); }
+    const totalSrc = Object.values(srcMap).reduce((a,b)=>a+b.count,0);
+    const sources = Object.values(srcMap).sort((a,b)=>b.count-a.count)
+      .map(s=>({label:s.label,color:s.color,count:s.count,pct: totalSrc ? (100*s.count/totalSrc) : 0}));
+    const speed = apps ? Math.round(speedW/apps) : 0;
+    return { target,accepted,apps,entry,s1,s2,s3,s4,naitei,selDecline:selDecl,ofDecline:ofDecl,pv,uu,speed,ages,locs,sources };
   }
+
+  function jdNum(el, v, dur, isFloat){ setNumEl(el, v, dur, !!isFloat); }
+  function jdSafe(v){ return (isFinite(v) ? v : null); }
+
+  function renderOverall(period, animate){
+    const root = document.getElementById('d-section-overall');
+    if(!root) return;
+    const dur = animate ? 1100 : 0;
+    const a = aggregateJobs(jdSelected, period);
+
+    // 選択中ステータス
+    const stxt = document.getElementById('jd-select-status-text');
+    if(stxt){
+      const n = jdSelected.length;
+      stxt.textContent = (n >= Object.keys(JOB_LABEL).length) ? ('全' + n + '求人')
+                       : (n === 1 ? JOB_LABEL[jdSelected[0]] : (n + '求人'));
+    }
+
+    // 行1 KPI
+    const fill = a.target ? Math.round(100*a.accepted/a.target) : null;
+    jdNum(document.getElementById('jd-kpi-target'), a.target, dur);
+    jdNum(document.getElementById('jd-kpi-apps'),   a.apps,   dur);
+    jdNum(document.getElementById('jd-kpi-naitei'), a.naitei, dur);
+    const fillEl=document.getElementById('jd-kpi-fill');
+    if(fillEl){ if(fill==null){ fillEl.textContent='—'; } else { jdNum(fillEl, fill, dur); } }
+    jdNum(document.getElementById('jd-kpi-speed'),  a.speed,  dur);
+    jdNum(document.getElementById('jd-kpi-pv'),     a.pv,     dur);
+    jdNum(document.getElementById('jd-kpi-uu'),     a.uu,     dur);
+
+    // 行2左 採用ファネル（縦棒）＋ミニカード
+    const ratio = a.naitei ? (a.apps/a.naitei) : null;
+    const acceptRate = a.apps ? (100*a.naitei/a.apps) : null;
+    const ratioEl=document.getElementById('jd-ratio');
+    if(ratioEl){ if(ratio==null){ ratioEl.textContent='—'; } else { jdNum(ratioEl, ratio, dur, true); } }
+    const arEl=document.getElementById('jd-acceptrate');
+    if(arEl){ if(acceptRate==null){ arEl.textContent='—'; } else { jdNum(arEl, acceptRate, dur, true); } }
+    renderJdFunnel(a);
+
+    // 行2右 流入経路（円グラフ＋PV凡例）
+    renderJdSource(a);
+
+    // 行3左 選考ステップ別 辞退者数（縦棒・赤）＋ミニカード
+    const sdEl=document.getElementById('jd-seldecl'); if(sdEl) jdNum(sdEl, a.selDecline, dur);
+    const odEl=document.getElementById('jd-ofdecl'); if(odEl) jdNum(odEl, a.ofDecline, dur);
+    renderJdStepDecline(a);
+
+    // 行3右 辞退理由（横バー・多い順）
+    renderJdReason(a);
+  }
+
+  // 採用ファネル縦棒：薄緑→濃緑
+  function renderJdFunnel(a){
+    const wrap = document.getElementById('jd-funnel'); if(!wrap) return;
+    const stages = [
+      {lb:'応募',  v:a.apps,   u:'件'},
+      {lb:'1次選考',v:a.s1,     u:'名'},
+      {lb:'2次選考',v:a.s2,     u:'名'},
+      {lb:'3次選考',v:a.s3,     u:'名'},
+      {lb:'4次選考',v:a.s4,     u:'名'},
+      {lb:'内定',  v:a.naitei, u:'名'}
+    ];
+    const colors = ['#9BD4B5','#6BC394','#45B377','#2E9E63','#1E7F4F','#115A36'];
+    const max = Math.max.apply(null, stages.map(s=>s.v).concat([1]));
+    wrap.className = 'jd-chart jd-funnel-bars';
+    wrap.innerHTML = '<div class="jd-bars">' + stages.map((s,i)=>{
+      const h = Math.max(3, Math.round(150*s.v/max));
+      return '<div class="jd-bar-col"><div class="jd-bar-area">'
+        + '<span class="jd-bar-num">'+fmt(s.v)+'</span>'
+        + '<div class="jd-bar" style="height:'+h+'px;background:'+colors[i]+'"></div>'
+        + '</div><div class="jd-bar-label">'+s.lb+'</div></div>';
+    }).join('') + '</div>';
+  }
+
+  // 選考ステップ別 辞退者数（縦棒・赤）
+  function renderJdStepDecline(a){
+    const wrap = document.getElementById('jd-stepdecl'); if(!wrap) return;
+    const sel = a.selDecline;
+    const vals = JD_STEP_W.map(w => Math.round(sel*w));
+    vals.push(a.ofDecline); // 6本目=内定後
+    const max = Math.max.apply(null, vals.concat([1]));
+    wrap.className = 'jd-chart jd-step-bars';
+    wrap.innerHTML = '<div class="jd-bars">' + vals.map((v,i)=>{
+      const h = Math.max(3, Math.round(96*v/max));
+      return '<div class="jd-bar-col"><div class="jd-bar-area">'
+        + '<span class="jd-bar-num">'+fmt(v)+'</span>'
+        + '<div class="jd-bar decl" style="height:'+h+'px"></div>'
+        + '</div><div class="jd-bar-label">'+JD_STEP_LABEL[i]+'</div></div>';
+    }).join('') + '</div>';
+  }
+
+  // 流入経路：円グラフ＋経路別PV凡例
+  function renderJdSource(a){
+    const donut = document.getElementById('jd-source-donut');
+    const legend = document.getElementById('jd-source-legend');
+    if(!donut || !legend) return;
+    const rows = a.sources;
+    donut.innerHTML = renderDonutSegments(rows.map(r=>({color:r.color, pct:r.pct})), { strokeWidth:16 });
+    legend.innerHTML = rows.map(r => '<li>'
+      + '<span class="dot" style="background:'+r.color+'"></span>'
+      + '<span class="nm">'+r.label+'</span>'
+      + '<span class="val"><span class="d-num">'+fmt(r.count)+'</span><span class="u">PV</span></span>'
+      + '</li>').join('');
+  }
+
+  // 辞退理由：横バー（多い順）
+  function renderJdReason(a){
+    const list = document.getElementById('jd-reason-list'); if(!list) return;
+    const total = a.selDecline + a.ofDecline;
+    const rows = JD_REASON.map(r => ({label:r[0], num: Math.round(total*r[1])}))
+      .sort((x,y)=>y.num-x.num);
+    const max = Math.max.apply(null, rows.map(r=>r.num).concat([1]));
+    list.innerHTML = rows.map(r=>{
+      const w = Math.max(2, Math.round(100*r.num/max));
+      return '<li class="jd-reason-row">'
+        + '<div class="jd-reason-top"><span class="jd-reason-nm">'+r.label+'</span>'
+        + '<span class="jd-reason-vl"><span class="d-num">'+r.num+'</span>名</span></div>'
+        + '<div class="jd-reason-bar"><i style="width:'+w+'%"></i></div></li>';
+    }).join('');
+  }
+
+  // ─── 求人選択モーダル（jd-接頭辞）───
+  let jdTempSel = [];
+  function jdRenderList(){
+    const el = document.getElementById('jd-select-list'); if(!el) return;
+    const jobs = (window.__publishedJobs || []).filter(j => JOB_LABEL[j.id]);
+    el.innerHTML = jobs.map(j=>{
+      const on = jdTempSel.includes(j.id);
+      return '<div class="an-job-select-item '+(on?'selected':'')+'" data-jdid="'+j.id+'" onclick="jdToggle(\''+j.id+'\')">'
+        + '<div class="an-job-select-checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>'
+        + '<div class="an-job-select-body"><div class="an-job-select-title">'+JOB_LABEL[j.id]+'</div>'
+        + '<div class="an-job-select-meta"><span class="an-job-select-meta-item">応募者 <strong>'+j.applicants+'</strong>名</span>'
+        + '<span class="an-job-select-meta-item">試験日 '+j.exam+'</span></div></div>'
+        + '<span class="an-job-select-type">'+j.type+'</span></div>';
+    }).join('');
+  }
+  function jdUpdateCount(){ const el=document.getElementById('jd-select-count-btn'); if(el) el.textContent=jdTempSel.length; }
+  window.jdOpenModal = function(){
+    jdTempSel = jdSelected.slice();
+    jdRenderList();
+    const total = (window.__publishedJobs||[]).filter(j=>JOB_LABEL[j.id]).length;
+    const tEl=document.getElementById('jd-select-total'); if(tEl) tEl.textContent=total;
+    jdUpdateCount();
+    const m=document.getElementById('jd-job-select-modal'); if(m) m.classList.add('show');
+  };
+  window.jdCloseModal = function(){ const m=document.getElementById('jd-job-select-modal'); if(m) m.classList.remove('show'); };
+  window.jdToggle = function(id){
+    const i = jdTempSel.indexOf(id);
+    if(i>=0) jdTempSel.splice(i,1); else jdTempSel.push(id);
+    const item=document.querySelector('#jd-select-list .an-job-select-item[data-jdid="'+id+'"]');
+    if(item) item.classList.toggle('selected');
+    jdUpdateCount();
+  };
+  window.jdSelectAll = function(){
+    jdTempSel = (window.__publishedJobs||[]).filter(j=>JOB_LABEL[j.id]).map(j=>j.id);
+    jdRenderList(); jdUpdateCount();
+  };
+  window.jdConfirm = function(){
+    if(jdTempSel.length === 0){ if(typeof showToast==='function') showToast('1件以上選択してください'); return; }
+    jdSelected = jdTempSel.slice();
+    window.jdCloseModal();
+    renderOverall(currentPeriod(), true);
+  };
 
   // ─────────────────────────────────────────────────
   // 構成比は「順位＋バー」で（ドーナツより最大が一目で分かる）。ドーナツ本体は隠す。
