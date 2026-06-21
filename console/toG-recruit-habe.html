@@ -51520,11 +51520,14 @@ window.toggleLoginPassword = function(btn){
     if(days > 32){ const size = Math.ceil(days / 28); B = []; for(let i = 0; i < days; i += size){ const seg = arr.slice(i, i + size); B.push({ pv: Math.round(seg.reduce((a,b)=>a+b.pv,0)/seg.length), uu: Math.round(seg.reduce((a,b)=>a+b.uu,0)/seg.length), date: seg[seg.length-1].date }); } }
     const n = B.length;
     const W=478,H=400,pl=64,pr=20,pt=28,pb=44,iw=W-pl-pr,ih=H-pt-pb;
-    const maxV = Math.max.apply(null, B.map(b=>b.pv)); const hi = (Math.ceil(maxV/500)*500) || 500;
+    const maxV = Math.max.apply(null, B.map(b=>b.pv));
+    const svStep = (function(span){ var raw=span/4, pow=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/pow, nice=f<=1?1:f<=2?2:f<=5?5:10; return Math.max(1, Math.round(nice*pow)); })(Math.max(1,maxV)*1.12);
+    const hi = Math.max(svStep, Math.ceil(Math.max(1,maxV)*1.12/svStep)*svStep);
+    const svGridN = Math.max(1, Math.round(hi/svStep));
     const X = i => pl + (n<=1 ? iw/2 : iw*i/(n-1));
     const Y = v => pt + ih*(1 - v/hi);
     let svg = '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="1日あたりPV数・UU数の推移">';
-    for(let g=0; g<=4; g++){ const yy = pt + ih*g/4; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/4)).toLocaleString()+'</text>'; }
+    for(let g=0; g<=svGridN; g++){ const yy = pt + ih*g/svGridN; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/svGridN)).toLocaleString()+'</text>'; }
     const pvPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.pv).toFixed(1)).join(' ');
     const uuPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.uu).toFixed(1)).join(' ');
     svg += '<polyline class="d-fol-line" points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
