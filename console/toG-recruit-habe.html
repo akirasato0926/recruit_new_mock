@@ -26763,7 +26763,6 @@ body.on-login-page{overflow:hidden}
       <header class="d-page-head">
         <div class="d-page-head-text">
           <h1 class="d-page-title">分析</h1>
-          <p class="d-page-sub" id="d-page-sub">波部市役所 採用プラットフォーム / 令和8年度</p>
         </div>
         <div class="d-page-head-actions">
           <!-- ── 分析 大タブ（自団体分析／他団体比較） ── -->
@@ -51512,8 +51511,6 @@ window.toggleLoginPassword = function(btn){
     const job    = currentJob();
     const cat    = currentCat();
     // ページサブ
-    const pageSub = document.getElementById('d-page-sub');
-    if(pageSub){ pageSub.textContent = `波部市役所 採用プラットフォーム / ${PERIOD_LABEL[period] || PERIOD_LABEL['fy']}`; }
     // ①②③ のみ再描画（PRは独自の期間フィルタを持つため除外）
     fadeSection('d-section-overall', () => renderOverall(period, true));
     fadeSection('d-section-job',     () => renderJob(job, period, true));
