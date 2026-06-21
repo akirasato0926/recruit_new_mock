@@ -26744,8 +26744,16 @@ body.on-login-page{overflow:hidden}
               <option value="90">直近3ヶ月</option>
               <option value="180">直近6ヶ月</option>
               <option value="365">直近1年</option>
+              <option value="custom">期間を指定</option>
             </select>
           </div>
+        </div>
+        <div class="d-pr-range d-web-range" id="d-web-range" hidden>
+          <span class="d-pr-range-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+          <label class="d-pr-range-label">開始日<input type="date" id="d-web-from" onchange="dWebApplyRange()" aria-label="開始日"></label>
+          <span class="d-pr-range-sep" aria-hidden="true">〜</span>
+          <label class="d-pr-range-label">終了日<input type="date" id="d-web-to" onchange="dWebApplyRange()" aria-label="終了日"></label>
+          <span class="d-pr-range-meta" id="d-web-range-days" aria-live="polite">30日間</span>
         </div>
         <div class="d-overall-grid d-web-2col">
           <!-- カードA：フォロワー数推移 -->
@@ -50658,7 +50666,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .d-web-merged .d-web-sub + .d-web-sub{ border-left:1px solid #EEF1EF; padding-left:20px; }
 /* 各カードの個別期間セレクタ・カスタム範囲は隠す（統合セレクタで一括制御。DOMは残し既存renderが参照） */
 #page-analytics #d-section-followers .d-inflow-controls{ display:none; }
-#page-analytics #d-section-followers .d-pr-range{ display:none !important; }
+#page-analytics #d-section-followers .d-attr-card .d-pr-range{ display:none !important; }
 /* 流入経路：円グラフ（ドーナツ）＋12経路の凡例をカード内スクロール */
 #page-analytics .d-web-sub .d-donut-wrap{ display:flex !important; width:148px; height:148px; margin:0 auto 12px; }
 #page-analytics .d-web-merged .d-donut-block.vertical{ justify-content:flex-start; padding-top:0; margin-top:4px; }
@@ -53816,11 +53824,42 @@ window.toggleLoginPassword = function(btn){
   };
   window.dFolApplyRange=function(){ updateFolRangeDays(); render(); };
   // 統合期間セレクタ：フォロワー・サイト閲覧・流入経路を一括で再描画
-  window.dWebPeriodChange=function(){
-    var v=(document.getElementById('d-web-period')||{}).value||'30';
-    ['d-fol-period','d-inflow-period','d-source-period'].forEach(function(id){ var s=document.getElementById(id); if(s) s.value=v; });
+  // 統合期間：自由期間（custom）を3チャートへ一括適用。①from/to複写→②セレクタcustom→③描画 の順厳守。
+  // 個別の dInflowPeriodChange/dSourcePeriodChange は呼ばない（実カレンダー基準で既定値を上書きし統合値とズレるため）。
+  window.dWebApplyRange=function(){
+    var fromEl=document.getElementById('d-web-from'), toEl=document.getElementById('d-web-to');
+    var fv=fromEl?fromEl.value:'', tv=toEl?toEl.value:'';
+    [['d-fol-from','d-fol-to','d-fol-period'],['d-inflow-from','d-inflow-to','d-inflow-period'],['d-source-from','d-source-to','d-source-period']].forEach(function(ids){
+      var f=document.getElementById(ids[0]), t=document.getElementById(ids[1]), s=document.getElementById(ids[2]);
+      if(f) f.value=fv; if(t) t.value=tv; if(s) s.value='custom';
+    });
     if(typeof window.dFolPeriodChange==='function') window.dFolPeriodChange();
     if(typeof window.renderInflow==='function') window.renderInflow();
+    var daysEl=document.getElementById('d-web-range-days');
+    if(daysEl){ var d=30; if(fv&&tv){ var a=new Date(fv),b=new Date(tv); if(!isNaN(a)&&!isNaN(b)) d=Math.max(1,Math.round(Math.abs(b-a)/86400000)+1); } daysEl.textContent=d+'日間'; }
+  };
+  window.dWebPeriodChange=function(){
+    var sel=document.getElementById('d-web-period');
+    var v=(sel||{}).value||'30';
+    var range=document.getElementById('d-web-range');
+    if(v==='custom'){
+      if(range) range.hidden=false;
+      var pad=function(n){return (n<10?'0':'')+n;};
+      var iso=function(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+      var base=window.dChartBase?new Date(window.dChartBase):new Date(2026,5,9);
+      var dlen=(typeof DATA!=='undefined'&&DATA.length)?DATA.length:365;
+      var minD=new Date(base); minD.setDate(base.getDate()-(dlen-1));
+      var fromEl=document.getElementById('d-web-from'), toEl=document.getElementById('d-web-to');
+      if(fromEl){ fromEl.max=iso(base); fromEl.min=iso(minD); }
+      if(toEl){ toEl.max=iso(base); toEl.min=iso(minD); }
+      if(fromEl&&toEl&&(!fromEl.value||!toEl.value)){ var f=new Date(base); f.setDate(base.getDate()-29); fromEl.value=iso(f); toEl.value=iso(base); }
+      window.dWebApplyRange();
+    } else {
+      if(range) range.hidden=true;
+      ['d-fol-period','d-inflow-period','d-source-period'].forEach(function(id){ var s=document.getElementById(id); if(s) s.value=v; });
+      if(typeof window.dFolPeriodChange==='function') window.dFolPeriodChange();
+      if(typeof window.renderInflow==='function') window.renderInflow();
+    }
   };
 
   function init(){
