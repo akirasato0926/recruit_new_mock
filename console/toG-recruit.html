@@ -27212,9 +27212,7 @@ body.on-login-page{overflow:hidden}
             <div class="d-board-head-text">
               <h2 class="d-board-title">比較サマリ（自団体 vs 比較対象）</h2>
             </div>
-          </div>
-          <div class="dn-filter dn-filter-sec" role="region" aria-label="比較サマリの絞り込み">
-            <div class="dn-filter-row">
+            <div class="dn-filter-row dn-filter-inhead">
               <div class="dn-fg">
                 <label class="dn-flabel" for="dn-cmp-size">人口規模</label>
                 <select class="d-select" id="dn-cmp-size">
@@ -27267,9 +27265,7 @@ body.on-login-page{overflow:hidden}
             <div class="d-board-head-text">
               <h2 class="d-board-title">職種別分析（自団体 vs 比較対象）</h2>
             </div>
-          </div>
-          <div class="dn-filter dn-filter-sec" role="region" aria-label="職種別分析の絞り込み">
-            <div class="dn-filter-row">
+            <div class="dn-filter-row dn-filter-inhead">
               <div class="dn-fg">
                 <label class="dn-flabel" for="dn-ja-size">人口規模</label>
                 <select class="d-select" id="dn-ja-size">
@@ -27333,9 +27329,7 @@ body.on-login-page{overflow:hidden}
             <div class="d-board-head-text">
               <h2 class="d-board-title">PRコンテンツ（上位20）</h2>
             </div>
-          </div>
-          <div class="dn-filter dn-filter-sec" role="region" aria-label="PRコンテンツの絞り込み">
-            <div class="dn-filter-row">
+            <div class="dn-filter-row dn-filter-inhead">
               <div class="dn-fg">
                 <label class="dn-flabel" for="dn-pr-size">人口規模</label>
                 <select class="d-select" id="dn-pr-size">
@@ -50014,6 +50008,8 @@ window.toggleLoginPassword = function(btn){
 
 /* (e) ②③のセクション内フィルタパネル：上部 .dn-filter と同じ見た目に統一 */
 #page-analytics .dn-filter-sec{ margin:0 0 18px; }
+#page-analytics .dn-board .d-board-head{ align-items:center; gap:20px; flex-wrap:wrap; }
+#page-analytics .dn-filter-inhead{ flex:0 1 auto; margin:0; }
 /* 自団体情報バナー（注記削除後の薄型化）：上下パディングを詰める */
 #page-analytics #d-tab-network > .dn-filter{ padding:12px 18px; }
 #page-analytics .dn-filter-sec .dn-filter-row{ margin:0; }
