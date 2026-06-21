@@ -27031,50 +27031,6 @@ body.on-login-page{overflow:hidden}
       </section>
 
 
-      <!-- ═══════════════════════════════════════════════════════ -->
-      <!-- 選考プロセス分析（選考スピード・辞退タイミング・辞退理由） -->
-      <!-- ═══════════════════════════════════════════════════════ -->
-      <section class="d-section d-board" aria-labelledby="d-sec-process" id="d-section-process">
-        <div class="d-board-head">
-          <div class="d-board-head-text">
-            <h2 class="d-board-title" id="d-sec-process">選考プロセス分析</h2>
-            <p class="d-board-sub">応募締切から内定までの平均日数と、選考辞退の理由（発生段階は採用ファネルに統合）</p>
-          </div>
-          <div class="dp-controls">
-            <select class="d-select d-board-select" id="dp-job" onchange="renderProcessAnalysis()" aria-label="職種">
-              <option value="all" selected>全職種</option>
-              <option value="admin">事務職</option>
-              <option value="tech">技術職</option>
-              <option value="pro">専門職</option>
-              <option value="nursery">保育士</option>
-            </select>
-            <select class="d-select d-board-select" id="dp-year" onchange="renderProcessAnalysis()" aria-label="年度">
-              <option value="r8" selected>令和8年度</option>
-              <option value="r7">令和7年度</option>
-              <option value="r6">令和6年度</option>
-            </select>
-          </div>
-        </div>
-        <div class="d-subsection">
-          <h3 class="d-subsection-title">応募締切から内定までの平均日数</h3>
-          <p class="dp-speed-total"><span class="dp-st-label">応募締切〜内定 平均</span><span class="dp-st-num d-num">78</span><span class="dp-st-unit">日</span></p>
-        </div>
-        <div class="d-overall-1col">
-          <div class="d-subsection">
-            <h3 class="d-subsection-title">選考辞退理由</h3>
-            <div class="d-donut-block horizontal">
-              <div class="d-donut-wrap">
-                <svg class="d-donut-svg" viewBox="0 0 100 100" data-target="reason-donut" aria-hidden="true"></svg>
-                <div class="d-donut-center">
-                  <span class="d-donut-center-num"><span class="d-num">110</span></span>
-                  <span class="d-donut-center-unit">名</span>
-                </div>
-              </div>
-              <ul class="d-donut-legend" data-target="reason-legend"></ul>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- ═══════════════════════════════════════════════════════ -->
       <!-- セクション 3：PRコンテンツダッシュボード（下部・全幅／内部2分割） -->
