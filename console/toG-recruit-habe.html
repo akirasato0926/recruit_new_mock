@@ -51519,12 +51519,13 @@ window.toggleLoginPassword = function(btn){
     for(let g=0; g<=4; g++){ const yy = pt + ih*g/4; svg += '<line x1="'+pl+'" y1="'+yy.toFixed(1)+'" x2="'+(W-pr)+'" y2="'+yy.toFixed(1)+'" stroke="#EFEFEF" stroke-width="1"/>'; svg += '<text x="'+(pl-8)+'" y="'+(yy+4).toFixed(1)+'" text-anchor="end" font-size="12" fill="#767676" font-family="Noto Sans JP, sans-serif">'+Math.round(hi*(1-g/4)).toLocaleString()+'</text>'; }
     const pvPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.pv).toFixed(1)).join(' ');
     const uuPts = B.map((b,i)=>X(i).toFixed(1)+','+Y(b.uu).toFixed(1)).join(' ');
-    svg += '<polyline points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
-    svg += '<polyline points="'+uuPts+'" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    svg += '<polyline class="d-fol-line" points="'+pvPts+'" fill="none" stroke="#259D63" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+    svg += '<polyline class="d-fol-line" points="'+uuPts+'" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
     // マーカー（◯白塗り＋折れ線色の縁線）を全点に
     B.forEach(function(b,i){
-      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="3.4" fill="#fff" stroke="#259D63" stroke-width="2"/>';
-      svg += '<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115A36" stroke-width="2"/>';
+      var ddl = 450 + (n>1 ? i/(n-1) : 0)*550;
+      svg += '<circle class="d-fol-dot" style="animation-delay:'+ddl.toFixed(0)+'ms" cx="'+X(i).toFixed(1)+'" cy="'+Y(b.pv).toFixed(1)+'" r="3.4" fill="#fff" stroke="#259D63" stroke-width="2"/>';
+      svg += '<circle class="d-fol-dot" style="animation-delay:'+(ddl+40).toFixed(0)+'ms" cx="'+X(i).toFixed(1)+'" cy="'+Y(b.uu).toFixed(1)+'" r="3.4" fill="#fff" stroke="#115A36" stroke-width="2"/>';
     });
     var svIdx = (window.dPickLabelIdx ? window.dPickLabelIdx(n, days) : [0, n-1]);
     var svFmt = window.dFmtAxisDate || function(d){ return (d.getMonth()+1)+'/'+d.getDate(); };
@@ -51536,6 +51537,8 @@ window.toggleLoginPassword = function(btn){
     for(var hh=0; hh<n; hh++){ var hx = X(hh) - svSlot/2; svg += '<rect class="d-sv-hit" data-i="'+hh+'" x="'+hx.toFixed(1)+'" y="'+pt+'" width="'+svSlot.toFixed(1)+'" height="'+ih+'" fill="transparent" style="cursor:pointer"/>'; }
     svg += '</svg>';
     wrap.innerHTML = svg + '<div class="d-fol-tooltip d-sv-tooltip" id="d-sv-tooltip"></div>';
+    // 折れ線の描画アニメ（フォロワー数推移と同じ：線長に合わせて描画）
+    wrap.querySelectorAll('.d-fol-line').forEach(function(lineEl){ var L=2600; try{ L=Math.ceil(lineEl.getTotalLength())+10; }catch(e){} lineEl.style.strokeDasharray=L; lineEl.style.strokeDashoffset=L; setTimeout(function(){ lineEl.style.strokeDashoffset='0'; }, 1250); });
     // ホバーで数値表示（カスタムツールチップ：PV/UU値＋日）
     var svTip = document.getElementById('d-sv-tooltip');
     wrap.querySelectorAll('.d-sv-hit').forEach(function(r){
@@ -51577,6 +51580,21 @@ window.toggleLoginPassword = function(btn){
     });
     var wrap = donut.closest('.d-donut-wrap'); if(wrap) wrap.style.display = '';
     if(typeof renderDonutWithTooltip === 'function'){ renderDonutWithTooltip(donut, rows, { strokeWidth: 16 }); }
+    // 流入経路の円グラフ：時計回りに一周して現れる「ぐるっと」アニメ
+    try{
+      var dArcs = donut.querySelectorAll('circle[data-segment]');
+      var dR = 40, dC = 2*Math.PI*dR, dGap = 2.5, dDur = 1100, dCum = 0;
+      dArcs.forEach(function(arc){
+        var dash = parseFloat(arc.getAttribute('stroke-dasharray')) || 0;
+        var len = dash + dGap;
+        var sf = dCum / dC, lf = len / dC;
+        arc.animate(
+          [ { strokeDasharray: '0 ' + dC.toFixed(2) }, { strokeDasharray: dash.toFixed(2) + ' ' + (dC - dash).toFixed(2) } ],
+          { delay: sf * dDur, duration: Math.max(70, lf * dDur), easing: 'linear', fill: 'backwards' }
+        );
+        dCum += len;
+      });
+    }catch(e){}
     legend.innerHTML = rows.map(function(r){ return '<li>'
       + '<span class="dot" style="background:' + r.color + '"></span>'
       + '<span class="nm">' + r.label + '</span>'
