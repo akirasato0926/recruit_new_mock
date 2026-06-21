@@ -26932,7 +26932,6 @@ body.on-login-page{overflow:hidden}
         <div class="d-board-head">
           <div class="d-board-head-text">
             <h2 class="d-board-title" id="d-sec-overall">求人別ダッシュボード</h2>
-            <p class="d-board-sub">公開求人ごとの採用情報を1画面で確認。複数選択で平均／合計を表示</p>
           </div>
         </div>
 
@@ -47511,7 +47510,10 @@ ${style.blogQuote}
     rankOrg('dn-rank-sns',      'prsns', 128, '件');
 
     // ── 反応指標（元の項目）：フォロワー数（団体別）／ブログ・動画 閲覧数（コンテンツ別）。団体名は匿名。──
-    rankOrg('dn-rank-followers', 'prfol', 4200, '人');
+    var DN_FOLLOWER = [
+      {name:'京都市役所',val:1205},{name:'尼崎市役所',val:1112},{name:'横浜市役所',val:1031},{name:'大阪市役所',val:958},{name:'福岡市役所',val:889},{name:'札幌市役所',val:826},{name:'名古屋市役所',val:768},{name:'神戸市役所',val:713},{name:'仙台市役所',val:662},{name:'広島市役所',val:618},{name:'さいたま市役所',val:577},{name:'千葉市役所',val:539},{name:'川崎市役所',val:504},{name:'堺市役所',val:472},{name:'北九州市役所',val:443},{name:'新潟市役所',val:417},{name:'浜松市役所',val:393},{name:'熊本市役所',val:371},{name:'岡山市役所',val:351},{name:'静岡市役所',val:333}
+    ];
+    dnRenderRankOrg('dn-rank-followers', DN_FOLLOWER, 'val', '人', 296, selfNm, 171, DN_TOTAL_ORGS);
     function buildContent(titles, seedKey, base){
       var rng = dnRng(seedKey + '|' + seed);
       var pool = dnFilterOrgs(size, area);
@@ -47519,8 +47521,9 @@ ${style.blogQuote}
         return { title: t, org: (pool.length ? pool[idx % pool.length].n : selfNm), val: Math.max(1, Math.round(base * szScale * yScale * (0.4 + rng()*1.1))) };
       });
     }
-    dnRenderRankContent('dn-rank-blog', buildContent(DN_BLOG_TITLES, 'prblog', 6800), '回');
-    dnRenderRankContent('dn-rank-video', buildContent(DN_VIDEO_TITLES, 'prvideo', 3900), '回');
+    function jdScaleMax(arr, target){ var mx=arr.reduce(function(m,r){return Math.max(m,r.val);},1); arr.forEach(function(r){ r.val=Math.max(1,Math.round(r.val*target/mx)); }); return arr; }
+    dnRenderRankContent('dn-rank-blog', jdScaleMax(buildContent(DN_BLOG_TITLES, 'prblog', 6800), 8756), '回');
+    dnRenderRankContent('dn-rank-video', jdScaleMax(buildContent(DN_VIDEO_TITLES, 'prvideo', 3900), 2546), '回');
 
     // 数値カウントアップ＋バー幅の伸長（CSS transition）
     var prFills = [];
@@ -47563,7 +47566,7 @@ ${style.blogQuote}
     var html = '';
     if(typeof selfVal === 'number'){
       var sw = maxVal > 0 ? Math.round(Math.min(selfVal, maxVal) / maxVal * 100) : 0;
-      html += '<li class="dn-rank-self dn-emph">' +
+      html += '<li class="dn-rank-self">' +
         '<span class="dn-rank-self-badge">あなた</span>' +
         '<span class="dn-rank-name">' + (selfName || '自団体') + '</span>' +
         '<span class="dn-rank-val"><span data-dn-to="' + selfVal + '" data-dn-fmt="int">' + dnFmt(selfVal) + '</span>' + unit + '</span>' + DN_RANK_LINK +
@@ -49998,8 +50001,8 @@ window.toggleLoginPassword = function(btn){
   color:#333; font-variant-numeric:tabular-nums;
 }
 /* PRコンテンツ：コンテンツ別行（タイトル＋補足団体名） */
-#page-analytics .dn-rank li.dn-rank-content{ align-items:flex-start; }
-#page-analytics .dn-rank-content .dn-rank-no{ margin-top:1px; }
+#page-analytics .dn-rank li.dn-rank-content{ align-items:center; }
+#page-analytics .dn-rank-content .dn-rank-no{ margin-top:0; }
 #page-analytics .dn-rank-body{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
 #page-analytics .dn-rank-title{
   color:#1A1A1A; font-size:13px; line-height:1.4;
@@ -50295,6 +50298,7 @@ window.toggleLoginPassword = function(btn){
 @media (max-width:720px){ #page-analytics .dn-flow-stage{ font-size:10.5px; } #page-analytics .dn-step-lbl{ flex:0 0 96px; } }
 /* 強調（ソフトパルス）：単色グリーンのリングがゆっくり明滅＝呼吸。点滅ではない。prefers-reduced-motionで停止し静的リングに。 */
 #page-analytics .dn-emph{ position:relative; }
+#page-analytics #d-section-overall .d-board-head{ margin-bottom:8px; }
 #page-analytics .dn-emph::after{ content:''; position:absolute; inset:-2px; border-radius:inherit; pointer-events:none; border:2px solid #259D63; opacity:0; animation:dnEmphPulse 1.8s ease-in-out infinite; }
 @keyframes dnEmphPulse{ 0%,100%{ opacity:0; } 50%{ opacity:.85; } }
 @media (prefers-reduced-motion: reduce){ #page-analytics .dn-emph::after{ animation:none; opacity:.6; } }/* PRランキング：比率バー／上位3強調／トグル／自団体ピン行 */
