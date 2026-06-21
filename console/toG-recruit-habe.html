@@ -18895,7 +18895,7 @@ body.on-login-page{overflow:hidden}
 .jd-period-label{font-size:12px;color:#767676;white-space:nowrap}
 .jd-period-select{height:38px}
 .jd-modal-period-row{display:flex;align-items:center;gap:10px;padding:0 0 12px;border-bottom:1px solid #EDF1EF;margin-bottom:12px}
-.jd-modal-period-row .jd-period-select{height:36px}
+.jd-modal-period-row .jd-period-select{font-family:'Inter','Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;font-size:14px;font-weight:400;line-height:1.5;height:38px;padding:6px 32px 6px 12px;background:#fff;border:1px solid #D7DEDA;border-radius:8px;color:#1A1A1A;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%233E4348' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;cursor:pointer}.jd-modal-period-row .jd-period-select:focus-visible{outline:3px solid #115A36;outline-offset:1px;border-color:#949494}
 .jd-modal-period-meta{font-size:12.5px;color:#5F6B65;margin-left:auto}
 .jd-modal-period-meta strong{color:#115A36;font-weight:700}
 .jd-grouped{display:flex;flex-direction:column;gap:8px;max-height:none;overflow:visible;padding:2px}
@@ -28256,7 +28256,7 @@ body.on-login-page{overflow:hidden}
         <button class="an-modal-btn-sub" onclick="jdCloseModal()">キャンセル</button>
         <button class="an-modal-btn-primary" onclick="jdConfirm()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span id="jd-confirm-label">年度全体で確定</span>
+          <span id="jd-confirm-label">絞り込み検索</span>
         </button>
       </div>
     </div>
@@ -51232,7 +51232,7 @@ window.toggleLoginPassword = function(btn){
   }
   function jdUpdateCount(){
     const el=document.getElementById('jd-confirm-label');
-    if(el) el.textContent = (jdTempSel.length===0) ? '年度全体で確定' : (jdTempSel.length+'件で確定');
+    if(el) el.textContent = (jdTempSel.length===0) ? '絞り込み検索' : (jdTempSel.length+'件で確定');
   }
   window.jdOpenModal = function(){
     jdTempSel = jdSelected.slice();
