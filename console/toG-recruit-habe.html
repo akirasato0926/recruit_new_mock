@@ -19470,6 +19470,10 @@ body.on-login-page{overflow:hidden}
   <div class="sel-bar" id="sel-bar">
     <div class="sel-bar-count"><strong id="sb-n">0</strong> 名を選択中</div>
     <div class="sel-bar-actions">
+      <button class="sb-btn" onclick="openSenkoMgmtModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        選考評価シート作成
+      </button>
       <button class="sb-btn" onclick="alert('選択中の応募者にメッセージを送信します')">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         追加情報提出依頼
@@ -21118,6 +21122,106 @@ body.on-login-page{overflow:hidden}
     <button class="btn btn-text" onclick="closeEvalSheetModal()">閉じる</button>
   </div>
 </div>
+<!-- ═══════════════════════════════════════════════
+     選考管理の作成モーダル（選択応募者向け：1次〜最大4次／試験区分・評価項目）
+     ═══════════════════════════════════════════════ -->
+<style>
+  #senko-modal .senko-body{padding:18px 24px;overflow-y:auto;flex:1;min-height:0;display:flex;flex-direction:column;gap:14px}
+  #senko-modal .senko-step{border:1px solid var(--n-200);border-radius:10px;padding:14px 16px;background:#fff}
+  #senko-modal .senko-step-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  #senko-modal .senko-step-badge{font-size:13px;font-weight:700;color:#fff;background:#115A36;border-radius:6px;padding:4px 12px}
+  #senko-modal .senko-step-req{font-size:11px;font-weight:700;color:#115A36;background:#E6F5EC;border-radius:4px;padding:2px 8px}
+  #senko-modal .senko-step-del{margin-left:auto;font-size:12px;color:#CE0000;background:none;border:1px solid #F0C0C0;border-radius:6px;padding:4px 10px;cursor:pointer;font-family:inherit}
+  #senko-modal .senko-step-del:hover{background:#FCEBEB}
+  #senko-modal .senko-field{margin-bottom:12px}
+  #senko-modal .senko-field:last-child{margin-bottom:0}
+  #senko-modal .senko-flabel{font-size:12px;font-weight:700;color:#3A423E;margin-bottom:6px;display:block}
+  #senko-modal .senko-select{width:100%;max-width:320px;height:38px;border:1px solid #D7DEDA;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;background:#fff;cursor:pointer}
+  #senko-modal .senko-other{margin-top:8px;width:100%;max-width:440px;height:36px;border:1px solid #D7DEDA;border-radius:8px;padding:0 12px;font-size:13px;font-family:inherit;display:block}
+  #senko-modal .senko-items{display:flex;flex-wrap:wrap;gap:8px}
+  #senko-modal .senko-chip{font-size:12px;color:#3A423E;background:#F2F5F3;border:1px solid #D7DEDA;border-radius:999px;padding:5px 12px;cursor:pointer;user-select:none;transition:background .12s,color .12s,border-color .12s}
+  #senko-modal .senko-chip:hover{border-color:#115A36}
+  #senko-modal .senko-chip.on{color:#fff;background:#115A36;border-color:#115A36}
+  #senko-modal .senko-itemcount{font-size:11px;color:#767676;margin-left:6px;font-weight:400}
+  #senko-modal .senko-add{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#115A36;background:#E6F5EC;border:1px dashed #9BD4B5;border-radius:8px;padding:9px 16px;cursor:pointer;font-family:inherit;align-self:flex-start}
+  #senko-modal .senko-add:disabled{opacity:.5;cursor:not-allowed}
+  #senko-modal .senko-foot-info{font-size:13px;color:#3A423E;margin-right:auto}
+  #senko-modal .senko-foot-info strong{color:#115A36;font-weight:700}
+</style>
+<div class="modal-overlay" id="senko-modal-overlay" onclick="closeSenkoMgmtModal()"></div>
+<div class="modal" id="senko-modal" role="dialog" aria-modal="true" aria-labelledby="senko-modal-title" style="width:min(860px, calc(100vw - 40px));max-height:calc(100vh - 40px);display:flex;flex-direction:column">
+  <div class="modal-head">
+    <div>
+      <h2 class="modal-title" id="senko-modal-title">選考管理の作成</h2>
+      <div class="modal-sub">選択中の応募者に適用する選考フロー（1次〜最大4次）と各段階の試験区分・評価項目を設定します</div>
+    </div>
+    <button class="modal-close" onclick="closeSenkoMgmtModal()" aria-label="閉じる">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="senko-body" id="senko-body"></div>
+  <div class="modal-foot">
+    <span class="senko-foot-info">適用対象：<strong id="senko-target-count">0</strong> 名</span>
+    <button class="btn btn-text" onclick="closeSenkoMgmtModal()">キャンセル</button>
+    <button class="btn btn-primary" onclick="senkoSubmit()">選考管理を作成</button>
+  </div>
+</div>
+<script>
+(function(){
+  var STAGES=['1次選考','2次選考','3次選考','4次選考'];
+  var METHODS=[['document','書類選考'],['web','WEB面接'],['inperson','対面面接'],['recorded','録画動画'],['ai','AI面接'],['gd','グループディスカッション'],['other','その他']];
+  var ITEMS=[['m01','論理的思考力'],['m02','コミュニケーション能力'],['m03','主体性・積極性'],['m04','課題解決力'],['m05','協調性・チームワーク'],['m06','リーダーシップ'],['m07','専門知識・実務理解'],['m08','ストレス耐性・レジリエンス'],['m09','公務員志望理由の妥当性'],['m10','地域・住民への貢献意欲'],['m11','倫理観・誠実性'],['m12','学習意欲・成長意欲']];
+  var steps=[{method:'',other:'',items:[]}];
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+  function render(){
+    var body=document.getElementById('senko-body'); if(!body) return;
+    var html='';
+    steps.forEach(function(st,i){
+      var methodOpts=METHODS.map(function(m){return '<option value="'+m[0]+'"'+(st.method===m[0]?' selected':'')+'>'+m[1]+'</option>';}).join('');
+      var chips=ITEMS.map(function(it){var on=st.items.indexOf(it[0])>=0;return '<span class="senko-chip'+(on?' on':'')+'" onclick="senkoToggleItem('+i+',\''+it[0]+'\')">'+it[1]+'</span>';}).join('');
+      html+='<div class="senko-step">'
+        +'<div class="senko-step-head"><span class="senko-step-badge">'+STAGES[i]+'</span>'
+        +(i===0?'<span class="senko-step-req">必須</span>':'<button class="senko-step-del" onclick="senkoRemoveStep('+i+')">この段階を削除</button>')+'</div>'
+        +'<div class="senko-field"><label class="senko-flabel">試験区分（試験内容）</label>'
+        +'<select class="senko-select" onchange="senkoSetMethod('+i+',this.value)"><option value="">選択してください</option>'+methodOpts+'</select>'
+        +(st.method==='other'?'<input class="senko-other" placeholder="試験内容を自由記述（例：ケーススタディ）" value="'+esc(st.other)+'" oninput="senkoSetOther('+i+',this.value)">':'')+'</div>'
+        +'<div class="senko-field"><label class="senko-flabel">評価項目（複数選択可）<span class="senko-itemcount">'+st.items.length+'件選択中</span></label>'
+        +'<div class="senko-items">'+chips+'</div></div>'
+        +'</div>';
+    });
+    var canAdd=steps.length<4;
+    html+='<button class="senko-add" onclick="senkoAddStep()"'+(canAdd?'':' disabled')+'>'
+      +'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+      +(canAdd?'選考ステップを追加（最大4次）':'最大4次まで設定済み')+'</button>';
+    body.innerHTML=html;
+  }
+  window.openSenkoMgmtModal=function(){
+    steps=[{method:'',other:'',items:[]}];
+    var n=document.getElementById('sb-n'); var cnt=n?n.textContent:'0';
+    var tc=document.getElementById('senko-target-count'); if(tc) tc.textContent=cnt;
+    render();
+    document.getElementById('senko-modal-overlay').classList.add('show');
+    document.getElementById('senko-modal').classList.add('show');
+    document.body.style.overflow='hidden';
+  };
+  window.closeSenkoMgmtModal=function(){
+    document.getElementById('senko-modal-overlay').classList.remove('show');
+    document.getElementById('senko-modal').classList.remove('show');
+    document.body.style.overflow='';
+  };
+  window.senkoAddStep=function(){ if(steps.length<4){steps.push({method:'',other:'',items:[]});render();} };
+  window.senkoRemoveStep=function(i){ steps.splice(i,1); render(); };
+  window.senkoSetMethod=function(i,v){ steps[i].method=v; render(); };
+  window.senkoSetOther=function(i,v){ steps[i].other=v; };
+  window.senkoToggleItem=function(i,id){ var a=steps[i].items; var k=a.indexOf(id); if(k>=0)a.splice(k,1); else a.push(id); render(); };
+  window.senkoSubmit=function(){
+    for(var i=0;i<steps.length;i++){ if(!steps[i].method){ alert((i+1)+'次選考の試験区分を選択してください'); return; } if(steps[i].items.length===0){ alert((i+1)+'次選考の評価項目を1つ以上選択してください'); return; } }
+    var cnt=(document.getElementById('senko-target-count')||{}).textContent||'0';
+    if(typeof showToast==='function'){ showToast('選考管理（'+steps.length+'段階）を作成し、'+cnt+'名に適用しました'); } else { alert('選考管理（'+steps.length+'段階）を作成しました'); }
+    window.closeSenkoMgmtModal();
+  };
+})();
+</script>
 
 <!-- ═══════════════════════════════════════════════
      APPLICANT EVALUATION MODAL (応募者別 選考評価 閲覧・入力)
