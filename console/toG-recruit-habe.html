@@ -30716,6 +30716,8 @@ body.on-login-page{overflow:hidden}
 #page-design .bde-preset .bde-pv span{background:#B9C7BF;border-radius:2px;display:block}
 #page-design .bde-preset .bde-pname{font-size:11.5px;font-weight:700;color:#3A463F}
 #page-design .bde-sw{width:100%;height:34px;border-radius:7px;border:1px solid rgba(0,0,0,.06)}
+#page-design .bde-presets-font{grid-template-columns:1fr 1fr}
+#page-design .bde-preset.active{border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC;background:#F4FAF6}
 #page-design .bde-sw-name{font-size:11px;font-weight:700;color:#3A463F;margin-top:5px}
 #page-design .bde-aa{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:#115A36;background:#E6F5EC;border-radius:4px;padding:2px 6px;margin-top:6px}
 /* レスポンシブ（管理画面側） */
@@ -30735,7 +30737,10 @@ body.preview-bare #notif-overlay,
 body.preview-bare #notif-panel,
 body.preview-bare .tp-preview-bar{display:none !important}
 body.preview-bare{padding-top:0 !important;background:#fff}
-body.preview-bare #page-site-edit.top-page{display:block}
+body.preview-bare #page-site-edit.top-page{display:block;padding-top:72px}
+body.preview-bare .tp-header{top:0 !important}
+body.preview-bare .tp-reveal{opacity:1 !important;transform:none !important}
+body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.preview-bare .tp-reveal-delay-3,body.preview-bare .tp-reveal-delay-4{transition-delay:0s !important}
 .tp-bde-selected{outline:3px solid #115A36 !important;outline-offset:-3px}
 </style>
 <div id="page-design" class="page-container" data-page="design">
@@ -30769,11 +30774,29 @@ body.preview-bare #page-site-edit.top-page{display:block}
 <script>
 (function(){
   var ACCENTS=[
-    {k:'std',name:'標準グリーン',hex:'#115A36'},
-    {k:'deep',name:'濃いグリーン',hex:'#0A3D24'},
-    {k:'forest',name:'フォレスト',hex:'#14502F'}
+    {k:'green',name:'グリーン',hex:'#115A36'},
+    {k:'navy',name:'ネイビー',hex:'#1B3A5B'},
+    {k:'teal',name:'ティール',hex:'#0E5B5B'},
+    {k:'indigo',name:'インディゴ',hex:'#3B3A7A'},
+    {k:'wine',name:'ワイン',hex:'#7A2E3A'},
+    {k:'charcoal',name:'チャコール',hex:'#33373B'}
   ];
-  var FONTS=[{k:'std',name:'標準'},{k:'large',name:'大きめ'}];
+  var FONT_FAMILIES=[
+    {k:'noto-sans',name:'ゴシック',css:'"Noto Sans JP"',g:'Noto+Sans+JP:wght@400;700'},
+    {k:'zen-kaku',name:'角ゴシック',css:'"Zen Kaku Gothic New"',g:'Zen+Kaku+Gothic+New:wght@400;700'},
+    {k:'mplus',name:'丸ゴシック',css:'"M PLUS Rounded 1c"',g:'M+PLUS+Rounded+1c:wght@400;700'},
+    {k:'zen-maru',name:'丸ゴ（やわらか）',css:'"Zen Maru Gothic"',g:'Zen+Maru+Gothic:wght@400;700'},
+    {k:'shippori',name:'明朝',css:'"Shippori Mincho"',g:'Shippori+Mincho:wght@400;700'},
+    {k:'noto-serif',name:'明朝（太め）',css:'"Noto Serif JP"',g:'Noto+Serif+JP:wght@400;700'}
+  ];
+  var FONT_SIZES=[{k:'std',name:'標準'},{k:'large',name:'大きめ'}];
+  function ensureEditorFonts(){
+    if(document.getElementById('bde-editor-fonts'))return;
+    var fams=FONT_FAMILIES.map(function(f){return 'family='+f.g;}).join('&');
+    var lk=document.createElement('link');lk.id='bde-editor-fonts';lk.rel='stylesheet';
+    lk.href='https://fonts.googleapis.com/css2?'+fams+'&display=swap';
+    document.head.appendChild(lk);
+  }
   var BLOCKS=[
     {key:'header',label:'ヘッダー',sel:'.tp-header',fixed:true,lockContent:true},
     {key:'hero',label:'ヒーロー（メイン）',sel:'#tp-hero',fixed:true},
@@ -30787,7 +30810,7 @@ body.preview-bare #page-site-edit.top-page{display:block}
   ];
   var MOVABLE=['jobs','blog','video','recruit'];
   var state={
-    sel:'theme',device:'pc',accent:'std',font:'std',ready:false,dirty:false,
+    sel:'theme',device:'pc',accent:'green',fontFamily:'noto-sans',fontSize:'std',ready:false,dirty:false,
     visible:{jobs:true,blog:true,video:true,recruit:true,basic:true},
     order:['jobs','blog','video','recruit'],
     disp:{jobs:'',blog:'',video:''},
@@ -30941,23 +30964,30 @@ body.preview-bare #page-site-edit.top-page{display:block}
     return '<div class="bde-lock-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+t+'</span></div>';
   }
   function themePanel(){
-    var sw='<div class="bde-panel-head"><div class="bde-ph-title">サイト全体のテーマ</div></div>'+
+    var h='<div class="bde-panel-head"><div class="bde-ph-title">サイト全体のテーマ</div></div>'+
       '<div class="bde-pane active" style="display:block">'+
-      '<p class="bde-note" style="margin-bottom:16px">カラーとフォントは<strong>サイト全体に共通で適用</strong>されます（ブロックごとには設定しません）。アクセシビリティ基準（WCAG AA）を満たす組み合わせのみ選べます。</p>'+
-      '<div class="bde-sec"><div class="bde-sec-title">メインカラー</div><div class="bde-presets">';
+      '<p class="bde-note" style="margin-bottom:16px">カラー・書体・文字サイズは<strong>サイト全体に共通で適用</strong>されます（ブロックごとには設定しません）。コントラストが白文字でWCAG AAを満たす配色のみ用意しています。</p>'+
+      '<div class="bde-sec"><div class="bde-sec-title">メインカラー</div><div class="bde-presets bde-presets-color">';
     ACCENTS.forEach(function(a){
-      sw+='<button class="bde-preset'+(state.accent===a.k?' active':'')+'" onclick="bdeSetAccent(\''+a.k+'\',this)">'+
+      h+='<button class="bde-preset'+(state.accent===a.k?' active':'')+'" onclick="bdeSetAccent(\''+a.k+'\',this)" aria-label="'+a.name+'">'+
         '<span class="bde-sw" style="background:'+a.hex+'"></span><span class="bde-sw-name">'+a.name+'</span></button>';
     });
-    sw+='</div><div class="bde-aa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>白文字とのコントラストAA合格</div></div>';
-    sw+='<div class="bde-sec"><div class="bde-sec-title">フォント</div><div class="bde-presets" style="grid-template-columns:1fr 1fr">';
-    FONTS.forEach(function(f){
-      sw+='<button class="bde-preset'+(state.font===f.k?' active':'')+'" onclick="bdeSetFont(\''+f.k+'\',this)">'+
-        '<span class="bde-pv" style="font-size:'+(f.k==='large'?'15':'12')+'px;color:#3A463F;font-weight:700">Aa</span><span class="bde-pname">'+f.name+'</span></button>';
+    h+='</div><div class="bde-aa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>白文字とのコントラストAA合格</div></div>';
+    h+='<div class="bde-sec"><div class="bde-sec-title">書体（フォント）</div><div class="bde-presets bde-presets-font">';
+    FONT_FAMILIES.forEach(function(f){
+      h+='<button class="bde-preset'+(state.fontFamily===f.k?' active':'')+'" onclick="bdeSetFamily(\''+f.k+'\',this)">'+
+        '<span class="bde-pv" style="font-family:'+f.css+',sans-serif;font-size:18px;color:#1A1A1A;font-weight:700">あA</span>'+
+        '<span class="bde-pname">'+f.name+'</span></button>';
     });
-    sw+='</div><p class="bde-note">本文の最小サイズは可読性のため14pxを下回りません。</p></div>';
-    sw+='</div>';
-    return sw;
+    h+='</div><p class="bde-note">Google Fonts（無料）から選べます。本文の最小サイズは14pxを下回りません。</p></div>';
+    h+='<div class="bde-sec"><div class="bde-sec-title">文字サイズ</div><div class="bde-presets" style="grid-template-columns:1fr 1fr">';
+    FONT_SIZES.forEach(function(s){
+      h+='<button class="bde-preset'+(state.fontSize===s.k?' active':'')+'" onclick="bdeSetSize(\''+s.k+'\',this)">'+
+        '<span class="bde-pv" style="font-size:'+(s.k==='large'?'17':'13')+'px;color:#3A463F;font-weight:700">Aa</span><span class="bde-pname">'+s.name+'</span></button>';
+    });
+    h+='</div></div></div>';
+    ensureEditorFonts();
+    return h;
   }
 
   /* ── 操作 ── */
@@ -30972,7 +31002,9 @@ body.preview-bare #page-site-edit.top-page{display:block}
     var p=btn.parentNode;p.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
   window.bdeSetAccent=function(k,btn){state.accent=k;var a=ACCENTS.find(function(x){return x.k===k;});pm({type:'bde-accent',hex:a.hex});markDirty();
     btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
-  window.bdeSetFont=function(k,btn){state.font=k;markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
+  function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'bde-font',family:f.css,g:f.g,size:state.fontSize});}
+  window.bdeSetFamily=function(k,btn){state.fontFamily=k;sendFont();markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
+  window.bdeSetSize=function(k,btn){state.fontSize=k;sendFont();markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
   window.bdeHeroInput=function(){state.hero.line1=$('bde-hero-l1').value;state.hero.line2=$('bde-hero-l2').value;state.hero.desc=$('bde-hero-desc').value;state.hero.cta=$('bde-hero-cta').value;
     pm({type:'bde-hero',hero:state.hero});markDirty();};
   window.bdeIntroInput=function(){state.intro.tagline=$('bde-intro-tag').value;state.intro.text=$('bde-intro-text').value;
@@ -35818,6 +35850,12 @@ window.addEventListener('DOMContentLoaded', function(){
         '.tp-section-number,.tp-section-label,.tp-intro-name,.tp-nav-item.active{color:'+c+'}'+
         '.tp-follow-btn{background:'+c+';border-color:'+c+'}'+
         '.tp-hero-title em,.tp-intro-heading em{color:'+c+'}';
+    } else if(d.type==='bde-font'){
+      if(d.g){var lid='gf-'+d.g.replace(/[^A-Za-z0-9]/g,'');if(!document.getElementById(lid)){var lk=document.createElement('link');lk.id=lid;lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family='+d.g+'&display=swap';document.head.appendChild(lk);}}
+      var fst=document.getElementById('bde-font-style');if(!fst){fst=document.createElement('style');fst.id='bde-font-style';document.head.appendChild(fst);}
+      var big=d.size==='large';
+      fst.textContent='.top-page,.top-page h1,.top-page h2,.top-page h3,.top-page h4,.top-page p,.top-page a,.top-page span,.top-page div,.top-page li,.top-page dt,.top-page dd,.top-page button,.top-page input,.top-page textarea{font-family:'+d.family+',"Noto Sans JP",sans-serif !important}'+
+        (big?'.tp-hero-desc{font-size:19px}.tp-intro-text{font-size:16.5px}.tp-section-title{font-size:34px}.tp-job-title{font-size:17px}.tp-nav-item{font-size:15px}.tp-recruit-title{font-size:17px}':'');
     } else if(d.type==='bde-reset'){
       if(!orig)return;
       if(d.key==='hero'){setTxt('.tp-hero-title .tp-line-1',orig.hero.line1);setTxt('.tp-hero-title .tp-line-2',orig.hero.line2);
