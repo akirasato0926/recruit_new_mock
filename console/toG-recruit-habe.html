@@ -31318,6 +31318,25 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   </div></main>
 </div>
 
+<style id="sp-detail-css">
+.side-panel .sp-detail-tabs{margin:14px 0}
+.side-panel .sp-tabpanel{display:none}
+.side-panel .sp-tabpanel.active{display:block}
+.side-panel .sp-entrybar{display:flex;flex-wrap:wrap;gap:8px 24px;padding:12px 14px;background:#F4F8F6;border:1px solid #E4EDE8;border-radius:8px;margin-top:12px}
+.side-panel .sp-eb-item{display:flex;flex-direction:column;gap:2px}
+.side-panel .sp-eb-label{font-size:11px;color:#7A857F;font-weight:700}
+.side-panel .sp-eb-value{font-size:13px;color:#1A1A1A;font-weight:700}
+.side-panel .sp-check-list{display:flex;flex-direction:column;gap:8px}
+.side-panel .sp-check-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#3A463F;line-height:1.6}
+.side-panel .sp-check-item svg{width:16px;height:16px;flex:none;margin-top:2px}
+.side-panel .sp-tl{display:flex;flex-direction:column;padding-left:2px}
+.side-panel .sp-tl-item{display:flex;gap:12px;padding:0 0 16px;position:relative}
+.side-panel .sp-tl-item::before{content:"";position:absolute;left:4px;top:14px;bottom:-2px;width:2px;background:#E4EDE8}
+.side-panel .sp-tl-item:last-child::before{display:none}
+.side-panel .sp-tl-dot{width:10px;height:10px;border-radius:50%;background:#115A36;flex:none;margin-top:3px;z-index:1}
+.side-panel .sp-tl-time{font-size:11.5px;color:#7A857F;font-weight:700}
+.side-panel .sp-tl-text{font-size:13px;color:#1A1A1A;line-height:1.6;margin-top:2px}
+</style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
     <button class="sp-close" onclick="closePanel()" aria-label="閉じる">×</button>
@@ -33209,75 +33228,114 @@ function openPanel(id){
   const dlSvg='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
   const playSvg='<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>';
 
+  // ── エントリー情報・タイムライン（ダミー生成）──
+  const sp_entryDate = a.applied_date;
+  const sp_examChoice = (tt==='spi3') ? 'SPI3（基礎能力・性格検査）' : '一般教養試験';
+  const sp_considerNeeded = (hx('consider')%4===0);
+  const sp_considerText = sp_considerNeeded ? '車いすを使用するため、エレベーター付きの会場を希望します。' : '特になし';
+  const sp_eligibility = '【'+(String(a.job).indexOf('高卒')>=0?'高校卒':'大学・短大卒')+'】2000年4月2日以降生まれで、卒業または2027年3月卒業見込みの方';
+  const sp_huntList = ['波部市役所：エントリー済み','近隣A市役所：1次試験 結果待ち','株式会社◇◇：最終選考'];
+  const sp_tlActor = '波部市役所 人事課';
+  const sp_timeline = [
+    {t:sp_entryDate+' 10:42', txt:sp_tlActor+' さんが応募者の「エントリー情報」を編集しました。'},
+    {t:sp_entryDate+' 10:38', txt:sp_tlActor+' さんが応募者の「職歴・学歴」を編集しました。'},
+    {t:sp_entryDate+' 10:31', txt:sp_tlActor+' さんが応募者の「基本情報」を編集しました。'},
+    {t:sp_entryDate+' 00:00', txt:a.name+' さんがエントリーしました。'}
+  ];
+  const ckSvg='<svg viewBox="0 0 24 24" fill="none" stroke="#115A36" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+
   document.getElementById('sp-body').innerHTML = `
     <div class="sp-actionbar">
       <button class="btn btn-primary sp-btn" onclick="if(typeof openScheduleCreateModal==='function'){openScheduleCreateModal();}else{alert('選考予定の作成画面を開きます');}">選考予定を作成</button>
+      <button class="btn btn-outline sp-btn" onclick="spSwitchTab('profile')">応募者詳細情報</button>
       <button class="btn btn-outline sp-btn" onclick="alert('追加情報の提出依頼を送信します')">追加情報の提出依頼</button>
-      <button class="btn btn-outline sp-btn" onclick="if(window.closePanel)closePanel();if(window.showPage)showPage('app-edit')">応募者情報の編集</button>
     </div>
 
-    <div class="sp-sec">
-      <div class="sp-sec-title">応募者情報</div>
-      <div class="sp-profile-grid">
-        <div class="sp-profile-label">生年月日</div><div class="sp-profile-value">${profile.birthDate}</div>
-        <div class="sp-profile-label">現住所</div><div class="sp-profile-value">${profile.address}</div>
-        <div class="sp-profile-label">メールアドレス</div><div class="sp-profile-value">${email}</div>
-        <div class="sp-profile-label">電話番号</div><div class="sp-profile-value">${phone}</div>
+    <div class="sp-entrybar">
+      <div class="sp-eb-item"><span class="sp-eb-label">エントリー番号</span><span class="sp-eb-value">${a.id}</span></div>
+      <div class="sp-eb-item"><span class="sp-eb-label">応募職種</span><span class="sp-eb-value">${a.job}</span></div>
+    </div>
+
+    <div class="sp-tabs sp-detail-tabs" role="tablist">
+      <button class="sp-tab active" data-sptab="profile" role="tab" onclick="spSwitchTab('profile')">プロフィール</button>
+      <button class="sp-tab" data-sptab="entry" role="tab" onclick="spSwitchTab('entry')">エントリー情報</button>
+      <button class="sp-tab" data-sptab="file" role="tab" onclick="spSwitchTab('file')">ファイル</button>
+      <button class="sp-tab" data-sptab="timeline" role="tab" onclick="spSwitchTab('timeline')">タイムライン</button>
+    </div>
+
+    <div class="sp-tabpanel active" data-sppanel="profile">
+      <div class="sp-sec">
+        <div class="sp-sec-title">応募者情報</div>
+        <div class="sp-profile-grid">
+          <div class="sp-profile-label">生年月日</div><div class="sp-profile-value">${profile.birthDate}</div>
+          <div class="sp-profile-label">現住所</div><div class="sp-profile-value">${profile.address}</div>
+          <div class="sp-profile-label">メールアドレス</div><div class="sp-profile-value">${email}</div>
+          <div class="sp-profile-label">電話番号</div><div class="sp-profile-value">${phone}</div>
+        </div>
+        <div class="sp-sub-label">資格</div>
+        <div class="sp-qual-list">${quals.map(q=>`<span class="sp-qual-chip">${q.name}<span class="sp-qual-date">${q.date}</span></span>`).join('')}</div>
+        <div class="sp-sub-label">語学力</div>
+        <div class="sp-lang-list">${langs.map(l=>`<div class="sp-lang-item">${l}</div>`).join('')}</div>
+        <div class="sp-sub-label">自己PR</div>
+        <div class="sp-pr-box">${selfPR}</div>
       </div>
-      <div class="sp-sub-label">資格</div>
-      <div class="sp-qual-list">${quals.map(q=>`<span class="sp-qual-chip">${q.name}<span class="sp-qual-date">${q.date}</span></span>`).join('')}</div>
-      <div class="sp-sub-label">語学力</div>
-      <div class="sp-lang-list">${langs.map(l=>`<div class="sp-lang-item">${l}</div>`).join('')}</div>
-      <div class="sp-sub-label">自己PR</div>
-      <div class="sp-pr-box">${selfPR}</div>
-    </div>
-
-    <div class="sp-sec">
-      <div class="sp-sec-title">職歴</div>
-      ${carRev.length>0 ? `<div class="sp-timeline">${carRev.map(c=>`
-        <div class="sp-timeline-item">
-          <div class="sp-timeline-date">${c.period}</div>
-          <div class="sp-timeline-body">${c.company}</div>
-          <div class="sp-timeline-meta">${c.position}${(c.duty && c.duty!==c.position)?'｜'+c.duty:''}</div>
-        </div>`).join('')}</div>` : `<div class="sp-empty-note">新卒応募のため、職歴情報はありません</div>`}
-    </div>
-
-    <div class="sp-sec">
-      <div class="sp-sec-title">学歴</div>
-      <div class="sp-timeline">${eduRev.map(e=>`
-        <div class="sp-timeline-item">
-          <div class="sp-timeline-date">${e.date}</div>
-          <div class="sp-timeline-body">${e.name}</div>
-          <div class="sp-timeline-meta">${e.type}</div>
-        </div>`).join('')}</div>
-    </div>
-
-    <div class="sp-sec">
-      <div class="sp-sec-title">応募者ファイル</div>
-      <div class="sp-attachments">${files.map(fl=>`
-        <div class="sp-attachment-item">
-          <div class="sp-attachment-icon ${fl.t}">${fl.t==='video'?fileSvgVid:fileSvgPdf}</div>
-          <div class="sp-attachment-info">
-            <div class="sp-attachment-name">${fl.n}</div>
-            <div class="sp-attachment-meta">${fl.meta}</div>
-          </div>
-          <div class="sp-attachment-actions">
-            ${fl.play==='video'?`<button class="sp-attachment-btn primary" onclick="openVideoModal('${a.id}')">${playSvg}視聴</button>`:''}
-            ${fl.play==='online'?`<button class="sp-attachment-btn primary" onclick="openOnlineInterviewModal('${a.id}')">${playSvg}視聴</button>`:''}
-            <button class="sp-attachment-btn" onclick="downloadDummyFile('${fl.n}','${fl.t}')">${dlSvg}DL</button>
-          </div>
-        </div>`).join('')}</div>
-    </div>
-
-    <div class="sp-sec">
-      <div class="sp-sec-title">成績管理</div>
-      <div class="sp-score-block">
-        <div class="sp-score-test">SPI3 ${tt==='spi3'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>
-        ${scoreTable(tt==='spi3')}
+      <div class="sp-sec">
+        <div class="sp-sec-title">職歴</div>
+        ${carRev.length>0 ? `<div class="sp-timeline">${carRev.map(c=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${c.period}</div><div class="sp-timeline-body">${c.company}</div><div class="sp-timeline-meta">${c.position}${(c.duty && c.duty!==c.position)?'｜'+c.duty:''}</div></div>`).join('')}</div>` : `<div class="sp-empty-note">新卒応募のため、職歴情報はありません</div>`}
       </div>
-      <div class="sp-score-block">
-        <div class="sp-score-test">日本人事試験研究センター ${tt==='jinji'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>
-        ${scoreTable(tt==='jinji')}
+      <div class="sp-sec">
+        <div class="sp-sec-title">学歴</div>
+        <div class="sp-timeline">${eduRev.map(e=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${e.date}</div><div class="sp-timeline-body">${e.name}</div><div class="sp-timeline-meta">${e.type}</div></div>`).join('')}</div>
+      </div>
+      <div class="sp-sec">
+        <div class="sp-sec-title">成績管理</div>
+        <div class="sp-score-block"><div class="sp-score-test">SPI3 ${tt==='spi3'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='spi3')}</div>
+        <div class="sp-score-block"><div class="sp-score-test">日本人事試験研究センター ${tt==='jinji'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='jinji')}</div>
+      </div>
+    </div>
+
+    <div class="sp-tabpanel" data-sppanel="entry">
+      <div class="sp-sec">
+        <div class="sp-sec-title">エントリー情報</div>
+        <div class="sp-profile-grid">
+          <div class="sp-profile-label">エントリー日</div><div class="sp-profile-value">${sp_entryDate}</div>
+          <div class="sp-profile-label">応募職種</div><div class="sp-profile-value">${a.job}</div>
+          <div class="sp-profile-label">受験資格</div><div class="sp-profile-value">${sp_eligibility}</div>
+          <div class="sp-profile-label">国籍</div><div class="sp-profile-value">日本国籍</div>
+        </div>
+        <div class="sp-sub-label">志望動機</div>
+        <div class="sp-pr-box">${selfPR}</div>
+        <div class="sp-sub-label">就職活動状況</div>
+        <div class="sp-lang-list">${sp_huntList.map(h=>`<div class="sp-lang-item">${h}</div>`).join('')}</div>
+        <div class="sp-sub-label">一次試験の選択</div>
+        <div class="sp-lang-list"><div class="sp-lang-item">${sp_examChoice}</div></div>
+        <div class="sp-sub-label">試験時の配慮</div>
+        <div class="sp-lang-list"><div class="sp-lang-item">${sp_considerNeeded?'要':'不要'}${sp_considerNeeded?'｜'+sp_considerText:''}</div></div>
+        <div class="sp-sub-label">確認事項</div>
+        <div class="sp-check-list">
+          <div class="sp-check-item">${ckSvg}<span>応募職種は「${a.job}」で間違いありません</span></div>
+          <div class="sp-check-item">${ckSvg}<span>申込内容（学歴・職歴等）に事実と相違ありません</span></div>
+          <div class="sp-check-item">${ckSvg}<span>地方公務員法第16条の欠格条項のいずれにも該当しません</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-tabpanel" data-sppanel="file">
+      <div class="sp-sec">
+        <div class="sp-sec-title">WEBミーティング</div>
+        <div class="sp-empty-note">WEBミーティングの情報はありません</div>
+      </div>
+      <div class="sp-sec">
+        <div class="sp-sec-title">応募者ファイル</div>
+        <div class="sp-attachments">${files.map(fl=>`<div class="sp-attachment-item"><div class="sp-attachment-icon ${fl.t}">${fl.t==='video'?fileSvgVid:fileSvgPdf}</div><div class="sp-attachment-info"><div class="sp-attachment-name">${fl.n}</div><div class="sp-attachment-meta">${fl.meta}</div></div><div class="sp-attachment-actions">${fl.play==='video'?`<button class="sp-attachment-btn primary" onclick="openVideoModal('${a.id}')">${playSvg}視聴</button>`:''}${fl.play==='online'?`<button class="sp-attachment-btn primary" onclick="openOnlineInterviewModal('${a.id}')">${playSvg}視聴</button>`:''}<button class="sp-attachment-btn" onclick="downloadDummyFile('${fl.n}','${fl.t}')">${dlSvg}DL</button></div></div>`).join('')}</div>
+        <p class="sp-empty-note" style="margin-top:10px">アップロードしたファイルは、応募者に任意で共有することができます。</p>
+      </div>
+    </div>
+
+    <div class="sp-tabpanel" data-sppanel="timeline">
+      <div class="sp-sec">
+        <div class="sp-sec-title">タイムライン</div>
+        <div class="sp-tl">${sp_timeline.map(ev=>`<div class="sp-tl-item"><span class="sp-tl-dot"></span><div class="sp-tl-body"><div class="sp-tl-time">${ev.t}</div><div class="sp-tl-text">${ev.txt}</div></div></div>`).join('')}</div>
       </div>
     </div>
   `;
@@ -33285,6 +33343,14 @@ function openPanel(id){
   document.getElementById('side-panel').classList.add('open');
   document.getElementById('overlay').classList.add('show');
 }
+
+function spSwitchTab(name){
+  var p=document.getElementById('sp-body'); if(!p)return;
+  p.querySelectorAll('.sp-detail-tabs .sp-tab').forEach(function(t){t.classList.toggle('active',t.getAttribute('data-sptab')===name);});
+  p.querySelectorAll('.sp-tabpanel').forEach(function(x){x.classList.toggle('active',x.getAttribute('data-sppanel')===name);});
+  var sb=document.querySelector('.side-panel .sp-body'); if(sb)sb.scrollTop=0;
+}
+window.spSwitchTab=spSwitchTab;
 
 // ── 応募者詳細パネル：メッセージ送信モーダル ──
 function openSpMessageModal(){
