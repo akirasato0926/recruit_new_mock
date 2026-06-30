@@ -19358,6 +19358,15 @@ body.on-login-page{overflow:hidden}
     </div>
   </div>
 
+  <style id="am-toolbar-css">
+  .toolbar .am-export-link{display:inline-flex;align-items:center;gap:5px;background:none;border:0;color:#115A36;font-weight:700;font-size:13px;text-decoration:underline;cursor:pointer;font-family:inherit;padding:6px 4px}
+  .toolbar .am-export-link:hover{opacity:.8}
+  .toolbar .am-pagesize{display:flex;align-items:center;gap:4px;margin-left:auto}
+  .toolbar .am-ps{background:none;border:0;color:#5F6B65;font-size:13px;cursor:pointer;font-family:inherit;padding:4px 8px;border-radius:6px}
+  .toolbar .am-ps.active{color:#115A36;font-weight:700;text-decoration:underline}
+  .toolbar .am-ps:hover{background:#F2F8F4}
+  .toolbar .am-total{font-size:13px;color:#1A1A1A;font-weight:700;margin-left:8px;white-space:nowrap}
+  </style>
   <!-- TOOLBAR -->
   <div class="toolbar">
     <div class="view-switch">
@@ -19384,18 +19393,36 @@ body.on-login-page{overflow:hidden}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
       追加情報提出依頼
     </button>
-    <button class="btn" onclick="alert('CSV / Excel 形式で応募者情報をダウンロードします')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      情報ダウンロード
-    </button>
-    <button class="btn" onclick="if(window.showPage)showPage('dlhistory')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      出力したファイル一覧へ
-    </button>
     <button class="btn btn-primary">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       応募者を追加
     </button>
+    <button class="btn btn-outline" onclick="alert('PDF形式で応募者一覧を出力します')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      PDF出力
+    </button>
+    <button class="btn btn-outline" onclick="alert('顔写真・添付ファイルを一括で出力します')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="9" r="1.8"/><path d="M21 15l-5-5L5 21"/></svg>
+      顔写真/添付ファイル出力
+    </button>
+    <button class="btn btn-outline" onclick="alert('CSV形式で応募者情報を出力します')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      CSV出力
+    </button>
+    <button class="btn btn-outline" onclick="alert('CSVファイルから応募者情報を更新します')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      CSV更新
+    </button>
+    <button class="am-export-link" onclick="if(window.showPage)showPage('dlhistory')">
+      出力したファイル一覧へ
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px"><path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/></svg>
+    </button>
+    <div class="am-pagesize">
+      <button class="am-ps active" onclick="this.parentNode.querySelectorAll('.am-ps').forEach(function(b){b.classList.remove('active')});this.classList.add('active')">20件表示</button>
+      <button class="am-ps" onclick="this.parentNode.querySelectorAll('.am-ps').forEach(function(b){b.classList.remove('active')});this.classList.add('active')">50件表示</button>
+      <button class="am-ps" onclick="this.parentNode.querySelectorAll('.am-ps').forEach(function(b){b.classList.remove('active')});this.classList.add('active')">100件表示</button>
+      <span class="am-total">全 <span id="am-total-n">500</span> 件</span>
+    </div>
   </div>
 
   <!-- FILTER DRAWER -->
