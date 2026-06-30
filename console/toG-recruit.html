@@ -44042,29 +44042,7 @@ ${style.blogQuote}
   
   // デフォルトの placeholder 画像（美しいSVG）
   const DEFAULT_HERO_IMAGE = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stop-color="#0D4A2B"/>
-          <stop offset="0.5" stop-color="#115A36"/>
-          <stop offset="1" stop-color="#259D63"/>
-        </linearGradient>
-        <radialGradient id="sun" cx="0.8" cy="0.3">
-          <stop offset="0" stop-color="#FFE2B5" stop-opacity="0.9"/>
-          <stop offset="0.3" stop-color="#FFE2B5" stop-opacity="0.3"/>
-          <stop offset="1" stop-color="#FFE2B5" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="1920" height="700" fill="url(#bg)"/>
-      <rect width="1920" height="700" fill="url(#sun)"/>
-      <path d="M 0 560 Q 320 480 640 520 T 1280 490 T 1920 510 L 1920 700 L 0 700 Z" fill="#0A3820" opacity="0.6"/>
-      <path d="M 0 620 Q 360 580 720 600 T 1440 590 T 1920 600 L 1920 700 L 0 700 Z" fill="#082A18" opacity="0.8"/>
-      <circle cx="1550" cy="180" r="120" fill="#FFE2B5" opacity="0.85"/>
-      <circle cx="300" cy="120" r="3" fill="#fff" opacity="0.6"/>
-      <circle cx="500" cy="80" r="2" fill="#fff" opacity="0.5"/>
-      <circle cx="800" cy="150" r="2.5" fill="#fff" opacity="0.7"/>
-      <circle cx="1100" cy="60" r="2" fill="#fff" opacity="0.5"/>
-    </svg>`
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 700" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#E6F0EA"/><stop offset="1" stop-color="#CFE3D6"/></linearGradient></defs><rect width="1920" height="700" fill="url(#bg)"/></svg>`
   );
   
   function genHeroThumb(fmt){
