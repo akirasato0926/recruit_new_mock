@@ -31367,6 +31367,17 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel.sp-full .sp-body{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
 .side-panel.sp-full .sp-msg-footer{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
 .side-panel.sp-full .sp-head{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
+.side-panel .sp-msgthread{display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
+.side-panel .sp-msg-row{display:flex;flex-direction:column;max-width:82%}
+.side-panel .sp-msg-row.in{align-self:flex-start;align-items:flex-start}
+.side-panel .sp-msg-row.out{align-self:flex-end;align-items:flex-end}
+.side-panel .sp-msg-bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.7}
+.side-panel .sp-msg-row.in .sp-msg-bubble{background:#F1F3F2;color:#1A1A1A;border-top-left-radius:3px}
+.side-panel .sp-msg-row.out .sp-msg-bubble{background:#E6F5EC;color:#0E3D24;border-top-right-radius:3px}
+.side-panel .sp-msg-meta{font-size:11px;color:#7A857F;margin-top:4px}
+.side-panel .sp-msg-compose{display:flex;flex-direction:column;gap:8px;border-top:1px solid #EEF1EF;padding-top:14px}
+.side-panel .sp-msg-ta{width:100%;min-height:80px;border:1px solid #D8E2DC;border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;box-sizing:border-box}
+.side-panel .sp-msg-compose .btn{align-self:flex-end}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
@@ -31382,12 +31393,6 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     </div>
   </div>
   <div class="sp-body" id="sp-body"></div>
-  <div class="sp-msg-footer">
-    <button class="btn btn-primary sp-msg-send-btn" onclick="openSpMessageModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      メッセージを送る
-    </button>
-  </div>
 </aside>
 
 <!-- 応募者詳細パネル: メッセージ送信モーダル -->
@@ -33291,7 +33296,9 @@ function openPanel(id){
       <button class="sp-tab active" data-sptab="profile" role="tab" onclick="spSwitchTab('profile')">プロフィール</button>
       <button class="sp-tab" data-sptab="entry" role="tab" onclick="spSwitchTab('entry')">エントリー情報</button>
       <button class="sp-tab" data-sptab="file" role="tab" onclick="spSwitchTab('file')">ファイル</button>
+      <button class="sp-tab" data-sptab="score" role="tab" onclick="spSwitchTab('score')">成績結果</button>
       <button class="sp-tab" data-sptab="timeline" role="tab" onclick="spSwitchTab('timeline')">タイムライン</button>
+      <button class="sp-tab" data-sptab="message" role="tab" onclick="spSwitchTab('message')">メッセージ</button>
     </div>
 
     <div class="sp-tabpanel active" data-sppanel="profile">
@@ -33317,11 +33324,6 @@ function openPanel(id){
       <div class="sp-sec">
         <div class="sp-sec-title">学歴</div>
         <div class="sp-timeline">${eduRev.map(e=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${e.date}</div><div class="sp-timeline-body">${e.name}</div><div class="sp-timeline-meta">${e.type}</div></div>`).join('')}</div>
-      </div>
-      <div class="sp-sec">
-        <div class="sp-sec-title">成績管理</div>
-        <div class="sp-score-block"><div class="sp-score-test">SPI3 ${tt==='spi3'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='spi3')}</div>
-        <div class="sp-score-block"><div class="sp-score-test">日本人事試験研究センター ${tt==='jinji'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='jinji')}</div>
       </div>
     </div>
 
@@ -33363,10 +33365,32 @@ function openPanel(id){
       </div>
     </div>
 
+    <div class="sp-tabpanel" data-sppanel="score">
+      <div class="sp-sec">
+        <div class="sp-sec-title">成績結果</div>
+        <div class="sp-score-block"><div class="sp-score-test">SPI3 ${tt==='spi3'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='spi3')}</div>
+        <div class="sp-score-block"><div class="sp-score-test">日本人事試験研究センター ${tt==='jinji'?'<span class="sp-score-tag">受験</span>':'<span class="sp-score-tag none">受験なし</span>'}</div>${scoreTable(tt==='jinji')}</div>
+      </div>
+    </div>
+
     <div class="sp-tabpanel" data-sppanel="timeline">
       <div class="sp-sec">
         <div class="sp-sec-title">タイムライン</div>
         <div class="sp-tl">${sp_timeline.map(ev=>`<div class="sp-tl-item"><span class="sp-tl-dot"></span><div class="sp-tl-body"><div class="sp-tl-time">${ev.t}</div><div class="sp-tl-text">${ev.txt}</div></div></div>`).join('')}</div>
+      </div>
+    </div>
+
+    <div class="sp-tabpanel" data-sppanel="message">
+      <div class="sp-sec">
+        <div class="sp-sec-title">メッセージ</div>
+        <div class="sp-msgthread">
+          <div class="sp-msg-row in"><div class="sp-msg-bubble">この度はご応募ありがとうございます。書類選考の結果と1次選考のご案内です。</div><div class="sp-msg-meta">公共市役所 人事課 ・ ${a.applied_date}</div></div>
+          <div class="sp-msg-row out"><div class="sp-msg-bubble">ご連絡ありがとうございます。日程を確認いたしました。当日はよろしくお願いいたします。</div><div class="sp-msg-meta">${a.name} ・ ${a.applied_date}</div></div>
+        </div>
+        <div class="sp-msg-compose">
+          <textarea class="sp-msg-ta" placeholder="メッセージを入力..."></textarea>
+          <button class="btn btn-primary" onclick="alert('メッセージを送信しました')">送信する</button>
+        </div>
       </div>
     </div>
   `;
