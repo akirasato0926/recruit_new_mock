@@ -19154,10 +19154,15 @@ body.on-login-page{overflow:hidden}
         <a class="submenu-item" role="menuitem" onclick="showToast('他自治体の求人検索（準備中）')">他自治体の求人を探す</a>
       </div>
     </div>
-    <a class="main-nav-item" href="#" data-page="members" style="cursor:pointer">
+    <div class="main-nav-item has-submenu" tabindex="0">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
       システム設定
-    </a>
+      <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="submenu" role="menu">
+        <a class="submenu-item" data-page="design" role="menuitem">デザイン変更</a>
+        <a class="submenu-item" data-page="members" role="menuitem">部署・メンバー管理</a>
+      </div>
+    </div>
     <a class="main-nav-item" href="#" data-page="help" style="cursor:pointer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       ヘルプ
@@ -30589,6 +30594,103 @@ body.on-login-page{overflow:hidden}
 </div>
 
 <!-- アカウント・プラン（旧 SCR-E-25/41/60/83 相当）-->
+<style>
+  #page-design .design-wrap{display:flex;flex-direction:column;gap:24px}
+  #page-design .design-sec-title{font-size:15px;font-weight:700;color:#1A1A1A;margin:0 0 4px}
+  #page-design .design-sec-sub{font-size:12.5px;color:#5F6B65;margin:0 0 14px;line-height:1.6}
+  #page-design .design-current-card{display:flex;align-items:center;gap:18px;border:1px solid #DCEBE2;background:#F2F8F4;border-radius:12px;padding:16px 18px;flex-wrap:wrap}
+  #page-design .dc-thumb{width:170px;height:104px;border-radius:8px;border:1px solid #CFE0D6;overflow:hidden;flex:none;position:relative;background:#fff}
+  #page-design .dc-info{flex:1;min-width:200px}
+  #page-design .dc-eyebrow{font-size:11px;font-weight:700;color:#115A36;background:#E6F5EC;border-radius:4px;padding:2px 8px;display:inline-block}
+  #page-design .dc-tname{font-size:17px;font-weight:700;color:#1A1A1A;margin-top:8px}
+  #page-design .dc-meta{font-size:12.5px;color:#5F6B65;margin-top:5px;line-height:1.6}
+  #page-design .dc-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  #page-design .dc-btn{height:36px;padding:0 16px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid #115A36;background:#fff;color:#115A36}
+  #page-design .dc-btn:hover{background:#E6F5EC}
+  #page-design .design-note{font-size:12px;color:#767676;background:#FAFBFA;border:1px dashed #E0E6E3;border-radius:8px;padding:11px 14px;line-height:1.7}
+  #page-design .dt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+  #page-design .dt-card{border:1px solid #E6ECE9;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  #page-design .dt-card.current{border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC}
+  #page-design .dt-thumb{height:148px;border-bottom:1px solid #EEF2F0;position:relative;overflow:hidden}
+  #page-design .dt-badge{display:none;position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;color:#fff;background:#115A36;border-radius:999px;padding:3px 10px;z-index:2}
+  #page-design .dt-card.current .dt-badge{display:block}
+  #page-design .dt-body{padding:13px 15px 0;flex:1}
+  #page-design .dt-name{font-size:14px;font-weight:700;color:#1A1A1A}
+  #page-design .dt-desc{font-size:12px;color:#5F6B65;line-height:1.6;margin:5px 0 8px}
+  #page-design .dt-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  #page-design .dt-tag{font-size:10.5px;color:#115A36;background:#E6F5EC;border-radius:4px;padding:2px 7px;font-weight:700}
+  #page-design .dt-actions{display:flex;gap:8px;padding:0 15px 14px}
+  #page-design .dt-btn{flex:1;height:34px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;border:1px solid #D7DEDA;background:#fff;color:#3A423E}
+  #page-design .dt-btn:hover{border-color:#115A36;color:#115A36}
+  #page-design .dt-btn.apply{background:#115A36;border-color:#115A36;color:#fff}
+  #page-design .dt-btn.apply:hover{background:#0d4429;color:#fff}
+  #page-design .dt-btn.applied{background:#E6F5EC;border-color:#C5E6D4;color:#115A36;cursor:default}
+  #page-design .wf{position:absolute;inset:0;background:#F7FAF8;padding:8px;display:flex;flex-direction:column;gap:5px}
+  #page-design .wf-bar{height:9px;border-radius:2px;background:#CFE0D6;flex:none}
+  #page-design .wf-hero{border-radius:4px;background:linear-gradient(135deg,#9BD4B5,#51B883);flex:none}
+  #page-design .wf-row{display:flex;gap:5px;flex:1}
+  #page-design .wf-blk{flex:1;border-radius:3px;background:#E2EBE6}
+  #page-design .wf-line{height:5px;border-radius:2px;background:#E2EBE6;flex:none}
+</style>
+<div id="page-design" class="page-container" data-page="design">
+  <div class="page-title-area"><div class="page-title-inner">
+    <div class="page-eyebrow">システム設定</div>
+    <h1 class="page-title">デザイン変更</h1>
+    <div class="page-meta"><span class="page-meta-item">自治体トップページ（採用サイト）のデザインをテンプレートから変更</span></div>
+  </div></div>
+  <main class="main"><div class="main-inner">
+    <div class="design-wrap">
+
+      <section>
+        <div class="design-sec-title">現在のデザイン</div>
+        <div class="design-current-card">
+          <div class="dc-thumb"><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:44px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div>
+          <div class="dc-info">
+            <span class="dc-eyebrow">適用中のテンプレート</span>
+            <div class="dc-tname" id="design-current-name">スタンダード</div>
+            <div class="dc-meta">公開中の採用トップページに適用されているデザインです。テンプレートを変更すると、トップページ全体の構成・見た目が切り替わります。</div>
+            <div class="dc-actions">
+              <button class="dc-btn" onclick="designOpenPublic()">公開中の採用ページを見る</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="design-sec-title">デザインテンプレートを選択</div>
+        <div class="design-sec-sub">採用トップページの基本デザインをテンプレートから選べます。適用後、色・セクション構成・掲載項目などの詳細カスタマイズ範囲は今後の検討で確定します。</div>
+        <div class="dt-grid">
+          <div class="dt-card current" data-name="スタンダード"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:44px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">スタンダード</div><div class="dt-desc">求人・特集・職員紹介をバランスよく配置した王道レイアウト。情報を網羅的に伝えたい自治体向け。</div><div class="dt-tags"><span class="dt-tag">王道</span><span class="dt-tag">情報網羅</span><span class="dt-tag">万能</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('スタンダード')">プレビュー</button><button class="dt-btn applied" disabled>適用中</button></div></div>
+          <div class="dt-card" data-name="ビジュアル重視"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="flex:1"></div><div class="wf-row" style="flex:none"><div class="wf-blk" style="height:16px"></div><div class="wf-blk" style="height:16px"></div></div></div></div><div class="dt-body"><div class="dt-name">ビジュアル重視</div><div class="dt-desc">大きなメインビジュアルで第一印象を強化。写真・動画で「働くまち」の魅力を訴求。</div><div class="dt-tags"><span class="dt-tag">写真映え</span><span class="dt-tag">ブランディング</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('ビジュアル重視')">プレビュー</button><button class="dt-btn apply" onclick="designApply('ビジュアル重視')">このテンプレートを適用</button></div></div>
+          <div class="dt-card" data-name="ストーリー型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:30px"></div><div class="wf-line"></div><div class="wf-line" style="width:80%"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">ストーリー型</div><div class="dt-desc">職員インタビューや一日の流れを中心に、働くイメージを物語で魅せる構成。</div><div class="dt-tags"><span class="dt-tag">共感</span><span class="dt-tag">インタビュー</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('ストーリー型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('ストーリー型')">このテンプレートを適用</button></div></div>
+          <div class="dt-card" data-name="シンプル"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-line"></div><div class="wf-line" style="width:92%"></div><div class="wf-line" style="width:85%"></div><div class="wf-line" style="width:95%"></div><div class="wf-line" style="width:70%"></div><div class="wf-line" style="width:88%"></div></div></div><div class="dt-body"><div class="dt-name">シンプル</div><div class="dt-desc">文字情報中心で読みやすく軽快。募集要項・制度をしっかり伝えたい場合に。</div><div class="dt-tags"><span class="dt-tag">高速</span><span class="dt-tag">可読性</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('シンプル')">プレビュー</button><button class="dt-btn apply" onclick="designApply('シンプル')">このテンプレートを適用</button></div></div>
+          <div class="dt-card" data-name="データ訴求型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-row" style="flex:none"><div class="wf-blk" style="height:38px"></div><div class="wf-blk" style="height:38px"></div><div class="wf-blk" style="height:38px"></div></div><div class="wf-line"></div><div class="wf-line" style="width:80%"></div></div></div><div class="dt-body"><div class="dt-name">データ訴求型</div><div class="dt-desc">待遇・制度・実績を数字で前面に。民間と比較検討する層に響く構成。</div><div class="dt-tags"><span class="dt-tag">数字</span><span class="dt-tag">比較検討</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('データ訴求型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('データ訴求型')">このテンプレートを適用</button></div></div>
+          <div class="dt-card" data-name="地域ブランド型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:28px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">地域ブランド型</div><div class="dt-desc">まちの魅力と仕事を結びつけ、移住・定住に関心のある層へ訴求。</div><div class="dt-tags"><span class="dt-tag">地域</span><span class="dt-tag">移住・定住</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('地域ブランド型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('地域ブランド型')">このテンプレートを適用</button></div></div>
+        </div>
+        <div class="design-note" style="margin-top:14px">※ 本画面はデザインテンプレートの選択・適用の入口です。カスタマイズ可能な範囲（カラー／ロゴ／セクションの並び替え・表示切替／バナー差し替え 等）は別途要件を定義します。</div>
+      </section>
+
+    </div>
+  </div></main>
+</div>
+<script>
+(function(){
+  window.designApply=function(name){
+    document.querySelectorAll('#page-design .dt-card').forEach(function(c){
+      var cur=c.getAttribute('data-name')===name;
+      c.classList.toggle('current',cur);
+      var btns=c.querySelectorAll('.dt-actions .dt-btn');
+      var ab=btns[btns.length-1];
+      if(ab){ if(cur){ab.className='dt-btn applied';ab.textContent='適用中';ab.disabled=true;ab.removeAttribute('onclick');}
+        else {ab.className='dt-btn apply';ab.textContent='このテンプレートを適用';ab.disabled=false;ab.setAttribute('onclick',"designApply('"+c.getAttribute('data-name')+"')");} }
+    });
+    var cn=document.getElementById('design-current-name'); if(cn) cn.textContent=name;
+    if(typeof showToast==='function') showToast('「'+name+'」を採用トップページに適用しました');
+  };
+  window.designPreview=function(name){ if(typeof showToast==='function') showToast('「'+name+'」のプレビューを表示します（準備中）'); };
+  window.designOpenPublic=function(){ if(typeof showToast==='function') showToast('公開中の採用ページを新しいタブで開きます（準備中）'); };
+})();
+</script>
 <div id="page-account" class="page-container" data-page="account">
   <div class="page-title-area"><div class="page-title-inner">
     <div class="page-eyebrow">アカウント</div>
@@ -35110,7 +35212,7 @@ function dhDeleteRow(btn){
 // ═══════════════════════════════════════════════════════
 // ページ切り替え (ハッシュベースルーティング)
 // ═══════════════════════════════════════════════════════
-const PAGES = ['domain','login','top','site-edit','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
+const PAGES = ['domain','login','top','site-edit','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','design','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
 const PAGE_LABELS = {
   'login': 'ログイン',
   'top': 'トップページ',
@@ -35132,7 +35234,9 @@ const PAGE_LABELS = {
   'survey': 'アンケート',
   'app-edit': '応募者情報を編集',
   'dlhistory': '出力したファイル一覧',
-  'help': '官公庁様向けヘルプ'
+  'help': '官公庁様向けヘルプ',
+  'members': '部署・メンバー管理',
+  'design': 'デザイン変更'
 };
 // サブナビ「求人管理」がactive扱いされるページ (02は作成中なので求人管理配下)
 const SUBNAV_MAPPING = {
