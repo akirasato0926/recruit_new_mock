@@ -31042,6 +31042,11 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 
   function init(){
     injectCss();ensureEditorFonts();buildPanelShell();
+    // プレビューiframeにキャッシュ回避クエリを付与（古いsite-previewを掴み続ける問題の恒久対策）
+    var _if=document.getElementById('bde-preview');
+    if(_if){var _b=(_if.getAttribute('src')||'site-preview.html').split('?')[0];
+      var _v=(window.Date&&Date.now)?Date.now():Math.floor((window.performance&&performance.now?performance.now():1)*1000);
+      _if.setAttribute('src',_b+'?v='+_v);}
     var ok=moveContent();
     renderBlocks();
     if(ok){bdeSelect('theme');}
