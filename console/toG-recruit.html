@@ -30822,7 +30822,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {key:'footer',label:'フッター', fixed:true, note:'フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。'}
   ];
   var SEL={header:'.site-header',hero:'.banner',intro:'.org-head',jobs:'.block[data-section="jobs"]',blog:'.block[data-section="blog"]',video:'.block[data-section="video"]',recruit:'.block[data-section="recruit"]',basic:'.employer-footer',footer:'.site-footer'};
-  var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',bg:'cream',carBg:'#0D4A2B',dirty:false,moved:false};
+  var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',bg:'cream',carBg:'#0D4A2B',count:{jobs:8,blog:5,video:5},dirty:false,moved:false};
   function $(id){return document.getElementById(id);}
   function iframe(){return $('bde-preview');}
   function pm(m){try{iframe().contentWindow.postMessage(m,'*');}catch(e){}}
@@ -30858,7 +30858,10 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
       '#page-design .bde-size-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}'+
       '#page-design #bde-panel .tp-edit-color-preview{gap:5px}'+
       '#page-design #bde-panel .tp-edit-color-swatch{padding:7px 3px}'+
-      '#page-design #bde-panel .tp-edit-color-swatch span{font-size:8px;white-space:nowrap;letter-spacing:-.03em;line-height:1.15}';
+      '#page-design #bde-panel .tp-edit-color-swatch span{font-size:8px;white-space:nowrap;letter-spacing:-.03em;line-height:1.15}'+
+      '#page-design .bde-count{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #F0F2F1}'+
+      '#page-design .bde-count-l{font-size:12.5px;font-weight:700;color:#3A463F}'+
+      '#page-design .bde-count-s{height:34px;border:1px solid #D8E2DC;border-radius:8px;padding:0 10px;font-family:inherit;font-size:13px;background:#fff;cursor:pointer}';
     document.head.appendChild(s);
   }
 
@@ -30901,6 +30904,15 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
       hsec.innerHTML='<h3 class="tp-edit-section-title">記事カルーセルの背景色</h3><p class="tp-edit-section-desc">「記事カルーセル」形式のとき、カルーセル背景に適用されます。</p><div class="bde-font-grid" id="bde-carbg-grid"></div>';
       heroPane.appendChild(hsec);renderCarBg();
     }
+    [['jobs',8],['blog',5],['video',5]].forEach(function(pr){
+      var opt=document.getElementById('ed-display-'+pr[0]);var dsec=opt?opt.closest('.tp-display-section'):null;
+      if(dsec&&!dsec.querySelector('.bde-count')){
+        var row=document.createElement('div');row.className='bde-count';
+        var o='';for(var i=1;i<=12;i++){o+='<option value="'+i+'"'+(i===state.count[pr[0]]?' selected':'')+'>'+i+'件</option>';}
+        row.innerHTML='<span class="bde-count-l">表示件数（最大12件）</span><select class="bde-count-s" onchange="bdeSetCount(\''+pr[0]+'\',this.value)">'+o+'</select>';
+        dsec.appendChild(row);
+      }
+    });
     bindInfoInputs(content);
     state.moved=true;return true;
   }
@@ -30921,6 +30933,20 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   function renderCarBg(){var g=document.getElementById('bde-carbg-grid');if(!g)return;
     g.innerHTML=CAR_BG.map(function(b){return '<button class="bde-font-btn'+(state.carBg===b.c?' active':'')+'" onclick="bdeSetCarBg(\''+b.c+'\')"><span style="display:block;height:30px;border-radius:6px;border:1px solid #e0e4e2;background:'+b.c+'"></span><span class="n">'+b.n+'</span></button>';}).join('');}
   window.bdeSetCarBg=function(c){state.carBg=c;if(window.tpConfig&&window.tpConfig.hero)window.tpConfig.hero.carouselBg=c;renderCarBg();markDirty();};
+  window.bdeSetCount=function(sec,n){n=parseInt(n,10)||1;state.count[sec]=n;pm({type:'pv-count',section:sec,count:n});markDirty();};
+  function sendAll(){
+    var cfg=window.tpConfig;
+    if(cfg){
+      var cols=window.TP_COLORS||[];var c=cols.find(function(x){return x.id===cfg.color;});
+      if(c)pm({type:'pv-color',c700:c.c700,c900:c.c900});
+      if(cfg.sections)pm({type:'pv-order',order:cfg.sections});
+      if(cfg.display){['jobs','blog','video'].forEach(function(sx){if(cfg.display[sx]!=null)pm({type:'pv-display',section:sx,format:cfg.display[sx]});});}
+      if(cfg.hero){var ty=cfg.hero.typography||{};var ht=(ty.titleLine1||'')+(ty.titleLine2Before||'')+(ty.titleLine2Em||'')+(ty.titleLine2After||'');pm({type:'pv-hero',hero:{format:cfg.hero.format,image:cfg.hero.imageData,typo:{title:ht,desc:ty.description},carouselBg:cfg.hero.carouselBg}});}
+    }
+    ['jobs','blog','video'].forEach(function(sx){pm({type:'pv-count',section:sx,count:state.count[sx]});});
+    sendFont();pm({type:'pv-bg',mode:state.bg});
+  }
+  window.addEventListener('message',function(ev){if(ev.data&&ev.data.type==='pv-ready'){setTimeout(sendAll,30);}});
 
   /* 自治体情報フォーム → プレビューへ反映 */
   function bindInfoInputs(content){
