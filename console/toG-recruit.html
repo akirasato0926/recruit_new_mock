@@ -31406,6 +31406,13 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel .spm-reply svg{width:18px;height:18px}
 .side-panel .spm-msg-subject{font-size:14px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
 .side-panel .spm-msg-body{font-size:13px;color:#3A3F45;line-height:1.9}
+/* 狭いパネル(非全画面)はタブ化せず、コア情報をスタック表示に戻す */
+.side-panel:not(.sp-full) .sp-detail-tabs{display:none}
+.side-panel:not(.sp-full) .sp-entrybar{display:none}
+.side-panel:not(.sp-full) .sp-tabpanel{display:block !important}
+.side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="entry"]{display:none !important}
+.side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="timeline"]{display:none !important}
+.side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="message"]{display:none !important}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
