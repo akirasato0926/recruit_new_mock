@@ -31367,17 +31367,45 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel.sp-full .sp-body{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
 .side-panel.sp-full .sp-msg-footer{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
 .side-panel.sp-full .sp-head{padding-left:max(28px,calc((100vw - 1040px)/2));padding-right:max(28px,calc((100vw - 1040px)/2))}
-.side-panel .sp-msgthread{display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
-.side-panel .sp-msg-row{display:flex;flex-direction:column;max-width:82%}
-.side-panel .sp-msg-row.in{align-self:flex-start;align-items:flex-start}
-.side-panel .sp-msg-row.out{align-self:flex-end;align-items:flex-end}
-.side-panel .sp-msg-bubble{padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.7}
-.side-panel .sp-msg-row.in .sp-msg-bubble{background:#F1F3F2;color:#1A1A1A;border-top-left-radius:3px}
-.side-panel .sp-msg-row.out .sp-msg-bubble{background:#E6F5EC;color:#0E3D24;border-top-right-radius:3px}
-.side-panel .sp-msg-meta{font-size:11px;color:#7A857F;margin-top:4px}
-.side-panel .sp-msg-compose{display:flex;flex-direction:column;gap:8px;border-top:1px solid #EEF1EF;padding-top:14px}
-.side-panel .sp-msg-ta{width:100%;min-height:80px;border:1px solid #D8E2DC;border-radius:8px;padding:10px;font-family:inherit;font-size:13px;resize:vertical;box-sizing:border-box}
-.side-panel .sp-msg-compose .btn{align-self:flex-end}
+.side-panel .spm{font-size:13px}
+.side-panel .spm-assignee-label{font-size:11.5px;color:#8A8F94;margin-bottom:4px}
+.side-panel .spm-assignee-val{display:flex;align-items:center;gap:8px;font-size:14px;color:#1A1A1A}
+.side-panel .spm-assignee-val strong{font-size:15px}
+.side-panel .spm-gear{width:15px;height:15px;color:#8A8F94}
+.side-panel .spm-line{height:1px;background:#E6E6E6;margin:14px 0}
+.side-panel .spm-to-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.side-panel .spm-to{font-size:14px;color:#1A1A1A}
+.side-panel .spm-nores{display:inline-flex;align-items:center;gap:8px;background:none;border:0;font-size:12px;color:#8A8F94;font-family:inherit;cursor:pointer}
+.side-panel .spm-nores-knob{width:34px;height:18px;border-radius:999px;background:#CBD3CE;position:relative;transition:background .15s;flex:none}
+.side-panel .spm-nores-knob::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
+.side-panel .spm-nores.on .spm-nores-knob{background:#115A36}
+.side-panel .spm-nores.on .spm-nores-knob::after{left:18px}
+.side-panel .spm-subject{width:100%;border:1px solid #D8DCDF;border-radius:8px;padding:11px 14px;font-size:13px;font-family:inherit;margin-bottom:12px;box-sizing:border-box}
+.side-panel .spm-subject:focus{outline:none;border-color:#115A36}
+.side-panel .spm-bodybox{border:1px solid #D8DCDF;border-radius:8px;overflow:hidden;margin-bottom:22px}
+.side-panel .spm-body{width:100%;border:0;padding:12px 14px;font-size:13px;font-family:inherit;min-height:90px;resize:vertical;box-sizing:border-box;display:block}
+.side-panel .spm-body:focus{outline:none}
+.side-panel .spm-toolbar{display:flex;align-items:center;gap:16px;padding:10px 14px;border-top:1px solid #EEF0F2;background:#fff;flex-wrap:wrap}
+.side-panel .spm-tlink{background:none;border:0;color:#2563CC;font-size:12.5px;font-family:inherit;cursor:pointer;padding:0;white-space:nowrap}
+.side-panel .spm-tlink:hover{text-decoration:underline}
+.side-panel .spm-tspacer{flex:1;min-width:8px}
+.side-panel .spm-presend{display:inline-flex;align-items:center;gap:5px;background:none;border:0;color:#5F6B72;font-size:12.5px;font-family:inherit;cursor:pointer;white-space:nowrap}
+.side-panel .spm-presend svg{width:15px;height:15px}
+.side-panel .spm-sendc{display:inline-flex;align-items:center;gap:6px;background:#3A3F45;color:#fff;border:0;border-radius:7px;padding:8px 16px;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
+.side-panel .spm-sendc svg{width:14px;height:14px}
+.side-panel .spm-thread{display:flex;flex-direction:column}
+.side-panel .spm-msg{padding:18px 0;border-top:1px solid #EEF0F2}
+.side-panel .spm-msg-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.side-panel .spm-av{width:34px;height:34px;border-radius:50%;background:#E6F0FA;color:#2563CC;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none}
+.side-panel .spm-av svg{width:18px;height:18px}
+.side-panel .spm-av.dept{background:#E6F5EC;color:#115A36}
+.side-panel .spm-msg-meta{flex:1;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.side-panel .spm-msg-sender{font-size:13.5px;font-weight:700;color:#1A1A1A}
+.side-panel .spm-msg-date{font-size:11.5px;color:#8A8F94}
+.side-panel .spm-reply{background:none;border:0;color:#8A8F94;cursor:pointer;padding:4px}
+.side-panel .spm-reply svg{width:18px;height:18px}
+.side-panel .spm-msg-subject{font-size:14px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+.side-panel .spm-msg-body{font-size:13px;color:#3A3F45;line-height:1.9}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
@@ -33381,15 +33409,46 @@ function openPanel(id){
     </div>
 
     <div class="sp-tabpanel" data-sppanel="message">
-      <div class="sp-sec">
-        <div class="sp-sec-title">メッセージ</div>
-        <div class="sp-msgthread">
-          <div class="sp-msg-row in"><div class="sp-msg-bubble">この度はご応募ありがとうございます。書類選考の結果と1次選考のご案内です。</div><div class="sp-msg-meta">公共市役所 人事課 ・ ${a.applied_date}</div></div>
-          <div class="sp-msg-row out"><div class="sp-msg-bubble">ご連絡ありがとうございます。日程を確認いたしました。当日はよろしくお願いいたします。</div><div class="sp-msg-meta">${a.name} ・ ${a.applied_date}</div></div>
+      <div class="spm">
+        <div class="spm-assignee-label">担当メンバー</div>
+        <div class="spm-assignee-val"><strong>1名</strong><svg class="spm-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>公共市役所 人事課</span></div>
+        <div class="spm-line"></div>
+        <div class="spm-to-row">
+          <div class="spm-to">To&nbsp;&nbsp;<strong>${a.name}</strong></div>
+          <button class="spm-nores" onclick="this.classList.toggle('on')"><span class="spm-nores-knob"></span>対応不要</button>
         </div>
-        <div class="sp-msg-compose">
-          <textarea class="sp-msg-ta" placeholder="メッセージを入力..."></textarea>
-          <button class="btn btn-primary" onclick="alert('メッセージを送信しました')">送信する</button>
+        <input type="text" class="spm-subject" placeholder="件名">
+        <div class="spm-bodybox">
+          <textarea class="spm-body" placeholder="本文"></textarea>
+          <div class="spm-toolbar">
+            <button class="spm-tlink" onclick="alert('ファイルを添付します')">ファイル添付</button>
+            <button class="spm-tlink" onclick="alert('変数を挿入します')">変数挿入</button>
+            <button class="spm-tlink" onclick="alert('テンプレートを挿入します')">テンプレート挿入</button>
+            <button class="spm-tlink" onclick="alert('日程調整リンクを挿入します')">日程調整リンク挿入</button>
+            <span class="spm-tspacer"></span>
+            <button class="spm-presend" onclick="alert('予約送信の日時を設定します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>日時を設定して予約送信</button>
+            <button class="spm-sendc" onclick="alert('送信内容を確認します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>送信確認</button>
+          </div>
+        </div>
+        <div class="spm-thread">
+          <div class="spm-msg">
+            <div class="spm-msg-head">
+              <div class="spm-av dept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5"/></svg></div>
+              <div class="spm-msg-meta"><span class="spm-msg-sender">公共市役所 人事課</span><span class="spm-msg-date">${a.applied_date} 16:12</span></div>
+              <button class="spm-reply" onclick="alert('返信します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
+            </div>
+            <div class="spm-msg-subject">Re: 選考のご案内について</div>
+            <div class="spm-msg-body">${a.name} 様<br><br>お世話になっております。公共市役所 人事課です。<br><br>選考に関するお問い合わせへご回答いただき、ありがとうございます。<br>当日お会いできることを心待ちにしております。<br><br>人事課 採用係 一同</div>
+          </div>
+          <div class="spm-msg">
+            <div class="spm-msg-head">
+              <div class="spm-av">${a.name.charAt(0)}</div>
+              <div class="spm-msg-meta"><span class="spm-msg-sender">${a.name}</span><span class="spm-msg-date">${a.applied_date} 14:45</span></div>
+              <button class="spm-reply" onclick="alert('返信します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
+            </div>
+            <div class="spm-msg-subject">選考のご案内について</div>
+            <div class="spm-msg-body">公共市役所 採用ご担当者様<br>お世話になっております。${a.name} と申します。<br>このたびはご連絡をいただき、誠にありがとうございます。<br>ご案内いただいた日程で出席いたします。当日はどうぞよろしくお願いいたします。</div>
+          </div>
         </div>
       </div>
     </div>
