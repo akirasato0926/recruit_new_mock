@@ -30764,7 +30764,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
       <aside class="bde-blocks" id="bde-blocks" role="list" aria-label="ブロック一覧"></aside>
       <div class="bde-canvas">
         <div class="bde-frame" id="bde-frame" data-device="pc">
-          <iframe class="bde-preview" id="bde-preview" title="採用サイトのプレビュー" src="toG-recruit-habe.html?preview=site-edit"></iframe>
+          <iframe class="bde-preview" id="bde-preview" title="採用サイトのプレビュー" src="site-preview-habe.html"></iframe>
         </div>
       </div>
       <aside class="bde-panel" id="bde-panel" aria-label="編集パネル"></aside>
@@ -30798,7 +30798,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {key:'basic', label:'自治体基本情報', pane:'info', note:'自治体基本情報は管理者が登録する情報のため編集できません（自治体情報パネル下部に表示）。'},
     {key:'footer',label:'フッター', fixed:true, note:'フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。'}
   ];
-  var SEL={header:'.tp-header',hero:'#tp-hero',intro:'#tp-intro',jobs:'#tp-jobs',blog:'#tp-blog',video:'#tp-video',recruit:'#tp-recruit',basic:'#tp-basic',footer:'.tp-footer'};
+  var SEL={header:'.site-header',hero:'.banner',intro:'.org-head',jobs:'.block[data-section="jobs"]',blog:'.block[data-section="blog"]',video:'.block[data-section="blog"]',recruit:'.block[data-section="recruit"]',basic:'.employer-footer',footer:'.site-footer'};
   var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',dirty:false,moved:false};
   function $(id){return document.getElementById(id);}
   function iframe(){return $('bde-preview');}
@@ -30875,14 +30875,14 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
       return '<button class="bde-font-btn'+(state.fontSize===z.k?' active':'')+'" onclick="bdeSetSize(\''+z.k+'\',this)">'+
         '<span class="s" style="font-size:'+(z.k==='large'?'18':'13')+'px">Aa</span><span class="n">'+z.name+'</span></button>';}).join('');}
   }
-  function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'bde-font',family:f.css,g:f.g,size:state.fontSize});}
+  function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'pv-font',family:f.css,g:f.g,size:state.fontSize});}
   window.bdeSetFamily=function(k){state.fontFamily=k;renderFontPicker();sendFont();markDirty();};
   window.bdeSetSize=function(k){state.fontSize=k;renderFontPicker();sendFont();markDirty();};
 
   /* 自治体情報フォーム → プレビューへ反映 */
   function bindInfoInputs(content){
     var tg=content.querySelector('#ed-tagline'),ab=content.querySelector('#ed-about');
-    function pushIntro(){pm({type:'bde-intro',intro:{tagline:tg?tg.value:'',text:ab?ab.value:''}});markDirty();}
+    function pushIntro(){pm({type:'pv-org',desc:ab?ab.value:null});markDirty();}
     if(tg)tg.addEventListener('input',pushIntro);
     if(ab)ab.addEventListener('input',pushIntro);
     var map={'ed-sns-x':'x','ed-sns-ig':'ig','ed-sns-yt':'yt','ed-url':'url'};
@@ -30932,7 +30932,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     if(b.note&&!b.pane){ if(content)content.style.display='none'; if(note){note.style.display='block';note.innerHTML='<div class="ln"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+b.note+'</span></div>';} }
     else { if(note)note.style.display='none'; showPane(b.pane); if(b.key==='theme')renderFontPicker(); }
     // プレビュー: 対象ブロックへスクロール&ハイライト
-    var sel=SEL[k]||null; pm({type:'bde-select',sel:sel});
+    var sel=SEL[k]||null; pm({type:'pv-select',sel:sel});
   };
 
   /* デバイス切替 / 保存 / 公開 */
@@ -30945,8 +30945,13 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   /* tpConfig（既存パネルが更新）の変化をプレビューへ転送 */
   var lastCfg='';
   function poll(){
-    if(window.tpConfig){var s;try{s=JSON.stringify(window.tpConfig);}catch(e){return;}
-      if(s!==lastCfg){ if(lastCfg!=='')markDirty(); lastCfg=s; pm({type:'bde-config',cfg:window.tpConfig}); }}
+    if(!window.tpConfig)return;var s;try{s=JSON.stringify(window.tpConfig);}catch(e){return;}
+    if(s===lastCfg)return; if(lastCfg!=='')markDirty(); lastCfg=s;
+    var cfg=window.tpConfig, cols=window.TP_COLORS||[];
+    var c=cols.find(function(x){return x.id===cfg.color;});
+    if(c)pm({type:'pv-color',c700:c.c700,c900:c.c900});
+    if(cfg.sections)pm({type:'pv-order',order:cfg.sections.filter(function(k){return k!=='video';})});
+    if(cfg.hero&&cfg.hero.imageData)pm({type:'pv-banner',url:cfg.hero.imageData});
   }
 
   /* 高さフィット */
