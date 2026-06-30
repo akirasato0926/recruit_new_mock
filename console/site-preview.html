@@ -360,7 +360,18 @@
   <div class="wrap">
 
     <!-- Hero -->
-    <img class="banner" id="pv-banner" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1120 296'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%230D4A2B'/%3E%3Cstop offset='1' stop-color='%23259D63'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1120' height='296' fill='url(%23g)'/%3E%3Ccircle cx='930' cy='90' r='70' fill='%23FFE2B5' opacity='0.85'/%3E%3Cpath d='M0 235 Q280 200 560 220 T1120 215 L1120 296 L0 296 Z' fill='%230A3820' opacity='0.6'/%3E%3C/svg%3E" alt="公共市の街並み" />
+    <div class="pv-hero" id="pv-hero" data-mode="image">
+      <img class="banner" id="pv-banner" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1120 296'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0' stop-color='%230D4A2B'/%3E%3Cstop offset='1' stop-color='%23259D63'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1120' height='296' fill='url(%23g)'/%3E%3Ccircle cx='930' cy='90' r='70' fill='%23FFE2B5' opacity='0.85'/%3E%3Cpath d='M0 235 Q280 200 560 220 T1120 215 L1120 296 L0 296 Z' fill='%230A3820' opacity='0.6'/%3E%3C/svg%3E" alt="公共市の街並み" />
+      <div class="pv-hero-overlay" id="pv-hero-overlay">
+        <h2 class="pv-hero-otitle" id="pv-hero-title">この街の、未来をつくる人へ。</h2>
+        <p class="pv-hero-odesc" id="pv-hero-desc">公共市役所では、地域とともに歩む熱意ある仲間を募集しています。</p>
+      </div>
+      <div class="pv-hero-carousel" id="pv-hero-carousel"><div class="pv-hcar">
+        <article class="pv-hcar-card"><div class="pv-hcar-thumb"></div><div class="pv-hcar-t">若手職員が語る、公共市で働く魅力</div></article>
+        <article class="pv-hcar-card"><div class="pv-hcar-thumb"></div><div class="pv-hcar-t">新規採用職員研修レポート</div></article>
+        <article class="pv-hcar-card"><div class="pv-hcar-thumb"></div><div class="pv-hcar-t">子育て支援課の一日</div></article>
+      </div></div>
+    </div>
 
     <div class="org-head">
       <img class="org-avatar" src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='12' fill='%23115A36'/%3E%3Cpath d='M20 56h40M24 56V34l16-12 16 12v22M32 56v-12h16v12' fill='none' stroke='%23fff' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E" alt="公共市役所" />
@@ -574,6 +585,14 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[t
       d.order.forEach(function(key){var sec=document.querySelector('.block[data-section="'+key+'"]');if(sec)wrap.appendChild(sec);});
     } else if(d.type==='pv-visible'){
       var sec=document.querySelector('.block[data-section="'+d.key+'"]');if(sec)sec.style.display=d.visible?'':'none';
+    } else if(d.type==='pv-hero'){
+      var h=d.hero||{};var hero=document.getElementById('pv-hero');if(hero){
+        var mode=h.format==='default'?'typography':(h.format==='carousel'?'carousel':'image');
+        hero.setAttribute('data-mode',mode);
+        if(h.image){var b=document.getElementById('pv-banner');if(b)b.src=h.image;}
+        if(h.typo){var t=document.getElementById('pv-hero-title');if(t&&h.typo.title!=null&&h.typo.title!=='')t.textContent=h.typo.title;var de=document.getElementById('pv-hero-desc');if(de&&h.typo.desc!=null&&h.typo.desc!=='')de.textContent=h.typo.desc;}
+        if(h.carouselBg){var c=document.getElementById('pv-hero-carousel');if(c)c.style.background=h.carouselBg;}
+      }
     } else if(d.type==='pv-bg'){
       var bm={white:'#FFFFFF',cream:'#FAF8F3',gray:'#F1F3F2',diagonal:'repeating-linear-gradient(45deg,#fff,#fff 8px,#eef0ef 8px,#eef0ef 16px)',dots:'radial-gradient(#e0e3e1 1.5px,#ffffff 1.5px)'};
       document.body.style.background=bm[d.mode]||'#FAF8F3';
@@ -584,7 +603,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[t
       if(d.sel){var t=$(d.sel);if(t){t.classList.add('pv-hl');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;t.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});}}
     }
   });
-  var hl=document.createElement('style');hl.textContent='.pv-hl{outline:3px solid var(--blue,#115A36);outline-offset:3px;border-radius:6px}';document.head.appendChild(hl);
+  var hl=document.createElement('style');hl.textContent='.pv-hl{outline:3px solid var(--blue,#115A36);outline-offset:3px;border-radius:6px}.pv-hero{position:relative;border-radius:12px;overflow:hidden}.pv-hero .banner{display:block;width:100%;border-radius:12px}.pv-hero-overlay{display:none}.pv-hero[data-mode="typography"] .pv-hero-overlay{display:flex;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;padding:24px;background:linear-gradient(rgba(10,31,20,.32),rgba(10,31,20,.46));color:#fff}.pv-hero-otitle{font-size:34px;font-weight:800;line-height:1.35;margin:0;text-shadow:0 2px 14px rgba(0,0,0,.35)}.pv-hero-odesc{font-size:15px;line-height:1.8;max-width:680px;margin:0;text-shadow:0 1px 10px rgba(0,0,0,.35)}.pv-hero-carousel{display:none}.pv-hero[data-mode="carousel"] .banner{display:none}.pv-hero[data-mode="carousel"] .pv-hero-overlay{display:none}.pv-hero[data-mode="carousel"] .pv-hero-carousel{display:block;border-radius:12px;padding:28px 24px;background:#0D4A2B}.pv-hcar{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pv-hcar-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.12)}.pv-hcar-thumb{aspect-ratio:16/10;background:linear-gradient(135deg,#cfd8d2,#aebbb3)}.pv-hcar-t{padding:10px 12px;font-size:13px;font-weight:700;color:#1a1a1a;line-height:1.5}@media(max-width:640px){.pv-hcar{grid-template-columns:1fr}.pv-hero-otitle{font-size:24px}}';document.head.appendChild(hl);
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready);else ready();
 })();
 </script>
