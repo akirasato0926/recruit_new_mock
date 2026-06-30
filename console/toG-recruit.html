@@ -31413,6 +31413,30 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="entry"]{display:none !important}
 .side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="timeline"]{display:none !important}
 .side-panel:not(.sp-full) .sp-tabpanel[data-sppanel="message"]{display:none !important}
+/* ===== 全画面=実ページ準拠レイアウト ===== */
+.apd-card{display:none}
+.side-panel.sp-full{background:#fff}
+.side-panel.sp-full .sp-head{display:none}
+.side-panel.sp-full .sp-body{padding-top:24px}
+.side-panel.sp-full .sp-actionbar{flex-direction:row;flex-wrap:wrap;align-items:center;gap:22px;background:#F6F7F8;border:1px solid #E6E8EA;border-radius:8px;padding:14px 20px;margin-top:0}
+.side-panel.sp-full .sp-actionbar .sp-btn{background:transparent !important;border:0 !important;color:#2563CC !important;padding:0 !important;height:auto;width:auto;min-height:0;font-size:13.5px;font-weight:700;box-shadow:none}
+.side-panel.sp-full .sp-actionbar .sp-btn svg{display:none}
+.side-panel.sp-full .sp-entrybar{display:none}
+.side-panel.sp-full .apd-card{display:grid;grid-template-columns:1fr 1fr;gap:40px;border:1px solid #E6E8EA;border-radius:10px;padding:24px 28px;margin:18px 0}
+.side-panel.sp-full .apd-cname{font-size:20px;font-weight:700;color:#1A1A1A;margin-bottom:18px}
+.side-panel.sp-full .apd-cfield{margin-bottom:16px}
+.side-panel.sp-full .apd-clabel{font-size:11.5px;color:#8A8F94;margin-bottom:5px}
+.side-panel.sp-full .apd-cval{font-size:14px;color:#1A1A1A}
+.side-panel.sp-full .apd-link{color:#2563CC;text-decoration:underline;cursor:pointer;font-size:13.5px}
+.side-panel.sp-full .apd-dl{list-style:disc;margin:0;padding-left:18px}
+.side-panel.sp-full .apd-dl li{margin-bottom:7px}
+.side-panel.sp-full .apd-select{width:100%;max-width:280px;border:1px solid #D8DCDF;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px}
+.side-panel.sp-full .apd-memo{width:100%;min-height:96px;border:1px solid #D8DCDF;border-radius:8px;padding:10px 12px;font-family:inherit;font-size:13px;resize:vertical;box-sizing:border-box}
+.side-panel.sp-full .sp-detail-tabs{display:flex !important;justify-content:flex-start;gap:2px;background:none;border:0;border-bottom:1px solid #E0E3E6;border-radius:0;padding:0;margin:22px 0 4px}
+.side-panel.sp-full .sp-detail-tabs .sp-tab{background:none !important;color:#5F6B72 !important;border:0;border-bottom:3px solid transparent;border-radius:0;padding:14px 20px;font-weight:700;font-size:14px}
+.side-panel.sp-full .sp-detail-tabs .sp-tab.active{color:#1A1A1A !important;border-bottom-color:#2563CC}
+.side-panel.sp-full .sp-tabpanel{padding-top:8px}
+@media(max-width:760px){.side-panel.sp-full .apd-card{grid-template-columns:1fr;gap:18px}}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
@@ -33325,6 +33349,26 @@ function openPanel(id){
     <div class="sp-entrybar">
       <div class="sp-eb-item"><span class="sp-eb-label">エントリー番号</span><span class="sp-eb-value">${a.id}</span></div>
       <div class="sp-eb-item"><span class="sp-eb-label">応募職種</span><span class="sp-eb-value">${a.job}</span></div>
+    </div>
+
+    <div class="apd-card">
+      <div class="apd-card-left">
+        <div class="apd-cname">${a.name}</div>
+        <div class="apd-cfield"><div class="apd-clabel">エントリー番号</div><div class="apd-cval">${a.id}</div></div>
+        <div class="apd-cfield"><div class="apd-clabel">応募職種</div><div class="apd-cval"><a class="apd-link" onclick="alert('求人詳細を開きます')">${a.job}</a></div></div>
+        <div class="apd-cfield"><div class="apd-clabel">応募者情報</div>
+          <ul class="apd-dl">
+            <li><a class="apd-link" onclick="alert('応募者情報PDFをダウンロードします')">応募者情報（PDF）</a></li>
+            <li><a class="apd-link" onclick="alert('顔写真/添付ファイルをダウンロードします')">顔写真/添付ファイル</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="apd-card-right">
+        <div class="apd-cfield"><div class="apd-clabel">選考ステップ</div>
+          <select class="apd-select"><option>選考対象外</option><option>応募受付</option><option>1次選考</option><option>2次選考</option><option>3次選考</option><option>内定</option></select>
+        </div>
+        <div class="apd-cfield"><div class="apd-clabel">メモ</div><textarea class="apd-memo" placeholder="社内メモを入力..."></textarea></div>
+      </div>
     </div>
 
     <div class="sp-tabs sp-detail-tabs" role="tablist">
