@@ -30772,15 +30772,9 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   </div>
 </div>
 <script>
+/* ═══ ブロックエディタ: 既存リッチパネル(.tp-edit-content)を右パネルへ移設し、
+       tpConfigの変化をiframeプレビューへ転送して反映する ═══ */
 (function(){
-  var ACCENTS=[
-    {k:'green',name:'グリーン',hex:'#115A36'},
-    {k:'navy',name:'ネイビー',hex:'#1B3A5B'},
-    {k:'teal',name:'ティール',hex:'#0E5B5B'},
-    {k:'indigo',name:'インディゴ',hex:'#3B3A7A'},
-    {k:'wine',name:'ワイン',hex:'#7A2E3A'},
-    {k:'charcoal',name:'チャコール',hex:'#33373B'}
-  ];
   var FONT_FAMILIES=[
     {k:'noto-sans',name:'ゴシック',css:'"Noto Sans JP"',g:'Noto+Sans+JP:wght@400;700'},
     {k:'zen-kaku',name:'角ゴシック',css:'"Zen Kaku Gothic New"',g:'Zen+Kaku+Gothic+New:wght@400;700'},
@@ -30790,252 +30784,195 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {k:'noto-serif',name:'明朝（太め）',css:'"Noto Serif JP"',g:'Noto+Serif+JP:wght@400;700'}
   ];
   var FONT_SIZES=[{k:'std',name:'標準'},{k:'large',name:'大きめ'}];
-  function ensureEditorFonts(){
-    if(document.getElementById('bde-editor-fonts'))return;
-    var fams=FONT_FAMILIES.map(function(f){return 'family='+f.g;}).join('&');
-    var lk=document.createElement('link');lk.id='bde-editor-fonts';lk.rel='stylesheet';
-    lk.href='https://fonts.googleapis.com/css2?'+fams+'&display=swap';
-    document.head.appendChild(lk);
-  }
+  // 左ブロック一覧 → 表示するパネル(pane)/注記(note)の対応
   var BLOCKS=[
-    {key:'header',label:'ヘッダー',sel:'.tp-header',fixed:true,lockContent:true},
-    {key:'hero',label:'ヒーロー（メイン）',sel:'#tp-hero',fixed:true},
-    {key:'intro',label:'自治体情報',sel:'#tp-intro',fixed:true},
-    {key:'jobs',label:'職員募集',sel:'#tp-jobs',toggleable:true,movable:true},
-    {key:'blog',label:'ブログ',sel:'#tp-blog',toggleable:true,movable:true},
-    {key:'video',label:'動画',sel:'#tp-video',toggleable:true,movable:true},
-    {key:'recruit',label:'採用案内',sel:'#tp-recruit',toggleable:true,movable:true},
-    {key:'basic',label:'自治体基本情報',sel:'#tp-basic',toggleable:true,lockContent:true},
-    {key:'footer',label:'フッター',sel:'.tp-footer',fixed:true,lockContent:true}
+    {key:'theme', label:'サイト全体のテーマ', sub:'カラー・書体（全体共通）', theme:true, pane:'color'},
+    {key:'header',label:'ヘッダー', fixed:true, note:'ヘッダーのロゴ・自治体名・配色は「サイト全体のテーマ」と「自治体情報」で管理します。ナビゲーションは掲載中のブロックに自動連動します。'},
+    {key:'hero',  label:'ヒーロー（メイン）', fixed:true, pane:'hero'},
+    {key:'intro', label:'自治体情報', fixed:true, pane:'info'},
+    {key:'order', label:'ブロックの並び順', pane:'layout'},
+    {key:'jobs',  label:'職員募集', pane:'display', toggleable:true},
+    {key:'blog',  label:'ブログ', pane:'display', toggleable:true},
+    {key:'video', label:'動画', pane:'display', toggleable:true},
+    {key:'recruit',label:'採用案内', toggleable:true, note:'採用案内（募集・選考・説明会）の内容は各管理機能で編集します。表示の有無・並び順のみ変更できます。'},
+    {key:'basic', label:'自治体基本情報', pane:'info', note:'自治体基本情報は管理者が登録する情報のため編集できません（自治体情報パネル下部に表示）。'},
+    {key:'footer',label:'フッター', fixed:true, note:'フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。'}
   ];
-  var MOVABLE=['jobs','blog','video','recruit'];
-  var state={
-    sel:'theme',device:'pc',accent:'green',fontFamily:'noto-sans',fontSize:'std',ready:false,dirty:false,
-    visible:{jobs:true,blog:true,video:true,recruit:true,basic:true},
-    order:['jobs','blog','video','recruit'],
-    disp:{jobs:'',blog:'',video:''},
-    activeTab:{},
-    hero:{line1:'',line2:'',desc:'',cta:''},
-    intro:{tagline:'',text:''}
-  };
+  var SEL={header:'.tp-header',hero:'#tp-hero',intro:'#tp-intro',jobs:'#tp-jobs',blog:'#tp-blog',video:'#tp-video',recruit:'#tp-recruit',basic:'#tp-basic',footer:'.tp-footer'};
+  var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',dirty:false,moved:false};
   function $(id){return document.getElementById(id);}
-  function blockBy(k){return BLOCKS.find(function(b){return b.key===k;});}
   function iframe(){return $('bde-preview');}
-  function pm(msg){try{iframe().contentWindow.postMessage(msg,'*');}catch(e){}}
-  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function pm(m){try{iframe().contentWindow.postMessage(m,'*');}catch(e){}}
   function markDirty(){state.dirty=true;var d=$('bde-draft');if(d)d.classList.add('show');}
 
-  /* ── 左：ブロック一覧 ── */
+  function injectCss(){
+    if($('bde-panel-css'))return;
+    var s=document.createElement('style');s.id='bde-panel-css';
+    s.textContent=
+      '#page-design .bde-panel{padding:0}'+
+      '#page-design #bde-panel-head{position:sticky;top:0;background:#fff;border-bottom:1px solid #EEF1EF;padding:14px 18px 12px;z-index:3}'+
+      '#page-design #bde-panel-head .h{font-size:15px;font-weight:700;color:#1A1A1A;display:flex;align-items:center;gap:8px}'+
+      '#page-design #bde-panel-head .b{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}'+
+      '#page-design #bde-panel-head .b.fixed{background:#EEF1EF;color:#8A958F}'+
+      '#page-design #bde-panel-head .b.flex{background:#E6F5EC;color:#115A36}'+
+      '#page-design #bde-panel-head .acts{display:flex;gap:7px;margin-top:10px;flex-wrap:wrap}'+
+      '#page-design #bde-panel-head .mini{height:30px;padding:0 11px;border:1px solid #D8E2DC;background:#fff;border-radius:7px;font-family:inherit;font-size:12px;font-weight:700;color:#5F6B65;cursor:pointer}'+
+      '#page-design #bde-note{padding:16px 18px}'+
+      '#page-design #bde-note .ln{display:flex;gap:9px;align-items:flex-start;background:#F7F8F7;border:1px solid #E9ECEA;border-radius:9px;padding:12px 14px;font-size:12.5px;color:#5F6B65;line-height:1.7}'+
+      '#page-design #bde-note .ln svg{width:15px;height:15px;color:#8A958F;flex:none;margin-top:2px}'+
+      '#page-design #bde-panel .tp-edit-content{padding:16px 18px 30px;display:block}'+
+      '#page-design #bde-panel .tp-edit-pane{display:none}'+
+      '#page-design #bde-panel .tp-edit-pane.active{display:block}'+
+      '#page-design #bde-panel .tp-edit-form-grid{grid-template-columns:1fr}'+
+      '#page-design #bde-panel .tp-edit-color-grid{grid-template-columns:1fr 1fr;gap:10px}'+
+      '#page-design #bde-panel .tp-edit-hero-grid{grid-template-columns:1fr;gap:10px}'+
+      '#page-design #bde-panel .tp-edit-template-grid{grid-template-columns:1fr 1fr}'+
+      '#page-design .bde-font-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}'+
+      '#page-design .bde-font-btn{border:1px solid #DCEBE2;border-radius:9px;padding:9px 8px;background:#fff;cursor:pointer;font-family:inherit;text-align:center}'+
+      '#page-design .bde-font-btn.active{border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC;background:#F4FAF6}'+
+      '#page-design .bde-font-btn .s{font-size:19px;color:#1A1A1A;font-weight:700;display:block;line-height:1.2}'+
+      '#page-design .bde-font-btn .n{font-size:11.5px;color:#3A463F;font-weight:700;margin-top:4px;display:block}'+
+      '#page-design .bde-size-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}';
+    document.head.appendChild(s);
+  }
+
+  function ensureEditorFonts(){
+    if($('bde-editor-fonts'))return;
+    var fams=FONT_FAMILIES.map(function(f){return 'family='+f.g;}).join('&');
+    var lk=document.createElement('link');lk.id='bde-editor-fonts';lk.rel='stylesheet';
+    lk.href='https://fonts.googleapis.com/css2?'+fams+'&display=swap';document.head.appendChild(lk);
+  }
+
+  /* 既存モーダルのパネルを右パネルへ移設し、書体セクションを差し込む */
+  function moveContent(){
+    if(state.moved)return true;
+    if(window.openTpEditModal){try{window.openTpEditModal();var _m=document.getElementById('tp-edit-modal');if(_m)_m.classList.remove('show');}catch(e){}}
+    var content=document.querySelector('#tp-edit-modal .tp-edit-content');
+    var host=$('bde-panel-panes');
+    if(!content||!host)return false;
+    var tpl=content.querySelector('.tp-edit-pane[data-pane="template"]');if(tpl)tpl.remove();
+    host.appendChild(content);
+    // 書体セクションを color ペインに追記
+    var colorPane=content.querySelector('.tp-edit-pane[data-pane="color"]');
+    if(colorPane&&!colorPane.querySelector('.bde-font-sec')){
+      var sec=document.createElement('div');sec.className='tp-edit-section bde-font-sec';
+      sec.innerHTML='<h3 class="tp-edit-section-title">書体（フォント）</h3>'+
+        '<p class="tp-edit-section-desc">Google Fonts（無料）から選べます。本文は可読性のため14pxを下回りません。</p>'+
+        '<div class="bde-font-grid" id="bde-font-grid"></div>'+
+        '<h3 class="tp-edit-section-title" style="margin-top:18px">文字サイズ</h3>'+
+        '<div class="bde-size-grid" id="bde-size-grid"></div>';
+      colorPane.appendChild(sec);
+      renderFontPicker();
+    }
+    bindInfoInputs(content);
+    state.moved=true;return true;
+  }
+  function renderFontPicker(){
+    var g=$('bde-font-grid');if(g){g.innerHTML=FONT_FAMILIES.map(function(f){
+      return '<button class="bde-font-btn'+(state.fontFamily===f.k?' active':'')+'" onclick="bdeSetFamily(\''+f.k+'\',this)">'+
+        '<span class="s" style="font-family:'+f.css+',sans-serif">あA</span><span class="n">'+f.name+'</span></button>';}).join('');}
+    var s=$('bde-size-grid');if(s){s.innerHTML=FONT_SIZES.map(function(z){
+      return '<button class="bde-font-btn'+(state.fontSize===z.k?' active':'')+'" onclick="bdeSetSize(\''+z.k+'\',this)">'+
+        '<span class="s" style="font-size:'+(z.k==='large'?'18':'13')+'px">Aa</span><span class="n">'+z.name+'</span></button>';}).join('');}
+  }
+  function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'bde-font',family:f.css,g:f.g,size:state.fontSize});}
+  window.bdeSetFamily=function(k){state.fontFamily=k;renderFontPicker();sendFont();markDirty();};
+  window.bdeSetSize=function(k){state.fontSize=k;renderFontPicker();sendFont();markDirty();};
+
+  /* 自治体情報フォーム → プレビューへ反映 */
+  function bindInfoInputs(content){
+    var tg=content.querySelector('#ed-tagline'),ab=content.querySelector('#ed-about');
+    function pushIntro(){pm({type:'bde-intro',intro:{tagline:tg?tg.value:'',text:ab?ab.value:''}});markDirty();}
+    if(tg)tg.addEventListener('input',pushIntro);
+    if(ab)ab.addEventListener('input',pushIntro);
+    var map={'ed-sns-x':'x','ed-sns-ig':'ig','ed-sns-yt':'yt','ed-url':'url'};
+    Object.keys(map).forEach(function(id){var el=content.querySelector('#'+id);if(el)el.addEventListener('input',function(){pm({type:'bde-sns',key:map[id],url:el.value});markDirty();});});
+  }
+
+  /* 左ブロック一覧 */
+  function blockBy(k){return BLOCKS.find(function(b){return b.key===k;});}
   function renderBlocks(){
     var el=$('bde-blocks');if(!el)return;
-    var html='<button class="bde-theme-item'+(state.sel==='theme'?' active':'')+'" role="listitem" onclick="bdeSelect(\'theme\')">'+
-      '<span class="bde-ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 2.5 2.5 0 0 0 2-4 2.5 2.5 0 0 1 2-4h2a4 4 0 0 0 4-4 10 10 0 0 0-10-8z"/></svg></span>'+
-      '<span><span class="bde-ti-name">サイト全体のテーマ</span><br><span class="bde-ti-sub">カラー・フォント（全体共通）</span></span></button>'+
-      '<div class="bde-blocks-label">ブロック</div>';
-    var ordered=orderedKeys();
-    ordered.forEach(function(k){
-      var b=blockBy(k);
-      var hidden=b.toggleable && state.visible[k]===false;
-      var tag;
-      if(b.fixed) tag='<span class="bde-bi-tag lock">固定</span>';
-      else if(hidden) tag='<span class="bde-bi-tag eyeoff">非表示</span>';
-      else tag='<span class="bde-bi-tag eye">表示</span>';
-      html+='<button class="bde-block-item'+(state.sel===k?' active':'')+(hidden?' is-hidden':'')+'" role="listitem"'+
-        ' onclick="bdeSelect(\''+k+'\')"'+(state.sel===k?' aria-current="true"':'')+'>'+
-        '<span class="bde-bi-handle">'+(b.movable?'⋮⋮':'')+'</span>'+
+    var html='';
+    BLOCKS.forEach(function(b){
+      if(b.theme){
+        html+='<button class="bde-theme-item'+(state.sel===b.key?' active':'')+'" onclick="bdeSelect(\''+b.key+'\')">'+
+          '<span class="bde-ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 2.5 2.5 0 0 0 2-4 2.5 2.5 0 0 1 2-4h2a4 4 0 0 0 4-4 10 10 0 0 0-10-8z"/></svg></span>'+
+          '<span><span class="bde-ti-name">'+b.label+'</span><br><span class="bde-ti-sub">'+b.sub+'</span></span></button>'+
+          '<div class="bde-blocks-label">ブロック</div>';
+        return;
+      }
+      if(b.key==='order'){
+        html+='<button class="bde-block-item'+(state.sel===b.key?' active':'')+'" onclick="bdeSelect(\''+b.key+'\')">'+
+          '<span class="bde-bi-handle">⇅</span><span class="bde-bi-name">'+b.label+'</span></button>'+
+          '<div class="bde-blocks-label" style="margin-top:12px">セクション</div>';
+        return;
+      }
+      var tag=b.fixed?'<span class="bde-bi-tag lock">固定</span>':'<span class="bde-bi-tag eye">表示</span>';
+      html+='<button class="bde-block-item'+(state.sel===b.key?' active':'')+'" onclick="bdeSelect(\''+b.key+'\')">'+
+        '<span class="bde-bi-handle">'+(b.fixed?'':'⋮⋮')+'</span>'+
         '<span class="bde-bi-name">'+b.label+'</span>'+tag+'</button>';
     });
     el.innerHTML=html;
   }
-  function orderedKeys(){
-    // header, hero, intro, [movable in state.order], basic, footer
-    return ['header','hero','intro'].concat(state.order.slice()).concat(['basic','footer']);
-  }
 
-  /* ── 右：編集パネル ── */
-  function renderPanel(){
-    var el=$('bde-panel');if(!el)return;
-    if(state.sel==='theme'){el.innerHTML=themePanel();return;}
-    var b=blockBy(state.sel);if(!b){el.innerHTML='';return;}
-    var badge=b.fixed?'<span class="bde-ph-badge fixed">位置固定</span>':'<span class="bde-ph-badge flex">並び替え可</span>';
-    var head='<div class="bde-panel-head"><div class="bde-ph-title">'+b.label+badge+'</div>'+headActions(b)+'</div>';
-    el.innerHTML=head+bodyFor(b);
-    bindTabs();
+  /* パネル切替 */
+  function showPane(name){
+    var content=document.querySelector('#bde-panel .tp-edit-content');
+    if(content){content.querySelectorAll('.tp-edit-pane').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-pane')===name);});content.style.display=name?'block':'none';}
   }
-  function headActions(b){
-    var a='<div class="bde-ph-actions">';
-    if(b.toggleable){
-      var on=state.visible[b.key]!==false;
-      a+='<button class="bde-mini-btn" onclick="bdeToggleVisible(\''+b.key+'\')">'+(on?'このブロックを非表示':'表示する')+'</button>';
-    }
-    if(b.movable){
-      var idx=state.order.indexOf(b.key);
-      a+='<button class="bde-mini-btn" onclick="bdeMove(\''+b.key+'\',-1)"'+(idx<=0?' disabled':'')+'>↑ 上へ</button>';
-      a+='<button class="bde-mini-btn" onclick="bdeMove(\''+b.key+'\',1)"'+(idx>=state.order.length-1?' disabled':'')+'>↓ 下へ</button>';
-    }
-    if(!b.lockContent && !b.fixed || b.key==='hero' || b.key==='intro'){
-      a+='<button class="bde-mini-btn reset" onclick="bdeResetBlock(\''+b.key+'\')">初期状態に戻す</button>';
-    }
-    a+='</div>';return a;
+  function setHead(b){
+    var h=$('bde-panel-head');if(!h)return;
+    var badge=b.fixed?'<span class="b fixed">位置固定</span>':(b.key==='theme'||b.key==='order'?'':'<span class="b flex">表示・並び替え可</span>');
+    h.innerHTML='<div class="h">'+b.label+badge+'</div>';
   }
-  function tabsBar(tabs){
-    var h='<div class="bde-tabs" role="tablist">';
-    tabs.forEach(function(t,i){h+='<button class="bde-tab'+(i===0?' active':'')+'" role="tab" data-pane="'+t.id+'">'+t.name+'</button>';});
-    h+='</div>';return h;
-  }
-  function bindTabs(){
-    var el=$('bde-panel');
-    el.querySelectorAll('.bde-tab').forEach(function(t){
-      t.addEventListener('click',function(){
-        el.querySelectorAll('.bde-tab').forEach(function(x){x.classList.remove('active');});
-        el.querySelectorAll('.bde-pane').forEach(function(x){x.classList.remove('active');});
-        t.classList.add('active');
-        var p=el.querySelector('.bde-pane[data-pane="'+t.getAttribute('data-pane')+'"]');
-        if(p)p.classList.add('active');
-      });
-    });
-  }
-  function dispPresets(key,opts){
-    var cur=state.disp[key]||'';
-    var h='<div class="bde-presets">';
-    opts.forEach(function(o){
-      h+='<button class="bde-preset'+(cur===o.v?' active':'')+'" onclick="bdeSetDisp(\''+key+'\',\''+o.v+'\',this)">'+
-         '<span class="bde-pv">'+o.pv+'</span><span class="bde-pname">'+o.n+'</span></button>';
-    });
-    h+='</div>';return h;
-  }
-  var PV2='<span style="width:30%;height:100%"></span><span style="width:30%;height:100%"></span>';
-  var PV3='<span style="width:20%;height:100%"></span><span style="width:20%;height:100%"></span><span style="width:20%;height:100%"></span>';
-  var PVL='<span style="width:80%;height:5px"></span><span style="width:80%;height:5px"></span><span style="width:80%;height:5px"></span>';
+  window.bdeSelect=function(k){
+    state.sel=k;var b=blockBy(k);renderBlocks();setHead(b);
+    var note=$('bde-note'),content=document.querySelector('#bde-panel .tp-edit-content');
+    if(b.note&&!b.pane){ if(content)content.style.display='none'; if(note){note.style.display='block';note.innerHTML='<div class="ln"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+b.note+'</span></div>';} }
+    else { if(note)note.style.display='none'; showPane(b.pane); if(b.key==='theme')renderFontPicker(); }
+    // プレビュー: 対象ブロックへスクロール&ハイライト
+    var sel=SEL[k]||null; pm({type:'bde-select',sel:sel});
+  };
 
-  function bodyFor(b){
-    switch(b.key){
-      case 'hero': return tabsBar([{id:'content',name:'内容'},{id:'layout',name:'配置'}])+
-        '<div class="bde-pane active" data-pane="content">'+
-          '<div class="bde-field"><label class="bde-label">見出し（1行目）</label><input class="bde-input" id="bde-hero-l1" value="'+esc(state.hero.line1)+'" oninput="bdeHeroInput()"></div>'+
-          '<div class="bde-field"><label class="bde-label">見出し（2行目）</label><input class="bde-input" id="bde-hero-l2" value="'+esc(state.hero.line2)+'" oninput="bdeHeroInput()"></div>'+
-          '<div class="bde-field"><label class="bde-label">キャッチ本文</label><textarea class="bde-textarea" id="bde-hero-desc" oninput="bdeHeroInput()">'+esc(state.hero.desc)+'</textarea></div>'+
-          '<div class="bde-field"><label class="bde-label">メインボタンの文言</label><input class="bde-input" id="bde-hero-cta" value="'+esc(state.hero.cta)+'" oninput="bdeHeroInput()"><p class="bde-note">ボタンの遷移先（求人一覧）は固定です。</p></div>'+
-        '</div>'+
-        '<div class="bde-pane" data-pane="layout">'+
-          '<div class="bde-sec-title">テキストの配置</div>'+
-          '<div class="bde-presets"><button class="bde-preset active"><span class="bde-pv" style="justify-content:flex-start"><span style="width:50%;height:6px"></span></span><span class="bde-pname">左寄せ</span></button>'+
-          '<button class="bde-preset"><span class="bde-pv" style="justify-content:center"><span style="width:50%;height:6px"></span></span><span class="bde-pname">中央</span></button></div>'+
-          '<p class="bde-note">配置プリセットは今後追加予定です（増分1では選択のみ）。背景画像の差し替えもこのタブに追加します。</p>'+
-        '</div>';
-      case 'intro': return tabsBar([{id:'content',name:'内容'}])+
-        '<div class="bde-pane active" data-pane="content">'+
-          '<div class="bde-field"><label class="bde-label">タグライン（自治体名の下）</label><input class="bde-input" id="bde-intro-tag" value="'+esc(state.intro.tagline)+'" oninput="bdeIntroInput()"></div>'+
-          '<div class="bde-field"><label class="bde-label">紹介文（ABOUT US 本文）</label><textarea class="bde-textarea" id="bde-intro-text" style="min-height:150px" oninput="bdeIntroInput()">'+esc(state.intro.text)+'</textarea></div>'+
-          lockNote('自治体名・ロゴ・SNSリンク・採用資料は、別画面（自治体プロフィール／管理者設定）で管理します。')+
-        '</div>';
-      case 'jobs': return tabsBar([{id:'layout',name:'配置'}])+
-        '<div class="bde-pane active" data-pane="layout">'+
-          '<div class="bde-sec-title">表示形式</div>'+dispPresets('jobs',[{v:'',n:'2列カード',pv:PV2},{v:'grid3',n:'3列カード',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
-          lockNote('掲載する求人の内容・並びは「求人掲載管理」で編集します。ここでは見せ方のみ変更できます。')+
-        '</div>';
-      case 'blog': return tabsBar([{id:'layout',name:'配置'}])+
-        '<div class="bde-pane active" data-pane="layout">'+
-          '<div class="bde-sec-title">表示形式</div>'+dispPresets('blog',[{v:'',n:'注目+一覧',pv:PV2},{v:'grid',n:'3列グリッド',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
-          lockNote('記事の内容は「お知らせ／メディア管理」で編集します。ここでは見せ方のみ変更できます。')+
-        '</div>';
-      case 'video': return tabsBar([{id:'layout',name:'配置'}])+
-        '<div class="bde-pane active" data-pane="layout">'+
-          '<div class="bde-sec-title">表示形式</div>'+dispPresets('video',[{v:'',n:'注目+一覧',pv:PV2},{v:'grid',n:'3列グリッド',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
-          lockNote('動画の内容は「メディア管理」で編集します。ここでは見せ方のみ変更できます。')+
-        '</div>';
-      case 'recruit': return tabsBar([{id:'layout',name:'配置'}])+
-        '<div class="bde-pane active" data-pane="layout">'+
-          lockNote('掲載する採用案内（募集・選考・説明会）の内容は各管理機能で編集します。ここでは表示有無・並びのみ変更できます。')+
-        '</div>';
-      case 'basic': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
-          lockNote('自治体基本情報（所在地・種類・職員数・平均年齢・公式URL）は管理者が登録する情報のため編集できません。表示・非表示のみ切り替えられます。')+
-        '</div>';
-      case 'header': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
-          lockNote('ヘッダーのロゴ・自治体名・配色はサイト全体の設定で管理します。ナビゲーションは掲載中のブロックに自動連動します。')+
-        '</div>';
-      case 'footer': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
-          lockNote('フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。')+
-        '</div>';
-      default: return '';
-    }
-  }
-  function lockNote(t){
-    return '<div class="bde-lock-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+t+'</span></div>';
-  }
-  function themePanel(){
-    var h='<div class="bde-panel-head"><div class="bde-ph-title">サイト全体のテーマ</div></div>'+
-      '<div class="bde-pane active" style="display:block">'+
-      '<p class="bde-note" style="margin-bottom:16px">カラー・書体・文字サイズは<strong>サイト全体に共通で適用</strong>されます（ブロックごとには設定しません）。コントラストが白文字でWCAG AAを満たす配色のみ用意しています。</p>'+
-      '<div class="bde-sec"><div class="bde-sec-title">メインカラー</div><div class="bde-presets bde-presets-color">';
-    ACCENTS.forEach(function(a){
-      h+='<button class="bde-preset'+(state.accent===a.k?' active':'')+'" onclick="bdeSetAccent(\''+a.k+'\',this)" aria-label="'+a.name+'">'+
-        '<span class="bde-sw" style="background:'+a.hex+'"></span><span class="bde-sw-name">'+a.name+'</span></button>';
-    });
-    h+='</div><div class="bde-aa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>白文字とのコントラストAA合格</div></div>';
-    h+='<div class="bde-sec"><div class="bde-sec-title">書体（フォント）</div><div class="bde-presets bde-presets-font">';
-    FONT_FAMILIES.forEach(function(f){
-      h+='<button class="bde-preset'+(state.fontFamily===f.k?' active':'')+'" onclick="bdeSetFamily(\''+f.k+'\',this)">'+
-        '<span class="bde-pv" style="font-family:'+f.css+',sans-serif;font-size:18px;color:#1A1A1A;font-weight:700">あA</span>'+
-        '<span class="bde-pname">'+f.name+'</span></button>';
-    });
-    h+='</div><p class="bde-note">Google Fonts（無料）から選べます。本文の最小サイズは14pxを下回りません。</p></div>';
-    h+='<div class="bde-sec"><div class="bde-sec-title">文字サイズ</div><div class="bde-presets" style="grid-template-columns:1fr 1fr">';
-    FONT_SIZES.forEach(function(s){
-      h+='<button class="bde-preset'+(state.fontSize===s.k?' active':'')+'" onclick="bdeSetSize(\''+s.k+'\',this)">'+
-        '<span class="bde-pv" style="font-size:'+(s.k==='large'?'17':'13')+'px;color:#3A463F;font-weight:700">Aa</span><span class="bde-pname">'+s.name+'</span></button>';
-    });
-    h+='</div></div></div>';
-    ensureEditorFonts();
-    return h;
-  }
-
-  /* ── 操作 ── */
-  window.bdeSelect=function(k){state.sel=k;renderBlocks();renderPanel();
-    var b=blockBy(k);pm({type:'bde-select',sel:b?b.sel:null});};
+  /* デバイス切替 / 保存 / 公開 */
   window.bdeSetDevice=function(d){state.device=d;$('bde-frame').setAttribute('data-device',d);
     document.querySelectorAll('#page-design .bde-device-btn').forEach(function(x){var on=x.getAttribute('data-device')===d;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');});};
-  window.bdeToggleVisible=function(k){state.visible[k]=state.visible[k]===false;var b=blockBy(k);pm({type:'bde-visible',sel:b.sel,visible:state.visible[k]});markDirty();renderBlocks();renderPanel();};
-  window.bdeMove=function(k,dir){var i=state.order.indexOf(k);var j=i+dir;if(j<0||j>=state.order.length)return;var t=state.order[i];state.order[i]=state.order[j];state.order[j]=t;
-    pm({type:'bde-order',order:state.order.map(function(x){return blockBy(x).sel;})});markDirty();renderBlocks();renderPanel();};
-  window.bdeSetDisp=function(key,val,btn){state.disp[key]=val;var attr='data-disp-'+key;pm({type:'bde-disp',attr:attr,val:val});markDirty();
-    var p=btn.parentNode;p.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
-  window.bdeSetAccent=function(k,btn){state.accent=k;var a=ACCENTS.find(function(x){return x.k===k;});pm({type:'bde-accent',hex:a.hex});markDirty();
-    btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
-  function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'bde-font',family:f.css,g:f.g,size:state.fontSize});}
-  window.bdeSetFamily=function(k,btn){state.fontFamily=k;sendFont();markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
-  window.bdeSetSize=function(k,btn){state.fontSize=k;sendFont();markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
-  window.bdeHeroInput=function(){state.hero.line1=$('bde-hero-l1').value;state.hero.line2=$('bde-hero-l2').value;state.hero.desc=$('bde-hero-desc').value;state.hero.cta=$('bde-hero-cta').value;
-    pm({type:'bde-hero',hero:state.hero});markDirty();};
-  window.bdeIntroInput=function(){state.intro.tagline=$('bde-intro-tag').value;state.intro.text=$('bde-intro-text').value;
-    pm({type:'bde-intro',intro:state.intro});markDirty();};
-  window.bdeResetBlock=function(k){pm({type:'bde-reset',key:k});if(typeof showToast==='function')showToast('「'+blockBy(k).label+'」を初期状態に戻しました');};
   window.bdeCopyPreviewUrl=function(){if(typeof showToast==='function')showToast('プレビューURLをコピーしました（公開前の内部確認用）');};
   window.bdeSaveDraft=function(){state.dirty=false;var d=$('bde-draft');if(d)d.classList.remove('show');if(typeof showToast==='function')showToast('下書きを保存しました');};
   window.bdePublish=function(){if(typeof showToast==='function')showToast('採用サイトを公開しました');state.dirty=false;var d=$('bde-draft');if(d)d.classList.remove('show');};
 
-  /* ── プレビュー(iframe)との通信 ── */
-  window.addEventListener('message',function(ev){
-    var d=ev.data||{};
-    if(d.type==='bde-ready'){
-      state.ready=true;
-      if(d.hero){state.hero=d.hero;}
-      if(d.intro){state.intro=d.intro;}
-      // 現在のエディタ状態をプレビューへ反映
-      Object.keys(state.visible).forEach(function(k){if(state.visible[k]===false)pm({type:'bde-visible',sel:blockBy(k).sel,visible:false});});
-      renderPanel();
-    }
-  });
+  /* tpConfig（既存パネルが更新）の変化をプレビューへ転送 */
+  var lastCfg='';
+  function poll(){
+    if(window.tpConfig){var s;try{s=JSON.stringify(window.tpConfig);}catch(e){return;}
+      if(s!==lastCfg){ if(lastCfg!=='')markDirty(); lastCfg=s; pm({type:'bde-config',cfg:window.tpConfig}); }}
+  }
 
-  /* ── 高さフィット ── */
+  /* 高さフィット */
   function fit(){var app=document.querySelector('#page-design .bde-app');if(!app)return;var top=app.getBoundingClientRect().top;app.style.height=(window.innerHeight-top)+'px';}
   window.addEventListener('resize',fit);
-  document.addEventListener('DOMContentLoaded',function(){renderBlocks();renderPanel();setTimeout(fit,60);});
-  // ページ表示時にも高さ再計算（SPAのため）
+
+  function buildPanelShell(){
+    var p=$('bde-panel');if(!p)return;
+    if(!$('bde-panel-head')) p.innerHTML='<div id="bde-panel-head"></div><div id="bde-note" style="display:none"></div><div id="bde-panel-panes"></div>';
+  }
+
+  function init(){
+    injectCss();ensureEditorFonts();buildPanelShell();
+    var ok=moveContent();
+    renderBlocks();
+    if(ok){bdeSelect('theme');}
+    else {setTimeout(function(){if(moveContent()){bdeSelect('theme');}},300);}
+    setInterval(poll,400);
+    setTimeout(fit,60);setTimeout(fit,300);
+    // 初回: フォント既定とテーマ反映
+    setTimeout(sendFont,800);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
   var _sp=window.showPage;
-  if(typeof _sp==='function'){window.showPage=function(p){_sp.apply(this,arguments);if(p==='design')setTimeout(fit,40);};}
-  // 既にDOM構築済みの場合
-  if(document.readyState!=='loading'){renderBlocks();renderPanel();setTimeout(fit,60);}
+  if(typeof _sp==='function'){window.showPage=function(p){_sp.apply(this,arguments);if(p==='design'){setTimeout(fit,40);setTimeout(function(){moveContent();renderBlocks();},60);}};}
 })();
 </script>
 <div id="page-account" class="page-container" data-page="account">
@@ -35856,6 +35793,21 @@ window.addEventListener('DOMContentLoaded', function(){
       var big=d.size==='large';
       fst.textContent='.top-page,.top-page h1,.top-page h2,.top-page h3,.top-page h4,.top-page p,.top-page a,.top-page span,.top-page div,.top-page li,.top-page dt,.top-page dd,.top-page button,.top-page input,.top-page textarea{font-family:'+d.family+',"Noto Sans JP",sans-serif !important}'+
         (big?'.tp-hero-desc{font-size:19px}.tp-intro-text{font-size:16.5px}.tp-section-title{font-size:34px}.tp-job-title{font-size:17px}.tp-nav-item{font-size:15px}.tp-recruit-title{font-size:17px}':'');
+    } else if(d.type==='bde-config'){
+      var cfg=d.cfg, c=window.tpConfig;
+      if(cfg&&c){
+        c.color=cfg.color; if(cfg.sections)c.sections=cfg.sections;
+        if(cfg.display){c.display=c.display||{};for(var dk in cfg.display)c.display[dk]=cfg.display[dk];}
+        if(cfg.hero){c.hero=c.hero||{};for(var hk in cfg.hero)c.hero[hk]=cfg.hero[hk];}
+        if(window.applyTpColor)window.applyTpColor(cfg.color);
+        if(window.setDisplayFormat&&cfg.display){['jobs','blog','video'].forEach(function(s){if(cfg.display[s]!=null)window.setDisplayFormat(s,cfg.display[s]);});}
+        if(window.applyHeroFormat&&cfg.hero&&cfg.hero.format)window.applyHeroFormat(cfg.hero.format);
+        var pp=document.getElementById('page-site-edit'),an=document.getElementById('tp-basic');
+        if(pp&&an&&cfg.sections){cfg.sections.forEach(function(s){var el=document.getElementById('tp-'+s);if(el)pp.insertBefore(el,an);});}
+      }
+    } else if(d.type==='bde-sns'){
+      if(d.key==='url'){document.querySelectorAll('.tp-basic-url').forEach(function(a){a.textContent=d.url;a.setAttribute('href',d.url);});}
+      else{var pre={x:'X',ig:'Instagram',yt:'YouTube'}[d.key];if(pre){document.querySelectorAll('.tp-intro-sns .tp-sns-btn').forEach(function(b){var ti=b.getAttribute('title')||'';if(ti.indexOf(pre)===0)b.setAttribute('data-url',d.url);});}}
     } else if(d.type==='bde-reset'){
       if(!orig)return;
       if(d.key==='hero'){setTxt('.tp-hero-title .tp-line-1',orig.hero.line1);setTxt('.tp-hero-title .tp-line-2',orig.hero.line2);
