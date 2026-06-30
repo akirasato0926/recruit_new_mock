@@ -30784,6 +30784,13 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {k:'noto-serif',name:'明朝（太め）',css:'"Noto Serif JP"',g:'Noto+Serif+JP:wght@400;700'}
   ];
   var FONT_SIZES=[{k:'std',name:'標準'},{k:'large',name:'大きめ'}];
+  var BG_STYLES=[
+    {k:'white',name:'白',sw:'background:#fff'},
+    {k:'cream',name:'クリーム',sw:'background:#FAF8F3'},
+    {k:'gray',name:'薄いグレー',sw:'background:#F1F3F2'},
+    {k:'diagonal',name:'斜め線',sw:'background:repeating-linear-gradient(45deg,#fff,#fff 6px,#e6e8e7 6px,#e6e8e7 12px)'},
+    {k:'dots',name:'ドット',sw:'background:radial-gradient(#cfd4d1 1.2px,#fff 1.2px);background-size:7px 7px'}
+  ];
   // 左ブロック一覧 → 表示するパネル(pane)/注記(note)の対応
   var BLOCKS=[
     {key:'theme', label:'サイト全体のテーマ', sub:'カラー・書体（全体共通）', theme:true, pane:'color'},
@@ -30799,7 +30806,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {key:'footer',label:'フッター', fixed:true, note:'フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。'}
   ];
   var SEL={header:'.site-header',hero:'.banner',intro:'.org-head',jobs:'.block[data-section="jobs"]',blog:'.block[data-section="blog"]',video:'.block[data-section="blog"]',recruit:'.block[data-section="recruit"]',basic:'.employer-footer',footer:'.site-footer'};
-  var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',dirty:false,moved:false};
+  var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',bg:'cream',dirty:false,moved:false};
   function $(id){return document.getElementById(id);}
   function iframe(){return $('bde-preview');}
   function pm(m){try{iframe().contentWindow.postMessage(m,'*');}catch(e){}}
@@ -30864,6 +30871,11 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
       colorPane.appendChild(sec);
       renderFontPicker();
     }
+    if(colorPane&&!colorPane.querySelector('.bde-bg-sec')){
+      var bsec=document.createElement('div');bsec.className='tp-edit-section bde-bg-sec';
+      bsec.innerHTML='<h3 class="tp-edit-section-title">背景スタイル</h3><p class="tp-edit-section-desc">サイト全体の背景。白や薄いグレー・パターンを選ぶとメインカラーが映えます。</p><div class="bde-font-grid" id="bde-bg-grid"></div>';
+      colorPane.appendChild(bsec);renderBgPicker();
+    }
     bindInfoInputs(content);
     state.moved=true;return true;
   }
@@ -30878,6 +30890,9 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   function sendFont(){var f=FONT_FAMILIES.find(function(x){return x.k===state.fontFamily;});if(f)pm({type:'pv-font',family:f.css,g:f.g,size:state.fontSize});}
   window.bdeSetFamily=function(k){state.fontFamily=k;renderFontPicker();sendFont();markDirty();};
   window.bdeSetSize=function(k){state.fontSize=k;renderFontPicker();sendFont();markDirty();};
+  function renderBgPicker(){var g=document.getElementById('bde-bg-grid');if(!g)return;
+    g.innerHTML=BG_STYLES.map(function(b){return '<button class="bde-font-btn'+(state.bg===b.k?' active':'')+'" onclick="bdeSetBg(\''+b.k+'\')"><span style="display:block;height:30px;border-radius:6px;border:1px solid #e0e4e2;'+b.sw+'"></span><span class="n">'+b.name+'</span></button>';}).join('');}
+  window.bdeSetBg=function(k){state.bg=k;renderBgPicker();pm({type:'pv-bg',mode:k});markDirty();};
 
   /* 自治体情報フォーム → プレビューへ反映 */
   function bindInfoInputs(content){
@@ -30930,7 +30945,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     state.sel=k;var b=blockBy(k);renderBlocks();setHead(b);
     var note=$('bde-note'),content=document.querySelector('#bde-panel .tp-edit-content');
     if(b.note&&!b.pane){ if(content)content.style.display='none'; if(note){note.style.display='block';note.innerHTML='<div class="ln"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+b.note+'</span></div>';} }
-    else { if(note)note.style.display='none'; showPane(b.pane); if(b.key==='theme')renderFontPicker(); }
+    else { if(note)note.style.display='none'; showPane(b.pane); if(b.key==='theme'){renderFontPicker();renderBgPicker();} }
     // プレビュー: 対象ブロックへスクロール&ハイライト
     var sel=SEL[k]||null; pm({type:'pv-select',sel:sel});
   };
