@@ -30913,6 +30913,21 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
         dsec.appendChild(row);
       }
     });
+    // タイポグラフィ設定を「メインテキスト＋サブテキスト」の2枠に簡素化
+    var typoCfg=content.querySelector('#ed-hero-typography-config');
+    if(typoCfg&&!document.getElementById('bde-typo-main')){
+      var ty=(window.tpConfig&&window.tpConfig.hero&&window.tpConfig.hero.typography)||{};
+      var mainv=((ty.titleLine1||'')+(ty.titleLine2Before||'')+(ty.titleLine2Em||'')+(ty.titleLine2After||''));
+      var subv=(ty.description||'');
+      typoCfg.innerHTML='<h3 class="tp-edit-section-title">テキスト設定</h3>'+
+        '<p class="tp-edit-section-desc">ヒーローに表示するメインテキストとサブテキストを入力します。</p>'+
+        '<div class="tp-edit-field"><label class="tp-edit-label">メインテキスト</label><input class="tp-edit-input" id="bde-typo-main"></div>'+
+        '<div class="tp-edit-field"><label class="tp-edit-label">サブテキスト</label><textarea class="tp-edit-textarea" id="bde-typo-sub" rows="3"></textarea></div>';
+      var mi=document.getElementById('bde-typo-main'),si=document.getElementById('bde-typo-sub');
+      mi.value=mainv;si.value=subv;
+      function pushTypo(){if(!window.tpConfig||!window.tpConfig.hero)return;var c=window.tpConfig.hero.typography||(window.tpConfig.hero.typography={});c.titleLine1=mi.value;c.titleLine2Before='';c.titleLine2Em='';c.titleLine2After='';c.description=si.value;markDirty();}
+      mi.addEventListener('input',pushTypo);si.addEventListener('input',pushTypo);
+    }
     bindInfoInputs(content);
     state.moved=true;return true;
   }
