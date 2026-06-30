@@ -30809,7 +30809,7 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     {key:'basic', label:'自治体基本情報', pane:'info', note:'自治体基本情報は管理者が登録する情報のため編集できません（自治体情報パネル下部に表示）。'},
     {key:'footer',label:'フッター', fixed:true, note:'フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。'}
   ];
-  var SEL={header:'.site-header',hero:'.banner',intro:'.org-head',jobs:'.block[data-section="jobs"]',blog:'.block[data-section="blog"]',video:'.block[data-section="blog"]',recruit:'.block[data-section="recruit"]',basic:'.employer-footer',footer:'.site-footer'};
+  var SEL={header:'.site-header',hero:'.banner',intro:'.org-head',jobs:'.block[data-section="jobs"]',blog:'.block[data-section="blog"]',video:'.block[data-section="video"]',recruit:'.block[data-section="recruit"]',basic:'.employer-footer',footer:'.site-footer'};
   var state={sel:'theme',device:'pc',fontFamily:'noto-sans',fontSize:'std',bg:'cream',carBg:'#0D4A2B',dirty:false,moved:false};
   function $(id){return document.getElementById(id);}
   function iframe(){return $('bde-preview');}
@@ -30978,9 +30978,10 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
     var cfg=window.tpConfig, cols=window.TP_COLORS||[];
     var c=cols.find(function(x){return x.id===cfg.color;});
     if(c)pm({type:'pv-color',c700:c.c700,c900:c.c900});
-    if(cfg.sections)pm({type:'pv-order',order:cfg.sections.filter(function(k){return k!=='video';})});
+    if(cfg.sections)pm({type:'pv-order',order:cfg.sections});
     if(cfg.hero&&cfg.hero.imageData)pm({type:'pv-banner',url:cfg.hero.imageData});
     if(cfg.hero){var ty=cfg.hero.typography||{};var ht=(ty.titleLine1||'')+(ty.titleLine2Before||'')+(ty.titleLine2Em||'')+(ty.titleLine2After||'');pm({type:'pv-hero',hero:{format:cfg.hero.format,image:cfg.hero.imageData,typo:{title:ht,desc:ty.description},carouselBg:cfg.hero.carouselBg}});}
+    if(cfg.display){['jobs','blog','video'].forEach(function(s){if(cfg.display[s]!=null)pm({type:'pv-display',section:s,format:cfg.display[s]});});}
   }
 
   /* 高さフィット */
