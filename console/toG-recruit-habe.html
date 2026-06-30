@@ -30632,63 +30632,378 @@ body.on-login-page{overflow:hidden}
   #page-design .wf-blk{flex:1;border-radius:3px;background:#E2EBE6}
   #page-design .wf-line{height:5px;border-radius:2px;background:#E2EBE6;flex:none}
 </style>
+<style id="bde-styles">
+/* ═══ ブロック単位デザインエディタ（STORES/BASE風・3ペイン） ═══ */
+#page-design.page-container{padding:0}
+#page-design .bde-app{display:flex;flex-direction:column;height:calc(100vh - 60px);background:#fff;overflow:hidden}
+/* 上部ツールバー */
+#page-design .bde-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;height:52px;flex:none;padding:0 16px;border-bottom:1px solid #E6E6E6;background:#fff}
+#page-design .bde-tb-left{display:flex;align-items:center;gap:12px;min-width:0}
+#page-design .bde-tb-title{font-size:14px;font-weight:700;color:#1A1A1A;white-space:nowrap}
+#page-design .bde-draft-badge{display:none;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#B26B00;background:#FFF4E0;border:1px solid #F2D9A8;border-radius:999px;padding:3px 10px}
+#page-design .bde-draft-badge.show{display:inline-flex}
+#page-design .bde-draft-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#E59500}
+#page-design .bde-tb-right{display:flex;align-items:center;gap:10px}
+#page-design .bde-device-seg{display:inline-flex;border:1px solid #CFE0D6;border-radius:8px;overflow:hidden}
+#page-design .bde-device-btn{height:32px;padding:0 14px;border:0;background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:#5F6B65;cursor:pointer}
+#page-design .bde-device-btn.active{background:#115A36;color:#fff}
+#page-design .bde-tb-btn{height:34px;padding:0 14px;border:1px solid #CFE0D6;background:#fff;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:#115A36;cursor:pointer;white-space:nowrap}
+#page-design .bde-tb-btn.ghost{color:#5F6B65;border-color:#D8E2DC}
+#page-design .bde-tb-btn.primary{background:#115A36;color:#fff;border-color:#115A36}
+#page-design .bde-tb-btn:focus-visible,#page-design .bde-device-btn:focus-visible,#page-design .bde-block-item:focus-visible,#page-design .bde-tab:focus-visible{outline:2px solid #115A36;outline-offset:2px}
+/* 本体3ペイン */
+#page-design .bde-body{flex:1;display:flex;min-height:0}
+#page-design .bde-blocks{width:248px;flex:none;border-right:1px solid #E9EEEB;background:#FAFCFB;overflow-y:auto;padding:12px}
+#page-design .bde-blocks-label{font-size:11px;font-weight:700;color:#8A958F;letter-spacing:.04em;margin:14px 4px 8px}
+#page-design .bde-theme-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid #DCEBE2;background:#F2F8F4;border-radius:10px;padding:11px 12px;cursor:pointer;font-family:inherit;color:#115A36}
+#page-design .bde-theme-item.active{border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC}
+#page-design .bde-theme-item .bde-ti-ico{width:26px;height:26px;border-radius:7px;background:#115A36;display:flex;align-items:center;justify-content:center;flex:none}
+#page-design .bde-theme-item .bde-ti-ico svg{width:15px;height:15px;color:#fff}
+#page-design .bde-theme-item .bde-ti-name{font-size:13px;font-weight:700;line-height:1.3}
+#page-design .bde-theme-item .bde-ti-sub{font-size:11px;color:#5F8C72;font-weight:500}
+#page-design .bde-block-item{display:flex;align-items:center;gap:9px;width:100%;text-align:left;border:1px solid transparent;background:#fff;border-radius:8px;padding:9px 10px;margin-bottom:5px;cursor:pointer;font-family:inherit;font-size:13px;color:#1A1A1A}
+#page-design .bde-block-item:hover{background:#F2F8F4}
+#page-design .bde-block-item.active{border-color:#115A36;background:#E6F5EC;font-weight:700}
+#page-design .bde-block-item.is-hidden .bde-bi-name{color:#A6AFAA;text-decoration:line-through}
+#page-design .bde-bi-handle{width:14px;color:#C2CCC6;flex:none;font-size:12px;text-align:center}
+#page-design .bde-bi-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#page-design .bde-bi-tag{font-size:10px;font-weight:700;border-radius:4px;padding:2px 6px;flex:none}
+#page-design .bde-bi-tag.lock{background:#EEF1EF;color:#8A958F}
+#page-design .bde-bi-tag.eye{background:#E6F5EC;color:#115A36}
+#page-design .bde-bi-tag.eyeoff{background:#F3F4F4;color:#A6AFAA}
+/* 中央プレビュー */
+#page-design .bde-canvas{flex:1;min-width:0;background:#EDF1EF;overflow:auto;padding:18px;display:flex;justify-content:center}
+#page-design .bde-frame{position:relative;width:100%;max-width:1180px;height:100%;background:#fff;border-radius:6px;box-shadow:0 4px 22px rgba(20,40,30,.12);overflow:hidden;transition:max-width .22s ease}
+#page-design .bde-frame[data-device="sp"]{max-width:392px;border-radius:22px;border:7px solid #1A2620;box-shadow:0 8px 30px rgba(20,40,30,.22)}
+#page-design .bde-preview{width:100%;height:100%;border:0;display:block;background:#fff}
+/* 右編集パネル */
+#page-design .bde-panel{width:362px;flex:none;border-left:1px solid #E9EEEB;background:#fff;overflow-y:auto;padding:0}
+#page-design .bde-panel-head{position:sticky;top:0;background:#fff;border-bottom:1px solid #EEF1EF;padding:15px 18px 12px;z-index:2}
+#page-design .bde-ph-title{font-size:15px;font-weight:700;color:#1A1A1A;display:flex;align-items:center;gap:8px}
+#page-design .bde-ph-badge{font-size:10px;font-weight:700;border-radius:4px;padding:2px 7px}
+#page-design .bde-ph-badge.fixed{background:#EEF1EF;color:#8A958F}
+#page-design .bde-ph-badge.flex{background:#E6F5EC;color:#115A36}
+#page-design .bde-ph-actions{display:flex;gap:7px;margin-top:11px;flex-wrap:wrap}
+#page-design .bde-mini-btn{height:30px;padding:0 11px;border:1px solid #D8E2DC;background:#fff;border-radius:7px;font-family:inherit;font-size:12px;font-weight:700;color:#5F6B65;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+#page-design .bde-mini-btn:disabled{opacity:.4;cursor:not-allowed}
+#page-design .bde-mini-btn.reset{color:#B23A3A;border-color:#EAD2D2}
+#page-design .bde-tabs{display:flex;gap:2px;padding:0 18px;border-bottom:1px solid #EEF1EF;background:#fff;position:sticky;top:0;z-index:1}
+#page-design .bde-tab{height:38px;padding:0 12px;border:0;background:none;border-bottom:2px solid transparent;font-family:inherit;font-size:13px;font-weight:700;color:#8A958F;cursor:pointer}
+#page-design .bde-tab.active{color:#115A36;border-bottom-color:#115A36}
+#page-design .bde-pane{padding:16px 18px 28px;display:none}
+#page-design .bde-pane.active{display:block}
+#page-design .bde-field{margin-bottom:15px}
+#page-design .bde-label{display:block;font-size:12px;font-weight:700;color:#3A463F;margin-bottom:6px}
+#page-design .bde-input,#page-design .bde-textarea,#page-design .bde-select{width:100%;border:1px solid #D8E2DC;border-radius:8px;padding:9px 11px;font-family:inherit;font-size:13px;color:#1A1A1A;background:#fff}
+#page-design .bde-textarea{min-height:84px;resize:vertical;line-height:1.6}
+#page-design .bde-input:focus,#page-design .bde-textarea:focus,#page-design .bde-select:focus{outline:none;border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC}
+#page-design .bde-note{font-size:11.5px;color:#7A857F;line-height:1.6;margin:4px 0 0}
+#page-design .bde-sec-title{font-size:12px;font-weight:700;color:#3A463F;margin:0 0 9px}
+#page-design .bde-sec+ .bde-sec{margin-top:20px;padding-top:18px;border-top:1px solid #F0F2F1}
+#page-design .bde-lock-note{display:flex;gap:9px;align-items:flex-start;background:#F7F8F7;border:1px solid #E9ECEA;border-radius:9px;padding:11px 13px;font-size:12.5px;color:#5F6B65;line-height:1.6}
+#page-design .bde-lock-note svg{width:15px;height:15px;color:#8A958F;flex:none;margin-top:2px}
+#page-design .bde-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F7FAF8;border:1px solid #E4EDE8;border-radius:9px;padding:10px 13px;margin-bottom:13px}
+#page-design .bde-toggle-label{font-size:13px;font-weight:700;color:#1A1A1A}
+#page-design .bde-toggle-sub{font-size:11px;color:#7A857F;margin-top:1px}
+#page-design .bde-switch{position:relative;width:42px;height:24px;border-radius:999px;border:0;background:#CBD3CE;cursor:pointer;flex:none;transition:background .15s}
+#page-design .bde-switch.on{background:#115A36}
+#page-design .bde-switch i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .15s}
+#page-design .bde-switch.on i{left:21px}
+#page-design .bde-presets{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+#page-design .bde-preset{border:1px solid #DCEBE2;border-radius:9px;padding:8px;background:#fff;cursor:pointer;text-align:center;font-family:inherit}
+#page-design .bde-preset.active{border-color:#115A36;box-shadow:0 0 0 2px #E6F5EC}
+#page-design .bde-preset .bde-pv{height:38px;border-radius:6px;background:#EEF2F0;margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:3px;padding:6px}
+#page-design .bde-preset .bde-pv span{background:#B9C7BF;border-radius:2px;display:block}
+#page-design .bde-preset .bde-pname{font-size:11.5px;font-weight:700;color:#3A463F}
+#page-design .bde-sw{width:100%;height:34px;border-radius:7px;border:1px solid rgba(0,0,0,.06)}
+#page-design .bde-sw-name{font-size:11px;font-weight:700;color:#3A463F;margin-top:5px}
+#page-design .bde-aa{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:#115A36;background:#E6F5EC;border-radius:4px;padding:2px 6px;margin-top:6px}
+/* レスポンシブ（管理画面側） */
+@media (max-width:1180px){
+  #page-design .bde-blocks{width:200px}
+  #page-design .bde-panel{width:320px}
+}
+
+/* ═══ プレビュー（bareモード）: 管理chromeを隠してトップページのみ描画 ═══ */
+body.preview-bare > header.header,
+body.preview-bare > .hamburger-btn,
+body.preview-bare > .hamburger-overlay,
+body.preview-bare > .hamburger-menu,
+body.preview-bare #sub-nav-bar,
+body.preview-bare #toast-container,
+body.preview-bare #notif-overlay,
+body.preview-bare #notif-panel,
+body.preview-bare .tp-preview-bar{display:none !important}
+body.preview-bare{padding-top:0 !important;background:#fff}
+body.preview-bare #page-site-edit.top-page{display:block}
+.tp-bde-selected{outline:3px solid #115A36 !important;outline-offset:-3px}
+</style>
 <div id="page-design" class="page-container" data-page="design">
-  <div class="page-title-area"><div class="page-title-inner">
-    <div class="page-eyebrow">システム設定</div>
-    <h1 class="page-title">デザイン変更</h1>
-    <div class="page-meta"><span class="page-meta-item">自治体トップページ（採用サイト）のデザインをテンプレートから変更</span></div>
-  </div></div>
-  <main class="main"><div class="main-inner">
-    <div class="design-wrap">
-
-      <section>
-        <div class="design-sec-title">現在のデザイン</div>
-        <div class="design-current-card">
-          <div class="dc-thumb"><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:44px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div>
-          <div class="dc-info">
-            <span class="dc-eyebrow">適用中のテンプレート</span>
-            <div class="dc-tname" id="design-current-name">スタンダード</div>
-            <div class="dc-meta">公開中の採用トップページに適用されているデザインです。テンプレートを変更すると、トップページ全体の構成・見た目が切り替わります。</div>
-            <div class="dc-actions">
-              <button class="dc-btn" onclick="designOpenPublic()">公開中の採用ページを見る</button>
-            </div>
-          </div>
+  <div class="bde-app">
+    <div class="bde-toolbar">
+      <div class="bde-tb-left">
+        <span class="bde-tb-title">採用サイトを編集</span>
+        <span class="bde-draft-badge" id="bde-draft">下書きあり</span>
+      </div>
+      <div class="bde-tb-right">
+        <div class="bde-device-seg" role="group" aria-label="プレビュー端末切替">
+          <button class="bde-device-btn active" data-device="pc" onclick="bdeSetDevice('pc')" aria-pressed="true">PC</button>
+          <button class="bde-device-btn" data-device="sp" onclick="bdeSetDevice('sp')" aria-pressed="false">スマホ</button>
         </div>
-      </section>
-
-      <section>
-        <div class="design-sec-title">デザインテンプレートを選択</div>
-        <div class="design-sec-sub">採用トップページの基本デザインをテンプレートから選べます。適用後、色・セクション構成・掲載項目などの詳細カスタマイズ範囲は今後の検討で確定します。</div>
-        <div class="dt-grid">
-          <div class="dt-card current" data-name="スタンダード"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:44px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">スタンダード</div><div class="dt-desc">求人・特集・職員紹介をバランスよく配置した王道レイアウト。情報を網羅的に伝えたい自治体向け。</div><div class="dt-tags"><span class="dt-tag">王道</span><span class="dt-tag">情報網羅</span><span class="dt-tag">万能</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('スタンダード')">プレビュー</button><button class="dt-btn applied" disabled>適用中</button></div></div>
-          <div class="dt-card" data-name="ビジュアル重視"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="flex:1"></div><div class="wf-row" style="flex:none"><div class="wf-blk" style="height:16px"></div><div class="wf-blk" style="height:16px"></div></div></div></div><div class="dt-body"><div class="dt-name">ビジュアル重視</div><div class="dt-desc">大きなメインビジュアルで第一印象を強化。写真・動画で「働くまち」の魅力を訴求。</div><div class="dt-tags"><span class="dt-tag">写真映え</span><span class="dt-tag">ブランディング</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('ビジュアル重視')">プレビュー</button><button class="dt-btn apply" onclick="designApply('ビジュアル重視')">このテンプレートを適用</button></div></div>
-          <div class="dt-card" data-name="ストーリー型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:30px"></div><div class="wf-line"></div><div class="wf-line" style="width:80%"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">ストーリー型</div><div class="dt-desc">職員インタビューや一日の流れを中心に、働くイメージを物語で魅せる構成。</div><div class="dt-tags"><span class="dt-tag">共感</span><span class="dt-tag">インタビュー</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('ストーリー型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('ストーリー型')">このテンプレートを適用</button></div></div>
-          <div class="dt-card" data-name="シンプル"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-line"></div><div class="wf-line" style="width:92%"></div><div class="wf-line" style="width:85%"></div><div class="wf-line" style="width:95%"></div><div class="wf-line" style="width:70%"></div><div class="wf-line" style="width:88%"></div></div></div><div class="dt-body"><div class="dt-name">シンプル</div><div class="dt-desc">文字情報中心で読みやすく軽快。募集要項・制度をしっかり伝えたい場合に。</div><div class="dt-tags"><span class="dt-tag">高速</span><span class="dt-tag">可読性</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('シンプル')">プレビュー</button><button class="dt-btn apply" onclick="designApply('シンプル')">このテンプレートを適用</button></div></div>
-          <div class="dt-card" data-name="データ訴求型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-row" style="flex:none"><div class="wf-blk" style="height:38px"></div><div class="wf-blk" style="height:38px"></div><div class="wf-blk" style="height:38px"></div></div><div class="wf-line"></div><div class="wf-line" style="width:80%"></div></div></div><div class="dt-body"><div class="dt-name">データ訴求型</div><div class="dt-desc">待遇・制度・実績を数字で前面に。民間と比較検討する層に響く構成。</div><div class="dt-tags"><span class="dt-tag">数字</span><span class="dt-tag">比較検討</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('データ訴求型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('データ訴求型')">このテンプレートを適用</button></div></div>
-          <div class="dt-card" data-name="地域ブランド型"><div class="dt-thumb"><span class="dt-badge">適用中</span><div class="wf"><div class="wf-bar"></div><div class="wf-hero" style="height:28px"></div><div class="wf-row"><div class="wf-blk"></div><div class="wf-blk"></div><div class="wf-blk"></div></div></div></div><div class="dt-body"><div class="dt-name">地域ブランド型</div><div class="dt-desc">まちの魅力と仕事を結びつけ、移住・定住に関心のある層へ訴求。</div><div class="dt-tags"><span class="dt-tag">地域</span><span class="dt-tag">移住・定住</span></div></div><div class="dt-actions"><button class="dt-btn" onclick="designPreview('地域ブランド型')">プレビュー</button><button class="dt-btn apply" onclick="designApply('地域ブランド型')">このテンプレートを適用</button></div></div>
-        </div>
-        <div class="design-note" style="margin-top:14px">※ 本画面はデザインテンプレートの選択・適用の入口です。カスタマイズ可能な範囲（カラー／ロゴ／セクションの並び替え・表示切替／バナー差し替え 等）は別途要件を定義します。</div>
-      </section>
-
+        <button class="bde-tb-btn ghost" onclick="bdeCopyPreviewUrl()">プレビューURL</button>
+        <button class="bde-tb-btn ghost" onclick="bdeSaveDraft()">下書き保存</button>
+        <button class="bde-tb-btn primary" onclick="bdePublish()">公開する</button>
+      </div>
     </div>
-  </div></main>
+    <div class="bde-body">
+      <aside class="bde-blocks" id="bde-blocks" role="list" aria-label="ブロック一覧"></aside>
+      <div class="bde-canvas">
+        <div class="bde-frame" id="bde-frame" data-device="pc">
+          <iframe class="bde-preview" id="bde-preview" title="採用サイトのプレビュー" src="toG-recruit-habe.html?preview=site-edit"></iframe>
+        </div>
+      </div>
+      <aside class="bde-panel" id="bde-panel" aria-label="編集パネル"></aside>
+    </div>
+  </div>
 </div>
 <script>
 (function(){
-  window.designApply=function(name){
-    document.querySelectorAll('#page-design .dt-card').forEach(function(c){
-      var cur=c.getAttribute('data-name')===name;
-      c.classList.toggle('current',cur);
-      var btns=c.querySelectorAll('.dt-actions .dt-btn');
-      var ab=btns[btns.length-1];
-      if(ab){ if(cur){ab.className='dt-btn applied';ab.textContent='適用中';ab.disabled=true;ab.removeAttribute('onclick');}
-        else {ab.className='dt-btn apply';ab.textContent='このテンプレートを適用';ab.disabled=false;ab.setAttribute('onclick',"designApply('"+c.getAttribute('data-name')+"')");} }
-    });
-    var cn=document.getElementById('design-current-name'); if(cn) cn.textContent=name;
-    if(typeof showToast==='function') showToast('「'+name+'」を採用トップページに適用しました');
+  var ACCENTS=[
+    {k:'std',name:'標準グリーン',hex:'#115A36'},
+    {k:'deep',name:'濃いグリーン',hex:'#0A3D24'},
+    {k:'forest',name:'フォレスト',hex:'#14502F'}
+  ];
+  var FONTS=[{k:'std',name:'標準'},{k:'large',name:'大きめ'}];
+  var BLOCKS=[
+    {key:'header',label:'ヘッダー',sel:'.tp-header',fixed:true,lockContent:true},
+    {key:'hero',label:'ヒーロー（メイン）',sel:'#tp-hero',fixed:true},
+    {key:'intro',label:'自治体情報',sel:'#tp-intro',fixed:true},
+    {key:'jobs',label:'職員募集',sel:'#tp-jobs',toggleable:true,movable:true},
+    {key:'blog',label:'ブログ',sel:'#tp-blog',toggleable:true,movable:true},
+    {key:'video',label:'動画',sel:'#tp-video',toggleable:true,movable:true},
+    {key:'recruit',label:'採用案内',sel:'#tp-recruit',toggleable:true,movable:true},
+    {key:'basic',label:'自治体基本情報',sel:'#tp-basic',toggleable:true,lockContent:true},
+    {key:'footer',label:'フッター',sel:'.tp-footer',fixed:true,lockContent:true}
+  ];
+  var MOVABLE=['jobs','blog','video','recruit'];
+  var state={
+    sel:'theme',device:'pc',accent:'std',font:'std',ready:false,dirty:false,
+    visible:{jobs:true,blog:true,video:true,recruit:true,basic:true},
+    order:['jobs','blog','video','recruit'],
+    disp:{jobs:'',blog:'',video:''},
+    activeTab:{},
+    hero:{line1:'',line2:'',desc:'',cta:''},
+    intro:{tagline:'',text:''}
   };
-  window.designPreview=function(name){ if(typeof showToast==='function') showToast('「'+name+'」のプレビューを表示します（準備中）'); };
-  window.designOpenPublic=function(){ if(typeof showToast==='function') showToast('公開中の採用ページを新しいタブで開きます（準備中）'); };
+  function $(id){return document.getElementById(id);}
+  function blockBy(k){return BLOCKS.find(function(b){return b.key===k;});}
+  function iframe(){return $('bde-preview');}
+  function pm(msg){try{iframe().contentWindow.postMessage(msg,'*');}catch(e){}}
+  function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+  function markDirty(){state.dirty=true;var d=$('bde-draft');if(d)d.classList.add('show');}
+
+  /* ── 左：ブロック一覧 ── */
+  function renderBlocks(){
+    var el=$('bde-blocks');if(!el)return;
+    var html='<button class="bde-theme-item'+(state.sel==='theme'?' active':'')+'" role="listitem" onclick="bdeSelect(\'theme\')">'+
+      '<span class="bde-ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 2.5 2.5 0 0 0 2-4 2.5 2.5 0 0 1 2-4h2a4 4 0 0 0 4-4 10 10 0 0 0-10-8z"/></svg></span>'+
+      '<span><span class="bde-ti-name">サイト全体のテーマ</span><br><span class="bde-ti-sub">カラー・フォント（全体共通）</span></span></button>'+
+      '<div class="bde-blocks-label">ブロック</div>';
+    var ordered=orderedKeys();
+    ordered.forEach(function(k){
+      var b=blockBy(k);
+      var hidden=b.toggleable && state.visible[k]===false;
+      var tag;
+      if(b.fixed) tag='<span class="bde-bi-tag lock">固定</span>';
+      else if(hidden) tag='<span class="bde-bi-tag eyeoff">非表示</span>';
+      else tag='<span class="bde-bi-tag eye">表示</span>';
+      html+='<button class="bde-block-item'+(state.sel===k?' active':'')+(hidden?' is-hidden':'')+'" role="listitem"'+
+        ' onclick="bdeSelect(\''+k+'\')"'+(state.sel===k?' aria-current="true"':'')+'>'+
+        '<span class="bde-bi-handle">'+(b.movable?'⋮⋮':'')+'</span>'+
+        '<span class="bde-bi-name">'+b.label+'</span>'+tag+'</button>';
+    });
+    el.innerHTML=html;
+  }
+  function orderedKeys(){
+    // header, hero, intro, [movable in state.order], basic, footer
+    return ['header','hero','intro'].concat(state.order.slice()).concat(['basic','footer']);
+  }
+
+  /* ── 右：編集パネル ── */
+  function renderPanel(){
+    var el=$('bde-panel');if(!el)return;
+    if(state.sel==='theme'){el.innerHTML=themePanel();return;}
+    var b=blockBy(state.sel);if(!b){el.innerHTML='';return;}
+    var badge=b.fixed?'<span class="bde-ph-badge fixed">位置固定</span>':'<span class="bde-ph-badge flex">並び替え可</span>';
+    var head='<div class="bde-panel-head"><div class="bde-ph-title">'+b.label+badge+'</div>'+headActions(b)+'</div>';
+    el.innerHTML=head+bodyFor(b);
+    bindTabs();
+  }
+  function headActions(b){
+    var a='<div class="bde-ph-actions">';
+    if(b.toggleable){
+      var on=state.visible[b.key]!==false;
+      a+='<button class="bde-mini-btn" onclick="bdeToggleVisible(\''+b.key+'\')">'+(on?'このブロックを非表示':'表示する')+'</button>';
+    }
+    if(b.movable){
+      var idx=state.order.indexOf(b.key);
+      a+='<button class="bde-mini-btn" onclick="bdeMove(\''+b.key+'\',-1)"'+(idx<=0?' disabled':'')+'>↑ 上へ</button>';
+      a+='<button class="bde-mini-btn" onclick="bdeMove(\''+b.key+'\',1)"'+(idx>=state.order.length-1?' disabled':'')+'>↓ 下へ</button>';
+    }
+    if(!b.lockContent && !b.fixed || b.key==='hero' || b.key==='intro'){
+      a+='<button class="bde-mini-btn reset" onclick="bdeResetBlock(\''+b.key+'\')">初期状態に戻す</button>';
+    }
+    a+='</div>';return a;
+  }
+  function tabsBar(tabs){
+    var h='<div class="bde-tabs" role="tablist">';
+    tabs.forEach(function(t,i){h+='<button class="bde-tab'+(i===0?' active':'')+'" role="tab" data-pane="'+t.id+'">'+t.name+'</button>';});
+    h+='</div>';return h;
+  }
+  function bindTabs(){
+    var el=$('bde-panel');
+    el.querySelectorAll('.bde-tab').forEach(function(t){
+      t.addEventListener('click',function(){
+        el.querySelectorAll('.bde-tab').forEach(function(x){x.classList.remove('active');});
+        el.querySelectorAll('.bde-pane').forEach(function(x){x.classList.remove('active');});
+        t.classList.add('active');
+        var p=el.querySelector('.bde-pane[data-pane="'+t.getAttribute('data-pane')+'"]');
+        if(p)p.classList.add('active');
+      });
+    });
+  }
+  function dispPresets(key,opts){
+    var cur=state.disp[key]||'';
+    var h='<div class="bde-presets">';
+    opts.forEach(function(o){
+      h+='<button class="bde-preset'+(cur===o.v?' active':'')+'" onclick="bdeSetDisp(\''+key+'\',\''+o.v+'\',this)">'+
+         '<span class="bde-pv">'+o.pv+'</span><span class="bde-pname">'+o.n+'</span></button>';
+    });
+    h+='</div>';return h;
+  }
+  var PV2='<span style="width:30%;height:100%"></span><span style="width:30%;height:100%"></span>';
+  var PV3='<span style="width:20%;height:100%"></span><span style="width:20%;height:100%"></span><span style="width:20%;height:100%"></span>';
+  var PVL='<span style="width:80%;height:5px"></span><span style="width:80%;height:5px"></span><span style="width:80%;height:5px"></span>';
+
+  function bodyFor(b){
+    switch(b.key){
+      case 'hero': return tabsBar([{id:'content',name:'内容'},{id:'layout',name:'配置'}])+
+        '<div class="bde-pane active" data-pane="content">'+
+          '<div class="bde-field"><label class="bde-label">見出し（1行目）</label><input class="bde-input" id="bde-hero-l1" value="'+esc(state.hero.line1)+'" oninput="bdeHeroInput()"></div>'+
+          '<div class="bde-field"><label class="bde-label">見出し（2行目）</label><input class="bde-input" id="bde-hero-l2" value="'+esc(state.hero.line2)+'" oninput="bdeHeroInput()"></div>'+
+          '<div class="bde-field"><label class="bde-label">キャッチ本文</label><textarea class="bde-textarea" id="bde-hero-desc" oninput="bdeHeroInput()">'+esc(state.hero.desc)+'</textarea></div>'+
+          '<div class="bde-field"><label class="bde-label">メインボタンの文言</label><input class="bde-input" id="bde-hero-cta" value="'+esc(state.hero.cta)+'" oninput="bdeHeroInput()"><p class="bde-note">ボタンの遷移先（求人一覧）は固定です。</p></div>'+
+        '</div>'+
+        '<div class="bde-pane" data-pane="layout">'+
+          '<div class="bde-sec-title">テキストの配置</div>'+
+          '<div class="bde-presets"><button class="bde-preset active"><span class="bde-pv" style="justify-content:flex-start"><span style="width:50%;height:6px"></span></span><span class="bde-pname">左寄せ</span></button>'+
+          '<button class="bde-preset"><span class="bde-pv" style="justify-content:center"><span style="width:50%;height:6px"></span></span><span class="bde-pname">中央</span></button></div>'+
+          '<p class="bde-note">配置プリセットは今後追加予定です（増分1では選択のみ）。背景画像の差し替えもこのタブに追加します。</p>'+
+        '</div>';
+      case 'intro': return tabsBar([{id:'content',name:'内容'}])+
+        '<div class="bde-pane active" data-pane="content">'+
+          '<div class="bde-field"><label class="bde-label">タグライン（自治体名の下）</label><input class="bde-input" id="bde-intro-tag" value="'+esc(state.intro.tagline)+'" oninput="bdeIntroInput()"></div>'+
+          '<div class="bde-field"><label class="bde-label">紹介文（ABOUT US 本文）</label><textarea class="bde-textarea" id="bde-intro-text" style="min-height:150px" oninput="bdeIntroInput()">'+esc(state.intro.text)+'</textarea></div>'+
+          lockNote('自治体名・ロゴ・SNSリンク・採用資料は、別画面（自治体プロフィール／管理者設定）で管理します。')+
+        '</div>';
+      case 'jobs': return tabsBar([{id:'layout',name:'配置'}])+
+        '<div class="bde-pane active" data-pane="layout">'+
+          '<div class="bde-sec-title">表示形式</div>'+dispPresets('jobs',[{v:'',n:'2列カード',pv:PV2},{v:'grid3',n:'3列カード',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
+          lockNote('掲載する求人の内容・並びは「求人掲載管理」で編集します。ここでは見せ方のみ変更できます。')+
+        '</div>';
+      case 'blog': return tabsBar([{id:'layout',name:'配置'}])+
+        '<div class="bde-pane active" data-pane="layout">'+
+          '<div class="bde-sec-title">表示形式</div>'+dispPresets('blog',[{v:'',n:'注目+一覧',pv:PV2},{v:'grid',n:'3列グリッド',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
+          lockNote('記事の内容は「お知らせ／メディア管理」で編集します。ここでは見せ方のみ変更できます。')+
+        '</div>';
+      case 'video': return tabsBar([{id:'layout',name:'配置'}])+
+        '<div class="bde-pane active" data-pane="layout">'+
+          '<div class="bde-sec-title">表示形式</div>'+dispPresets('video',[{v:'',n:'注目+一覧',pv:PV2},{v:'grid',n:'3列グリッド',pv:PV3},{v:'list',n:'リスト',pv:PVL}])+
+          lockNote('動画の内容は「メディア管理」で編集します。ここでは見せ方のみ変更できます。')+
+        '</div>';
+      case 'recruit': return tabsBar([{id:'layout',name:'配置'}])+
+        '<div class="bde-pane active" data-pane="layout">'+
+          lockNote('掲載する採用案内（募集・選考・説明会）の内容は各管理機能で編集します。ここでは表示有無・並びのみ変更できます。')+
+        '</div>';
+      case 'basic': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
+          lockNote('自治体基本情報（所在地・種類・職員数・平均年齢・公式URL）は管理者が登録する情報のため編集できません。表示・非表示のみ切り替えられます。')+
+        '</div>';
+      case 'header': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
+          lockNote('ヘッダーのロゴ・自治体名・配色はサイト全体の設定で管理します。ナビゲーションは掲載中のブロックに自動連動します。')+
+        '</div>';
+      case 'footer': return '<div class="bde-pane active" data-pane="content" style="display:block">'+
+          lockNote('フッターのロゴ・自治体名・著作権表記はブランド・法務上の要素のため固定です。')+
+        '</div>';
+      default: return '';
+    }
+  }
+  function lockNote(t){
+    return '<div class="bde-lock-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>'+t+'</span></div>';
+  }
+  function themePanel(){
+    var sw='<div class="bde-panel-head"><div class="bde-ph-title">サイト全体のテーマ</div></div>'+
+      '<div class="bde-pane active" style="display:block">'+
+      '<p class="bde-note" style="margin-bottom:16px">カラーとフォントは<strong>サイト全体に共通で適用</strong>されます（ブロックごとには設定しません）。アクセシビリティ基準（WCAG AA）を満たす組み合わせのみ選べます。</p>'+
+      '<div class="bde-sec"><div class="bde-sec-title">メインカラー</div><div class="bde-presets">';
+    ACCENTS.forEach(function(a){
+      sw+='<button class="bde-preset'+(state.accent===a.k?' active':'')+'" onclick="bdeSetAccent(\''+a.k+'\',this)">'+
+        '<span class="bde-sw" style="background:'+a.hex+'"></span><span class="bde-sw-name">'+a.name+'</span></button>';
+    });
+    sw+='</div><div class="bde-aa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>白文字とのコントラストAA合格</div></div>';
+    sw+='<div class="bde-sec"><div class="bde-sec-title">フォント</div><div class="bde-presets" style="grid-template-columns:1fr 1fr">';
+    FONTS.forEach(function(f){
+      sw+='<button class="bde-preset'+(state.font===f.k?' active':'')+'" onclick="bdeSetFont(\''+f.k+'\',this)">'+
+        '<span class="bde-pv" style="font-size:'+(f.k==='large'?'15':'12')+'px;color:#3A463F;font-weight:700">Aa</span><span class="bde-pname">'+f.name+'</span></button>';
+    });
+    sw+='</div><p class="bde-note">本文の最小サイズは可読性のため14pxを下回りません。</p></div>';
+    sw+='</div>';
+    return sw;
+  }
+
+  /* ── 操作 ── */
+  window.bdeSelect=function(k){state.sel=k;renderBlocks();renderPanel();
+    var b=blockBy(k);pm({type:'bde-select',sel:b?b.sel:null});};
+  window.bdeSetDevice=function(d){state.device=d;$('bde-frame').setAttribute('data-device',d);
+    document.querySelectorAll('#page-design .bde-device-btn').forEach(function(x){var on=x.getAttribute('data-device')===d;x.classList.toggle('active',on);x.setAttribute('aria-pressed',on?'true':'false');});};
+  window.bdeToggleVisible=function(k){state.visible[k]=state.visible[k]===false;var b=blockBy(k);pm({type:'bde-visible',sel:b.sel,visible:state.visible[k]});markDirty();renderBlocks();renderPanel();};
+  window.bdeMove=function(k,dir){var i=state.order.indexOf(k);var j=i+dir;if(j<0||j>=state.order.length)return;var t=state.order[i];state.order[i]=state.order[j];state.order[j]=t;
+    pm({type:'bde-order',order:state.order.map(function(x){return blockBy(x).sel;})});markDirty();renderBlocks();renderPanel();};
+  window.bdeSetDisp=function(key,val,btn){state.disp[key]=val;var attr='data-disp-'+key;pm({type:'bde-disp',attr:attr,val:val});markDirty();
+    var p=btn.parentNode;p.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
+  window.bdeSetAccent=function(k,btn){state.accent=k;var a=ACCENTS.find(function(x){return x.k===k;});pm({type:'bde-accent',hex:a.hex});markDirty();
+    btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
+  window.bdeSetFont=function(k,btn){state.font=k;markDirty();btn.parentNode.querySelectorAll('.bde-preset').forEach(function(x){x.classList.remove('active');});btn.classList.add('active');};
+  window.bdeHeroInput=function(){state.hero.line1=$('bde-hero-l1').value;state.hero.line2=$('bde-hero-l2').value;state.hero.desc=$('bde-hero-desc').value;state.hero.cta=$('bde-hero-cta').value;
+    pm({type:'bde-hero',hero:state.hero});markDirty();};
+  window.bdeIntroInput=function(){state.intro.tagline=$('bde-intro-tag').value;state.intro.text=$('bde-intro-text').value;
+    pm({type:'bde-intro',intro:state.intro});markDirty();};
+  window.bdeResetBlock=function(k){pm({type:'bde-reset',key:k});if(typeof showToast==='function')showToast('「'+blockBy(k).label+'」を初期状態に戻しました');};
+  window.bdeCopyPreviewUrl=function(){if(typeof showToast==='function')showToast('プレビューURLをコピーしました（公開前の内部確認用）');};
+  window.bdeSaveDraft=function(){state.dirty=false;var d=$('bde-draft');if(d)d.classList.remove('show');if(typeof showToast==='function')showToast('下書きを保存しました');};
+  window.bdePublish=function(){if(typeof showToast==='function')showToast('採用サイトを公開しました');state.dirty=false;var d=$('bde-draft');if(d)d.classList.remove('show');};
+
+  /* ── プレビュー(iframe)との通信 ── */
+  window.addEventListener('message',function(ev){
+    var d=ev.data||{};
+    if(d.type==='bde-ready'){
+      state.ready=true;
+      if(d.hero){state.hero=d.hero;}
+      if(d.intro){state.intro=d.intro;}
+      // 現在のエディタ状態をプレビューへ反映
+      Object.keys(state.visible).forEach(function(k){if(state.visible[k]===false)pm({type:'bde-visible',sel:blockBy(k).sel,visible:false});});
+      renderPanel();
+    }
+  });
+
+  /* ── 高さフィット ── */
+  function fit(){var app=document.querySelector('#page-design .bde-app');if(!app)return;var top=app.getBoundingClientRect().top;app.style.height=(window.innerHeight-top)+'px';}
+  window.addEventListener('resize',fit);
+  document.addEventListener('DOMContentLoaded',function(){renderBlocks();renderPanel();setTimeout(fit,60);});
+  // ページ表示時にも高さ再計算（SPAのため）
+  var _sp=window.showPage;
+  if(typeof _sp==='function'){window.showPage=function(p){_sp.apply(this,arguments);if(p==='design')setTimeout(fit,40);};}
+  // 既にDOM構築済みの場合
+  if(document.readyState!=='loading'){renderBlocks();renderPanel();setTimeout(fit,60);}
 })();
 </script>
 <div id="page-account" class="page-container" data-page="account">
@@ -30817,7 +31132,7 @@ body.on-login-page{overflow:hidden}
     <section class="rk-sec">
       <div class="sec-title" style="margin-bottom:8px">求人サイト・トップページの編集</div>
       <p class="rk-note" style="margin:0 0 12px;color:#5a6862;font-size:13px;line-height:1.6">公開する採用サイト・トップページのデザインや掲載コンテンツを編集します。編集画面では各セクションのレイアウト・テキスト・画像を変更できます。</p>
-      <button type="button" class="btn btn-sm btn-outline" onclick="if(window.showPage)showPage('site-edit')">デザイン編集を開く</button>
+      <button type="button" class="btn btn-sm btn-outline" onclick="if(window.showPage)showPage('design')">デザイン編集を開く</button>
     </section>
     <section class="rk-sec">
       <div class="sec-title" style="margin-bottom:14px">メールアドレス</div>
@@ -35437,6 +35752,81 @@ window.addEventListener('DOMContentLoaded', function(){
   }
   showPage('login');
 });
+
+// ═══════════════════════════════════════════════════════
+// プレビュー(bare)モード: デザイン編集の中央iframe用
+//   ?preview=site-edit で開かれた時、認証をバイパスし
+//   管理画面chromeを隠して採用トップページ(#page-site-edit)のみ描画。
+//   親(エディタ)からのpostMessageでブロックを編集する。
+// ═══════════════════════════════════════════════════════
+(function(){
+  var bare = location.search.indexOf('preview=site-edit') > -1;
+  if(!bare) return;
+  var orig=null;
+  function txt(sel){var e=document.querySelector(sel);return e?e.textContent.trim():'';}
+  function setTxt(sel,v){var e=document.querySelector(sel);if(e)e.textContent=(v==null?'':v);}
+  function readHero(){
+    var de=document.querySelector('.tp-hero-desc');
+    return{line1:txt('.tp-hero-title .tp-line-1'),line2:txt('.tp-hero-title .tp-line-2'),
+      desc:de?de.innerText.trim():'',cta:txt('.tp-hero-btn.primary span')};
+  }
+  function readIntro(){
+    var te=document.querySelector('.tp-intro-text');
+    return{tagline:txt('.tp-intro-tagline'),text:te?te.innerText.replace(/\n{3,}/g,'\n\n').trim():''};
+  }
+  function boot(){
+    if(window.__setLoggedIn)window.__setLoggedIn(true);
+    document.body.classList.add('preview-bare');
+    if(window.showPage)window.showPage('site-edit');
+  }
+  function ready(){
+    if(orig)return;
+    orig={hero:readHero(),intro:readIntro()};
+    try{window.parent.postMessage({type:'bde-ready',hero:orig.hero,intro:orig.intro},'*');}catch(e){}
+  }
+  window.addEventListener('DOMContentLoaded',function(){boot();setTimeout(boot,120);setTimeout(function(){boot();ready();},640);});
+  if(document.readyState!=='loading'){boot();setTimeout(function(){boot();ready();},320);}
+
+  window.addEventListener('message',function(ev){
+    var d=ev.data||{};
+    if(d.type==='bde-select'){
+      document.querySelectorAll('.tp-bde-selected').forEach(function(x){x.classList.remove('tp-bde-selected');});
+      if(d.sel){var t=document.querySelector(d.sel);if(t){t.classList.add('tp-bde-selected');
+        var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+        t.scrollIntoView({behavior:rm?'auto':'smooth',block:'start'});}}
+    } else if(d.type==='bde-visible'){
+      var e=document.querySelector(d.sel);if(e)e.style.display=d.visible?'':'none';
+    } else if(d.type==='bde-order'){
+      var p=document.getElementById('page-site-edit'),anchor=document.getElementById('tp-basic');
+      if(p&&anchor){(d.order||[]).forEach(function(s){var el=document.querySelector(s);if(el)p.insertBefore(el,anchor);});}
+    } else if(d.type==='bde-disp'){
+      if(d.val)document.body.setAttribute(d.attr,d.val);else document.body.removeAttribute(d.attr);
+    } else if(d.type==='bde-hero'){
+      var h=d.hero||{};setTxt('.tp-hero-title .tp-line-1',h.line1);setTxt('.tp-hero-title .tp-line-2',h.line2);
+      var de=document.querySelector('.tp-hero-desc');if(de)de.textContent=(h.desc==null?'':h.desc);
+      setTxt('.tp-hero-btn.primary span',h.cta);
+    } else if(d.type==='bde-intro'){
+      var i=d.intro||{};setTxt('.tp-intro-tagline',i.tagline);
+      var te=document.querySelector('.tp-intro-text');
+      if(te)te.innerHTML=(i.text||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    } else if(d.type==='bde-accent'){
+      var st=document.getElementById('bde-accent-style');
+      if(!st){st=document.createElement('style');st.id='bde-accent-style';document.head.appendChild(st);}
+      var c=d.hex;
+      st.textContent='.tp-hero-btn.primary{background:'+c+';border-color:'+c+'}'+
+        '.tp-filter-chip.active{background:'+c+';border-color:'+c+'}'+
+        '.tp-section-number,.tp-section-label,.tp-intro-name,.tp-nav-item.active{color:'+c+'}'+
+        '.tp-follow-btn{background:'+c+';border-color:'+c+'}'+
+        '.tp-hero-title em,.tp-intro-heading em{color:'+c+'}';
+    } else if(d.type==='bde-reset'){
+      if(!orig)return;
+      if(d.key==='hero'){setTxt('.tp-hero-title .tp-line-1',orig.hero.line1);setTxt('.tp-hero-title .tp-line-2',orig.hero.line2);
+        var de2=document.querySelector('.tp-hero-desc');if(de2)de2.textContent=orig.hero.desc;setTxt('.tp-hero-btn.primary span',orig.hero.cta);}
+      if(d.key==='intro'){setTxt('.tp-intro-tagline',orig.intro.tagline);
+        var te2=document.querySelector('.tp-intro-text');if(te2)te2.textContent=orig.intro.text;}
+    }
+  });
+})();
 
 // ═══════════════════════════════════════════════════════
 // 認証ガード: ログイン前は必ずログイン画面を表示
