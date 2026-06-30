@@ -608,10 +608,20 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,[t
         if(h.carouselBg){var c=document.getElementById('pv-hero-carousel');if(c)c.style.background=h.carouselBg;}
       }
     } else if(d.type==='pv-bg'){
-      var bm={white:'#FFFFFF',cream:'#FAF8F3',gray:'#F1F3F2',diagonal:'repeating-linear-gradient(45deg,#fff,#fff 8px,#eef0ef 8px,#eef0ef 16px)',dots:'radial-gradient(#e0e3e1 1.5px,#ffffff 1.5px)'};
-      document.body.style.background=bm[d.mode]||'#FAF8F3';
-      document.body.style.backgroundSize=(d.mode==='dots')?'16px 16px':'auto';
-      document.body.style.backgroundAttachment=(d.mode==='diagonal'||d.mode==='dots')?'fixed':'scroll';
+      var B={
+        white:{c:'#FFFFFF'},cream:{c:'#FAF8F3'},gray:{c:'#F1F3F2'},
+        blue:{c:'#EEF4FA'},green:{c:'#EEF6F0'},sand:{c:'#F6F1E7'},
+        mint:{c:'#EAF5EF'},lavender:{c:'#F1EEF8'},
+        diagonal:{c:'#FFFFFF',img:'repeating-linear-gradient(45deg,#f6f7f6 0 1px,transparent 1px 15px)'},
+        dots:{c:'#FFFFFF',img:'radial-gradient(#e6e9e7 1.3px,transparent 1.3px)',size:'18px 18px'},
+        grid:{c:'#FFFFFF',img:'linear-gradient(#eef0ef 1px,transparent 1px),linear-gradient(90deg,#eef0ef 1px,transparent 1px)',size:'24px 24px'},
+        curve:{c:'#FFFFFF',img:'radial-gradient(circle at 50% 0%,#eef2ef 22%,transparent 23%)',size:'36px 18px'},
+        circles:{c:'#F1F7F4',img:'radial-gradient(circle at 88% 12%,rgba(17,90,54,.06) 0 130px,transparent 131px),radial-gradient(circle at 6% 88%,rgba(17,90,54,.05) 0 170px,transparent 171px)',repeat:'no-repeat',attach:'fixed'}
+      };
+      var bb=B[d.mode]||B.cream, st=document.body.style;
+      st.background='';st.backgroundColor=bb.c||'#FAF8F3';st.backgroundImage=bb.img||'none';
+      st.backgroundSize=bb.size||'auto';st.backgroundRepeat=bb.repeat||'repeat';
+      st.backgroundPosition='center';st.backgroundAttachment=bb.attach||'scroll';
     } else if(d.type==='pv-select'){
       document.querySelectorAll('.pv-hl').forEach(function(x){x.classList.remove('pv-hl');});
       if(d.sel){var t=$(d.sel);if(t){t.classList.add('pv-hl');var rm=matchMedia('(prefers-reduced-motion: reduce)').matches;t.scrollIntoView({behavior:rm?'auto':'smooth',block:'center'});}}
