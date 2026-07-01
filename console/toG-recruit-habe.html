@@ -33692,9 +33692,14 @@ function sendSpMessage(){
 }
 window.openSpMessageModal=openSpMessageModal;window.closeSpMessageModal=closeSpMessageModal;window.updateSpMsgSend=updateSpMsgSend;window.sendSpMessage=sendSpMessage;
 function closePanel(){
-  document.getElementById('side-panel').classList.remove('open');
-  document.getElementById('side-panel').classList.remove('sp-full');
+  var sp=document.getElementById('side-panel');
+  sp.classList.remove('open');
   document.getElementById('overlay').classList.remove('show');
+  // 全画面(sp-full=100vw)はスライドアウト完了後に解除する。
+  // 同時に外すと幅が瞬時に480pxへ戻り、小パネルが一瞬見えてしまうため。
+  if(sp.classList.contains('sp-full')){
+    setTimeout(function(){ if(!sp.classList.contains('open')) sp.classList.remove('sp-full'); }, 300);
+  }
 }
 
 // ── 職務経歴書エディタ モーダル ──
