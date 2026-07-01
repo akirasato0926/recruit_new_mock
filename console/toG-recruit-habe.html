@@ -28317,6 +28317,8 @@ body.on-login-page{overflow:hidden}
   // ESC で閉じる
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape'){
+      const sp = document.getElementById('side-panel');
+      if(sp && sp.classList.contains('open')){ closePanel(); return; }
       const jm = document.getElementById('d-job-modal');
       const ch = document.getElementById('d-chat');
       if(jm && jm.classList.contains('show')){ dCloseJobModal(); return; }
@@ -31422,24 +31424,32 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel.sp-full .sp-actionbar .sp-btn{background:transparent !important;border:0 !important;color:#115A36 !important;padding:0 !important;height:auto;width:auto;min-height:0;font-size:13.5px;font-weight:700;box-shadow:none}
 .side-panel.sp-full .sp-actionbar .sp-btn svg{display:none}
 .side-panel.sp-full .sp-entrybar{display:none}
-.side-panel.sp-full .apd-card{display:grid;grid-template-columns:1fr 1fr;gap:40px;border:1px solid #E6E8EA;border-radius:10px;padding:24px 28px;margin:18px 0}
-.side-panel.sp-full .apd-cname{font-size:20px;font-weight:700;color:#1A1A1A;margin-bottom:18px}
+.side-panel.sp-full .apd-card{display:grid;grid-template-columns:1fr 1fr;gap:32px;border:1px solid #E6E8EA;border-radius:10px;padding:24px 28px;margin:24px 0}
+.side-panel.sp-full .apd-cname{font-size:20px;font-weight:700;color:#1A1A1A;margin-bottom:0}
 .side-panel.sp-full .apd-cfield{margin-bottom:16px}
-.side-panel.sp-full .apd-clabel{font-size:11.5px;color:#8A8F94;margin-bottom:5px}
+.side-panel.sp-full .apd-clabel{font-size:11.5px;color:#6A7175;letter-spacing:.02em;font-weight:600;margin-bottom:5px}
 .side-panel.sp-full .apd-cval{font-size:14px;color:#1A1A1A}
 .side-panel.sp-full .apd-link{color:#115A36;text-decoration:underline;cursor:pointer;font-size:13.5px}
 .side-panel.sp-full .apd-dl{list-style:disc;margin:0;padding-left:18px}
 .side-panel.sp-full .apd-dl li{margin-bottom:7px}
-.side-panel.sp-full .apd-select{width:100%;max-width:280px;border:1px solid #D8DCDF;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px}
+.side-panel.sp-full .apd-select{width:100%;max-width:280px;border:1px solid #D8DCDF;border-radius:8px;padding:11px 12px;font-family:inherit;font-size:13px}
 .side-panel.sp-full .apd-memo{width:100%;min-height:96px;border:1px solid #D8DCDF;border-radius:8px;padding:10px 12px;font-family:inherit;font-size:13px;resize:vertical;box-sizing:border-box}
-.side-panel.sp-full .sp-detail-tabs{display:flex !important;justify-content:flex-start;gap:2px;background:none;border:0;border-bottom:1px solid #E0E3E6;border-radius:0;padding:0;margin:22px 0 4px}
+.side-panel.sp-full .sp-detail-tabs{display:flex !important;justify-content:flex-start;gap:2px;background:none;border:0;border-bottom:1px solid #E0E3E6;border-radius:0;padding:0;margin:24px 0 4px;overflow-x:auto;flex-wrap:nowrap}
 .side-panel.sp-full .sp-detail-tabs .sp-tab{background:none !important;color:#5F6B72 !important;border:0;border-bottom:3px solid transparent;border-radius:0;padding:14px 20px;font-weight:700;font-size:14px}
 .side-panel.sp-full .sp-detail-tabs .sp-tab.active{color:#115A36 !important;border-bottom-color:#115A36}
 .side-panel.sp-full .sp-tabpanel{padding-top:8px}
 .sp-fclose{display:none}
-.side-panel.sp-full .sp-fclose{display:flex;position:fixed;top:18px;right:24px;width:40px;height:40px;border-radius:50%;border:0;background:#115A36;color:#fff;font-size:22px;line-height:1;align-items:center;justify-content:center;cursor:pointer;z-index:60;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.side-panel.sp-full .sp-fclose{display:flex;position:fixed;top:18px;right:24px;width:44px;height:44px;border-radius:50%;border:0;background:#115A36;color:#fff;font-size:22px;line-height:1;align-items:center;justify-content:center;cursor:pointer;z-index:60;box-shadow:0 2px 8px rgba(0,0,0,.18)}
 .side-panel.sp-full .sp-fclose:hover{background:#0d4429}
-@media(max-width:760px){.side-panel.sp-full .apd-card{grid-template-columns:1fr;gap:18px}}
+.side-panel.sp-full .apd-cidentity{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.side-panel.sp-full .apd-avatar{position:relative;width:56px;height:56px;flex-shrink:0;border-radius:50%;overflow:hidden;background:#E6F5EC;color:#115A36;font-size:20px;font-weight:700;box-shadow:inset 0 0 0 1px rgba(17,90,54,.20)}
+.side-panel.sp-full .apd-avatar-fb{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1}
+.side-panel.sp-full .apd-avatar-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
+.side-panel.sp-full .apd-link:focus-visible,.side-panel.sp-full .sp-actionbar .sp-btn:focus-visible,.side-panel.sp-full .sp-detail-tabs .sp-tab:focus-visible,.side-panel.sp-full .sp-fclose:focus-visible{outline:none;box-shadow:0 0 0 3px color-mix(in srgb,#115A36 32%,transparent)}
+.side-panel.sp-full .apd-select:focus,.side-panel.sp-full .apd-memo:focus{outline:none;border-color:#115A36;box-shadow:0 0 0 3px color-mix(in srgb,#115A36 14%,transparent)}
+.side-panel.sp-full .sp-actionbar .sp-btn{min-height:44px;display:inline-flex;align-items:center}
+.side-panel.sp-full .sp-detail-tabs .sp-tab{white-space:nowrap;flex:none}
+@media(max-width:760px){.side-panel.sp-full .apd-card{grid-template-columns:1fr;gap:18px}.side-panel.sp-full .apd-avatar{width:48px;height:48px;font-size:18px}}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
@@ -33279,7 +33289,7 @@ function openPanel(id){
   document.getElementById('sp-avatar').className = 'sp-avatar ' + (a.gender==='f'?'f':'');
   avImg.style.visibility='visible';
   avImg.onerror=function(){ this.onerror=null; this.src=localFallback; };
-  avImg.src=getAvatarUrl(a);
+  avImg.src='img/sample-applicant.jpg';
 
   // ── 追加ダミーデータ（決定的生成）──
   const hx = (k)=>hashString(k+'_'+a.id);
@@ -33357,7 +33367,10 @@ function openPanel(id){
 
     <div class="apd-card">
       <div class="apd-card-left">
-        <div class="apd-cname">${a.name}</div>
+        <div class="apd-cidentity">
+          <div class="apd-avatar"><span class="apd-avatar-fb">${a.name.charAt(0)}</span><img class="apd-avatar-img" src="img/sample-applicant.jpg" alt="応募者の顔写真（サンプル）" onerror="this.style.display='none'"></div>
+          <div class="apd-cname">${a.name}</div>
+        </div>
         <div class="apd-cfield"><div class="apd-clabel">エントリー番号</div><div class="apd-cval">${a.id}</div></div>
         <div class="apd-cfield"><div class="apd-clabel">応募職種</div><div class="apd-cval"><a class="apd-link" onclick="alert('求人詳細を開きます')">${a.job}</a></div></div>
         <div class="apd-cfield"><div class="apd-clabel">応募者情報</div>
