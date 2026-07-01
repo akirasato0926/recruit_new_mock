@@ -31469,7 +31469,42 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel.sp-full .apd-metasep{margin:0 8px;color:var(--sp-border-in)}
 .side-panel.sp-full .sp-sec{margin-bottom:var(--sp-8)}
 @media(max-width:820px){.side-panel.sp-full .apd-cardbody{grid-template-columns:1fr;gap:var(--sp-4)}.side-panel.sp-full .apd-cardhead{flex-wrap:wrap}.side-panel.sp-full .apd-headactions{margin-left:0;width:100%;margin-top:var(--sp-2)}}
+/* ===== タブ内容 全面改修（新チーム, sp-fullスコープ限定） ===== */
+.side-panel.sp-full .apd-2col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--sp-8);align-items:start}
+.side-panel.sp-full .apd-col{min-width:0}
+.side-panel.sp-full .apd-dl2{display:grid;grid-template-columns:max-content minmax(0,1fr);column-gap:var(--sp-5);row-gap:var(--sp-3);margin:0}
+.side-panel.sp-full .apd-dl2 dt{color:var(--sp-sub);font-size:13px;font-weight:600}
+.side-panel.sp-full .apd-dl2 dd{margin:0;color:var(--sp-ink);font-size:14px}
+.side-panel.sp-full .apd-dl2 .apd-dd-wide{grid-column:1 / -1}
+.side-panel.sp-full .apd-dl2 dt.apd-dd-wide{margin-top:var(--sp-2)}
+.side-panel.sp-full .apd-grouplabel{font-size:12px;font-weight:700;color:var(--sp-sub);letter-spacing:.02em;margin:0 0 var(--sp-2)}
+.side-panel.sp-full .apd-box{border:1px solid var(--sp-border);border-radius:var(--sp-radius-sm);padding:var(--sp-4);font-size:14px;line-height:1.7;color:var(--sp-ink);background:#fff}
+.side-panel.sp-full .apd-listitem{padding:2px 0}
+.side-panel.sp-full .apd-listitem + .apd-listitem{border-top:1px solid var(--sp-border);padding-top:8px;margin-top:6px}
+.side-panel.sp-full .apd-alert{display:flex;gap:8px;align-items:flex-start;border:1px solid var(--sp-green-line);background:var(--sp-green-soft);border-radius:var(--sp-radius-sm);padding:var(--sp-3) var(--sp-4);font-size:13.5px;color:var(--sp-ink)}
+.side-panel.sp-full .apd-alert svg{width:18px;height:18px;flex:none;stroke:var(--sp-green);margin-top:1px}
+.side-panel.sp-full .apd-alert.none{border-color:var(--sp-border);background:#fff;color:var(--sp-sub)}
+.side-panel.sp-full .apd-alert.none svg{stroke:var(--sp-sub)}
+.side-panel.sp-full .apd-checks{border:1px solid var(--sp-green-line);background:var(--sp-green-soft);border-radius:var(--sp-radius-sm);padding:var(--sp-4);display:grid;gap:10px}
+.side-panel.sp-full .apd-checks .sp-check-item{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--sp-ink);margin:0}
+.side-panel.sp-full .apd-checks .sp-check-item svg{width:16px;height:16px;flex:none;margin-top:2px}
+.side-panel.sp-full .sp-qual-chip{background:var(--sp-green-soft);border:1px solid var(--sp-green-line);color:var(--sp-ink)}
+/* タイムライン */
+.side-panel.sp-full .sp-tabpanel[data-sppanel="timeline"] .sp-sec{max-width:720px}
+.side-panel.sp-full .apd-tl-datehdr{font-size:12px;font-weight:700;color:var(--sp-sub);letter-spacing:.02em;margin:0 0 var(--sp-4);padding-bottom:8px;border-bottom:1px solid var(--sp-border)}
+.side-panel.sp-full .sp-tl-item{padding-bottom:var(--sp-4)}
+/* メッセージ */
+.side-panel.sp-full .spm{max-width:940px}
+.side-panel.sp-full .spm-body{min-height:64px}
+.side-panel.sp-full .spm-sendc{background:var(--sp-green);border:1px solid var(--sp-green);border-radius:var(--sp-radius-sm);color:#fff}
+.side-panel.sp-full .spm-sendc:hover{background:#0d4429}
+.side-panel.sp-full .spm-thread{display:flex;flex-direction:column;gap:var(--sp-4);margin-top:var(--sp-5)}
+.side-panel.sp-full .spm-msg{border:1px solid var(--sp-border);border-radius:var(--sp-radius);padding:var(--sp-4);max-width:82%;box-shadow:var(--sp-shadow)}
+.side-panel.sp-full .spm-msg--theirs{align-self:flex-start;background:#fff}
+.side-panel.sp-full .spm-msg--mine{align-self:flex-end;background:var(--sp-green-soft);border-color:var(--sp-green-line)}
+.side-panel.sp-full .spm-msg--theirs .spm-av{background:#EEF0F2;color:var(--sp-sub)}
 @media(max-width:900px){.side-panel.sp-full .sp-profile-grid{grid-template-columns:96px minmax(0,1fr)}}
+@media(max-width:900px){.side-panel.sp-full .apd-2col{grid-template-columns:1fr;gap:var(--sp-5)}.side-panel.sp-full .spm-msg{max-width:92%}}
 </style>
 <aside class="side-panel" id="side-panel" role="dialog" aria-labelledby="sp-name" aria-modal="true">
   <div class="sp-head">
@@ -33423,51 +33458,65 @@ function openPanel(id){
     <div class="sp-tabpanel active" data-sppanel="profile">
       <div class="sp-sec">
         <div class="sp-sec-title">応募者情報</div>
-        <div class="sp-profile-grid">
-          <div class="sp-profile-label">生年月日</div><div class="sp-profile-value">${profile.birthDate}</div>
-          <div class="sp-profile-label">現住所</div><div class="sp-profile-value">${profile.address}</div>
-          <div class="sp-profile-label">メールアドレス</div><div class="sp-profile-value">${email}</div>
-          <div class="sp-profile-label">電話番号</div><div class="sp-profile-value">${phone}</div>
+        <div class="apd-2col">
+          <div class="apd-col">
+            <dl class="apd-dl2">
+              <dt>生年月日</dt><dd>${profile.birthDate}</dd>
+              <dt>現住所</dt><dd>${profile.address}</dd>
+              <dt>メールアドレス</dt><dd>${email}</dd>
+              <dt>電話番号</dt><dd>${phone}</dd>
+            </dl>
+          </div>
+          <div class="apd-col">
+            <div class="apd-grouplabel">資格</div>
+            <div class="sp-qual-list">${quals.map(q=>`<span class="sp-qual-chip">${q.name}<span class="sp-qual-date">${q.date}</span></span>`).join('')}</div>
+            <div class="apd-grouplabel" style="margin-top:var(--sp-5)">語学力</div>
+            <div class="sp-lang-list">${langs.map(l=>`<div class="sp-lang-item">${l}</div>`).join('')}</div>
+          </div>
         </div>
-        <div class="sp-sub-label">資格</div>
-        <div class="sp-qual-list">${quals.map(q=>`<span class="sp-qual-chip">${q.name}<span class="sp-qual-date">${q.date}</span></span>`).join('')}</div>
-        <div class="sp-sub-label">語学力</div>
-        <div class="sp-lang-list">${langs.map(l=>`<div class="sp-lang-item">${l}</div>`).join('')}</div>
-        <div class="sp-sub-label">自己PR</div>
-        <div class="sp-pr-box">${selfPR}</div>
+        <div class="apd-grouplabel" style="margin-top:var(--sp-6)">自己PR</div>
+        <div class="apd-box">${selfPR}</div>
       </div>
-      <div class="sp-sec">
-        <div class="sp-sec-title">職歴</div>
-        ${carRev.length>0 ? `<div class="sp-timeline">${carRev.map(c=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${c.period}</div><div class="sp-timeline-body">${c.company}</div><div class="sp-timeline-meta">${c.position}${(c.duty && c.duty!==c.position)?'｜'+c.duty:''}</div></div>`).join('')}</div>` : `<div class="sp-empty-note">新卒応募のため、職歴情報はありません</div>`}
-      </div>
-      <div class="sp-sec">
-        <div class="sp-sec-title">学歴</div>
-        <div class="sp-timeline">${eduRev.map(e=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${e.date}</div><div class="sp-timeline-body">${e.name}</div><div class="sp-timeline-meta">${e.type}</div></div>`).join('')}</div>
+      <div class="apd-2col">
+        <div class="sp-sec">
+          <div class="sp-sec-title">職歴</div>
+          ${carRev.length>0 ? `<div class="sp-timeline">${carRev.map(c=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${c.period}</div><div class="sp-timeline-body">${c.company}</div><div class="sp-timeline-meta">${c.position}${(c.duty && c.duty!==c.position)?'｜'+c.duty:''}</div></div>`).join('')}</div>` : `<div class="sp-empty-note">新卒応募のため、職歴情報はありません</div>`}
+        </div>
+        <div class="sp-sec">
+          <div class="sp-sec-title">学歴</div>
+          <div class="sp-timeline">${eduRev.map(e=>`<div class="sp-timeline-item"><div class="sp-timeline-date">${e.date}</div><div class="sp-timeline-body">${e.name}</div><div class="sp-timeline-meta">${e.type}</div></div>`).join('')}</div>
+        </div>
       </div>
     </div>
 
     <div class="sp-tabpanel" data-sppanel="entry">
       <div class="sp-sec">
         <div class="sp-sec-title">エントリー情報</div>
-        <div class="sp-profile-grid">
-          <div class="sp-profile-label">エントリー日</div><div class="sp-profile-value">${sp_entryDate}</div>
-          <div class="sp-profile-label">応募職種</div><div class="sp-profile-value">${a.job}</div>
-          <div class="sp-profile-label">受験資格</div><div class="sp-profile-value">${sp_eligibility}</div>
-          <div class="sp-profile-label">国籍</div><div class="sp-profile-value">日本国籍</div>
-        </div>
-        <div class="sp-sub-label">志望動機</div>
-        <div class="sp-pr-box">${selfPR}</div>
-        <div class="sp-sub-label">就職活動状況</div>
-        <div class="sp-lang-list">${sp_huntList.map(h=>`<div class="sp-lang-item">${h}</div>`).join('')}</div>
-        <div class="sp-sub-label">一次試験の選択</div>
-        <div class="sp-lang-list"><div class="sp-lang-item">${sp_examChoice}</div></div>
-        <div class="sp-sub-label">試験時の配慮</div>
-        <div class="sp-lang-list"><div class="sp-lang-item">${sp_considerNeeded?'要':'不要'}${sp_considerNeeded?'｜'+sp_considerText:''}</div></div>
-        <div class="sp-sub-label">確認事項</div>
-        <div class="sp-check-list">
-          <div class="sp-check-item">${ckSvg}<span>応募職種は「${a.job}」で間違いありません</span></div>
-          <div class="sp-check-item">${ckSvg}<span>申込内容（学歴・職歴等）に事実と相違ありません</span></div>
-          <div class="sp-check-item">${ckSvg}<span>地方公務員法第16条の欠格条項のいずれにも該当しません</span></div>
+        <div class="apd-2col">
+          <div class="apd-col">
+            <div class="apd-grouplabel">申込情報</div>
+            <dl class="apd-dl2">
+              <dt>エントリー日</dt><dd>${sp_entryDate}</dd>
+              <dt>応募職種</dt><dd>${a.job}</dd>
+              <dt>国籍</dt><dd>日本国籍</dd>
+              <dt>一次試験の選択</dt><dd>${sp_examChoice}</dd>
+              <dt class="apd-dd-wide">受験資格</dt><dd class="apd-dd-wide">${sp_eligibility}</dd>
+            </dl>
+            <div class="apd-grouplabel" style="margin-top:var(--sp-6)">試験時の配慮</div>
+            <div class="apd-alert ${sp_considerNeeded?'':'none'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span>${sp_considerNeeded?'要 ｜ '+sp_considerText:'配慮の希望はありません'}</span></div>
+          </div>
+          <div class="apd-col">
+            <div class="apd-grouplabel">志望動機</div>
+            <div class="apd-box">${selfPR}</div>
+            <div class="apd-grouplabel" style="margin-top:var(--sp-6)">就職活動状況</div>
+            <div class="apd-box">${sp_huntList.map(h=>`<div class="apd-listitem">${h}</div>`).join('')}</div>
+            <div class="apd-grouplabel" style="margin-top:var(--sp-6)">確認事項</div>
+            <div class="apd-checks">
+              <div class="sp-check-item">${ckSvg}<span>応募職種は「${a.job}」で間違いありません</span></div>
+              <div class="sp-check-item">${ckSvg}<span>申込内容（学歴・職歴等）に事実と相違ありません</span></div>
+              <div class="sp-check-item">${ckSvg}<span>地方公務員法第16条の欠格条項のいずれにも該当しません</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -33495,7 +33544,8 @@ function openPanel(id){
     <div class="sp-tabpanel" data-sppanel="timeline">
       <div class="sp-sec">
         <div class="sp-sec-title">タイムライン</div>
-        <div class="sp-tl">${sp_timeline.map(ev=>`<div class="sp-tl-item"><span class="sp-tl-dot"></span><div class="sp-tl-body"><div class="sp-tl-time">${ev.t}</div><div class="sp-tl-text">${ev.txt}</div></div></div>`).join('')}</div>
+        <div class="apd-tl-datehdr">${sp_entryDate}</div>
+        <div class="sp-tl">${sp_timeline.map(ev=>`<div class="sp-tl-item"><span class="sp-tl-dot"></span><div class="sp-tl-body"><div class="sp-tl-time">${ev.t.split(' ')[1]||ev.t}</div><div class="sp-tl-text">${ev.txt}</div></div></div>`).join('')}</div>
       </div>
     </div>
 
@@ -33522,7 +33572,7 @@ function openPanel(id){
           </div>
         </div>
         <div class="spm-thread">
-          <div class="spm-msg">
+          <div class="spm-msg spm-msg--mine">
             <div class="spm-msg-head">
               <div class="spm-av dept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5"/></svg></div>
               <div class="spm-msg-meta"><span class="spm-msg-sender">波部市役所 人事課</span><span class="spm-msg-date">${a.applied_date} 16:12</span></div>
@@ -33531,7 +33581,7 @@ function openPanel(id){
             <div class="spm-msg-subject">Re: 選考のご案内について</div>
             <div class="spm-msg-body">${a.name} 様<br><br>お世話になっております。波部市役所 人事課です。<br><br>選考に関するお問い合わせへご回答いただき、ありがとうございます。<br>当日お会いできることを心待ちにしております。<br><br>人事課 採用係 一同</div>
           </div>
-          <div class="spm-msg">
+          <div class="spm-msg spm-msg--theirs">
             <div class="spm-msg-head">
               <div class="spm-av">${a.name.charAt(0)}</div>
               <div class="spm-msg-meta"><span class="spm-msg-sender">${a.name}</span><span class="spm-msg-date">${a.applied_date} 14:45</span></div>
