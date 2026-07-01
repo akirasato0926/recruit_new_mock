@@ -31503,6 +31503,11 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
 .side-panel.sp-full .spm-msg--theirs{align-self:flex-start;background:#fff}
 .side-panel.sp-full .spm-msg--mine{align-self:flex-end;background:var(--sp-green-soft);border-color:var(--sp-green-line)}
 .side-panel.sp-full .spm-msg--theirs .spm-av{background:#EEF0F2;color:var(--sp-sub)}
+.side-panel.sp-full .spm-presend-wrap{position:relative;display:inline-flex;align-items:center}
+.side-panel.sp-full .spm-presend.set{color:var(--sp-green);font-weight:700}
+.side-panel.sp-full .spm-dt{position:absolute;right:0;bottom:-2px;width:1px;height:1px;padding:0;margin:0;border:0;opacity:0}
+.side-panel.sp-full .spm-dtclear{display:none;margin-left:6px;width:20px;height:20px;line-height:1;border:0;border-radius:50%;background:#E6E8EA;color:var(--sp-sub);font-size:13px;cursor:pointer}
+.side-panel.sp-full .spm-presend-wrap.has-schedule .spm-dtclear{display:inline-flex;align-items:center;justify-content:center}
 @media(max-width:900px){.side-panel.sp-full .sp-profile-grid{grid-template-columns:96px minmax(0,1fr)}}
 @media(max-width:900px){.side-panel.sp-full .apd-2col{grid-template-columns:1fr;gap:var(--sp-5)}.side-panel.sp-full .spm-msg{max-width:100%;min-width:0}}
 </style>
@@ -33567,8 +33572,8 @@ function openPanel(id){
             <button class="spm-tlink" onclick="alert('テンプレートを挿入します')">テンプレート挿入</button>
             <button class="spm-tlink" onclick="alert('日程調整リンクを挿入します')">日程調整リンク挿入</button>
             <span class="spm-tspacer"></span>
-            <button class="spm-presend" onclick="alert('予約送信の日時を設定します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>日時を設定して予約送信</button>
-            <button class="spm-sendc" onclick="alert('送信内容を確認します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>送信確認</button>
+            <span class="spm-presend-wrap"><button class="spm-presend" onclick="spmPickWhen(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="spm-presend-text">日時を設定して予約送信</span></button><input type="datetime-local" class="spm-dt" onchange="spmSetSchedule(this)" aria-label="予約日時"><button class="spm-dtclear" onclick="spmClearSchedule(this)" aria-label="予約を解除" title="予約を解除">×</button></span>
+            <button class="spm-sendc" onclick="spmSend(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>送信確認</button>
           </div>
         </div>
         <div class="spm-thread">
@@ -33576,7 +33581,7 @@ function openPanel(id){
             <div class="spm-msg-head">
               <div class="spm-av dept"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-5h6v5"/></svg></div>
               <div class="spm-msg-meta"><span class="spm-msg-sender">公共市役所 人事課</span><span class="spm-msg-date">${a.applied_date} 16:12</span></div>
-              <button class="spm-reply" onclick="alert('返信します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
+              <button class="spm-reply" onclick="spmReply(this)" aria-label="このメッセージに返信"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
             </div>
             <div class="spm-msg-subject">Re: 選考のご案内について</div>
             <div class="spm-msg-body">${a.name} 様<br><br>お世話になっております。公共市役所 人事課です。<br><br>選考に関するお問い合わせへご回答いただき、ありがとうございます。<br>当日お会いできることを心待ちにしております。<br><br>人事課 採用係 一同</div>
@@ -33585,7 +33590,7 @@ function openPanel(id){
             <div class="spm-msg-head">
               <div class="spm-av">${a.name.charAt(0)}</div>
               <div class="spm-msg-meta"><span class="spm-msg-sender">${a.name}</span><span class="spm-msg-date">${a.applied_date} 14:45</span></div>
-              <button class="spm-reply" onclick="alert('返信します')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
+              <button class="spm-reply" onclick="spmReply(this)" aria-label="このメッセージに返信"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg></button>
             </div>
             <div class="spm-msg-subject">選考のご案内について</div>
             <div class="spm-msg-body">公共市役所 採用ご担当者様<br>お世話になっております。${a.name} と申します。<br>このたびはご連絡をいただき、誠にありがとうございます。<br>ご案内いただいた日程で出席いたします。当日はどうぞよろしくお願いいたします。</div>
@@ -33606,6 +33611,60 @@ function spSwitchTab(name){
   var sb=document.querySelector('.side-panel .sp-body'); if(sb)sb.scrollTop=0;
 }
 window.spSwitchTab=spSwitchTab;
+
+// ── メッセージ: 返信 / 予約送信 / 送信確認（モック） ──
+function spmReply(btn){
+  var msg=btn.closest('.spm-msg'); if(!msg)return;
+  var box=btn.closest('.spm'); if(!box)return;
+  var subEl=msg.querySelector('.spm-msg-subject');
+  var subj=(subEl?subEl.textContent:'').trim().replace(/^Re:\s*/i,'');
+  var subInput=box.querySelector('.spm-subject');
+  var body=box.querySelector('.spm-body');
+  if(subInput){subInput.value = subj ? ('Re: '+subj) : subInput.value;}
+  if(subInput){try{subInput.scrollIntoView({behavior:'smooth',block:'center'});}catch(e){}}
+  if(body){body.focus();}
+  if(window.showToast)showToast('返信を作成します');
+}
+window.spmReply=spmReply;
+
+function spmPickWhen(btn){
+  var i=btn.parentNode.querySelector('.spm-dt'); if(!i)return;
+  if(i.showPicker){try{i.showPicker();return;}catch(e){}}
+  i.style.position='static';i.style.width='auto';i.style.height='auto';i.style.opacity='1';i.focus();
+}
+window.spmPickWhen=spmPickWhen;
+
+function spmSetSchedule(input){
+  var wrap=input.closest('.spm-presend-wrap'); if(!wrap)return;
+  var btn=wrap.querySelector('.spm-presend'), txt=wrap.querySelector('.spm-presend-text');
+  var m=(input.value||'').match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+  if(m){ if(txt)txt.textContent='予約：'+Number(m[2])+'/'+Number(m[3])+' '+m[4]+':'+m[5]; if(btn)btn.classList.add('set'); wrap.classList.add('has-schedule'); }
+  else { if(txt)txt.textContent='日時を設定して予約送信'; if(btn)btn.classList.remove('set'); wrap.classList.remove('has-schedule'); }
+}
+window.spmSetSchedule=spmSetSchedule;
+
+function spmClearSchedule(btn){
+  var wrap=btn.closest('.spm-presend-wrap'); if(!wrap)return;
+  var i=wrap.querySelector('.spm-dt'); if(i)i.value='';
+  spmSetSchedule(i);
+  if(window.showToast)showToast('予約を解除しました');
+}
+window.spmClearSchedule=spmClearSchedule;
+
+function spmSend(btn){
+  var box=btn.closest('.spm'); if(!box)return;
+  var sub=box.querySelector('.spm-subject'), body=box.querySelector('.spm-body'), dt=box.querySelector('.spm-dt');
+  if(!sub||!sub.value.trim()){ if(window.showToast)showToast('件名を入力してください'); if(sub)sub.focus(); return; }
+  if(!body||!body.value.trim()){ if(window.showToast)showToast('本文を入力してください'); if(body)body.focus(); return; }
+  var sched='';
+  if(dt&&dt.value){var m=dt.value.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/); if(m)sched=Number(m[2])+'/'+Number(m[3])+' '+m[4]+':'+m[5];}
+  var head = sched ? ('この内容を '+sched+' に予約送信します。') : ('この内容を送信します。');
+  if(confirm(head+'\n\n【件名】'+sub.value.trim()+'\n\n'+body.value.trim())){
+    if(window.showToast)showToast(sched?('予約送信を設定しました（'+sched+'）'):'メッセージを送信しました');
+    sub.value=''; body.value=''; if(dt){dt.value=''; spmSetSchedule(dt);}
+  }
+}
+window.spmSend=spmSend;
 function spToggleFull(btn){
   var sp=document.getElementById('side-panel'); if(!sp)return;
   var full=sp.classList.toggle('sp-full');
