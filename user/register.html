@@ -306,6 +306,7 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
   document.getElementById('regForm').addEventListener('submit',function(e){
     e.preventDefault();
     try{ localStorage.setItem('pcmember','1'); }catch(x){}
+    try{ localStorage.setItem('pc_welcome_pending','1'); }catch(x){}
     location.href='mypage.html';
   });
 })();

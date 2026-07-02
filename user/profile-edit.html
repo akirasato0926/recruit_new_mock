@@ -1,1 +1,941 @@
-<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=mypage-basic.html"><script>try{localStorage.setItem(&#39;pcmember&#39;,&#39;1&#39;);}catch(e){}location.replace(&#39;mypage-basic.html&#39;);</script><title>登録情報の編集</title></head><body><p>移動しています… <a href="mypage-basic.html">登録情報の編集</a></p></body></html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>プロフィールを編集 | 官公庁・自治体で働くならパブリックコネクト</title>
+<meta name="description" content="パブリックコネクトのプロフィール編集ページ。基本情報・職歴・学歴・希望条件・スカウト設定を編集できます。" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ===== デザイントークン（register.html と同一）＋ --g-border 追加 ===== */
+:root{
+  --ink:#333;--sub:#767676;--line:#e1e3e5;--bg-soft:#f5f7f6;
+  --primary:#115A36;--primary-hover:#0c472a;--primary-active:#032213;
+  --green-50:#e6f5ec;
+  --danger:#fe4b28;
+  --content:1416px;
+  --g-border:#9BD4B5;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:"Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg-soft);
+  line-height:1.7;font-size:16px;letter-spacing:.02em;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;}
+button{font-family:inherit;cursor:pointer;}
+.en{font-family:"Outfit",sans-serif;}
+input[type=radio],input[type=checkbox]{accent-color:#115A36;}
+
+/* ===== フォーム部品（register.html から流用） ===== */
+.field{margin-bottom:22px;}
+.flabel{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;margin-bottom:8px;}
+.req{display:inline-block;background:var(--danger);color:#fff;font-size:10px;font-weight:700;
+  line-height:1;padding:3px 6px;border-radius:3px;letter-spacing:.04em;}
+.opt{display:inline-block;background:var(--bg-soft);color:var(--sub);font-size:10px;font-weight:700;
+  line-height:1;padding:3px 6px;border-radius:3px;border:1px solid var(--line);}
+input[type=text],input[type=tel],input[type=email],input[type=password],select,textarea{
+  width:100%;height:48px;border:1px solid #c5c9cc;border-radius:8px;padding:0 14px;
+  font-size:15px;font-family:inherit;color:var(--ink);background:#fff;transition:border-color .15s,box-shadow .15s;}
+textarea{height:auto;min-height:120px;padding:12px 14px;line-height:1.7;resize:vertical;}
+input::placeholder,textarea::placeholder{color:#b0b4b7;}
+input:hover,select:hover,textarea:hover{border-color:#9aa0a4;}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{
+  outline:4px solid #000;outline-offset:1px;box-shadow:0 0 0 2px #FFD43D;}
+select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23767676' stroke-width='2.4'><path d='M6 9l6 6 6-6'/></svg>");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px;}
+.field-hint{font-size:12px;color:var(--sub);margin-top:6px;line-height:1.6;}
+.field-hint.above{margin:0 0 6px;}
+.dob{display:flex;gap:10px;align-items:center;}
+.dob .u{display:flex;align-items:center;gap:6px;flex:1;}
+.dob select{flex:1;}
+.dob .unit{font-size:13px;color:var(--sub);font-weight:700;flex:none;}
+
+/* ===== 1. サブヘッダー ===== */
+.pe-subhd{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--line);
+  height:56px;display:flex;align-items:center;padding:0 20px;}
+.pe-back{flex:none;width:44px;height:44px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:700;color:var(--ink);border-radius:8px;line-height:1;}
+.pe-back:hover{background:var(--bg-soft);color:var(--primary);}
+.pe-subhd-title{flex:1;text-align:center;font-size:16px;font-weight:700;margin:0;}
+.pe-savebtn{flex:none;height:44px;min-width:44px;padding:0 22px;border:none;border-radius:8px;background:var(--primary);
+  color:#fff;font-size:14px;font-weight:700;letter-spacing:.04em;transition:background .15s;}
+.pe-savebtn:hover{background:var(--primary-hover);}
+.pe-savebtn:active{background:var(--primary-active);}
+
+/* ===== 2. ステッパー配置ラッパ ===== */
+.pe-stpwrap{max-width:1080px;margin:20px auto 0;padding:0 20px;}
+/* ===== プロフィール登録ステッパー ===== */
+.stp{background:var(--g50,#e6f5ec);border:1px solid #9BD4B5;border-radius:12px;padding:20px 24px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;margin-bottom:24px;}
+.stp-lead1{font-size:13px;font-weight:700;}
+.stp-lead2{font-size:14px;font-weight:700;}
+.stp-num{font-size:40px;font-weight:800;color:var(--g,#115A36);line-height:1;margin:0 2px;}
+.stp-items{display:flex;gap:12px;flex:1;min-width:420px;}
+.stp-item{flex:1;min-width:130px;background:#fff;border:1px solid #e7ebe9;border-radius:10px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.stp-check{width:28px;height:28px;border-radius:50%;background:#cdd5d1;color:#fff;display:grid;place-items:center;}
+.stp-check svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:3;}
+.stp-t{font-size:13px;font-weight:700;}
+.stp-btn{display:flex;align-items:center;justify-content:center;width:100%;height:44px;border-radius:6px;background:var(--g,#115A36);color:#fff;font-size:13px;font-weight:700;text-decoration:none;}
+.stp-btn:hover{background:#0d4429;}
+.stp-done-label{display:none;padding:11px 8px;font-size:13px;font-weight:700;color:var(--g,#115A36);text-decoration:underline;}
+.stp-item.done .stp-check{background:var(--g,#115A36);}
+.stp-item.done .stp-btn{display:none;}
+.stp-item.done .stp-done-label{display:block;}
+.stp-doneban{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;width:100%;}
+.stp-doneban .t{font-size:14px;font-weight:700;}
+.stp-go{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 28px;border-radius:8px;background:var(--g,#115A36);color:#fff;font-size:14px;font-weight:700;text-decoration:none;}
+.stp-go:hover{background:#0d4429;}
+@media(max-width:900px){.stp-items{min-width:0;width:100%;}}
+
+/* ===== 3. 下線タブ ===== */
+.pe-tabs{display:flex;justify-content:center;gap:24px;border-bottom:1px solid var(--line);
+  max-width:1080px;margin:20px auto 0;padding:0 20px;}
+.pe-tabs button{background:none;border:none;padding:12px 4px;font-size:14px;font-weight:500;color:#999;
+  border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;}
+.pe-tabs button.on{color:var(--primary);border-bottom:3px solid var(--primary);font-weight:700;}
+.pe-tabs button:hover{color:var(--primary);}
+
+/* ===== 4. 本文グリッド ===== */
+.pe-wrap{max-width:1080px;margin:0 auto;padding:24px 20px;display:grid;grid-template-columns:200px 1fr;gap:32px;}
+.pe-anchor{position:sticky;top:120px;align-self:start;display:flex;flex-direction:column;gap:14px;
+  font-size:13px;font-weight:700;}
+.pe-anchor a{color:#333;}
+.pe-anchor a.now{color:var(--primary);}
+.pe-anchor a:hover{color:var(--primary);}
+@media(max-width:960px){
+  .pe-wrap{grid-template-columns:1fr;}
+  .pe-anchor{display:none;}
+}
+
+/* ===== 5. タブパネル ===== */
+.pe-panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px 32px 36px;min-width:0;}
+@media(max-width:600px){ .pe-panel{padding:22px 18px 28px;border-radius:10px;} }
+
+/* セクション見出し */
+.pf-sec{border-left:4px solid var(--primary);padding-left:10px;font-size:17px;font-weight:700;margin:32px 0 16px;}
+.pf-sec:first-child{margin-top:0;}
+.pf-subsec{font-size:14px;font-weight:700;margin:26px 0 14px;}
+.pf-group{font-size:13px;font-weight:700;color:#666;margin:22px 0 10px;}
+.pf-req{color:var(--danger);font-size:12px;font-weight:700;}
+.pf-lockwrap{margin-left:auto;display:inline-flex;align-items:center;gap:4px;flex:none;}
+.pf-lockwrap svg{width:12px;height:12px;stroke:#767676;fill:none;stroke-width:2;}
+.pf-lock{font-size:12px;color:#767676;font-weight:500;}
+.pf-row2{display:flex;gap:12px;}
+.pf-row2 > *{flex:1;}
+.pf-inline{display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.pf-radios-v{display:flex;flex-direction:column;gap:10px;}
+.pf-radios-v label{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;}
+.pf-radios-v input{width:18px;height:18px;flex:none;}
+.pf-photo{width:90px;height:110px;background:#c9c9c9;border-radius:4px;}
+.pf-btn-ghost{display:inline-flex;align-items:center;justify-content:center;background:#fff;
+  border:1px solid #cdd5d1;color:#333;font-size:13px;font-weight:700;border-radius:8px;
+  height:40px;padding:0 18px;transition:background .15s;white-space:nowrap;}
+.pf-btn-ghost:hover{background:var(--bg-soft);}
+.pf-add{display:inline-block;background:none;border:none;padding:0;color:var(--primary);
+  font-weight:700;font-size:13px;margin-top:4px;}
+.pf-add:hover{text-decoration:underline;}
+
+/* ===== 5b. 職歴・学歴／希望条件／スカウト設定 用部品（コーダーC） ===== */
+input[type=month]{height:48px;border:1px solid #c5c9cc;border-radius:8px;padding:0 14px;
+  font-size:15px;font-family:inherit;color:var(--ink);background:#fff;transition:border-color .15s,box-shadow .15s;}
+input[type=month]:hover{border-color:#9aa0a4;}
+input[type=month]:disabled{background:var(--bg-soft);color:#b0b4b7;border-color:var(--line);}
+.pf-range{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pf-range input[type=month]{width:170px;flex:none;}
+.pf-range .tilde{font-weight:700;color:var(--sub);flex:none;}
+.pf-range select{width:200px;flex:none;}
+.pf-chk{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;cursor:pointer;}
+.pf-chk input{width:18px;height:18px;flex:none;}
+.pf-note{font-size:12px;color:var(--sub);margin:0 0 6px;line-height:1.6;}
+.pf-sub14{font-size:14px;font-weight:700;color:#767676;margin:20px 0 10px;}
+.pf-empty{font-size:13px;color:#767676;margin:0;}
+.pf-nest{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:18px 0;background:var(--bg-soft);}
+.pf-addwide{display:flex;align-items:center;justify-content:center;width:100%;height:48px;
+  background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;
+  letter-spacing:.04em;margin:8px 0 4px;transition:background .15s;}
+.pf-addwide:hover{background:var(--primary-hover);}
+.pf-addwide:active{background:var(--primary-active);}
+.pf-pref-table{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;}
+.pf-pref-head{background:var(--green-50);font-size:14px;font-weight:700;padding:10px 16px;}
+.pf-pref-row{display:flex;border-top:1px solid var(--line);}
+.pf-pref-rg{flex:none;width:120px;font-size:14px;font-weight:700;padding:12px 16px;}
+.pf-pref-cells{flex:1;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;padding:12px 16px 12px 0;min-width:0;}
+.pf-pref-cells label{display:flex;align-items:center;gap:6px;font-size:14px;cursor:pointer;white-space:nowrap;}
+.pf-pref-cells input{width:16px;height:16px;flex:none;}
+@media(max-width:600px){ .pf-pref-rg{width:92px;padding:12px 10px;} .pf-pref-cells{padding-right:10px;} }
+
+/* ===== 6. 下部ボタン ===== */
+.pf-footbar{display:flex;justify-content:center;gap:16px;padding:32px 0;}
+.pf-back{display:inline-flex;align-items:center;justify-content:center;height:48px;min-width:200px;
+  padding:0 24px;background:#fff;border:1px solid #cdd5d1;border-radius:8px;color:#333;
+  font-size:15px;font-weight:700;transition:background .15s;}
+.pf-back:hover{background:var(--bg-soft);}
+.pf-save{display:inline-flex;align-items:center;justify-content:center;height:48px;min-width:240px;
+  padding:0 24px;background:var(--primary);border:none;border-radius:8px;color:#fff;
+  font-size:15px;font-weight:700;letter-spacing:.04em;transition:background .15s;}
+.pf-save:hover{background:var(--primary-hover);}
+.pf-save:active{background:var(--primary-active);}
+
+/* ===== トースト ===== */
+.pf-toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(8px);
+  background:var(--primary);color:#fff;font-size:14px;font-weight:700;padding:12px 28px;
+  border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;pointer-events:none;
+  transition:opacity .25s,transform .25s;z-index:200;max-width:calc(100vw - 40px);}
+.pf-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.stp-btn:focus-visible,.stp-done-label:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(17,90,54,.35)}
+</style>
+</head>
+<body data-auth="1">
+
+<!-- ===== 1. サブヘッダー（軽量：共通ヘッダー .thd は載せない） ===== -->
+<header class="pe-subhd">
+  <a class="pe-back" href="mypage.html" id="peBackTop" aria-label="マイページへ戻る">‹</a>
+  <h1 class="pe-subhd-title">プロフィールを編集</h1>
+  <button type="button" class="pe-savebtn" id="peSaveTop">保存</button>
+</header>
+
+<!-- ===== 2. ステッパーカード（.stp / renderSteps）3ステップ: 基本情報/学歴/職歴（mypage.html と同一マークアップ/CSS） ===== -->
+<div class="pe-stpwrap" id="stpCard">
+  <section class="stp" id="stpBox" aria-live="polite"></section>
+</div>
+
+<!-- ===== 3. 下線タブ ===== -->
+<div class="pe-tabs" role="tablist" aria-label="プロフィール編集タブ">
+  <button type="button" role="tab" data-tab="basic"  aria-selected="true"  class="on" tabindex="0">基本情報</button>
+  <button type="button" role="tab" data-tab="career" aria-selected="false" tabindex="-1">職歴・学歴</button>
+  <button type="button" role="tab" data-tab="prefs"  aria-selected="false" tabindex="-1">希望条件</button>
+  <button type="button" role="tab" data-tab="scout"  aria-selected="false" tabindex="-1">スカウト設定</button>
+</div>
+
+<!-- ===== 4. 本文グリッド ===== -->
+<main class="pe-wrap">
+  <nav class="pe-anchor" id="peAnchor" aria-label="ページ内ナビゲーション"></nav>
+
+  <div id="pePanels">
+
+    <!-- ============ 基本情報タブ ============ -->
+    <section class="pe-panel" data-panel="basic">
+
+      <h2 class="pf-sec" id="sec-basic">基本情報</h2>
+
+      <div class="field">
+        <div class="flabel">お名前 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <div class="pf-row2">
+          <input type="text" name="lastName" placeholder="山田" autocomplete="off" aria-label="姓" />
+          <input type="text" name="firstName" placeholder="太郎" autocomplete="off" aria-label="名" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">フリガナ <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <div class="pf-row2">
+          <input type="text" name="lastKana" placeholder="ヤマダ" autocomplete="off" aria-label="セイ" />
+          <input type="text" name="firstKana" placeholder="タロウ" autocomplete="off" aria-label="メイ" />
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">電話番号 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <p class="field-hint above">半角数字、ハイフンなし</p>
+        <input type="tel" name="tel" placeholder="09012341234" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <div class="flabel">生年月日 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <p class="field-hint above">年齢のみ公開されます</p>
+        <div class="dob">
+          <div class="u"><select name="year" aria-label="年" id="selYear"></select><span class="unit">年</span></div>
+          <div class="u"><select name="month" aria-label="月" id="selMonth"></select><span class="unit">月</span></div>
+          <div class="u"><select name="day" aria-label="日" id="selDay"></select><span class="unit">日</span></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">性別 <span class="pf-req">*応募時必須</span></div>
+        <div class="pf-radios-v">
+          <label><input type="radio" name="gender" value="male" checked />男性</label>
+          <label><input type="radio" name="gender" value="female" />女性</label>
+          <label><input type="radio" name="gender" value="na" />回答しない</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">プロフィール写真 <span class="opt">任意</span></div>
+        <p class="field-hint above">最近６か月以内に撮影した上半身・脱帽のカラー写真</p>
+        <div class="pf-photo" aria-hidden="true"></div>
+        <button type="button" class="pf-btn-ghost" style="margin-top:12px">写真をアップロード</button>
+      </div>
+
+      <h3 class="pf-subsec">■ 現住所</h3>
+
+      <div class="field">
+        <div class="flabel">郵便番号 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <div class="pf-inline">
+          <input type="text" name="zip" placeholder="1001234" autocomplete="off" style="width:200px" />
+          <button type="button" class="pf-btn-ghost">住所を自動入力</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">都道府県 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <select name="pref" id="selPref"><option value="">選択してください</option></select>
+      </div>
+
+      <div class="field">
+        <div class="flabel">市区町村 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <input type="text" name="city" placeholder="大阪市北区" autocomplete="off" />
+      </div>
+
+      <div class="field">
+        <div class="flabel">以降の住所 <span class="pf-req">*応募時必須</span>
+          <span class="pf-lockwrap"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span class="pf-lock">非表示</span></span>
+        </div>
+        <input type="text" name="addr" placeholder="北区堂島浜2-2-28" autocomplete="off" />
+      </div>
+
+      <h2 class="pf-sec" id="sec-pr">自己PR</h2>
+
+      <div class="field">
+        <div class="flabel">自己PR <span class="opt">任意</span></div>
+        <textarea name="pr" placeholder="自由に記入してください"></textarea>
+      </div>
+
+      <h2 class="pf-sec" id="sec-cert">資格・語学力</h2>
+
+      <div class="pf-group">資格1</div>
+      <div class="field">
+        <div class="flabel">資格 <span class="opt">任意</span></div>
+        <p class="field-hint above">取得時期</p>
+        <input type="text" name="cert1_when" placeholder="例: 2020/04" autocomplete="off" style="width:180px" />
+        <input type="text" name="cert1_name" placeholder="資格名" autocomplete="off" style="margin-top:10px" />
+      </div>
+      <button type="button" class="pf-add">＋資格を追加</button>
+
+      <div class="pf-group">語学力1</div>
+      <div class="field">
+        <div class="flabel">語学力 <span class="opt">任意</span></div>
+        <div class="pf-row2" style="gap:12px">
+          <select name="lang1" aria-label="言語">
+            <option value="">言語を選択</option>
+            <option>英語</option><option>中国語</option><option>韓国語</option>
+            <option>フランス語</option><option>ドイツ語</option><option>スペイン語</option><option>その他</option>
+          </select>
+          <select name="lang1_level" aria-label="レベル">
+            <option value="">レベルを選択</option>
+            <option>日常会話レベル</option><option>ビジネス会話レベル</option><option>ネイティブレベル</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <div class="flabel">言語の資格 <span class="opt">任意</span></div>
+        <p class="field-hint above">取得時期</p>
+        <input type="text" name="lang1_when" placeholder="例: 2020/04" autocomplete="off" style="width:180px" />
+        <p class="field-hint above" style="margin-top:10px">資格名＋得点、級などを記入してください</p>
+        <input type="text" name="lang1_cert" placeholder="TOEIC 800点" autocomplete="off" />
+      </div>
+      <button type="button" class="pf-add">＋その他言語を追加</button>
+
+    </section>
+
+    <!-- ============ 職歴・学歴タブ（コーダーC実装） ============ -->
+    <section class="pe-panel" data-panel="career" hidden>
+
+      <h2 class="pf-sec" id="sec-edu">学歴</h2>
+      <p class="field-hint" style="margin:-8px 0 20px">中学校卒業後の全ての学歴を記載してください</p>
+
+      <div id="eduList">
+        <div class="pf-edublock">
+          <div class="pf-group">学歴1</div>
+          <div class="field">
+            <div class="flabel">学校区分 <span class="pf-req">*応募時必須</span></div>
+            <p style="margin:0;font-size:15px;">中学校</p>
+          </div>
+          <div class="field">
+            <div class="flabel">入学年月〜卒業年月 (予定) <span class="pf-req">*応募時必須</span></div>
+            <div class="pf-range">
+              <input type="month" aria-label="入学年月" />
+              <span class="tilde">〜</span>
+              <input type="month" aria-label="卒業年月" />
+              <select aria-label="卒業状況">
+                <option value="">選択してください</option>
+                <option>卒業</option><option>卒業見込み</option><option>在学中</option><option>中退</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <div class="flabel">学校名 <span class="pf-req">*応募時必須</span></div>
+            <input type="text" class="js-school" placeholder="○○中学校" autocomplete="off" />
+          </div>
+          <div class="field">
+            <div class="flabel">学部・学科・専攻 <span class="opt">任意</span></div>
+            <input type="text" autocomplete="off" />
+          </div>
+        </div>
+      </div>
+      <button type="button" class="pf-addwide" id="addEdu">＋ 学歴を追加</button>
+
+      <h2 class="pf-sec" id="sec-work">職歴</h2>
+      <label class="pf-chk" style="margin-bottom:20px"><input type="checkbox" id="noWorkChk" />入力する職歴なし</label>
+
+      <div id="workList">
+        <div class="pf-workblock">
+          <div class="pf-group">職歴1</div>
+          <div class="field">
+            <div class="flabel">入社年月〜退職年月 <span class="pf-req">*応募時必須</span></div>
+            <label class="pf-chk" style="margin-bottom:10px"><input type="checkbox" class="js-nowchk" />現在勤務中</label>
+            <div class="pf-range">
+              <input type="month" aria-label="入社年月" />
+              <span class="tilde">〜</span>
+              <input type="month" class="js-until" aria-label="退職年月" />
+            </div>
+          </div>
+          <div class="field">
+            <div class="flabel">会社名 <span class="pf-req">*応募時必須</span></div>
+            <input type="text" class="js-company" placeholder="株式会社○○" autocomplete="off" />
+          </div>
+          <div class="field">
+            <div class="flabel">雇用形態 <span class="pf-req">*応募時必須</span></div>
+            <select aria-label="雇用形態">
+              <option value="">選択してください</option>
+              <option>正社員</option><option>契約社員</option><option>派遣社員</option>
+              <option>パート・アルバイト</option><option>業務委託</option><option>公務員</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="flabel">部署・役職名 <span class="pf-req">*応募時必須</span></div>
+            <input type="text" autocomplete="off" />
+          </div>
+          <div class="field">
+            <div class="flabel">職務内容 <span class="pf-req">*応募時必須</span></div>
+            <textarea placeholder="担当した業務内容を記入してください"></textarea>
+          </div>
+          <div class="js-projlist">
+            <div class="pf-nest">
+              <div class="pf-group" style="margin-top:0">役職・プロジェクト1</div>
+              <div class="field">
+                <div class="flabel">役職・プロジェクト <span class="opt">任意</span></div>
+                <input type="text" autocomplete="off" />
+              </div>
+              <div class="field">
+                <p class="pf-note">期間</p>
+                <label class="pf-chk" style="margin-bottom:10px"><input type="checkbox" class="js-nowchk" />現在継続中</label>
+                <div class="pf-range">
+                  <input type="month" aria-label="開始年月" />
+                  <span class="tilde">〜</span>
+                  <input type="month" class="js-until" aria-label="終了年月" />
+                </div>
+              </div>
+              <div class="field" style="margin-bottom:0">
+                <p class="pf-note">業務内容の詳細を記入してください</p>
+                <textarea></textarea>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="pf-add js-addproj">＋役職・プロジェクトを追加</button>
+        </div>
+      </div>
+      <button type="button" class="pf-addwide" id="addWork">＋ 職歴を追加</button>
+
+    </section>
+
+    <!-- ============ 希望条件タブ（コーダーC実装） ============ -->
+    <section class="pe-panel" data-panel="prefs" hidden>
+
+      <h2 class="pf-sec" id="sec-pref">希望条件</h2>
+
+      <div class="field">
+        <div class="flabel">希望勤務地 <span class="opt">任意</span></div>
+        <div class="pf-pref-table" id="prefTable"></div>
+      </div>
+
+      <div class="field">
+        <div class="flabel">希望職種 <span class="opt">任意</span></div>
+        <select aria-label="希望職種" style="width:280px">
+          <option value="">選択してください</option>
+          <option>総合職・事務職</option><option>技術系</option><option>医療系</option>
+          <option>福祉・保育系</option><option>学校・教育系</option><option>栄養・管理系</option>
+          <option>地域おこし協力隊</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="flabel">勤務形態 <span class="opt">任意</span></div>
+        <select aria-label="勤務形態" style="width:280px">
+          <option value="">選択してください</option>
+          <option>フルタイム</option><option>パートタイム</option>
+          <option>会計年度任用職員</option><option>任期付職員</option>
+        </select>
+      </div>
+
+    </section>
+
+    <!-- ============ スカウト設定タブ（コーダーC実装） ============ -->
+    <section class="pe-panel" data-panel="scout" hidden>
+
+      <h2 class="pf-sec" id="sec-scoutrecv">スカウト受信 <span class="pf-req">*必須</span></h2>
+      <p class="pf-note" style="margin-bottom:14px">スカウトを「受け取る」にすると、あなたのプロフィールの一部が官公庁に公開され、官公庁から直接スカウトを受け取ることができます。</p>
+      <div class="pf-radios-v">
+        <label><input type="radio" name="scoutRecv" value="on" checked />受け取る</label>
+        <label><input type="radio" name="scoutRecv" value="off" />受け取らない</label>
+      </div>
+
+      <h2 class="pf-sec" id="sec-motive">応募意欲 <span class="pf-req">*必須</span></h2>
+      <div class="pf-radios-v">
+        <label><input type="radio" name="motive" value="active" checked />積極的に探している</label>
+        <label><input type="radio" name="motive" value="passive" />よい案件があれば</label>
+        <label><input type="radio" name="motive" value="none" />今は考えていない</label>
+      </div>
+
+      <h2 class="pf-sec" id="sec-block">非公開にする官公庁を追加 <span class="opt">任意</span></h2>
+      <p class="pf-note">非公開に設定したい官公庁を選択してください。</p>
+      <p class="pf-note">設定すると、官公庁から見てあなたの情報が非表示となります。</p>
+      <p class="pf-note" style="margin-bottom:14px">正式な官公庁名で検索し、該当官公庁を選択してください。</p>
+      <select aria-label="非公開にする官公庁"><option value="">選択してください</option></select>
+      <div class="pf-sub14">現在設定中のプロフィール非公開官公庁</div>
+      <p class="pf-empty">設定中の官公庁はありません</p>
+
+    </section>
+
+  </div>
+</main>
+
+<!-- ===== 6. 下部ボタン ===== -->
+<div class="pf-footbar">
+  <a class="pf-back" href="mypage.html" id="peBackBottom">戻る</a>
+  <button type="button" class="pf-save" id="peSaveBottom">保存する</button>
+</div>
+
+<div class="pf-toast" id="pfToast" role="status" aria-live="polite"></div>
+
+<script id="pe-js">
+(function(){
+  'use strict';
+
+  /* ================================================================
+     ステッパー（正仕様: 3ステップ 基本情報/学歴/職歴。
+     localStorage pc_steps = {"basic":false,"edu":false,"work":false}
+     コーダーAの mypage 側と同一キーで共有する）
+     ================================================================ */
+  var STEPS = [
+    { key:'basic', label:'基本情報', href:'#basic'  },
+    { key:'edu',   label:'学歴',     href:'#career' },
+    { key:'work',  label:'職歴',     href:'#career' }
+  ];
+  function getSteps(){
+    var d = { basic:false, edu:false, work:false };
+    try{
+      var s = JSON.parse(localStorage.getItem('pc_steps')) || {};
+      for(var k in d){ if(s[k]) d[k] = true; }
+    }catch(e){}
+    return d;
+  }
+  function setSteps(s){
+    try{ localStorage.setItem('pc_steps', JSON.stringify(s)); }catch(e){}
+  }
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>';
+  var bannerShownThisPage = false;   /* このページ表示中に完了バナーを出したか（mypage と同じ1ページビュー1回表示） */
+  function renderSteps(){
+    var st = getSteps();
+    var wrap = document.getElementById('stpCard');
+    var box = document.getElementById('stpBox');
+    var remain = 0;
+    STEPS.forEach(function(s){ if(!st[s.key]) remain++; });
+    var html;
+    if(remain === 0){
+      /* 全ステップ完了 → mypage と同一挙動: 既読なら .stp ごと非表示 / 初回は完了バナー＋既読フラグ */
+      var seen = false;
+      try{ seen = localStorage.getItem('pc_banner_seen') === '1'; }catch(e){}
+      if(seen && !bannerShownThisPage){ wrap.style.display = 'none'; return; }
+      bannerShownThisPage = true;
+      try{ localStorage.setItem('pc_banner_seen', '1'); }catch(e){}
+      html = '<div class="stp-doneban">'
+        + '<div class="t">プロフィール登録が完了しました。求人に応募できます</div>'
+        + '<a class="stp-go" href="search.html">求人を探す</a></div>';
+    } else {
+      html = '<div class="stp-lead">'
+        + '<div class="stp-lead1">求人へ応募できるまで</div>'
+        + '<div class="stp-lead2">あと <span class="stp-num">' + remain + '</span> ステップ</div></div>'
+        + '<div class="stp-items">';
+      STEPS.forEach(function(s){
+        var isDone = !!st[s.key];
+        html += '<div class="stp-item' + (isDone ? ' done' : '') + '" data-step="' + s.key + '">'
+          + '<span class="stp-check">' + CHECK_SVG + '</span>'
+          + '<div class="stp-t">' + s.label + '</div>'
+          + '<a class="stp-btn" href="' + s.href + '">入力する</a>'
+          + '<a class="stp-done-label" href="' + s.href + '">入力済み</a>'
+          + '</div>';
+      });
+      html += '</div>';
+    }
+    box.innerHTML = html;
+    /* ステッパー内の #リンクはタブ切替として扱う（search.html はそのまま遷移） */
+    box.querySelectorAll('a').forEach(function(a){
+      var href = a.getAttribute('href');
+      if(href.charAt(0) !== '#') return;
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        activateTab(href.slice(1), true);
+      });
+    });
+  }
+
+  /* ================================================================
+     タブ切替（hash 初期化 / roving tabindex / ←→キー）
+     ================================================================ */
+  var TABS = ['basic','career','prefs','scout'];
+  var currentTab = 'basic';
+  var tabBtns = Array.prototype.slice.call(document.querySelectorAll('.pe-tabs button'));
+  var panels  = Array.prototype.slice.call(document.querySelectorAll('#pePanels [data-panel]'));
+
+  /* タブごとの左アンカーナビ定義（コーダーC: career/prefs/scout に追記） */
+  var ANCHORS = {
+    basic:  [ {id:'sec-basic', label:'基本情報'},
+              {id:'sec-pr',    label:'自己PR'},
+              {id:'sec-cert',  label:'資格・語学力'} ],
+    career: [ {id:'sec-edu',  label:'学歴'},
+              {id:'sec-work', label:'職歴'} ],
+    prefs:  [ {id:'sec-pref', label:'希望条件'} ],
+    scout:  [ {id:'sec-scoutrecv', label:'スカウト受信'},
+              {id:'sec-motive',    label:'応募意欲'},
+              {id:'sec-block',     label:'非公開にする官公庁を追加'} ]
+  };
+
+  function renderAnchor(tab){
+    var nav = document.getElementById('peAnchor');
+    nav.innerHTML = (ANCHORS[tab] || []).map(function(a, i){
+      return '<a href="#' + a.id + '"' + (i === 0 ? ' class="now"' : '') + '>' + a.label + '</a>';
+    }).join('');
+    nav.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(e){
+        e.preventDefault();
+        var t = document.getElementById(a.getAttribute('href').slice(1));
+        if(t) window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - 130, behavior:'smooth' });
+        nav.querySelectorAll('a').forEach(function(x){ x.classList.remove('now'); });
+        a.classList.add('now');
+      });
+    });
+  }
+
+  /* スクロール連動で現在地ハイライト */
+  window.addEventListener('scroll', function(){
+    var links = document.querySelectorAll('#peAnchor a');
+    if(!links.length) return;
+    var cur = links[0], y = window.pageYOffset + 150;
+    links.forEach(function(a){
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if(t && t.getBoundingClientRect().top + window.pageYOffset <= y) cur = a;
+    });
+    links.forEach(function(a){ a.classList.toggle('now', a === cur); });
+  }, { passive:true });
+
+  function activateTab(tab, updateHash){
+    if(TABS.indexOf(tab) === -1) tab = 'basic';
+    currentTab = tab;
+    tabBtns.forEach(function(b){
+      var on = b.dataset.tab === tab;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+      b.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach(function(p){ p.hidden = p.dataset.panel !== tab; });
+    renderAnchor(tab);
+    renderSteps();
+    if(updateHash !== false){
+      try{ history.replaceState(null, '', '#' + tab); }catch(e){ location.hash = tab; }
+    }
+  }
+
+  tabBtns.forEach(function(b, i){
+    b.addEventListener('click', function(){ activateTab(b.dataset.tab, true); });
+    b.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : (e.key === 'ArrowLeft' ? -1 : 0);
+      if(!d) return;
+      e.preventDefault();
+      var n = tabBtns[(i + d + tabBtns.length) % tabBtns.length];
+      n.focus();
+      activateTab(n.dataset.tab, true);
+    });
+  });
+
+  window.addEventListener('hashchange', function(){
+    activateTab((location.hash || '#basic').slice(1), false);
+  });
+
+  /* ================================================================
+     保存（saveCurrent / savePanelHooks 拡張点）
+     ================================================================ */
+  /* コーダーC: career / prefs / scout の保存処理はここに追加する。
+     関数を登録すると saveCurrent() が既定処理の代わりに呼び出す。
+     例:
+       savePanelHooks.career = function(){
+         var s = getSteps(); s.career = true; setSteps(s);
+         renderSteps(); toast(savedMessage());
+       };                                                            */
+  var savePanelHooks = {};
+
+  /* 職歴・学歴: 学校名が入っていれば edu、職歴なしchecked or 会社名が入っていれば work を完了に */
+  savePanelHooks.career = function(){
+    var s = getSteps();
+    var schools = document.querySelectorAll('[data-panel="career"] .js-school');
+    for(var i = 0; i < schools.length; i++){
+      if(schools[i].value.trim()){ s.edu = true; break; }
+    }
+    var noWork = document.getElementById('noWorkChk');
+    var hasCompany = false;
+    var comps = document.querySelectorAll('[data-panel="career"] .js-company');
+    for(var j = 0; j < comps.length; j++){
+      if(comps[j].value.trim()){ hasCompany = true; break; }
+    }
+    if((noWork && noWork.checked) || hasCompany) s.work = true;
+    setSteps(s);
+    renderSteps();
+    toast(savedMessage());
+  };
+  /* 希望条件・スカウト設定はステップ対象外 */
+  savePanelHooks.prefs = function(){ toast('保存しました'); };
+  savePanelHooks.scout = function(){ toast('保存しました'); };
+
+  function savedMessage(){
+    var st = getSteps();
+    var next = null;
+    for(var i = 0; i < STEPS.length; i++){
+      if(!st[STEPS[i].key]){ next = STEPS[i]; break; }
+    }
+    return next ? '保存しました。次は' + next.label + 'を入力しましょう' : '保存しました';
+  }
+
+  var toastTimer = null;
+  function toast(msg){
+    var el = document.getElementById('pfToast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ el.classList.remove('show'); }, 2000);
+  }
+
+  function saveCurrent(){
+    if(typeof savePanelHooks[currentTab] === 'function'){
+      savePanelHooks[currentTab]();
+      dirty = false;
+      return;
+    }
+    if(currentTab === 'basic'){
+      var s = getSteps();
+      s.basic = true;
+      setSteps(s);
+      renderSteps();
+      toast(savedMessage());
+      dirty = false;
+    } else {
+      toast('このタブの保存は準備中です');
+    }
+  }
+
+  document.getElementById('peSaveTop').addEventListener('click', saveCurrent);
+  document.getElementById('peSaveBottom').addEventListener('click', saveCurrent);
+
+  /* ================================================================
+     未保存変更の確認（戻る）
+     ================================================================ */
+  var dirty = false;
+  var panelsRoot = document.getElementById('pePanels');
+  panelsRoot.addEventListener('input',  function(){ dirty = true; });
+  panelsRoot.addEventListener('change', function(){ dirty = true; });
+
+  function guardBack(e){
+    if(dirty && !confirm('保存されていない変更があります。ページを離れますか？')){
+      e.preventDefault();
+    }
+  }
+  document.getElementById('peBackTop').addEventListener('click', guardBack);
+  document.getElementById('peBackBottom').addEventListener('click', guardBack);
+
+  /* ================================================================
+     生年月日 / 都道府県セレクト生成（register.html ロジック流用）
+     ================================================================ */
+  function fill(sel, items, sfx){
+    var f = document.createDocumentFragment();
+    items.forEach(function(v){
+      var o = document.createElement('option');
+      o.value = v; o.textContent = v + (sfx || '');
+      f.appendChild(o);
+    });
+    sel.appendChild(f);
+  }
+  var yEl = document.getElementById('selYear');
+  fill(yEl, (function(){ var a = []; for(var y = 2010; y >= 1950; y--) a.push(y); return a; })());
+  var mEl = document.getElementById('selMonth');
+  fill(mEl, (function(){ var a = []; for(var m = 1; m <= 12; m++) a.push(('0' + m).slice(-2)); return a; })());
+  var dEl = document.getElementById('selDay');
+  fill(dEl, (function(){ var a = []; for(var d = 1; d <= 31; d++) a.push(('0' + d).slice(-2)); return a; })());
+  yEl.value = '1983'; mEl.value = '04'; dEl.value = '01';
+
+  var REGIONS = [
+    ["北海道",["北海道"]],
+    ["東北",["青森県","岩手県","宮城県","秋田県","山形県","福島県"]],
+    ["関東",["茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県"]],
+    ["北陸・甲信越",["新潟県","富山県","石川県","福井県","山梨県","長野県"]],
+    ["東海",["岐阜県","静岡県","愛知県","三重県"]],
+    ["関西",["滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県"]],
+    ["中国",["鳥取県","島根県","岡山県","広島県","山口県"]],
+    ["四国",["徳島県","香川県","愛媛県","高知県"]],
+    ["九州・沖縄",["福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]]
+  ];
+  (function(sel){
+    REGIONS.forEach(function(r){
+      var og = document.createElement('optgroup'); og.label = r[0];
+      r[1].forEach(function(p){
+        var o = document.createElement('option'); o.value = p; o.textContent = p; og.appendChild(o);
+      });
+      sel.appendChild(og);
+    });
+  })(document.getElementById('selPref'));
+
+  /* ================================================================
+     職歴・学歴タブ：ブロック追加／現在勤務中トグル（コーダーC）
+     ================================================================ */
+  var eduCount = 1, workCount = 1;
+
+  function eduBlockHTML(n){
+    return '<div class="pf-group">学歴' + n + '</div>'
+      + '<div class="field"><div class="flabel">学校区分 <span class="pf-req">*応募時必須</span></div>'
+      + '<select aria-label="学校区分"><option value="">選択してください</option>'
+      + '<option>高校</option><option>専門学校</option><option>短大</option><option>大学</option><option>大学院</option>'
+      + '</select></div>'
+      + '<div class="field"><div class="flabel">入学年月〜卒業年月 (予定) <span class="pf-req">*応募時必須</span></div>'
+      + '<div class="pf-range"><input type="month" aria-label="入学年月" /><span class="tilde">〜</span>'
+      + '<input type="month" aria-label="卒業年月" />'
+      + '<select aria-label="卒業状況"><option value="">選択してください</option>'
+      + '<option>卒業</option><option>卒業見込み</option><option>在学中</option><option>中退</option></select></div></div>'
+      + '<div class="field"><div class="flabel">学校名 <span class="pf-req">*応募時必須</span></div>'
+      + '<input type="text" class="js-school" autocomplete="off" /></div>'
+      + '<div class="field"><div class="flabel">学部・学科・専攻 <span class="opt">任意</span></div>'
+      + '<input type="text" autocomplete="off" /></div>';
+  }
+
+  function projHTML(n){
+    return '<div class="pf-nest">'
+      + '<div class="pf-group" style="margin-top:0">役職・プロジェクト' + n + '</div>'
+      + '<div class="field"><div class="flabel">役職・プロジェクト <span class="opt">任意</span></div>'
+      + '<input type="text" autocomplete="off" /></div>'
+      + '<div class="field"><p class="pf-note">期間</p>'
+      + '<label class="pf-chk" style="margin-bottom:10px"><input type="checkbox" class="js-nowchk" />現在継続中</label>'
+      + '<div class="pf-range"><input type="month" aria-label="開始年月" /><span class="tilde">〜</span>'
+      + '<input type="month" class="js-until" aria-label="終了年月" /></div></div>'
+      + '<div class="field" style="margin-bottom:0"><p class="pf-note">業務内容の詳細を記入してください</p>'
+      + '<textarea></textarea></div>'
+      + '</div>';
+  }
+
+  function workBlockHTML(n){
+    return '<div class="pf-group">職歴' + n + '</div>'
+      + '<div class="field"><div class="flabel">入社年月〜退職年月 <span class="pf-req">*応募時必須</span></div>'
+      + '<label class="pf-chk" style="margin-bottom:10px"><input type="checkbox" class="js-nowchk" />現在勤務中</label>'
+      + '<div class="pf-range"><input type="month" aria-label="入社年月" /><span class="tilde">〜</span>'
+      + '<input type="month" class="js-until" aria-label="退職年月" /></div></div>'
+      + '<div class="field"><div class="flabel">会社名 <span class="pf-req">*応募時必須</span></div>'
+      + '<input type="text" class="js-company" autocomplete="off" /></div>'
+      + '<div class="field"><div class="flabel">雇用形態 <span class="pf-req">*応募時必須</span></div>'
+      + '<select aria-label="雇用形態"><option value="">選択してください</option>'
+      + '<option>正社員</option><option>契約社員</option><option>派遣社員</option>'
+      + '<option>パート・アルバイト</option><option>業務委託</option><option>公務員</option></select></div>'
+      + '<div class="field"><div class="flabel">部署・役職名 <span class="pf-req">*応募時必須</span></div>'
+      + '<input type="text" autocomplete="off" /></div>'
+      + '<div class="field"><div class="flabel">職務内容 <span class="pf-req">*応募時必須</span></div>'
+      + '<textarea></textarea></div>'
+      + '<div class="js-projlist">' + projHTML(1) + '</div>'
+      + '<button type="button" class="pf-add js-addproj">＋役職・プロジェクトを追加</button>';
+  }
+
+  document.getElementById('addEdu').addEventListener('click', function(){
+    eduCount++;
+    var d = document.createElement('div');
+    d.className = 'pf-edublock';
+    d.innerHTML = eduBlockHTML(eduCount);
+    document.getElementById('eduList').appendChild(d);
+    dirty = true;
+  });
+
+  document.getElementById('addWork').addEventListener('click', function(){
+    workCount++;
+    var d = document.createElement('div');
+    d.className = 'pf-workblock';
+    d.innerHTML = workBlockHTML(workCount);
+    document.getElementById('workList').appendChild(d);
+    dirty = true;
+  });
+
+  var careerPanel = document.querySelector('[data-panel="career"]');
+  /* 役職・プロジェクト追加（動的ブロックにも効くよう委譲） */
+  careerPanel.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.js-addproj') : null;
+    if(!btn) return;
+    var list = btn.closest('.pf-workblock').querySelector('.js-projlist');
+    var n = list.querySelectorAll('.pf-nest').length + 1;
+    var tmp = document.createElement('div');
+    tmp.innerHTML = projHTML(n);
+    list.appendChild(tmp.firstElementChild);
+    dirty = true;
+  });
+  /* 現在勤務中／現在継続中 → 右側（終了側）month を無効化 */
+  careerPanel.addEventListener('change', function(e){
+    var t = e.target;
+    if(!t.classList || !t.classList.contains('js-nowchk')) return;
+    var u = t.closest('.field').querySelector('.js-until');
+    if(u){ u.disabled = t.checked; if(t.checked) u.value = ''; }
+  });
+
+  /* ================================================================
+     希望条件タブ：希望勤務地テーブル生成（コーダーC）
+     ================================================================ */
+  var WISH_AREAS = [
+    ['北海道',['北海道']],
+    ['東北',['青森','岩手','宮城','秋田','山形','福島']],
+    ['関東',['東京','神奈川','埼玉','千葉','茨城','群馬','栃木']],
+    ['東海',['愛知','静岡','岐阜','三重']],
+    ['北陸・甲信越',['新潟','富山','石川','福井','山梨','長野']],
+    ['関西',['大阪','京都','兵庫','滋賀','奈良','和歌山']],
+    ['中国',['鳥取','島根','岡山','広島','山口']],
+    ['四国',['徳島','香川','愛媛','高知']],
+    ['九州',['福岡','佐賀','長崎','熊本','大分','宮崎','鹿児島']],
+    ['沖縄',['沖縄']],
+    ['海外',['海外']]
+  ];
+  (function(){
+    var el = document.getElementById('prefTable');
+    var html = '<div class="pf-pref-head">勤務地</div>';
+    WISH_AREAS.forEach(function(r){
+      html += '<div class="pf-pref-row"><div class="pf-pref-rg">' + r[0] + '</div><div class="pf-pref-cells">'
+        + r[1].map(function(p){
+            return '<label><input type="checkbox" value="' + p + '" />' + p + '</label>';
+          }).join('')
+        + '</div></div>';
+    });
+    el.innerHTML = html;
+  })();
+
+  /* ================================================================
+     初期化：location.hash からタブ決定（#basic/#career/#prefs/#scout）
+     ================================================================ */
+  try{ localStorage.setItem('pcmember','1'); }catch(e){}
+  activateTab((location.hash || '#basic').slice(1), false);
+})();
+</script>
+</body>
+</html>
