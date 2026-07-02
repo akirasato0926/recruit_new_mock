@@ -302,10 +302,11 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
   fillPref(document.getElementById('selPref'));
   fillPref(document.getElementById('selWork'));
 
-  /* クローンのためフォーム送信は無効化 */
+  /* 会員登録 → マイページへ遷移（モック） */
   document.getElementById('regForm').addEventListener('submit',function(e){
     e.preventDefault();
-    alert('これは表示確認用のクローンページです。実際の登録は行われません。');
+    try{ localStorage.setItem('pcmember','1'); }catch(x){}
+    location.href='mypage.html';
   });
 })();
 </script>
