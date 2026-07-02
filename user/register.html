@@ -206,7 +206,7 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
         </div>
 
         <div class="field">
-          <div class="flabel">生年月日 <span class="opt">任意</span></div>
+          <div class="flabel">生年月日 <span class="req">必須</span></div>
           <div class="dob">
             <div class="u"><select name="year" aria-label="年" id="selYear"></select><span class="unit">年</span></div>
             <div class="u"><select name="month" aria-label="月" id="selMonth"></select><span class="unit">月</span></div>
@@ -215,21 +215,12 @@ select{appearance:none;-webkit-appearance:none;background-image:url("data:image/
         </div>
 
         <div class="field">
-          <div class="flabel">性別 <span class="opt">任意</span></div>
-          <div class="radios">
-            <div class="radio"><input type="radio" id="g1" name="gender" value="male"><label for="g1">男性</label></div>
-            <div class="radio"><input type="radio" id="g2" name="gender" value="female"><label for="g2">女性</label></div>
-            <div class="radio"><input type="radio" id="g3" name="gender" value="na"><label for="g3">回答しない</label></div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="flabel">お住まいの都道府県 <span class="opt">任意</span></div>
+          <div class="flabel">お住まいの都道府県 <span class="req">必須</span></div>
           <select name="pref" id="selPref"><option value="">選択してください</option></select>
         </div>
 
         <div class="field">
-          <div class="flabel">希望勤務地 <span class="opt">任意</span></div>
+          <div class="flabel">希望勤務地 <span class="req">必須</span></div>
           <select name="workplace" id="selWork"><option value="">選択してください</option></select>
         </div>
 
