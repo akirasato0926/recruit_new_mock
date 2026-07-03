@@ -22922,7 +22922,7 @@ body.on-login-page{overflow:hidden}
 <div id="page-top" class="page-container dash-page" data-page="top">
 <style>
 #page-top.dash-page{background:#fff;min-height:100vh;position:relative}
-#page-top .ch-tip{position:absolute;z-index:60;pointer-events:none;background:#1A1A1A;color:#fff;font-size:11px;font-weight:500;line-height:1.55;padding:6px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.2);opacity:0;transition:opacity .12s;left:0;top:0}
+#page-top .ch-tip{position:absolute;z-index:60;pointer-events:none;background:#1A1A1A;color:#fff;font-size:12px;font-weight:500;line-height:1.55;padding:6px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.2);opacity:0;transition:opacity .12s;left:0;top:0}
 #page-top .ch-tip.show{opacity:1}
 #page-top .ch-tip b{font-weight:700}
 #page-top .ch-hit circle,#page-top .ch-hit rect{cursor:pointer}
@@ -22930,13 +22930,12 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dash-head{display:flex;align-items:baseline;justify-content:space-between;margin:0 0 16px}
 #page-top.dash-page .dash-head h1{font-size:22px;font-weight:800;color:#1A1A1A;margin:0}
 #page-top.dash-page .dash-date{font-size:13px;color:#767676;font-weight:700}
-#page-top.dash-page .dc{background:#fff;border:1px solid #e3eae6;border-radius:14px;box-shadow:0 1px 3px rgba(16,60,38,.05)}
-#page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:13px 18px;border-bottom:1px solid #eef3f0;font-size:14px;font-weight:800;color:#1A1A1A}
+#page-top.dash-page .dc{background:#fff}
+#page-top.dash-page .dc-h{display:flex;align-items:center;gap:9px;padding:13px 18px}
 #page-top.dash-page .dc-h svg{width:18px;height:18px;color:#115A36;flex:none;display:block}
 #page-top.dash-page .dc-h svg,#page-top.dash-page .act-ic svg{stroke-linecap:round;stroke-linejoin:round}
-#page-top.dash-page .dc-h .dc-sub{font-size:11px;font-weight:700;color:#909a94}
-#page-top.dash-page .dc-h .unread-chip{font-size:11px;font-weight:800;color:#115A36;background:#e6f5ec;border-radius:999px;padding:2px 9px}
-#page-top.dash-page .dc-h .more{margin-left:auto;font-size:12px;font-weight:700;color:#115A36;text-decoration:none;white-space:nowrap}
+#page-top.dash-page .dc-h .unread-chip{color:#115A36;background:#e6f5ec;border-radius:999px;padding:2px 9px}
+#page-top.dash-page .dc-h .more{margin-left:auto;text-decoration:none;white-space:nowrap}
 /* row1 お知らせ */
 #page-top.dash-page .dash-news{margin-bottom:0;order:2;height:225px;display:flex;flex-direction:column}
 #page-top.dash-page .news-list{list-style:none;margin:0;padding:6px 8px;max-height:176px;overflow:auto}
@@ -22947,19 +22946,19 @@ body.on-login-page{overflow:hidden}
 @keyframes ndotPulse{0%{box-shadow:0 0 0 0 rgba(17,90,54,.55);opacity:1}70%{box-shadow:0 0 0 5px rgba(17,90,54,0);opacity:.55}100%{box-shadow:0 0 0 0 rgba(17,90,54,0);opacity:1}}
 #page-top.dash-page .news-list li.unread .ndot{animation:ndotPulse 1.5s ease-out infinite}
 #page-top.dash-page .news-list li.read .ndot{background:#fff;border:1.5px solid #d4dcd7;box-sizing:border-box}
-#page-top.dash-page .news-badge{flex:none;width:68px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font-size:11px;font-weight:800;padding:3px 0;border-radius:999px}
+#page-top.dash-page .news-badge{flex:none;width:68px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;padding:3px 0;border-radius:999px}
 #page-top.dash-page .nb-info{background:#e6f5ec;color:#115A36}
 #page-top.dash-page .nb-maint{background:#fef4e6;color:#9a6700}
 #page-top.dash-page .nb-new{background:#e7f0ff;color:#1b4f9b}
 #page-top.dash-page .news-list .t{flex:1;min-width:0;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #page-top.dash-page .news-list li.unread .t{font-weight:600;color:#1A1A1A}
-#page-top.dash-page .news-list li.read .t{font-weight:400;color:#8a948d}
+#page-top.dash-page .news-list li.read .t{font-weight:400;color:#767676}
 #page-top.dash-page .news-list li.read .news-badge{opacity:.55}
-#page-top.dash-page .news-list .d{flex:none;font-size:12px;color:#909a94;font-variant-numeric:tabular-nums}
-#page-top.dash-page .news-list li.read .d{color:#b9c0bb}
-#page-top.dash-page .news-list .rstat{flex:none;font-size:11px;font-weight:700;width:30px;text-align:right}
+#page-top.dash-page .news-list .d{flex:none;font-variant-numeric:tabular-nums}
+#page-top.dash-page .news-list li.read .d{color:#767676}
+#page-top.dash-page .news-list .rstat{flex:none;font-weight:700;width:30px;text-align:right}
 #page-top.dash-page .news-list li.unread .rstat{color:#115A36}
-#page-top.dash-page .news-list li.read .rstat{color:#b9c0bb}
+#page-top.dash-page .news-list li.read .rstat{color:#767676}
 /* row2 */
 #page-top.dash-page .dash-row2{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;margin-bottom:0;order:3}
 #page-top.dash-page .dash-row2 .dc{display:flex;flex-direction:column;height:280px}
@@ -22974,20 +22973,20 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .act-main{flex:1;min-width:0;display:flex;align-items:baseline;gap:10px}
 #page-top.dash-page .act-main .a{flex:1;min-width:0;font-size:13px;color:#1A1A1A;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #page-top.dash-page .act-main .a b{font-weight:700}
-#page-top.dash-page .act-main .tm{flex:none;font-size:11px;color:#909a94;white-space:nowrap}
+#page-top.dash-page .act-main .tm{flex:none;white-space:nowrap}
 /* jobs table */
-#page-top.dash-page .jt{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
+#page-top.dash-page .jt{width:100%;border-collapse:collapse;table-layout:fixed}
 #page-top.dash-page .jt col.c-name{width:38%}
 #page-top.dash-page .jt col.c-cat{width:13%}
 #page-top.dash-page .jt col.c-num{width:12.25%}
-#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:center;font-size:11px;font-weight:700;color:#767676;padding:9px 8px;border-bottom:1px solid #eef3f0;white-space:nowrap;z-index:1}
+#page-top.dash-page .jt th{position:sticky;top:0;background:#fff;text-align:center;font-weight:700;color:#767676;padding:9px 8px;border-bottom:1px solid #eef3f0;white-space:nowrap;z-index:1}
 #page-top.dash-page .jt th.l{text-align:left}
 #page-top.dash-page .jt td{padding:9px 8px;border-bottom:1px solid #f3f7f5;color:#333;white-space:nowrap;vertical-align:middle;text-align:center}
 #page-top.dash-page .jt td.l{text-align:left}
 #page-top.dash-page .jt th:first-child,#page-top.dash-page .jt td:first-child{padding-left:18px}
 #page-top.dash-page .jt th:last-child,#page-top.dash-page .jt td:last-child{padding-right:18px}
 #page-top.dash-page .jt .jname{display:inline-block;max-width:230px;vertical-align:middle;font-weight:700;color:#115A36;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#page-top.dash-page .jt .cat{font-size:11px;color:#115A36;background:#E6F5EC;border:1px solid #C5E6D4;border-radius:6px;padding:2px 8px;font-weight:700}
+#page-top.dash-page .jt .cat{color:#115A36;background:#E6F5EC;border:1px solid #C5E6D4;border-radius:6px;padding:2px 8px;font-weight:700}
 #page-top.dash-page .jt .num{font-variant-numeric:tabular-nums}
 #page-top.dash-page .dl-chip{font-weight:700;color:#1A1A1A;font-variant-numeric:tabular-nums}
 #page-top.dash-page .dl-warn{color:#C9711F}
@@ -22999,19 +22998,15 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .dash-news .news-list{flex:1;min-height:0;max-height:none}
 #page-top.dash-page .dash-row3 .dc{display:flex;flex-direction:column;height:330px}
 @media(max-width:1100px){#page-top.dash-page .dash-row2,#page-top.dash-page .dash-row3{grid-template-columns:1fr}}
-#page-top.dash-page .ch-body{flex:1;padding:14px 18px 16px}
-#page-top.dash-page .ch-body.ch-donut{display:flex;flex-direction:column;padding-top:14px;padding-bottom:16px}
+#page-top.dash-page .ch-body{flex:1;padding:16px 18px}
+#page-top.dash-page .ch-body.ch-donut{display:flex;flex-direction:column}
 #page-top.dash-page .ch-body.ch-donut .donut-wrap{flex:1}
 #page-top.dash-page .ch-donut .legend-scroll{align-self:center;min-height:0;max-height:206px;overflow-y:auto;padding-right:6px}
-#page-top.dash-page .ch-body>svg{display:block;width:100%;height:auto}
-#page-top.dash-page .ch-stats{display:flex;gap:28px;margin-bottom:10px}
+#page-top.dash-page .ch-body>svg{display:block;width:100%;height:auto;overflow:visible}
+#page-top.dash-page .ch-stats{display:flex;gap:28px;margin-bottom:10px;min-height:48px}
 #page-top.dash-page .ch-stat{display:flex;flex-direction:column;gap:4px}
-#page-top.dash-page .ch-stat .lbl{font-size:11px;font-weight:700;color:#767676}
-#page-top.dash-page .ch-stat .val{font-size:23px;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums;line-height:1}
-#page-top.dash-page .ch-stat .val .u{font-size:12px;font-weight:700;margin-left:1px}
-#page-top.dash-page .ch-stat .val.up{color:#115A36}
 #page-top.dash-page .ch-grid line{stroke:#eef3f0;stroke-width:1}
-#page-top.dash-page .ch-axis text{font-family:sans-serif;font-size:9px;fill:#a7b0aa}
+#page-top.dash-page .ch-axis text{font-family:sans-serif}
 /* donut */
 #page-top.dash-page .donut-wrap{display:flex;align-items:center;gap:18px}
 #page-top.dash-page .donut{width:132px;height:132px;flex:none}
@@ -23028,29 +23023,30 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .legend .lpc{width:40px;text-align:right;font-weight:800;color:#115A36;font-variant-numeric:tabular-nums}
 /* ───────── 洗練リファインメント（トップ） ───────── */
 #page-top.dash-page .dash-head h1{font-size:24px;font-weight:700;letter-spacing:.01em}
-#page-top.dash-page .dash-date{letter-spacing:.04em;color:#6b7670}
-#page-top.dash-page .dc{border:1px solid #ebefed;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-#page-top.dash-page .dc-h{font-weight:700;letter-spacing:.02em}
-#page-top.dash-page .dc-h .dc-sub{font-size:12px;letter-spacing:.04em;color:#6b7670}
-#page-top.dash-page .dc-h .more{font-size:13px}
-#page-top.dash-page .unread-chip{font-size:12px;letter-spacing:.02em}
+#page-top.dash-page .dash-date{letter-spacing:.04em;color:#767676}
+#page-top.dash-page .dc{border:1px solid #E6E6E6;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+#page-top.dash-page .dc-h{font-size:15px;font-weight:700;color:#1A1A1A;letter-spacing:.02em;border-bottom:1px solid #E6E6E6}
+#page-top.dash-page .dc-h .dc-sub{font-size:12px;font-weight:700;letter-spacing:.04em;color:#767676}
+#page-top.dash-page .dc-h .more{font-size:13px;font-weight:700;color:#115A36}
+#page-top.dash-page .dc-h .more:hover{text-decoration:underline}
+#page-top.dash-page .unread-chip{font-size:12px;font-weight:700;letter-spacing:.02em}
 #page-top.dash-page .news-list li+li,#page-top.dash-page .act-list li+li{border-top-color:#f0f3f1}
 #page-top.dash-page .news-list .t{font-size:13px;line-height:1.6;letter-spacing:.025em}
-#page-top.dash-page .news-list .d{font-size:12px;color:#6b7670}
+#page-top.dash-page .news-list .d{font-size:12px;color:#767676}
 #page-top.dash-page .news-more{flex:none;font-size:12px;font-weight:700;color:#115A36;text-decoration:none;white-space:nowrap;letter-spacing:.02em}
 #page-top.dash-page .news-more:hover{color:#115A36;text-decoration:underline}
 #page-top.dash-page .news-list .rstat{font-size:12px}
-#page-top.dash-page .news-badge{font-size:12px;letter-spacing:.02em}
+#page-top.dash-page .news-badge{font-size:12px;font-weight:700;letter-spacing:.02em}
 #page-top.dash-page .act-main .a{font-size:13px;line-height:1.6;letter-spacing:.025em}
-#page-top.dash-page .act-main .tm{font-size:12px;color:#6b7670;letter-spacing:.02em}
+#page-top.dash-page .act-main .tm{font-size:12px;color:#767676;letter-spacing:.02em}
 #page-top.dash-page .jt{font-size:13.5px}
-#page-top.dash-page .jt th{font-size:12px;letter-spacing:.04em;color:#6b7670}
+#page-top.dash-page .jt th{font-size:12px;letter-spacing:.04em;color:#767676}
 #page-top.dash-page .jt td{border-bottom-color:#f0f3f1}
 #page-top.dash-page .jt .jname{color:#1A1A1A;font-weight:600}
 #page-top.dash-page .jt .cat{font-size:12px}
-#page-top.dash-page .ch-stat .lbl{font-size:12px;letter-spacing:.04em;color:#6b7670}
-#page-top.dash-page .ch-stat .val{font-size:27px;font-weight:700;letter-spacing:-.01em}
-#page-top.dash-page .ch-stat .val .u{font-size:13px;font-weight:500}
+#page-top.dash-page .ch-stat .lbl{font-size:12px;font-weight:700;letter-spacing:.04em;color:#767676}
+#page-top.dash-page .ch-stat .val{font-size:28px;font-weight:700;letter-spacing:-.01em;color:#1A1A1A;font-variant-numeric:tabular-nums;line-height:1}
+#page-top.dash-page .ch-stat .val .u{font-size:12px;font-weight:700;color:#767676;margin-left:1px}
 #page-top.dash-page .legend li{font-size:13px}
 #page-top.dash-page .legend .lname{letter-spacing:.02em}
 #page-top.dash-page .legend .lpc{font-weight:700;color:#1A1A1A}
@@ -23058,18 +23054,18 @@ body.on-login-page{overflow:hidden}
 #page-top.dash-page .donut path{stroke:#fff;stroke-width:2.5}
 #page-top.dash-page .ch-grid line{stroke:#eef0ef}
 #page-top.dash-page .ch-body>svg polyline{stroke-width:2}
-#page-top.dash-page .ch-axis text{font-size:9px;fill:#6b7670}
-#page-top.dash-page .sv-legend{display:flex;gap:14px;justify-content:flex-end;margin:2px 0 6px;font-size:11px;color:#5a6862}
+#page-top.dash-page .ch-axis text{font-size:12px;fill:#767676}
+#page-top.dash-page .sv-legend{display:flex;gap:14px;justify-content:flex-end;margin:2px 0 6px;font-size:12px;color:#767676}
 #page-top.dash-page .sv-leg{display:inline-flex;align-items:center;gap:5px}
 #page-top.dash-page .sv-sw{width:14px;height:3px;border-radius:2px;display:inline-block}
 #page-top.dash-page .sv-sw.pv{background:#51B883}
 #page-top.dash-page .sv-sw.uu{background:#115A36}
-#page-top.dash-page .sv-chart{width:100%;height:auto;display:block}
-#page-top.dash-page .sv-yaxis text{font-size:9px;fill:#a7b0aa}
-#page-top.dash-page .unread-chip{font-weight:700}
-#page-top.dash-page .news-badge{font-weight:700}
+#page-top.dash-page .sv-chart{width:100%;height:auto;display:block;overflow:visible}
+#page-top.dash-page .sv-yaxis text{font-size:12px;fill:#767676}
+#page-top.dash-page .dash-ctx{order:0;align-self:flex-end;font-size:12px;font-weight:500;color:#767676;font-variant-numeric:tabular-nums;margin:0 0 -4px}
 </style>
 <div class="dash-wrap">
+  <div class="dash-ctx">集計時点: 2026/06/17・期間: 直近30日</div>
   <!-- 1段目: 運営からのお知らせ（横長・スクロール） -->
   <section class="dc dash-news">
     <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
@@ -23137,7 +23133,7 @@ body.on-login-page{overflow:hidden}
       <div class="ch-body">
         <div class="ch-stats">
           <div class="ch-stat"><span class="lbl">現在のフォロワー数</span><span class="val">608<span class="u">人</span></span></div>
-          <div class="ch-stat"><span class="lbl">直近30日の増加数</span><span class="val up">＋23<span class="u">名</span></span></div>
+          <div class="ch-stat"><span class="lbl">直近30日の増加数</span><span class="val up">＋23<span class="u">人</span></span></div>
         </div>
         <svg viewBox="0 0 300 160" preserveAspectRatio="none" role="img" aria-label="フォロワー数の推移（直近30日・右肩上がり）">
           <g class="ch-grid"><line x1="8" y1="26" x2="292" y2="26"/><line x1="8" y1="60" x2="292" y2="60"/><line x1="8" y1="94" x2="292" y2="94"/><line x1="8" y1="128" x2="292" y2="128"/></g>
@@ -51768,7 +51764,7 @@ window.toggleLoginPassword = function(btn){
   --t-border:#E6E6E6; --t-brand:#115A36;
 }
 /* H2 セクション/カード見出しを16pxに統一（トップ14・分析18 → 16） */
-#page-top.dash-page .dc-h{ font-size:14px; color:var(--t-heading); font-weight:700; }
+#page-top.dash-page .dc-h{ font-size:15px; color:var(--t-heading); font-weight:700; }
 #page-analytics .d-board-title{ font-size:16px; color:var(--t-heading); }
 /* KPI数値の純黒(#000=--d-n-900)を #1A1A1A に（自団体強調の緑は許可・据置） */
 #page-analytics .d-kpi-value{ color:var(--t-num); }
