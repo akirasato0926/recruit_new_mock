@@ -8477,6 +8477,10 @@ img, svg, video{max-width:100%;height:auto}
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .p04-testtype-btn.active .p04-testtype-count{background:#115a36;color:#fff}
+.p04-pdf-btn{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;background:#fff;color:#115A36;border:1px solid #115A36;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.p04-pdf-btn:hover{background:#E6F5EC}
+.p04-pdf-btn svg{width:13px;height:13px}
+.p04-empty{padding:56px 0;text-align:center;color:#767676;font-size:14px}
 .p04-main{padding:24px}
 .p04-container{max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 
@@ -20683,7 +20687,7 @@ body.on-login-page{overflow:hidden}
       <section class="p04-table-section card">
         <!-- テスト種別切替（SPI3 / 日本人事試験研究センター） -->
         <div class="p04-testtype-nav" role="tablist" aria-label="テスト種別">
-          <button class="p04-testtype-btn active" data-testtype="spi3" role="tab" aria-selected="true" onclick="switchP04TestType('spi3')">
+          <button class="p04-testtype-btn" data-testtype="spi3" role="tab" aria-selected="false" onclick="switchP04TestType('spi3')">
             SPI3 <span class="p04-testtype-count" id="p04-tt-spi3">0</span>
           </button>
           <button class="p04-testtype-btn" data-testtype="jinji" role="tab" aria-selected="false" onclick="switchP04TestType('jinji')">
@@ -20699,6 +20703,7 @@ body.on-login-page{overflow:hidden}
                 <th class="p04-th-sortable" data-sort="name" rowspan="2">氏名<span class="p04-th-sort-icon"></span></th>
                 <th class="p04-th-sortable" data-sort="job" rowspan="2">職種<span class="p04-th-sort-icon"></span></th>
                 <th class="p04-th-sortable" data-sort="stage" rowspan="2">選考ステップ<span class="p04-th-sort-icon"></span></th>
+                <th class="p04-th-group" rowspan="2" id="p04-th-pdf" style="display:none">帳票PDF</th>
                 <th colspan="2" class="p04-th-group">基礎能力 総合</th>
                 <th colspan="2" class="p04-th-group">言語</th>
                 <th class="p04-th-group p04-th-sortable" rowspan="2" data-sort="spi.nonverbal_grade">非言語<br>段階<span class="p04-th-sort-icon"></span></th>
@@ -36601,7 +36606,7 @@ window.addEventListener('DOMContentLoaded', function(){
   // 状態
   let p04Page = 1;
   const P04_PAGE_SIZE = 20;
-  let p04Filter = { kw:'', job:'', stage:'', sort:'default', testType:'spi3' };
+  let p04Filter = { kw:'', job:'', stage:'', sort:'default', testType:'' };
   // テスト種別判定（応募者IDから決定的に割当: 約7割SPI3 / 約3割 日本人事試験研究センター）
   function p04TestTypeOf(a){
     const n = parseInt(String(a.id).replace(/\D/g,''), 10) || 0;
@@ -36731,6 +36736,18 @@ window.addEventListener('DOMContentLoaded', function(){
   function renderP04Table(){
     const tbody = document.getElementById('p04-tbody');
     if(!tbody) return;
+    // 帳票PDF列は日本人事試験研究センター選択時のみ表示
+    const thPdf = document.getElementById('p04-th-pdf');
+    if(thPdf) thPdf.style.display = (p04Filter.testType === 'jinji') ? '' : 'none';
+    // テスト未選択時は空状態を表示
+    if(!p04Filter.testType){
+      tbody.innerHTML = '<tr><td colspan="13" class="p04-empty">データを選択してください</td></tr>';
+      const countEl0 = document.getElementById('p04-count'); if(countEl0) countEl0.textContent = '0 件';
+      const pgInfo0 = document.getElementById('p04-pg-info'); if(pgInfo0) pgInfo0.textContent = '- / -';
+      const pgPrev0 = document.getElementById('p04-pg-prev'); if(pgPrev0) pgPrev0.disabled = true;
+      const pgNext0 = document.getElementById('p04-pg-next'); if(pgNext0) pgNext0.disabled = true;
+      return;
+    }
     const filtered = getP04Filtered();
     const total = filtered.length;
     const pages = Math.max(1, Math.ceil(total / P04_PAGE_SIZE));
@@ -36754,6 +36771,9 @@ window.addEventListener('DOMContentLoaded', function(){
       const avatarUrl = (typeof getAvatarUrl === 'function') ? getAvatarUrl(a) : '';
       const fallbackSvg = (typeof generateAvatarSvg === 'function') ? generateAvatarSvg(a.id, a.gender==='f') : '';
       const avatarHtml = `<div class="p04-applicant-avatar"><img src="${avatarUrl}" alt="" onerror="this.onerror=null;this.src='${fallbackSvg}'"></div>`;
+      const pdfCell = (p04Filter.testType === 'jinji')
+        ? `<td class="p04-td-pdf"><button class="p04-pdf-btn" onclick="event.stopPropagation();if(window.showToast){showToast('帳票PDFを表示します（サンプル）');}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>PDF</button></td>`
+        : '';
       return `<tr class="p04-row" data-id="${a.id}">
         <td onclick="event.stopPropagation()"><input type="checkbox" class="p04-row-chk" value="${a.id}"></td>
         <td class="p04-td-id">${a.id}</td>
@@ -36769,6 +36789,7 @@ window.addEventListener('DOMContentLoaded', function(){
             ${stageOptions.replace(`value="${a.stage}"`, `value="${a.stage}" selected`)}
           </select>
         </td>
+        ${pdfCell}
         <td class="p04-td-score">${a.spi.basic_score}</td>
         <td><span class="p04-grade">${a.spi.basic_grade}</span></td>
         <td class="p04-td-score">${a.spi.verbal_score}</td>
