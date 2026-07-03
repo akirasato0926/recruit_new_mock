@@ -18561,7 +18561,7 @@ body.on-login-page{overflow:hidden}
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
 /* ── DADS: フォーカスインジケーター ── */
-:focus-visible{outline:4px solid #000;outline-offset:2px;box-shadow:0 0 0 2px #FFD43D}
+:focus-visible{outline:2px solid #115A36;outline-offset:2px}
 
 /* ═══ 求人作成：求人画像アップロード（最大3枚）═══ */
 .jc-img-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:560px}
@@ -55439,6 +55439,9 @@ body{background:#fff !important}
 button:disabled,.btn:disabled,.p07-bulk-btn:disabled{color:#767676 !important;border-color:var(--pc-line) !important;background:#F2F2F2 !important;cursor:not-allowed}
 /* focus/テーブル/タブ共通 */
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--pc-green);outline-offset:2px}
+/* プルダウンのfocusリングを全ページ緑2pxに強制統一（黄/黒/UA既定の混在解消） */
+select:focus-visible{outline:2px solid var(--pc-green) !important;outline-offset:2px !important}
+select:focus{outline:2px solid var(--pc-green) !important;outline-offset:2px !important}
 table thead th{background:#F2F2F2}
 /* 残タスク是正（KPIカード/リセット/モーダル地/senko） */
 #page-03 .jl-stat-card{background:#fff !important;border:1px solid #E6E6E6 !important;border-radius:12px !important}
