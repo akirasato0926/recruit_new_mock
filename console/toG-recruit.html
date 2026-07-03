@@ -10283,8 +10283,8 @@ img, svg, video{max-width:100%;height:auto}
 /* ステータスバッジ */
 .p06-status-badge{
   display:inline-flex;align-items:center;gap:5px;
-  padding:3px 10px;border-radius:4px;
-  font-size:11px;font-weight:600;white-space:nowrap;
+  padding:3px 10px;border-radius:6px;
+  font-size:12px;font-weight:600;white-space:nowrap;
 }
 .p06-status-badge::before{
   content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;
@@ -10630,8 +10630,8 @@ img, svg, video{max-width:100%;height:auto}
 .p07-tab:hover{color:#000}
 .p07-tab.active{color:#115A36;border-bottom-color:#115A36;font-weight:700}
 .p07-tab-count{
-  display:inline-block;padding:1px 7px;background:#f2f2f2;color:#000;
-  border-radius:10px;font-size:10px;font-weight:700;
+  display:inline-block;padding:1px 8px;background:#F2F2F2;color:#767676;
+  border-radius:10px;font-size:12px;font-weight:700;
   min-width:18px;text-align:center;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .p07-tab.active .p07-tab-count{background:#115a36;color:#fff}
@@ -11122,8 +11122,8 @@ img, svg, video{max-width:100%;height:auto}
 .p07-tpl-insert-close svg{width:14px;height:14px}
 .p07-tpl-insert-body{padding:14px 18px;overflow-y:auto}
 .p07-tpl-insert-search{
-  width:100%;padding:8px 12px;border:1px solid #E6E6E6;border-radius:6px;
-  font-size:12px;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;color:#000;margin-bottom:12px;
+  width:100%;padding:10px 12px;border:1px solid #E6E6E6;border-radius:8px;
+  font-size:13px;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;color:#000;margin-bottom:12px;
 }
 .p07-tpl-insert-search:focus{outline:none;border-color:#115a36;border-width:2px;padding:7px 11px}
 .p07-tpl-insert-list{display:flex;flex-direction:column;gap:6px}
@@ -11597,33 +11597,31 @@ img, svg, video{max-width:100%;height:auto}
 /* ステータスタブ + 検索 */
 .pblog-toolbar-row{
   display:flex;justify-content:space-between;align-items:center;
-  gap:16px;background:#fff;border:1px solid #E6E6E6;border-radius:10px;
-  padding:0 18px;flex-wrap:wrap;
+  gap:16px;
+  padding:4px 0;flex-wrap:wrap;
 }
 .pblog-status-tabs{
   display:flex;gap:4px;flex-wrap:wrap;
 }
 .pblog-status-tab{
-  padding:14px 16px;background:transparent;border:none;
-  font-size:13px;font-weight:600;color:#767676;
+  padding:0 14px;height:36px;background:#fff;border:1px solid #E6E6E6;border-radius:8px;
+  font-size:13px;font-weight:600;color:#333333;
   cursor:pointer;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-  border-bottom:2px solid transparent;border-radius:0;
   display:inline-flex;align-items:center;gap:6px;
-  margin-bottom:-1px;
 }
-.pblog-status-tab:hover{color:#000}
-.pblog-status-tab.active{color:#115A36;border-bottom-color:#115A36;font-weight:700}
+.pblog-status-tab:hover{border-color:#115A36;color:#115A36}
+.pblog-status-tab.active{background:#E6F5EC;border-color:#115A36;color:#115A36;font-weight:700}
 .pblog-status-count{
-  display:inline-block;padding:1px 7px;background:#f2f2f2;color:#000;
-  border-radius:10px;font-size:10px;font-weight:700;
+  display:inline-block;padding:1px 8px;background:#F2F2F2;color:#767676;
+  border-radius:10px;font-size:12px;font-weight:700;
   min-width:18px;text-align:center;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 .pblog-status-tab.active .pblog-status-count{background:#115a36;color:#fff}
 .pblog-search{
-  padding:8px 12px;border:1px solid #E6E6E6;border-radius:6px;
-  font-size:12px;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;color:#000;width:260px;
+  padding:10px 12px;border:1px solid #E6E6E6;border-radius:8px;
+  font-size:13px;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;color:#000;width:260px;
 }
-.pblog-search:focus{outline:none;border-color:#115a36;border-width:2px;padding:7px 11px}
+.pblog-search:focus{outline:none;border-color:#115a36;border-width:2px;padding:9px 11px}
 
 /* アクションバー */
 .pblog-action-bar{
@@ -11697,19 +11695,19 @@ img, svg, video{max-width:100%;height:auto}
 /* 公開ステータスバッジ */
 .pblog-status-badge{
   display:inline-flex;align-items:center;gap:5px;
-  padding:3px 10px;border-radius:4px;
-  font-size:11px;font-weight:600;white-space:nowrap;
+  padding:3px 10px;border-radius:6px;
+  font-size:12px;font-weight:600;white-space:nowrap;
 }
 .pblog-status-badge::before{
   content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;
 }
 .pblog-status-badge.published{background:#E6F5EC;color:#115A36;border:1px solid #9BD4B5}
 .pblog-status-badge.published::before{background:#115a36}
-.pblog-status-badge.scheduled{background:#FFF8E1;color:#78350F;border:1px dashed #D97706}
-.pblog-status-badge.scheduled::before{background:#D97706}
+.pblog-status-badge.scheduled{background:#FCF0E5;color:#8A4B0F;border:1px solid #EFD8BD}
+.pblog-status-badge.scheduled::before{background:#8A4B0F}
 .pblog-status-badge.private{background:#f2f2f2;color:#4D4D4D;border:1px solid #E6E6E6}
 .pblog-status-badge.private::before{background:#767676}
-.pblog-status-badge.draft{background:#fff;color:#767676;border:1px dashed #CCCCCC}
+.pblog-status-badge.draft{background:#F2F2F2;color:#4D4D4D;border:1px solid #E6E6E6}
 .pblog-status-badge.draft::before{background:#CCCCCC}
 
 .pblog-date{
@@ -11829,7 +11827,7 @@ img, svg, video{max-width:100%;height:auto}
 @media (max-width:800px){
   .pblog-toolbar-row{padding:8px 12px}
   .pblog-search{width:100%}
-  .pblog-status-tab{padding:10px 12px;font-size:12px}
+  .pblog-status-tab{padding:0 12px;height:34px;font-size:12px}
   .pblog-action-bar{flex-wrap:wrap}
 }
 
@@ -14810,21 +14808,21 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   display:flex;justify-content:space-between;align-items:center;gap:16px;
   margin-bottom:16px;flex-wrap:wrap;
 }
-.sp-tabs{display:flex;gap:4px;background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:4px}
+.sp-tabs{display:flex;gap:8px}
 .sp-tab{
-  display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
-  background:transparent;border:none;border-radius:6px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12.5px;color:#4D4D4D;font-weight:600;
+  display:inline-flex;align-items:center;gap:6px;padding:0 14px;height:36px;
+  background:#fff;border:1px solid #E6E6E6;border-radius:8px;cursor:pointer;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:13px;color:#333333;font-weight:600;
   transition:all .15s;
 }
-.sp-tab:hover{background:#f2f2f2}
-.sp-tab.active{background:#115A36;color:#fff}
+.sp-tab:hover{border-color:#115A36;color:#115A36}
+.sp-tab.active{background:#E6F5EC;border-color:#115A36;color:#115A36;font-weight:700}
 .sp-tab-count{
   display:inline-flex;align-items:center;justify-content:center;
-  min-width:20px;padding:0 6px;height:18px;border-radius:9px;
-  background:#E6E6E6;color:#767676;font-size:10px;font-weight:700;
+  min-width:22px;padding:0 7px;height:20px;border-radius:10px;
+  background:#F2F2F2;color:#767676;font-size:12px;font-weight:700;
 }
-.sp-tab.active .sp-tab-count{background:rgba(255,255,255,0.2);color:#fff}
+.sp-tab.active .sp-tab-count{background:#115A36;color:#fff}
 .sp-search{
   position:relative;width:280px;
 }
@@ -14845,12 +14843,12 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 }
 .sp-article-table{width:100%;border-collapse:collapse}
 .sp-article-table thead th{
-  background:#f2f2f2;padding:12px 14px;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:11.5px;font-weight:700;color:#4D4D4D;
+  background:#F2F2F2;padding:12px 14px;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:700;color:#767676;
   text-align:left;border-bottom:1px solid #E6E6E6;letter-spacing:0.02em;
 }
 .sp-article-table tbody tr{border-bottom:1px solid #E6E6E6;transition:background .15s}
-.sp-article-table tbody tr:hover{background:#f2f2f2}
+.sp-article-table tbody tr:hover{background:#F8FAF9}
 .sp-article-table tbody tr:last-child{border-bottom:none}
 .sp-article-table td{padding:14px;vertical-align:middle}
 .sp-article-thumb{
@@ -14868,12 +14866,12 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   font-size:10px;border-radius:3px;font-weight:600;
 }
 .sp-article-type{
-  display:inline-flex;align-items:center;padding:4px 10px;
-  font-size:11px;font-weight:700;border-radius:4px;
+  display:inline-flex;align-items:center;gap:5px;padding:4px 10px;
+  font-size:12px;font-weight:700;border-radius:6px;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
 }
-.sp-article-type.blog{background:#E6F5EC;color:#115A36}
-.sp-article-type.recruit{background:var(--g-100);color:var(--g-900)}
+.sp-article-type.blog,.sp-article-type.recruit,.sp-article-type.job{background:#E6F5EC;color:#115A36}
+.sp-article-type svg{width:12px;height:12px;flex:none}
 .sp-article-date{
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;color:#4D4D4D;
 }
@@ -14882,16 +14880,16 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 }
 .sp-article-sns-actions{display:flex;gap:6px}
 .sp-btn-sns{
-  display:inline-flex;align-items:center;gap:5px;padding:7px 12px;
-  background:#000;color:#fff;border:none;border-radius:6px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:11.5px;font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;padding:0 12px;height:32px;
+  background:#000;color:#fff;border:none;border-radius:8px;cursor:pointer;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:700;
   transition:all .15s;
 }
 .sp-btn-sns:hover{transform:translateY(0);box-shadow:0 4px 12px rgba(0,0,0,0.2)}
-.sp-btn-sns svg{width:12px;height:12px}
+.sp-btn-sns svg{width:14px;height:14px}
 .sp-btn-sns.x{background:#000;color:#fff}
 .sp-btn-sns.instagram{
-  background:#F58529;color:#fff;
+  background:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 30%,#D62976 55%,#962FBF 80%,#4F5BD5 100%);color:#fff;
 }
 
 /* ═══════════════════════════════════════════════════════ */
@@ -29202,7 +29200,6 @@ body.on-login-page{overflow:hidden}
       <div class="sp-header">
         <div class="sp-header-text">
           <h1 class="sp-title">SNS投稿</h1>
-          <p class="sp-subtitle">公開済みのブログ記事・採用情報をX / Instagram用にアレンジして投稿できます。</p>
         </div>
         <div class="sp-header-actions">
           <button class="sp-api-btn sp-api-btn-x" onclick="openSPApiModal('x')">
@@ -29222,7 +29219,7 @@ body.on-login-page{overflow:hidden}
       <div class="sp-kpi-grid">
         <div class="sp-kpi-card">
           <div class="sp-kpi-label">SNS投稿可能な記事</div>
-          <div class="sp-kpi-value">10</div>
+          <div class="sp-kpi-value">12</div>
         </div>
         <div class="sp-kpi-card">
           <div class="sp-kpi-label">今月の投稿数</div>
@@ -29244,9 +29241,10 @@ body.on-login-page{overflow:hidden}
       <!-- タブ + 検索 -->
       <div class="sp-toolbar">
         <div class="sp-tabs">
-          <button class="sp-tab active" data-filter="all">すべて<span class="sp-tab-count">10</span></button>
+          <button class="sp-tab active" data-filter="all">すべて<span class="sp-tab-count">12</span></button>
           <button class="sp-tab" data-filter="blog">ブログ記事<span class="sp-tab-count">6</span></button>
           <button class="sp-tab" data-filter="recruit">採用情報<span class="sp-tab-count">4</span></button>
+          <button class="sp-tab" data-filter="job">求人ページ<span class="sp-tab-count">2</span></button>
         </div>
         <div class="sp-search">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -45095,6 +45093,8 @@ ${style.blogQuote}
     { id:'s08', type:'blog',    title:'建築技術職が手がけるまちづくり最前線', tags:['建築','まちづくり','技術職'], date:'2026.03.25', views:1122, seed:6, url:'https://kokyo-city-recruit.jp/blog/s08' },
     { id:'s09', type:'blog',    title:'保育士の一日 — 笑顔あふれる保育園の現場から', tags:['保育士','現場','子育て支援'], date:'2026.03.20', views:891, seed:4, url:'https://kokyo-city-recruit.jp/blog/s09' },
     { id:'s10', type:'recruit', title:'経験者採用（キャリア採用）のご案内 — 即戦力を求めています', tags:['キャリア採用','経験者','転職'], date:'2026.03.15', views:2567, seed:7, url:'https://kokyo-city-recruit.jp/recruit/s10' }
+    ,{ id:'s11', type:'job',     title:'【令和8年度】行政事務職（大卒程度）採用のご案内', tags:['求人','事務職','大卒'], date:'2026.04.20', views:4120, seed:0, url:'https://kokyo-city-recruit.jp/jobs/s11' },
+    { id:'s12', type:'job',     title:'土木技術職（経験者採用）募集中 — 即戦力歓迎', tags:['求人','土木','経験者'], date:'2026.04.14', views:1884, seed:2, url:'https://kokyo-city-recruit.jp/jobs/s12' }
   ];
   window.SP_ARTICLES = SP_ARTICLES;
   
@@ -45119,6 +45119,12 @@ ${style.blogQuote}
     }));
   }
   
+  // 種別アイコン（CDO裁定: バッジは共通配色・アイコンで識別）
+  function spTypeIcon(t){
+    if(t==='blog') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
+    if(t==='job') return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>';
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>';
+  }
   // 記事一覧レンダリング
   window.renderSPArticles = function(filter){
     const tbody = document.getElementById('sp-article-tbody');
@@ -45139,7 +45145,7 @@ ${style.blogQuote}
           <div class="sp-article-tags">${a.tags.map(t => `<span class="sp-article-tag">${t}</span>`).join('')}</div>
         </td>
         <td>
-          <span class="sp-article-type ${a.type}">${a.type === 'blog' ? 'ブログ記事' : '採用情報'}</span>
+          <span class="sp-article-type ${a.type}">${spTypeIcon(a.type)}${a.type === 'blog' ? 'ブログ記事' : a.type === 'job' ? '求人ページ' : '採用情報'}</span>
         </td>
         <td><span class="sp-article-date">${a.date}</span></td>
         <td><span class="sp-article-views">${a.views.toLocaleString()}</span></td>
@@ -45367,7 +45373,7 @@ ${style.blogQuote}
   const SP_CONTENT_TEMPLATES = {
     x: {
       normal: (a) => ({
-        text: `【${a.type === 'blog' ? 'ブログ記事' : '採用情報'}公開】\n${a.title}\n\n公共市役所で働く魅力や現場のリアルをお届けしています。詳しくは本文でご覧ください。`,
+        text: `【${a.type === 'blog' ? 'ブログ記事' : a.type === 'job' ? '求人ページ' : '採用情報'}公開】\n${a.title}\n\n公共市役所で働く魅力や現場のリアルをお届けしています。詳しくは本文でご覧ください。`,
         hashtags: ['#公共市役所', '#公務員', '#採用情報', ...a.tags.slice(0,2).map(t => '#' + t.replace(/\s/g,''))]
       }),
       bright: (a) => ({
@@ -55408,6 +55414,10 @@ table thead th{background:#F2F2F2}
 .p07-btn-search{border-radius:8px !important;font-size:12px !important}
 .ai-modal-body,.jh-modal-body{background:#fff !important}
 #senko-modal .senko-picker{background:#fff !important}
+/* 採用PR3ページ統一 */
+.pblog-summary{display:grid !important;grid-template-columns:repeat(4,1fr);gap:16px}
+.pblog-sum-card{min-width:0 !important}
+.pblog-table tbody tr:hover td{background:#F8FAF9}
 
 </style>
 </body>
