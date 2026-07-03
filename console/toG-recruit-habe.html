@@ -18586,8 +18586,8 @@ body.on-login-page{overflow:hidden}
 /* ═══ 分析：PUBLIC CONNECTネットワーク（他団体比較）タブ ═══ */
 /* 大タブバー */
 #page-analytics .d-tabbar{display:flex;gap:4px;border-bottom:2px solid #E6E6E6;margin:0 0 24px}
-#page-analytics .d-tab{appearance:none;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 20px;font-family:'Inter','Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;font-weight:700;color:#767676;cursor:pointer;line-height:1.4}
-#page-analytics .d-tab:hover{color:#115A36;background:#F2F2F2}
+#page-analytics .d-tab{appearance:none;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 20px;font-family:'Inter','Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;font-size:15px;font-weight:700;color:#4D4D4D;cursor:pointer;line-height:1.4}
+#page-analytics .d-tab:hover{color:#115A36;background:#F8FAF9}
 #page-analytics .d-tab-active{color:#115A36;border-bottom-color:#115A36}
 #page-analytics .d-tab:focus-visible{outline:3px solid #115A36;outline-offset:-3px}
 /* pane 表示制御 */
@@ -18603,7 +18603,7 @@ body.on-login-page{overflow:hidden}
 #page-analytics .dn-presets{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
 #page-analytics .dn-preset{appearance:none;font-family:'Inter','Noto Sans JP',-apple-system,BlinkMacSystemFont,sans-serif;font-size:13px;font-weight:700;height:32px;padding:0 14px;border-radius:6px;border:1px solid #949494;background:#fff;color:#1A1A1A;cursor:pointer}
 #page-analytics .dn-preset:hover{background:#E6F5EC;border-color:#115A36}
-#page-analytics .dn-preset-active{background:#115A36;border-color:#115A36;color:#fff}
+#page-analytics .dn-preset-active{background:#E6F5EC;border-color:#115A36;color:#115A36}
 #page-analytics .dn-filter-row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
 #page-analytics .dn-fg{display:flex;flex-direction:column;gap:4px}
 #page-analytics .dn-flabel{font-size:12px;font-weight:700;color:#767676}
@@ -18626,9 +18626,9 @@ body.on-login-page{overflow:hidden}
 #page-analytics .dn-table td.lbl{font-weight:700;color:#1A1A1A}
 #page-analytics .dn-cmp-self{font-weight:700;color:#115A36}
 #page-analytics .dn-diff{font-weight:700;font-variant-numeric:tabular-nums}
-#page-analytics .dn-diff.pos{color:#115A36}
-#page-analytics .dn-diff.neg{color:#CE0000}
-#page-analytics .dn-diff.neu{color:#767676}
+#page-analytics .dn-diff.pos{background:#E6F5EC;color:#115A36}
+#page-analytics .dn-diff.neg{background:#FDEEEE;color:#B3261E}
+#page-analytics .dn-diff.neu{background:#F2F2F2;color:#4D4D4D}
 
 /* (3) 職種別バー */
 #page-analytics .dn-job-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
@@ -18709,11 +18709,11 @@ body.on-login-page{overflow:hidden}
 #page-analytics .dp-bar{display:flex;align-items:center;gap:10px}
 #page-analytics .dp-bar-track{flex:1;height:16px;background:#F2F2F2;border-radius:3px;overflow:hidden}
 #page-analytics .dp-bar-fill{height:100%;background:#E06666;border-radius:3px}
-#page-analytics .dp-bar-fill.is-max{background:#CE0000}
+#page-analytics .dp-bar-fill.is-max{background:#B3261E}
 #page-analytics .dp-bar-val{width:96px;text-align:right;font-size:13px;font-variant-numeric:tabular-nums;color:#333;flex:0 0 auto}
-#page-analytics .dp-bar-val .dp-pct{color:#CE0000;font-weight:700;margin-left:6px}
+#page-analytics .dp-bar-val .dp-pct{color:#B3261E;font-weight:700;margin-left:6px}
 /* 辞退理由ドーナツ凡例の%も赤系（ネガティブ指標）※当セクション限定 */
-#page-analytics #d-section-process .d-donut-legend .stat .pct{color:#CE0000}
+#page-analytics #d-section-process .d-donut-legend .stat .pct{color:#B3261E}
 /* ③ 辞退理由ドーナツ凡例：応募者属性と同じ2列化 */
 #page-analytics [data-target="reason-legend"]{
   display:grid;
@@ -18939,7 +18939,7 @@ body.on-login-page{overflow:hidden}
 .jd-minicard{display:flex;align-items:baseline;gap:6px;background:#F2F2F2;border:1px solid #E6E6E6;border-radius:6px;padding:6px 10px;white-space:nowrap}
 .jd-minicard-lb{font-size:12px;color:#767676}
 .jd-minicard-vl{font-size:14px;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif}
-.jd-minicard.neg .jd-minicard-vl{color:#CE0000}
+.jd-minicard.neg .jd-minicard-vl{color:#1A1A1A}
 /* 縦棒チャート（ファネル／ステップ辞退） */
 .jd-bars{display:flex;align-items:flex-end;gap:8px;flex:1;min-height:0}
 .jd-bar-col{flex:1;display:flex;flex-direction:column;align-items:center;min-width:0}
@@ -18960,7 +18960,7 @@ body.on-login-page{overflow:hidden}
 .jd-donut-legend .dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 .jd-donut-legend .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#1A1A1A}
 .jd-donut-legend .val{margin-left:auto;font-weight:700;color:#1A1A1A;font-family:'Inter','Noto Sans JP',sans-serif;white-space:nowrap;font-variant-numeric:tabular-nums}
-.jd-donut-legend .val .u{font-size:10px;font-weight:600;color:#767676;margin-left:2px}
+.jd-donut-legend .val .u{font-size:12px;font-weight:600;color:#767676;margin-left:2px}
 /* 辞退理由（横バー） */
 .jd-reason-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;flex:1;justify-content:center}
 .jd-reason-row{}
@@ -24581,7 +24581,8 @@ body.on-login-page{overflow:hidden}
 }
 
 /* ─── レイアウト ─── */
-#page-analytics .d-main{ padding: 24px 24px 64px; }
+#page-analytics .d-main{ padding: 24px 24px 96px; }
+#page-analytics .jd-inflow svg path{stroke:#fff;stroke-width:1.5}
 #page-analytics .d-container{
   max-width: 1440px;
   margin: 0 auto;
@@ -24650,7 +24651,7 @@ body.on-login-page{overflow:hidden}
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  padding: 6px 28px 6px 12px;
+  padding: 9px 28px 9px 12px;
   background: var(--d-w);
   border: 1px solid var(--d-n-300);
   border-radius: 8px;
@@ -26088,7 +26089,7 @@ body.on-login-page{overflow:hidden}
 }
 #page-analytics .d-pr-rank{ max-height:300px; overflow-y:auto; padding-right:6px; }
 #page-analytics .d-pr-rank-meta{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-#page-analytics .d-pr-tag{ display:inline-block; font-size:11px; font-weight:700; color:#115A36; background:#E6F5EC; border-radius:4px; padding:1px 8px; letter-spacing:.02em; }
+#page-analytics .d-pr-tag{ display:inline-block; font-size:12px; font-weight:700; color:#115A36; background:#E6F5EC; border-radius:4px; padding:1px 8px; letter-spacing:.02em; }
 #page-analytics .d-pr-pub{ font-size:12px; color:#767676; }
 #page-analytics .d-pr-rank{
   list-style: none;
@@ -26204,8 +26205,8 @@ body.on-login-page{overflow:hidden}
 .d-fab:focus-visible{ outline: 3px solid #115A36; outline-offset: 3px; }
 .d-fab.analyst{ background: #115a36; }
 .d-fab.analyst:hover{ background: #0c472a; }
-.d-fab.rp{ background: #115A36; }
-.d-fab.rp:hover{ background: #115a36; }
+.d-fab.rp{ background:#fff; color:#115A36; border:2px solid #115A36; }
+.d-fab.rp:hover{ background:#E6F5EC; }
 .d-fab svg{ width: 22px; height: 22px; }
 .d-fab-badge{
   position: absolute;
@@ -51084,17 +51085,18 @@ window.toggleLoginPassword = function(btn){
   font-size:28px; font-weight:700; color:#1A1A1A; line-height:1.1;
   font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:4px;
 }
-#page-analytics .dn-kpi-value.dn-kpi-value-neg{ color:#CE0000; }
+#page-analytics .dn-kpi-value.dn-kpi-value-neg{ color:#1A1A1A; }
 #page-analytics .dn-kpi-unit{ font-size:14px; font-weight:400; color:#767676; }
 #page-analytics .dn-kpi-diff{
-  font-size:13px; font-weight:700; margin:6px 0 0;
+  font-size:12px; font-weight:700; margin:6px 0 0;
   display:inline-flex; align-items:center;
+  padding:2px 10px; border-radius:999px;
 }
 /* 矢印は実際の増減方向（dir-*）、色は good/bad（pos/neg/neu）で分離 */
-#page-analytics .dn-kpi-diff.dir-up::before{ content:'\25B2'; margin-right:3px; font-size:11px; }
-#page-analytics .dn-kpi-diff.dir-down::before{ content:'\25BC'; margin-right:3px; font-size:11px; }
-#page-analytics .dn-kpi-diff.dir-eq::before{ content:'\FF1D'; margin-right:3px; font-size:11px; }
-#page-analytics .dn-kpi-diff-note{ font-size:12px; font-weight:400; color:#767676; margin-left:6px; }
+#page-analytics .dn-kpi-diff.dir-up::before{ content:'\25B2'; margin-right:3px; font-size:12px; }
+#page-analytics .dn-kpi-diff.dir-down::before{ content:'\25BC'; margin-right:3px; font-size:12px; }
+#page-analytics .dn-kpi-diff.dir-eq::before{ content:'\FF1D'; margin-right:3px; font-size:12px; }
+#page-analytics .dn-kpi-diff-note{ font-size:12px; font-weight:400; color:inherit; opacity:.75; margin-left:6px; }
 #page-analytics .dn-kpi-bars{ margin-top:auto; display:flex; flex-direction:column; gap:8px; }
 #page-analytics .dn-mini-row{ display:flex; align-items:center; gap:8px; }
 #page-analytics .dn-mini-lbl{ flex:0 0 44px; font-size:12px; color:#767676; }
@@ -51182,7 +51184,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-search-btn{
   align-self:flex-end; flex:0 0 auto;
   display:inline-flex; align-items:center; gap:6px;
-  height:38px; padding:0 18px;
+  height:40px; padding:0 18px;
   background:#115A36; color:#fff;
   border:1px solid #115A36; border-radius:8px;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -51196,9 +51198,9 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-reset-btn{
   align-self:flex-end; flex:0 0 auto;
   display:inline-flex; align-items:center; gap:6px;
-  height:38px; padding:0 16px;
-  background:#fff; color:#1A1A1A;
-  border:1px solid #767676; border-radius:8px;
+  height:40px; padding:0 16px;
+  background:#fff; color:#115A36;
+  border:1px solid #115A36; border-radius:8px;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size:14px; font-weight:700; line-height:1; white-space:nowrap; cursor:pointer;
 }
@@ -51305,7 +51307,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-sp-card-name{ font-size:13px; color:#1A1A1A; font-weight:500; min-height:19px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 #page-analytics .dn-sp-card-diff{ font-size:12.5px; font-weight:700; display:inline-flex; align-items:center; gap:3px; }
 #page-analytics .dn-sp-card-diff.good{ color:#115A36; }
-#page-analytics .dn-sp-card-diff.bad{ color:#CE0000; }
+#page-analytics .dn-sp-card-diff.bad{ color:#B3261E; }
 #page-analytics .dn-sp-card-diff.neu{ color:#767676; }
 /* 選考スピード：自団体フロー帯／総日数レンジ／ステップ数分布 */
 #page-analytics .dn-sp-note{ font-size:12px; color:#767676; margin:14px 0 0; line-height:1.6; }
@@ -51359,12 +51361,12 @@ window.toggleLoginPassword = function(btn){
 /* 選考ステップ別の辞退数（自団体 vs 比較対象平均） */
 #page-analytics .dn-dcl-cards{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:2px 0 16px; }
 #page-analytics .dn-dcl-card{ border:1px solid #E6E6E6; border-radius:10px; padding:12px 14px; background:#fff; }
-#page-analytics .dn-dcl-card-label{ font-size:12px; font-weight:700; color:#5A6862; }
+#page-analytics .dn-dcl-card-label{ font-size:12px; font-weight:700; color:#767676; }
 #page-analytics .dn-dcl-card-main{ margin:6px 0 3px; }
-#page-analytics .dn-dcl-card-num{ font-size:24px; font-weight:800; color:#CE0000; font-variant-numeric:tabular-nums; line-height:1; }
+#page-analytics .dn-dcl-card-num{ font-size:24px; font-weight:800; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1; }
 #page-analytics .dn-dcl-card-u{ font-size:14px; font-weight:700; margin-left:1px; }
 #page-analytics .dn-dcl-card-sub{ font-size:12px; color:#767676; font-variant-numeric:tabular-nums; }
-#page-analytics .dn-dcl-card-note{ font-size:11px; color:#9AA29D; margin-top:7px; line-height:1.4; }
+#page-analytics .dn-dcl-card-note{ font-size:12px; color:#767676; margin-top:7px; line-height:1.4; }
 #page-analytics .dn-dcl-card-diff{ margin:5px 0 7px; font-size:13px; }
 #page-analytics .dn-dcl-card-sub .dn-dcl-card-sk{ color:#767676; }
 #page-analytics .dn-dcl-card-sub b{ font-weight:700; color:#333; font-variant-numeric:tabular-nums; }
@@ -51420,7 +51422,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-substage{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin:4px 0 8px; }
 #page-analytics .dn-dcl-legend{ display:flex; align-items:center; gap:4px; font-size:12px; color:#5A6862; margin:2px 0 12px; }
 #page-analytics .dn-dcl-sw{ display:inline-block; width:12px; height:12px; border-radius:3px; margin-left:8px; }
-#page-analytics .dn-dcl-sw.is-self{ background:#CE0000; }
+#page-analytics .dn-dcl-sw.is-self{ background:#B3261E; }
 #page-analytics .dn-dcl-sw.is-peer{ background:#9CA3AF; }
 #page-analytics .dn-dcl-row{ margin-bottom:14px; }
 #page-analytics .dn-dcl-stage{ font-size:12.5px; font-weight:700; color:#1A1A1A; margin-bottom:6px; }
@@ -51428,7 +51430,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dcl-key{ flex:none; width:88px; font-size:11px; color:#5A6862; }
 #page-analytics .dn-dcl-track{ flex:1; height:14px; background:#EEF3F0; border-radius:5px; overflow:hidden; }
 #page-analytics .dn-dcl-fill{ display:block; height:100%; border-radius:5px; transition:width .9s ease; }
-#page-analytics .dn-dcl-fill.is-self{ background:#CE0000; }
+#page-analytics .dn-dcl-fill.is-self{ background:#B3261E; }
 #page-analytics .dn-dcl-fill.is-peer{ background:#9CA3AF; }
 #page-analytics .dn-dcl-val{ flex:none; width:48px; text-align:right; font-weight:700; color:#333333; font-size:12.5px; font-variant-numeric:tabular-nums; }
 /* 選考ステップ数の分布 */
@@ -51545,7 +51547,7 @@ window.toggleLoginPassword = function(btn){
 #page-analytics .dn-dual-k{ font-size:12px; color:#767676; letter-spacing:.02em; }
 #page-analytics .dn-dual-main{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
 #page-analytics .dn-dual-v{ font-size:22px; font-weight:700; color:#1A1A1A; font-variant-numeric:tabular-nums; line-height:1.1; }
-#page-analytics .dn-dual-v.is-bad{ color:#CE0000; }
+#page-analytics .dn-dual-v.is-bad{ color:#1A1A1A; }
 #page-analytics .dn-dual-v i{ font-style:normal; font-size:12px; font-weight:600; color:#767676; margin-left:1px; }
 #page-analytics .dn-dual-avg{ font-size:12px; color:#767676; font-variant-numeric:tabular-nums; }
 /* 構成比モジュール：ドーナツ→順位＋構成比バー（ラベル＋値＝上段、バー＝下段で長いラベルも崩れない） */
@@ -51718,7 +51720,7 @@ window.toggleLoginPassword = function(btn){
 /* キー数値を大きく・印象的に（4位以下の日数／ステップ別辞退率の%） */
 #page-analytics .dn-rk-days{ font-size:17px; font-weight:800; color:#115A36; }
 #page-analytics .dn-dcl-val{ width:auto; min-width:54px; font-size:15px; font-weight:800; }
-#page-analytics .dn-dcl-line:has(.dn-dcl-fill.is-self) .dn-dcl-val{ color:#CE0000; }
+#page-analytics .dn-dcl-line:has(.dn-dcl-fill.is-self) .dn-dcl-val{ color:#B3261E; }
 #page-analytics .dn-dcl-line:has(.dn-dcl-fill.is-peer) .dn-dcl-val{ color:#767676; }
 /* 応募者属性 2列・サイト閲覧数(PV/UU)グラフ */
 #page-analytics .d-overall-2col{ grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
@@ -51752,7 +51754,7 @@ window.toggleLoginPassword = function(btn){
 /* ═══════════════ サイト共通テキストルール v1（決定版・フェーズ1：トークン＋役割値確定） ═══════════════ */
 :root{
   --t-heading:#1A1A1A; --t-body:#1A1A1A; --t-num:#1A1A1A; --t-caption:#767676;
-  --t-pos:#115A36; --t-neg:#CE0000; --t-warn:#C9711F; --t-neu:#767676;
+  --t-pos:#115A36; --t-neg:#B3261E; --t-warn:#C9711F; --t-neu:#767676;
   --t-border:#E6E6E6; --t-brand:#115A36;
 }
 /* H2 セクション/カード見出しを16pxに統一（トップ14・分析18 → 16） */
@@ -51773,7 +51775,7 @@ window.toggleLoginPassword = function(btn){
 /* font-weight 800/900 → 700 の取りこぼし是正 */
 #page-analytics .dn-rk-days,#page-analytics .dn-rk3-days,#page-analytics .dn-rk3-rank{ font-weight:700; }
 /* ═══════════ テキストルールv1 フェーズ2/3：色を役割トークンへ集約 ═══════════ */
-:root{ --t-neg-fill:#C0392B; }
+:root{ --t-neg-fill:#B3261E; }
 /* NEG赤テキストを #CE0000(--t-neg) に正規化（#a90000/#A93226/#C0392B等の散在を集約） */
 #page-analytics .d-fol-current-delta.neg{ color:var(--t-neg); }
 #page-analytics .dn-colc-v.vs{ color:var(--t-neg); }
