@@ -11578,22 +11578,6 @@ img, svg, video{max-width:100%;height:auto}
 .pblog-subtitle{font-size:13px;color:#767676;margin:0}
 
 /* サマリカード */
-.pblog-summary{
-  display:flex;flex-wrap:wrap;gap:12px;
-}
-.pblog-sum-card{
-  background:#f2f2f2;border:none;border-radius:8px;
-  padding:12px 18px;min-width:160px;
-}
-.pblog-sum-label{
-  font-size:12px;color:#767676;font-weight:400;
-  margin-bottom:4px;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-.pblog-sum-value{
-  font-size:28px;font-weight:700;color:#000;line-height:1.1;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
 /* ステータスタブ + 検索 */
 .pblog-toolbar-row{
   display:flex;justify-content:space-between;align-items:center;
@@ -22714,26 +22698,6 @@ body.on-login-page{overflow:hidden}
         </div>
       </div>
 
-      <!-- サマリカード -->
-      <div class="pblog-summary">
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">記事総数</div>
-          <div class="pblog-sum-value" id="pblog-sum-total">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">公開中</div>
-          <div class="pblog-sum-value" id="pblog-sum-published">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">公開予約</div>
-          <div class="pblog-sum-value" id="pblog-sum-scheduled">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">累計PV</div>
-          <div class="pblog-sum-value" id="pblog-sum-pv">0</div>
-        </div>
-      </div>
-
       <!-- ステータスタブ + 検索 -->
       <div class="pblog-toolbar-row">
         <div class="pblog-status-tabs" role="tablist">
@@ -22839,26 +22803,6 @@ body.on-login-page{overflow:hidden}
       <div class="pblog-header">
         <div>
           <h1 class="pblog-title">動画管理</h1>
-        </div>
-      </div>
-
-      <!-- サマリカード -->
-      <div class="pblog-summary">
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">動画総数</div>
-          <div class="pblog-sum-value" id="pvid-sum-total">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">公開中</div>
-          <div class="pblog-sum-value" id="pvid-sum-published">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">公開予約</div>
-          <div class="pblog-sum-value" id="pvid-sum-scheduled">0</div>
-        </div>
-        <div class="pblog-sum-card">
-          <div class="pblog-sum-label">累計再生回数</div>
-          <div class="pblog-sum-value" id="pvid-sum-views">0</div>
         </div>
       </div>
 
@@ -41262,27 +41206,12 @@ window.addEventListener('DOMContentLoaded', function(){
     return String(n);
   }
   
-  // サマリ計算
-  function calcBlogSummary(){
-    const total = BLOG_POSTS.length;
-    const published = BLOG_POSTS.filter(p => p.status === 'published').length;
-    const scheduled = BLOG_POSTS.filter(p => p.status === 'scheduled').length;
-    const totalPV = BLOG_POSTS.reduce((s,p) => s + p.pv, 0);
-    return { total, published, scheduled, totalPV };
-  }
-  
   function updateBlogStatusCounts(){
     document.getElementById('pblog-cnt-all').textContent = BLOG_POSTS.length;
     document.getElementById('pblog-cnt-published').textContent = BLOG_POSTS.filter(p => p.status === 'published').length;
     document.getElementById('pblog-cnt-scheduled').textContent = BLOG_POSTS.filter(p => p.status === 'scheduled').length;
     document.getElementById('pblog-cnt-private').textContent = BLOG_POSTS.filter(p => p.status === 'private').length;
     document.getElementById('pblog-cnt-draft').textContent = BLOG_POSTS.filter(p => p.status === 'draft').length;
-    
-    const s = calcBlogSummary();
-    document.getElementById('pblog-sum-total').textContent = s.total;
-    document.getElementById('pblog-sum-published').textContent = s.published;
-    document.getElementById('pblog-sum-scheduled').textContent = s.scheduled;
-    document.getElementById('pblog-sum-pv').textContent = formatNumber(s.totalPV);
   }
   
   function getFilteredBlog(){
@@ -42615,12 +42544,6 @@ ${style.blogQuote}
   }
   
   function updateVideoSummary(){
-    document.getElementById('pvid-sum-total').textContent = VIDEO_POSTS.length;
-    document.getElementById('pvid-sum-published').textContent = VIDEO_POSTS.filter(v => v.status === 'published').length;
-    document.getElementById('pvid-sum-scheduled').textContent = VIDEO_POSTS.filter(v => v.status === 'scheduled').length;
-    const totalViews = VIDEO_POSTS.reduce((s,v) => s + v.views, 0);
-    document.getElementById('pvid-sum-views').textContent = formatVideoNumber(totalViews);
-    
     document.getElementById('pvid-cnt-all').textContent = VIDEO_POSTS.length;
     document.getElementById('pvid-cnt-published').textContent = VIDEO_POSTS.filter(v => v.status === 'published').length;
     document.getElementById('pvid-cnt-scheduled').textContent = VIDEO_POSTS.filter(v => v.status === 'scheduled').length;
@@ -55513,15 +55436,12 @@ select:focus{outline:2px solid var(--pc-green) !important;outline-offset:2px !im
 table thead th{background:#F2F2F2}
 /* 残タスク是正（KPIカード/リセット/モーダル地/senko） */
 #page-03 .jl-stat-card{background:#fff !important;border:1px solid #E6E6E6 !important;border-radius:12px !important}
-.pblog-sum-card{background:#fff !important;border:1px solid #E6E6E6 !important;border-radius:12px !important}
 .p07-btn-reset{background:#fff !important;color:#115A36 !important;border:1px solid #115A36 !important;border-radius:8px !important;font-size:12px !important}
 .p07-btn-reset:hover{background:#E6F5EC !important}
 .p07-btn-search{border-radius:8px !important;font-size:12px !important}
 .ai-modal-body,.jh-modal-body{background:#fff !important}
 #senko-modal .senko-picker{background:#fff !important}
 /* 採用PR3ページ統一 */
-.pblog-summary{display:grid !important;grid-template-columns:repeat(4,1fr);gap:16px}
-.pblog-sum-card{min-width:0 !important}
 .pblog-table tbody tr:hover td{background:#F8FAF9}
 
 </style>
