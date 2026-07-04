@@ -22858,9 +22858,9 @@ body.on-login-page{overflow:hidden}
                 <th>動画タイトル / タグ</th>
                 <th style="width:110px">公開ステータス</th>
                 <th style="width:130px">公開日時</th>
-                <th style="width:70px">尺</th>
-                <th style="width:90px">再生数</th>
-                <th style="width:80px">高評価</th>
+                <th style="width:70px">再生数</th>
+                <th style="width:70px">保存</th>
+                <th style="width:70px">シェア</th>
                 <th style="width:180px">操作</th>
               </tr>
             </thead>
@@ -42483,6 +42483,8 @@ ${style.blogQuote}
       
       const views = status === 'published' ? Math.floor((8000 / (idx * 0.5 + 1)) + 200) : 0;
       const likes = status === 'published' ? Math.floor(views * (0.03 + (idx % 4) * 0.01)) : 0;
+      const saves = status === 'published' ? Math.floor(views * (0.015 + (idx % 3) * 0.005)) : 0;
+      const shares = status === 'published' ? Math.floor(views * (0.008 + (idx % 4) * 0.004)) : 0;
       // 尺: 1〜15分程度
       const durationSec = 60 + (idx * 47) % 840;
       
@@ -42495,6 +42497,8 @@ ${style.blogQuote}
         published_at: publishedAt,
         views: views,
         likes: likes,
+        saves: saves,
+        shares: shares,
         duration: durationSec,
         is_pinned: idx === 0,
         url_slug: 'video-' + (idx + 1)
@@ -42619,9 +42623,9 @@ ${style.blogQuote}
           </td>
           <td>${videoStatusBadgeHtml(v)}</td>
           <td>${videoDateHtml(v)}</td>
-          <td><span class="pvid-duration-cell">${fmtDuration(v.duration)}</span></td>
           <td><span class="pblog-metric">${v.views > 0 ? formatVideoNumber(v.views) : '—'}</span></td>
-          <td><span class="pblog-metric">${v.likes > 0 ? formatVideoNumber(v.likes) : '—'}</span></td>
+          <td><span class="pblog-metric">${v.saves > 0 ? formatVideoNumber(v.saves) : '—'}</span></td>
+          <td><span class="pblog-metric">${v.shares > 0 ? formatVideoNumber(v.shares) : '—'}</span></td>
           <td>
             <div class="pblog-actions">
               <button class="pblog-icon-btn" data-tooltip="公開設定を変更" onclick="openVidPubModal('${v.id}')">
