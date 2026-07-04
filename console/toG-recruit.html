@@ -19177,7 +19177,6 @@ body.on-login-page{overflow:hidden}
         <a class="submenu-item" data-page="video" role="menuitem">動画管理</a>
         <a class="submenu-item" data-page="sns-post" role="menuitem">SNS投稿</a>
         <a class="submenu-item" data-page="newsletter" role="menuitem">フォロワー通知</a>
-        <a class="submenu-item" data-page="news" role="menuitem">お知らせ管理</a>
       </div>
     </div>
     <div class="main-nav-item has-submenu" tabindex="0">
@@ -23039,7 +23038,7 @@ body.on-login-page{overflow:hidden}
   <div class="dash-ctx">集計時点: 2026/06/17・期間: 直近30日</div>
   <!-- 1段目: 運営からのお知らせ（横長・スクロール） -->
   <section class="dc dash-news">
-    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span><a class="more" href="#" onclick="if(window.showPage){showPage('news');}return false;">すべて見る ›</a></div>
+    <div class="dc-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>運営からのお知らせ<span class="unread-chip">未読 3件</span></div>
     <ul class="news-list">
       <li class="unread" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}"><span class="ndot"></span><span class="news-badge nb-maint">メンテ</span><span class="d">2026/06/16</span><span class="t">【重要】6/22(日) 2:00〜4:00 にシステムメンテナンスを実施します。時間中は一部機能をご利用いただけません</span></li>
       <li class="unread" onclick="if(window.showToast){showToast('お知らせ詳細ページへ（準備中）');}"><span class="ndot"></span><span class="news-badge nb-new">新機能</span><span class="d">2026/06/13</span><span class="t">新機能リリース情報「メッセージ未読・既読機能」を10月25日（予定）にリリースします</span></li>
@@ -31148,24 +31147,6 @@ body.preview-bare .tp-reveal-delay-1,body.preview-bare .tp-reveal-delay-2,body.p
   </div></main>
 </div>
 
-<!-- お知らせ管理（旧 SCR-E-19〜24）-->
-<div id="page-news" class="page-container" data-page="news">
-  <div class="page-title-area"><div class="page-title-inner">
-    <div class="page-eyebrow">採用PR</div>
-    <h1 class="page-title">お知らせ管理</h1>
-  </div></div>
-  <main class="main"><div class="main-inner">
-    <section class="rk-sec">
-      <div class="rk-card-head"><div class="sec-title">お知らせ一覧</div><button class="btn btn-sm btn-primary">＋ お知らせを作成</button></div>
-      <div class="rk-list">
-        <div class="rk-row"><div class="rk-main" style="flex:1"><div class="rk-name">令和8年度 職員採用説明会のご案内</div><div class="rk-sub">公開日 2026/06/01</div></div><span class="rk-chip green">公開中</span><div class="rk-actions"><button class="btn btn-sm btn-outline">編集</button><button class="btn btn-sm btn-outline">プレビュー</button></div></div>
-        <div class="rk-row"><div class="rk-main" style="flex:1"><div class="rk-name">エントリー受付開始のお知らせ</div><div class="rk-sub">公開日 2026/05/20</div></div><span class="rk-chip green">公開中</span><div class="rk-actions"><button class="btn btn-sm btn-outline">編集</button><button class="btn btn-sm btn-outline">プレビュー</button></div></div>
-        <div class="rk-row"><div class="rk-main" style="flex:1"><div class="rk-name">夏季インターンシップ募集（下書き）</div><div class="rk-sub">最終更新 2026/06/08</div></div><span class="rk-chip gray">下書き</span><div class="rk-actions"><button class="btn btn-sm btn-outline">編集</button><button class="btn btn-sm btn-outline">プレビュー</button></div></div>
-      </div>
-    </section>
-  </div></main>
-</div>
-
 <!-- 各種設定（旧 SCR-E-80/81/82/84）-->
 <div id="page-settings" class="page-container" data-page="settings">
   <div class="page-title-area"><div class="page-title-inner">
@@ -35934,7 +35915,7 @@ function dhDeleteRow(btn){
 // ═══════════════════════════════════════════════════════
 // ページ切り替え (ハッシュベースルーティング)
 // ═══════════════════════════════════════════════════════
-const PAGES = ['domain','login','top','site-edit','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','design','account','scout','entryform','news','settings','help','inquiry','withdraw','app-edit','dlhistory'];
+const PAGES = ['domain','login','top','site-edit','01','02','03','04','05','06','07','blog','blog-new','video','video-new','sns-post','analytics','newsletter','survey','online','members','design','account','scout','entryform','settings','help','inquiry','withdraw','app-edit','dlhistory'];
 const PAGE_LABELS = {
   'login': 'ログイン',
   'top': 'トップページ',
