@@ -50959,7 +50959,6 @@ window.handleDomain = function(evt){
   // 統合導線：利用団体ID「000000」は運営の管理コンソールへ遷移（モック専用の入口ID）
   var v = (input && input.value ? input.value : '').trim();
   if(v === '000000'){ location.href = './admin-console.html'; return; }
-  if(v === '222222'){ location.href = './toG-recruit-habe.html'; return; }
   // 111111（公共市役所）およびその他はこの画面でログインへ
   if(typeof window.showPage === 'function') window.showPage('login');
 };
