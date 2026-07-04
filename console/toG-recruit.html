@@ -18014,8 +18014,8 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   display:inline-flex;align-items:center;gap:6px;
   font-size:11px;color:var(--nl-sub);font-weight:600;
 }
-.nl-trend-legend-line{width:24px;height:2px;background:var(--nl-900);border-radius:2px;display:inline-block}
-.nl-trend-legend-bar{width:10px;height:10px;background:var(--nl-300);border-radius:2px;display:inline-block}
+.nl-trend-legend-line{width:24px;height:2px;background:#115A36;border-radius:2px;display:inline-block}
+.nl-trend-legend-bar{width:10px;height:10px;background:#C2E5D1;border-radius:2px;display:inline-block}
 .nl-trend-chart{position:relative;width:100%;height:260px}
 
 /* ツールチップ */
@@ -28540,7 +28540,6 @@ body.on-login-page{overflow:hidden}
       <div class="nl-header">
         <div class="nl-header-text">
           <h1 class="nl-title">フォロワー通知</h1>
-          <p class="nl-subtitle">公共市のフォロワー・応募者に対して、HTMLメールでメルマガを配信します。</p>
         </div>
         <div class="nl-header-actions">
           <button class="nl-btn-primary" onclick="openNewsletterCompose()">
@@ -28579,11 +28578,11 @@ body.on-login-page{overflow:hidden}
         <div class="nl-trend-head">
           <div>
             <h3 class="nl-trend-title">フォロワー数の推移</h3>
-            <p class="nl-trend-sub">過去30日間のフォロワー総数と1日あたりの増加数</p>
+            <p class="nl-trend-sub">直近30日のフォロワー数と増減数</p>
           </div>
           <div class="nl-trend-legend">
-            <span class="nl-trend-legend-item"><span class="nl-trend-legend-line"></span>累計フォロワー数</span>
-            <span class="nl-trend-legend-item"><span class="nl-trend-legend-bar"></span>1日の増加数</span>
+            <span class="nl-trend-legend-item"><span class="nl-trend-legend-bar"></span>フォロワー数</span>
+            <span class="nl-trend-legend-item"><span class="nl-trend-legend-line"></span>増減数</span>
           </div>
         </div>
         <div class="nl-trend-chart" id="nl-trend-chart"></div>
@@ -49111,20 +49110,19 @@ ${style.blogQuote}
     renderFollowerTrend();
   }
   
-  // ─── フォロワー推移グラフ ───
+  // ─── フォロワー推移グラフ（分析ページと同一文法: 棒=フォロワー数 / 折れ線=増減数） ───
   function renderFollowerTrend(){
     const container = document.getElementById('nl-trend-chart');
     if(!container) return;
     
-    // 過去30日のサンプルデータ
+    // 過去30日のサンプルデータ（決定論的）
     const today = new Date();
     const data = [];
     let base = 16040;
     for(let i=29; i>=0; i--){
       const d = new Date(today);
       d.setDate(d.getDate() - i);
-      // 日々のランダムな増加（8〜28人／日）
-      const daily = 8 + Math.floor(Math.sin(i*0.4)*6 + 10 + (Math.abs(Math.sin(i*12.9898)*43758.5)%1)*8); // 決定論的擬似ノイズ（Math.random不使用）
+      const daily = 8 + Math.floor(Math.sin(i*0.4)*6 + 10 + (Math.abs(Math.sin(i*12.9898)*43758.5)%1)*8);
       base += daily;
       data.push({
         date: `${d.getMonth()+1}/${d.getDate()}`,
@@ -49136,77 +49134,66 @@ ${style.blogQuote}
     
     const W = container.clientWidth || 900;
     const H = 260;
-    const padT = 20, padR = 60, padB = 34, padL = 60;
+    const padT = 20, padR = 64, padB = 34, padL = 64;
     const innerW = W - padL - padR;
     const innerH = H - padT - padB;
     
-    const totalMax = Math.max(...data.map(d => d.total));
-    const totalMin = Math.min(...data.map(d => d.total));
-    const dailyMax = Math.max(...data.map(d => d.daily));
+    // 左軸=フォロワー数（切りの良い目盛り・下端に余白）、右軸=増減数（10単位）
+    const totals = data.map(d => d.total), deltas = data.map(d => d.daily);
+    const tMax = Math.max(...totals), tMin = Math.min(...totals), tSpan = Math.max(1, tMax - tMin);
+    function niceUnit(span, tt){ const raw=span/tt; const pow=Math.pow(10, Math.floor(Math.log10(raw))); const f=raw/pow; const nice=f<=1?1:f<=2?2:f<=5?5:10; return Math.max(1, Math.round(nice*pow)); }
+    function niceAxis(mn, mx, unit, tt){ if(mx<=mn) mx=mn+unit; let st=Math.ceil(((mx-mn)/tt)/unit)*unit; if(st<unit) st=unit; return {lo:Math.floor(mn/st)*st, hi:Math.ceil(mx/st)*st, step:st}; }
+    const lUnit = niceUnit((tMax + tSpan*0.45) - (tMin - tSpan*0.10), 4);
+    const LA = niceAxis(Math.max(0, tMin - tSpan*0.10), tMax + tSpan*0.45, lUnit, 4);
+    const lo = LA.lo; let hi = LA.hi; if(hi<=lo) hi = lo + lUnit;
+    const dMax = Math.max(...deltas);
+    const RA = niceAxis(0, Math.max(dMax, 10), 10, 3);
+    const dLo = RA.lo; let dHi = RA.hi; if(dHi<=dLo) dHi = dLo + 10;
+    const yT = v => padT + innerH * (1 - (v - lo)/(hi - lo));
+    const yD = v => padT + innerH * (1 - (v - dLo)/(dHi - dLo));
+    const slot = innerW / data.length;
+    const barW = Math.max(3, Math.min(18, slot*0.46));
+    const baseY = padT + innerH;
     
-    // Y軸スケール (左：累計, 右：日次)
-    const yTotal = v => padT + innerH - ((v - totalMin) / (totalMax - totalMin || 1)) * innerH * 0.9;
-    const yDaily = v => padT + innerH - (v / (dailyMax * 1.4)) * innerH;
-    const xStep = innerW / (data.length - 1);
-    const barW = Math.max(4, xStep * 0.55);
-    
-    // 折れ線パス
-    const linePath = data.map((d, i) => `${i === 0 ? 'M' : 'L'}${padL + i*xStep},${yTotal(d.total)}`).join(' ');
-    
-    // 棒グラフ
-    const bars = data.map((d, i) => {
-      const bx = padL + i*xStep - barW/2;
-      const by = yDaily(d.daily);
-      const bh = padT + innerH - by;
-      return `<rect class="nl-trend-bar" x="${bx}" y="${by}" width="${barW}" height="${bh}" rx="2" fill="#9BD4B5" data-idx="${i}"/>`;
-    }).join('');
-    
-    // ドット（hover用）
-    const dots = data.map((d, i) => {
-      const cx = padL + i*xStep;
-      const cy = yTotal(d.total);
-      return `<circle class="nl-trend-dot" cx="${cx}" cy="${cy}" r="10" fill="transparent" data-idx="${i}"/>
-              <circle cx="${cx}" cy="${cy}" r="3" fill="#115A36" class="nl-trend-dot-visible" data-idx="${i}"/>`;
-    }).join('');
-    
-    // Y軸ラベル（左：累計）
-    const yTotalTicks = 4;
-    const yTotalLabels = [];
-    for(let i=0; i<=yTotalTicks; i++){
-      const v = totalMin + (totalMax - totalMin) * (i / yTotalTicks);
-      const y = yTotal(v);
-      yTotalLabels.push(`
-        <line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#F1F1F4" stroke-width="1"/>
-        <text x="${padL - 6}" y="${y + 3}" text-anchor="end" font-family="Arial" font-size="10" fill="#767676">${Math.round(v).toLocaleString()}</text>
-      `);
+    let svgParts = '';
+    // 左軸グリッド+ラベル（フォロワー数）
+    for(let v=lo; v<=hi+0.5; v+=LA.step){
+      const y = yT(v);
+      svgParts += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W-padR}" y2="${y.toFixed(1)}" stroke="#EFEFEF" stroke-width="1"/>`;
+      svgParts += `<text x="${padL-10}" y="${(y+4).toFixed(1)}" text-anchor="end" font-size="12" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">${Math.round(v).toLocaleString()}</text>`;
     }
-    
-    // Y軸ラベル（右：日次）
-    const yDailyTicks = 4;
-    const yDailyLabels = [];
-    for(let i=0; i<=yDailyTicks; i++){
-      const v = (dailyMax * 1.4) * (i / yDailyTicks);
-      const y = yDaily(v);
-      yDailyLabels.push(`
-        <text x="${W - padR + 6}" y="${y + 3}" font-family="Arial" font-size="10" fill="#9BD4B5" font-weight="700">+${Math.round(v)}</text>
-      `);
+    // 右軸ラベル（増減数）
+    for(let v=dLo; v<=dHi+0.5; v+=RA.step){
+      const y = yD(v);
+      svgParts += `<text x="${W-padR+10}" y="${(y+4).toFixed(1)}" text-anchor="start" font-size="12" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">${v>0?'+':''}${Math.round(v)}</text>`;
     }
-    
-    // X軸ラベル（5日おき）
-    const xLabels = data.map((d, i) => {
-      if(i % 5 !== 0 && i !== data.length - 1) return '';
-      const x = padL + i*xStep;
-      return `<text x="${x}" y="${H - padB + 16}" text-anchor="middle" font-family="Noto Sans JP" font-size="10" fill="#767676">${d.date}</text>`;
-    }).join('');
+    // 棒（フォロワー数）
+    data.forEach((d, i) => {
+      const cx = padL + slot*i + slot/2, bx = cx - barW/2, by = yT(d.total), bh = Math.max(0, baseY - by);
+      svgParts += `<rect class="nl-trend-bar" x="${bx.toFixed(1)}" y="${by.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="3" fill="#C2E5D1" data-idx="${i}"/>`;
+    });
+    // 折れ線（増減数）+ ドット
+    const linePath = data.map((d, i) => `${i===0?'M':'L'}${(padL + slot*i + slot/2).toFixed(1)},${yD(d.daily).toFixed(1)}`).join(' ');
+    svgParts += `<path d="${linePath}" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linejoin="round"/>`;
+    data.forEach((d, i) => {
+      const cx = padL + slot*i + slot/2, cy = yD(d.daily);
+      svgParts += `<circle class="nl-trend-dot" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="10" fill="transparent" data-idx="${i}"/>
+        <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3" fill="#115A36" data-idx="${i}"/>`;
+    });
+    // X軸ラベル（5日おき+右端）
+    data.forEach((d, i) => {
+      if(i % 5 !== 0 && i !== data.length - 1) return;
+      const x = padL + slot*i + slot/2;
+      svgParts += `<text x="${x.toFixed(1)}" y="${H - padB + 16}" text-anchor="middle" font-size="12" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">${d.date}</text>`;
+    });
+    // 軸タイトル（左=フォロワー数 / 右=増減数）
+    const axCy = padT + innerH/2;
+    svgParts += `<text transform="translate(14,${axCy.toFixed(1)}) rotate(-90)" text-anchor="middle" font-size="12" font-weight="700" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">フォロワー数（人）</text>`;
+    svgParts += `<text transform="translate(${W-14},${axCy.toFixed(1)}) rotate(90)" text-anchor="middle" font-size="12" font-weight="700" fill="#767676" font-family="Inter, Noto Sans JP, sans-serif">増減数（人）</text>`;
     
     container.innerHTML = `
-      <svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="display:block">
-        ${yTotalLabels.join('')}
-        ${bars}
-        <path d="${linePath}" fill="none" stroke="#115A36" stroke-width="2.5" stroke-linejoin="round"/>
-        ${dots}
-        ${yDailyLabels.join('')}
-        ${xLabels}
+      <svg width="100%" height="${H}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="display:block" role="img" aria-label="フォロワー数と増減数の推移グラフ">
+        ${svgParts}
       </svg>
       <div class="nl-trend-tooltip" id="nl-trend-tooltip"></div>
     `;
@@ -49219,23 +49206,20 @@ ${style.blogQuote}
       tooltip.innerHTML = `
         <div class="nl-trend-tooltip-date">${d.fullDate}</div>
         <div class="nl-trend-tooltip-row">
-          <span class="nl-trend-legend-line" style="display:inline-block"></span>
-          <span class="nl-trend-tooltip-label">累計</span>
+          <span class="nl-trend-legend-bar" style="display:inline-block"></span>
+          <span class="nl-trend-tooltip-label">フォロワー数</span>
           <span class="nl-trend-tooltip-value">${d.total.toLocaleString()}人</span>
         </div>
         <div class="nl-trend-tooltip-row">
-          <span class="nl-trend-legend-bar" style="display:inline-block"></span>
-          <span class="nl-trend-tooltip-label">当日</span>
+          <span class="nl-trend-legend-line" style="display:inline-block"></span>
+          <span class="nl-trend-tooltip-label">増減数</span>
           <span class="nl-trend-tooltip-value">+${d.daily}人</span>
         </div>
       `;
-      const rect = container.getBoundingClientRect();
       const svgRect = svg.getBoundingClientRect();
       const scale = svgRect.width / W;
-      const cx = (padL + idx*xStep) * scale;
-      const cy = yTotal(d.total) * scale;
-      tooltip.style.left = cx + 'px';
-      tooltip.style.top = cy + 'px';
+      tooltip.style.left = ((padL + slot*idx + slot/2) * scale) + 'px';
+      tooltip.style.top = (yD(d.daily) * scale) + 'px';
       tooltip.classList.add('show');
     };
     const hideTooltip = () => tooltip.classList.remove('show');
