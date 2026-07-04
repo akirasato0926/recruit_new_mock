@@ -14885,7 +14885,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 }
 .sp-gen-head{
   display:flex;justify-content:space-between;align-items:center;gap:16px;
-  padding:16px 22px;background:#0A1F14;color:#fff;flex-shrink:0;
+  padding:16px 22px;background:#fff;color:#1A1A1A;border-bottom:1px solid #E6E6E6;flex-shrink:0;
 }
 .sp-gen-head-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
 .sp-gen-head-icon{
@@ -14895,14 +14895,14 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 }
 .sp-gen-head-icon svg{width:18px;height:18px}
 .sp-gen-head-text{min-width:0;flex:1}
-.sp-gen-title{font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:15px;font-weight:700;margin:0;color:#fff}
-.sp-gen-desc{font-size:12px;color:rgba(255,255,255,0.7);margin:3px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sp-gen-title{font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:15px;font-weight:700;margin:0;color:#1A1A1A}
+.sp-gen-desc{font-size:12px;color:#767676;margin:3px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .sp-gen-close{
-  width:32px;height:32px;background:transparent;color:#fff;
-  border:1px solid rgba(255,255,255,0.2);border-radius:50%;
+  width:32px;height:32px;background:#f2f2f2;color:#4D4D4D;
+  border:none;border-radius:50%;
   cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
-.sp-gen-close:hover{background:rgba(255,255,255,0.15)}
+.sp-gen-close:hover{background:#E6E6E6}
 .sp-gen-close svg{width:14px;height:14px}
 
 .sp-gen-body{padding:22px 26px;overflow-y:auto;flex:1;min-height:0}
@@ -14911,7 +14911,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-label-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
 .sp-gen-label{font-size:13px;font-weight:700;color:#000;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif}
 .sp-gen-required{
-  padding:2px 8px;background:#FE3939;color:#fff;
+  padding:2px 8px;background:#FDEEEE;color:#B3261E;
   font-size:12px;font-weight:700;border-radius:3px;letter-spacing:0.02em;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -14924,13 +14924,13 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-platform-inner{
   display:flex;align-items:center;gap:14px;padding:14px 16px;
   background:#fff;border:2px solid #E6E6E6;border-radius:10px;
-  transition:all .2s;
+  transition:background-color .2s, border-color .2s, color .2s, box-shadow .2s;
 }
 .sp-gen-platform-card:hover .sp-gen-platform-inner{
   border-color:#9BD4B5;transform:translateY(0);
 }
 .sp-gen-platform-card:has(input:checked) .sp-gen-platform-inner{
-  border-color:#115A36;border-width:3px;padding:13px 15px;background:#F8FBF9;
+  border-color:#115A36;background:#E6F5EC;
 }
 .sp-gen-platform-card:has(input:checked)::after{
   content:'✓';position:absolute;top:8px;right:8px;
@@ -14946,7 +14946,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-platform-icon.x{background:#000;color:#fff}
 .sp-gen-platform-icon.x svg{width:22px;height:22px}
 .sp-gen-platform-icon.instagram{
-  background:#F58529;color:#fff;
+  background:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 30%,#D62976 55%,#962FBF 80%,#4F5BD5 100%);color:#fff;
 }
 .sp-gen-platform-icon.instagram svg{width:22px;height:22px}
 .sp-gen-platform-icon.facebook{background:#1877F2;color:#fff}
@@ -14973,10 +14973,10 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 }
 .sp-gen-image-item{
   position:relative;aspect-ratio:1;background:#f2f2f2;border-radius:8px;overflow:hidden;
-  cursor:pointer;border:2px solid transparent;transition:all .15s;
+  cursor:pointer;border:2px solid transparent;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-gen-image-item:hover{transform:translateY(0);box-shadow:0 6px 16px rgba(0,0,0,0.1)}
-.sp-gen-image-item.selected{border-color:#115A36;border-width:3px}
+.sp-gen-image-item.selected{border-color:#115A36}
 .sp-gen-image-item.selected::after{
   content:'✓';position:absolute;top:6px;right:6px;
   width:22px;height:22px;background:#115A36;color:#fff;
@@ -14995,7 +14995,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-upload-area{
   border:2px dashed #CCCCCC;border-radius:8px;padding:32px 20px;
   display:flex;flex-direction:column;align-items:center;gap:10px;
-  cursor:pointer;transition:all .15s;background:#f2f2f2;
+  cursor:pointer;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;background:#f2f2f2;
 }
 .sp-gen-upload-area:hover{border-color:#115A36;background:#E6F5EC}
 .sp-gen-upload-icon{width:36px;height:36px;color:#767676}
@@ -15022,11 +15022,11 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-tone-card input{position:absolute;opacity:0;pointer-events:none}
 .sp-gen-tone-inner{
   background:#fff;border:2px solid #E6E6E6;border-radius:8px;
-  padding:12px 14px;display:flex;flex-direction:column;gap:5px;transition:all .2s;height:100%;
+  padding:12px 14px;display:flex;flex-direction:column;gap:5px;transition:background-color .2s, border-color .2s, color .2s, box-shadow .2s;height:100%;
 }
 .sp-gen-tone-card:hover .sp-gen-tone-inner{border-color:#9BD4B5}
 .sp-gen-tone-card:has(input:checked) .sp-gen-tone-inner{
-  border-color:#115A36;border-width:3px;padding:11px 13px;background:#F8FBF9;
+  border-color:#115A36;background:#E6F5EC;
 }
 .sp-gen-tone-card:has(input:checked)::after{
   content:'✓';position:absolute;top:6px;right:6px;
@@ -15035,7 +15035,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   font-size:11px;font-weight:700;z-index:2;
 }
 .sp-gen-tone-card .sp-gen-tone-icon{
-  width:30px;height:30px;background:#f2f2f2;border-radius:6px;color:#115A36;
+  width:30px;height:30px;background:#fff;border:1px solid #E6E6E6;border-radius:6px;color:#115A36;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
 }
 .sp-gen-tone-card:has(input:checked) .sp-gen-tone-icon{background:#115A36;color:#fff}
@@ -15238,7 +15238,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .ig-post-menu{margin-left:auto}
 .ig-post-menu svg{width:18px;height:18px;color:#262626}
 .ig-post-image{
-  width:100%;aspect-ratio:1;background:#f2f2f2;overflow:hidden;position:relative;
+  width:100%;aspect-ratio:4/3;background:#f2f2f2;overflow:hidden;position:relative;
 }
 .ig-post-image img{width:100%;height:100%;object-fit:cover;display:block}
 .ig-post-image .sp-gen-image-placeholder{
@@ -15298,7 +15298,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .fb-post-text{padding:2px 14px 10px;font-size:13px;color:#050505;line-height:1.5;word-wrap:break-word;white-space:pre-wrap}
 .fb-post-hashtag{color:#1877F2}
 .fb-post-url{color:#1877F2}
-.fb-post-image{width:100%;aspect-ratio:16/10;background:#f2f2f2;overflow:hidden;position:relative}
+.fb-post-image{width:100%;aspect-ratio:16/9;background:#f2f2f2;overflow:hidden;position:relative}
 .fb-post-image img{width:100%;height:100%;object-fit:cover;display:block}
 .fb-post-image .sp-gen-image-placeholder{
   width:100%;height:100%;display:flex;align-items:center;justify-content:center;
@@ -15339,7 +15339,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-result-textarea:focus{border-color:#115A36}
 .sp-gen-result-hashtags{
   display:flex;flex-wrap:wrap;gap:6px;padding:10px 12px;
-  background:#f2f2f2;border:1px solid #E6E6E6;border-radius:8px;min-height:44px;
+  background:#fff;border:1px solid #E6E6E6;border-radius:8px;min-height:44px;
 }
 .sp-gen-result-hashtag{
   padding:4px 10px;background:var(--g-100);color:var(--g-900);
@@ -15350,7 +15350,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-result-btn-sub{
   display:inline-flex;align-items:center;gap:5px;padding:8px 14px;
   background:#fff;color:#000;border:1px solid #E6E6E6;border-radius:6px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:600;transition:all .15s;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:600;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-gen-result-btn-sub:hover{background:#f2f2f2;border-color:#CCCCCC}
 .sp-gen-result-btn-sub svg{width:13px;height:13px}
@@ -15358,7 +15358,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 /* モーダルフッター */
 .sp-gen-foot{
   display:flex;justify-content:flex-end;align-items:center;gap:10px;
-  padding:14px 22px;background:#f2f2f2;border-top:1px solid #E6E6E6;flex-shrink:0;
+  padding:14px 22px;background:#fff;border-top:1px solid #E6E6E6;flex-shrink:0;
 }
 .sp-gen-btn-cancel{
   padding:10px 20px;background:#fff;color:#000;border:1px solid #E6E6E6;border-radius:8px;cursor:pointer;
@@ -15369,7 +15369,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   display:inline-flex;align-items:center;gap:6px;padding:10px 22px;
   background:#115A36;color:#fff;border:none;border-radius:8px;cursor:pointer;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:14px;font-weight:700;
-  transition:all .15s;box-shadow:0 2px 8px rgba(17,90,54,0.3);
+  transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;box-shadow:0 2px 8px rgba(17,90,54,0.3);
 }
 .sp-gen-btn-submit:hover{background:#0c472a;transform:translateY(0);box-shadow:0 4px 14px rgba(17,90,54,0.4)}
 .sp-gen-btn-submit:disabled{background:#CCCCCC;cursor:not-allowed;box-shadow:none}
@@ -15396,7 +15396,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   display:inline-flex;align-items:center;gap:8px;padding:10px 14px;
   border:1px solid #E6E6E6;border-radius:8px;cursor:pointer;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:13px;font-weight:700;
-  background:#fff;color:#000;transition:all .15s;
+  background:#fff;color:#000;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-api-btn:hover{transform:translateY(0);box-shadow:0 4px 12px rgba(0,0,0,0.08);border-color:#CCCCCC}
 .sp-api-btn svg{width:14px;height:14px;flex-shrink:0}
@@ -15421,7 +15421,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-url-wrap{
   position:relative;display:flex;align-items:center;gap:0;
   background:#fff;border:1px solid #E6E6E6;border-radius:8px;
-  transition:all .15s;overflow:hidden;
+  transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;overflow:hidden;
 }
 .sp-gen-url-wrap:focus-within{border-color:#115A36;box-shadow:0 0 0 3px rgba(17,90,54,0.1)}
 .sp-gen-url-icon{
@@ -15434,7 +15434,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-gen-url-reset{
   background:transparent;border:none;border-left:1px solid #E6E6E6;cursor:pointer;
   padding:8px 12px;color:#767676;display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
+  transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-gen-url-reset:hover{color:#115A36;background:#E6F5EC}
 .sp-gen-url-reset svg{width:14px;height:14px}
@@ -15518,7 +15518,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-api-tier-card{position:relative;cursor:pointer;display:block}
 .sp-api-tier-card input{position:absolute;opacity:0;pointer-events:none}
 .sp-api-tier-inner{
-  background:#fff;border:2px solid #E6E6E6;border-radius:8px;padding:10px 12px;transition:all .15s;
+  background:#fff;border:2px solid #E6E6E6;border-radius:8px;padding:10px 12px;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-api-tier-card:hover .sp-api-tier-inner{border-color:#9BD4B5}
 .sp-api-tier-card:has(input:checked) .sp-api-tier-inner{
@@ -15562,11 +15562,11 @@ body[data-template="monochrome"] .tp-footer{background:#000}
   width:100%;padding:9px 12px;
   background:#fff;border:1px solid #E6E6E6;border-radius:6px;
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;color:#000;outline:none;
-  transition:all .15s;
+  transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-api-input:focus{border-color:#115A36;box-shadow:0 0 0 3px rgba(17,90,54,0.1)}
 .sp-api-req{
-  padding:1px 7px;background:#FE3939;color:#fff;font-size:9.5px;font-weight:700;
+  padding:2px 8px;background:#FDEEEE;color:#B3261E;font-size:12px;font-weight:700;
   border-radius:3px;letter-spacing:0.02em;
 }
 .sp-api-opt{
@@ -15579,7 +15579,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-api-scope-chip{
   display:inline-flex;align-items:center;gap:5px;padding:5px 10px;
   background:#fff;border:1px solid #E6E6E6;border-radius:100px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:10.5px;color:#4D4D4D;transition:all .15s;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:10.5px;color:#4D4D4D;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-api-scope-chip:hover{background:#f2f2f2;border-color:#CCCCCC}
 .sp-api-scope-chip:has(input:checked){
@@ -15599,7 +15599,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 /* フッター */
 .sp-api-foot{
   display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:14px 22px;background:#f2f2f2;border-top:1px solid #E6E6E6;flex-shrink:0;
+  padding:14px 22px;background:#fff;border-top:1px solid #E6E6E6;flex-shrink:0;
 }
 .sp-api-foot-right{display:flex;gap:8px}
 .sp-api-btn-test{
@@ -15617,7 +15617,7 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .sp-api-btn-save{
   display:inline-flex;align-items:center;gap:5px;padding:9px 18px;
   background:#115A36;color:#fff;border:none;border-radius:6px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:700;transition:all .15s;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:700;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .sp-api-btn-save:hover{background:#0c472a}
 .sp-api-btn-save svg{width:13px;height:13px}
@@ -15668,14 +15668,14 @@ body[data-template="monochrome"] .tp-footer{background:#000}
 .an-period-btn{
   padding:7px 14px;background:transparent;color:var(--an-text-sub);
   border:none;border-radius:5px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:11.5px;font-weight:600;transition:all .15s;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:11.5px;font-weight:600;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .an-period-btn:hover{background:#f2f2f2}
 .an-period-btn.active{background:var(--an-900);color:#fff}
 .an-export-btn{
   display:inline-flex;align-items:center;gap:6px;padding:8px 14px;
   background:#fff;color:#000;border:1px solid var(--an-border);border-radius:6px;cursor:pointer;
-  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:600;transition:all .15s;
+  font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:12px;font-weight:600;transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
 }
 .an-export-btn:hover{background:#f2f2f2;border-color:#CCC}
 .an-export-btn svg{width:13px;height:13px}
@@ -29281,7 +29281,7 @@ body.on-login-page{overflow:hidden}
               </div>
               <div class="sp-gen-platform-info">
                 <div class="sp-gen-platform-name">X (旧 Twitter)</div>
-                <div class="sp-gen-platform-desc">テキスト最大280文字。ハッシュタグ活用型。</div>
+                <div class="sp-gen-platform-desc">テキスト最大280文字。画像は16:9表示。</div>
               </div>
             </div>
           </label>
@@ -29293,7 +29293,7 @@ body.on-login-page{overflow:hidden}
               </div>
               <div class="sp-gen-platform-info">
                 <div class="sp-gen-platform-name">Instagram</div>
-                <div class="sp-gen-platform-desc">画像必須・正方形。ビジュアル+長文キャプション型。</div>
+                <div class="sp-gen-platform-desc">画像必須・4:3表示。ビジュアル+長文キャプション型。</div>
               </div>
             </div>
           </label>
@@ -29305,7 +29305,7 @@ body.on-login-page{overflow:hidden}
               </div>
               <div class="sp-gen-platform-info">
                 <div class="sp-gen-platform-name">Facebook</div>
-                <div class="sp-gen-platform-desc">地元在住者・経験者層に届く投稿。説明会・活動報告に。</div>
+                <div class="sp-gen-platform-desc">地元在住者・経験者層に届く投稿。画像は16:9表示。</div>
               </div>
             </div>
           </label>
@@ -45054,8 +45054,8 @@ ${style.blogQuote}
     { id:'s08', type:'blog',    title:'建築技術職が手がけるまちづくり最前線', tags:['建築','まちづくり','技術職'], date:'2026.03.25', views:1122, seed:6, url:'https://kokyo-city-recruit.jp/blog/s08' },
     { id:'s09', type:'blog',    title:'保育士の一日 — 笑顔あふれる保育園の現場から', tags:['保育士','現場','子育て支援'], date:'2026.03.20', views:891, seed:4, url:'https://kokyo-city-recruit.jp/blog/s09' },
     { id:'s10', type:'recruit', title:'経験者採用（キャリア採用）のご案内 — 即戦力を求めています', tags:['キャリア採用','経験者','転職'], date:'2026.03.15', views:2567, seed:7, url:'https://kokyo-city-recruit.jp/recruit/s10' }
-    ,{ id:'s11', type:'job',     title:'【令和8年度】行政事務職（大卒程度）採用のご案内', tags:['求人','事務職','大卒'], date:'2026.04.20', views:4120, seed:0, url:'https://kokyo-city-recruit.jp/jobs/s11' },
-    { id:'s12', type:'job',     title:'土木技術職（経験者採用）募集中 — 即戦力歓迎', tags:['求人','土木','経験者'], date:'2026.04.14', views:1884, seed:2, url:'https://kokyo-city-recruit.jp/jobs/s12' }
+    ,{ id:'s11', type:'job',     title:'【令和8年度】行政事務職（大卒程度）採用のご案内', tags:['求人','事務職','大卒'], date:'2026.04.20', views:4120, seed:0, url:'https://kokyo-city-recruit.jp/jobs/s11', jb:{ count:'10名程度', period:'5月7日(木)〜6月5日(金)', exam:'6月21日(日)', style:'教養試験＋論文・SPI3（テストセンター方式）', role:'行政事務職', roleDesc:'住民窓口対応、政策の企画立案、各種事業の運営など、市の業務全般に幅広く携わる職種' } },
+    { id:'s12', type:'job',     title:'土木技術職（経験者採用）募集中 — 即戦力歓迎', tags:['求人','土木','経験者'], date:'2026.04.14', views:1884, seed:2, url:'https://kokyo-city-recruit.jp/jobs/s12', jb:{ count:'3名程度', period:'9月1日(火)〜9月30日(水)', exam:'10月18日(日)', style:'SPI3・テストセンター方式＋実務経験面接', role:'土木技術職', roleDesc:'道路・河川・公園など社会基盤の設計・整備・維持管理を担う技術職種' } }
   ];
   window.SP_ARTICLES = SP_ARTICLES;
   
@@ -45391,10 +45391,58 @@ ${style.blogQuote}
     }
   };
   
+  // 求人票（job）専用テンプレ: 実際の募集告知に近い形式（募集要項の箇条書き入り）
+  const SP_JOB_TEMPLATES = {
+    x: {
+      normal: (a) => { const jb=a.jb; return {
+        text: `【${a.title}】\n公共市役所では${jb.role}の採用試験を実施します。\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n新しい仲間をお待ちしています。詳細・エントリーは公式サイトから。`,
+        hashtags: ['#公共市役所', '#職員採用', '#公務員試験', ...a.tags.slice(0,2).map(t => '#' + t.replace(/\s/g,''))] };},
+      bright: (a) => { const jb=a.jb; return {
+        text: `${a.title}\n公共市役所で一緒に働きませんか？\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\nまちのために働く第一歩、ここから始めませんか。詳しくは公式サイトをチェック！`,
+        hashtags: ['#公共市役所', '#職員採用', '#公務員', ...a.tags.slice(0,2).map(t => '#' + t.replace(/\s/g,''))] };},
+      energetic: (a) => { const jb=a.jb; return {
+        text: `【募集開始】${a.title}\n公共市役所が仲間を大募集！\n・採用予定人数 ${jb.count}\n・申込は${jb.period}まで\n・第1次試験は${jb.exam}\n・${jb.style}\n迷ってるなら、まず要項を見てみよう！`,
+        hashtags: ['#公共市役所', '#職員採用', '#挑戦', ...a.tags.slice(0,2).map(t => '#' + t.replace(/\s/g,''))] };},
+      serious: (a) => { const jb=a.jb; return {
+        text: `${a.title}について、公共市役所職員採用試験のご案内をいたします。\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験日：${jb.exam}\n・試験方式：${jb.style}\n※詳細は必ず募集要項をご確認ください。皆様のご応募をお待ちしております。`,
+        hashtags: ['#公共市役所', '#職員採用', '#公務員試験'] };}
+    },
+    instagram: {
+      normal: (a) => { const jb=a.jb; return {
+        text: `【${a.title}】\n\n公共市役所で、まちを支える仕事をしませんか。\n\n今回は${jb.role}の採用試験のご案内です。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n${jb.roleDesc}です。\n\n応募資格や提出書類など、詳しい内容はプロフィールのリンクから募集要項をご確認ください。\n\nみなさんのご応募をお待ちしています。`,
+        hashtags: ['#公共市役所', '#職員採用', '#公務員試験', '#公共市で働く', ...a.tags.map(t => '#' + t.replace(/\s/g,''))] };},
+      bright: (a) => { const jb=a.jb; return {
+        text: `${a.title}\n\n「公務員の仕事って、実際どうなの？」\nそんな疑問を持っている方にこそ知ってほしい、公共市役所の採用情報です！\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n配属先はいろいろ、でも「まちのために」という想いはひとつ。\n\n一歩踏み出したい方は、プロフィールのリンクから募集要項をチェックしてみてください。\n\nみなさんに会えるのを楽しみにしています！`,
+        hashtags: ['#公共市役所', '#職員採用', '#公務員', '#お仕事紹介', ...a.tags.map(t => '#' + t.replace(/\s/g,''))] };},
+      energetic: (a) => { const jb=a.jb; return {
+        text: `${a.title}\n\nやる気のあるあなたを、待ってました！\n\n公共市役所の採用試験、エントリー受付中です！\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n先輩職員がしっかりサポートする環境があります。\n\nまずは行動あるのみ！プロフィールのリンクから募集要項をチェックして、エントリーしよう！`,
+        hashtags: ['#公共市役所', '#職員採用', '#若手活躍', '#挑戦', ...a.tags.map(t => '#' + t.replace(/\s/g,''))] };},
+      serious: (a) => { const jb=a.jb; return {
+        text: `${a.title}\n\n公共市役所職員採用試験について、下記のとおりご案内いたします。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験日：${jb.exam}\n・試験方式：${jb.style}\n\n${jb.role}は、${jb.roleDesc}です。\n\n応募資格、提出書類、選考の流れなど詳細につきましては、プロフィールのリンクより募集要項を必ずご確認いただきますようお願いいたします。\n\n皆様からのご応募を心よりお待ち申し上げます。`,
+        hashtags: ['#公共市役所', '#職員採用', '#令和8年度採用', '#自治体採用'] };}
+    },
+    facebook: {
+      normal: (a) => { const jb=a.jb; return {
+        text: `公共市役所では、${a.title}のとおり採用試験を実施いたします。\n\n${jb.role}は、${jb.roleDesc}です。市民の暮らしを支える仕事に関心のある方は、ぜひこの機会にご検討ください。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n応募資格や提出書類などの詳細は、下記リンクの募集要項をご確認ください。`,
+        hashtags: ['#公共市役所', '#職員採用', ...a.tags.slice(0,2).map(t => '#' + t.replace(/\s/g,''))] };},
+      bright: (a) => { const jb=a.jb; return {
+        text: `「まちのために働く」を、ここから始めてみませんか？\n\n公共市役所では、${a.title}のとおり${jb.role}の採用試験を実施します。携わる仕事は多岐にわたり、日々新しい発見がある職場です。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n少しでも興味を持たれた方は、下記リンクから募集要項をチェックしてみてください。皆様のご応募をお待ちしています。`,
+        hashtags: ['#公共市役所', '#職員採用', '#まちづくり'] };},
+      energetic: (a) => { const jb=a.jb; return {
+        text: `公共市役所から、行動力のあるあなたへ！\n\n${a.title}の採用試験、受付中です。若手職員も数多く活躍しており、入庁後は研修やOJTを通じてしっかり力をつけられる環境が整っています。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験：${jb.exam}\n・試験方式：${jb.style}\n\n迷っているなら、まず一歩。下記リンクから募集要項を確認して、エントリーの準備を始めましょう！`,
+        hashtags: ['#公共市役所', '#職員採用', '#地元で働く'] };},
+      serious: (a) => { const jb=a.jb; return {
+        text: `公共市役所では、${a.title}について採用試験を実施いたします。\n\n${jb.role}は、${jb.roleDesc}であり、市政運営の根幹を担う重要な職種です。市民の皆様の暮らしを支えるという使命感を持ち、共に働いていただける方を求めております。\n\n・採用予定人数：${jb.count}\n・申込期間：${jb.period}\n・第1次試験日：${jb.exam}\n・試験方式：${jb.style}\n\n応募資格、提出書類、選考日程等の詳細につきましては、下記リンクの募集要項を必ずご確認ください。\n\n皆様からのご応募を心よりお待ち申し上げております。`,
+        hashtags: ['#公共市役所', '#職員採用', '#自治体'] };}
+    }
+  };
+  
   function generateSPResult(){
     const article = SP_ARTICLES.find(a => a.id === spGenState.articleId);
     if(!article) return;
-    const tpl = SP_CONTENT_TEMPLATES[spGenState.platform][spGenState.tone];
+    const tpl = (article.type === 'job' && article.jb)
+      ? SP_JOB_TEMPLATES[spGenState.platform][spGenState.tone]
+      : SP_CONTENT_TEMPLATES[spGenState.platform][spGenState.tone];
     const result = tpl(article);
     spGenState.result = result;
   }
