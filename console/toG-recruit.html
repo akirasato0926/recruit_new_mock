@@ -674,6 +674,18 @@ body{display:flex;flex-direction:column}
 .fd-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid #E6E6E6}
 .fd-apply{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 20px;background:#115A36;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif}
 .fd-apply:hover{background:#0d4429}
+.fd-hint{font-size:11px;font-weight:400;color:#767676;margin-left:8px}
+.fd-checks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fd-check{display:flex;align-items:center;gap:8px;padding:10px 12px;background:#fff;border:1px solid #E6E6E6;border-radius:8px;font-size:13px;font-weight:600;color:#333;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;min-width:0}
+.fd-check:hover{border-color:#115A36;color:#115A36}
+.fd-check input{accent-color:#115A36;width:16px;height:16px;flex-shrink:0;cursor:pointer;margin:0}
+.fd-check.is-checked{background:#E6F5EC;border-color:#115A36;color:#115A36;font-weight:700}
+.fd-check span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd-check:focus-within{outline:2px solid #115A36;outline-offset:2px}
+@media(max-width:768px){.fd-checks{grid-template-columns:repeat(2,1fr)}}
+.fd-radio-group{display:flex;flex-wrap:wrap;gap:14px;padding-top:9px}
+.fd-radio{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#333;cursor:pointer;font-weight:600}
+.fd-radio input{accent-color:#115A36;width:16px;height:16px;cursor:pointer}
 .fd-header{
   display:flex;justify-content:space-between;align-items:center;
   margin-bottom:var(--sp-4);
@@ -19454,71 +19466,70 @@ body.on-login-page{overflow:hidden}
         </button>
       </div>
     </div>
-    <div class="fd-grid">
+    <!-- 応募職種（複数選択） -->
+    <div class="fd-field">
+      <label class="fd-label">応募職種<span class="fd-hint">複数選択できます</span></label>
+      <div class="fd-checks" id="flt-job-chips"></div>
+    </div>
+    <div class="fd-grid" style="margin-top:16px">
       <div class="fd-field">
-        <label class="fd-label">応募職種</label>
-        <select class="sel-input" id="flt-job" onchange="applyFilter()">
-          <option value="">すべての職種</option>
-        </select>
-      </div>
-      <div class="fd-field">
-        <label class="fd-label">採用ステップ</label>
-        <select class="sel-input" id="flt-stage" onchange="applyFilter()">
-          <option value="">すべてのステップ</option>
-        </select>
-      </div>
-      <div class="fd-field">
-        <label class="fd-label">担当者</label>
-        <select class="sel-input" id="flt-staff" onchange="applyFilter()">
-          <option value="">すべての担当者</option>
-        </select>
-      </div>
-      <div class="fd-field">
-        <label class="fd-label">書類提出状況</label>
-        <select class="sel-input" id="flt-docs" onchange="applyFilter()">
+        <label class="fd-label">次の選考予定日時</label>
+        <select class="sel-input" id="flt-sched" onchange="applyFilter()">
           <option value="">すべて</option>
-          <option value="complete">完了</option>
-          <option value="partial">一部未提出</option>
-          <option value="pending">未提出</option>
+          <option value="7">7日以内</option>
+          <option value="30">30日以内</option>
+          <option value="none">予定なし</option>
         </select>
       </div>
       <div class="fd-field">
-        <label class="fd-label">ES評価（以上）</label>
-        <select class="sel-input" id="flt-es" onchange="applyFilter()">
-          <option value="">指定なし</option>
-          <option value="90">90点以上</option>
-          <option value="80">80点以上</option>
-          <option value="70">70点以上</option>
-          <option value="60">60点以上</option>
-        </select>
+        <label class="fd-label">名前</label>
+        <input type="text" class="sel-input" id="flt-name" placeholder="氏名で絞り込み" oninput="applyFilter()">
       </div>
       <div class="fd-field">
-        <label class="fd-label">応募日</label>
-        <select class="sel-input" onchange="applyFilter()">
-          <option value="">すべての期間</option>
-          <option>直近7日</option>
-          <option>直近30日</option>
-          <option>2ヶ月以上前</option>
-        </select>
+        <label class="fd-label">メモ</label>
+        <input type="text" class="sel-input" id="flt-memo" placeholder="メモ内容で絞り込み" oninput="applyFilter()">
       </div>
       <div class="fd-field">
-        <label class="fd-label">年齢</label>
-        <select class="sel-input" onchange="applyFilter()">
-          <option value="">指定なし</option>
-          <option>20代</option>
-          <option>30代</option>
-          <option>40代以上</option>
-        </select>
-      </div>
-      <div class="fd-field">
-        <label class="fd-label">状態分類</label>
-        <select class="sel-input" id="flt-type" onchange="applyFilter()">
-          <option value="">すべて</option>
-          <option value="active">選考進行中のみ</option>
-          <option value="negative">対象外・辞退のみ</option>
-        </select>
+        <label class="fd-label">エントリー番号</label>
+        <input type="text" class="sel-input" id="flt-entry" placeholder="例: APP-0001" oninput="applyFilter()">
       </div>
     </div>
+    <div class="fd-grid" style="margin-top:16px">
+      <div class="fd-field">
+        <label class="fd-label">年齢制限</label>
+        <div class="fd-radio-group" id="flt-agelimit">
+          <label class="fd-radio"><input type="radio" name="flt-agelimit" value="" checked onchange="applyFilter()">すべて</label>
+          <label class="fd-radio"><input type="radio" name="flt-agelimit" value="in" onchange="applyFilter()">指定内</label>
+          <label class="fd-radio"><input type="radio" name="flt-agelimit" value="out" onchange="applyFilter()">指定外</label>
+        </div>
+      </div>
+      <div class="fd-field">
+        <label class="fd-label">追加情報フォーム</label>
+        <div class="fd-radio-group" id="flt-docs">
+          <label class="fd-radio"><input type="radio" name="flt-docs" value="" checked onchange="applyFilter()">すべて</label>
+          <label class="fd-radio"><input type="radio" name="flt-docs" value="submitted" onchange="applyFilter()">提出済み</label>
+          <label class="fd-radio"><input type="radio" name="flt-docs" value="unsubmitted" onchange="applyFilter()">未提出</label>
+        </div>
+      </div>
+      <div class="fd-field">
+        <label class="fd-label">SPI3受検</label>
+        <div class="fd-radio-group" id="flt-spi3">
+          <label class="fd-radio"><input type="radio" name="flt-spi3" value="" checked onchange="applyFilter()">すべて</label>
+          <label class="fd-radio"><input type="radio" name="flt-spi3" value="target" onchange="applyFilter()">対象者</label>
+          <label class="fd-radio"><input type="radio" name="flt-spi3" value="done" onchange="applyFilter()">受検済み</label>
+          <label class="fd-radio"><input type="radio" name="flt-spi3" value="none" onchange="applyFilter()">未受検</label>
+        </div>
+      </div>
+      <div class="fd-field">
+        <label class="fd-label">過去応募</label>
+        <div class="fd-radio-group" id="flt-past">
+          <label class="fd-radio"><input type="radio" name="flt-past" value="" checked onchange="applyFilter()">すべて</label>
+          <label class="fd-radio"><input type="radio" name="flt-past" value="yes" onchange="applyFilter()">過去応募あり</label>
+          <label class="fd-radio"><input type="radio" name="flt-past" value="no" onchange="applyFilter()">過去応募なし</label>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="flt-stage" value="">
     <div class="fd-foot">
       <button class="fd-apply" onclick="toggleFilter()">この条件で表示する</button>
     </div>
@@ -31936,6 +31947,14 @@ const NEG_STAGES = [
 ];
 let ALL_STAGES = [...ACTIVE_STAGES, ...NEG_STAGES];
 function rebuildStages(){ ALL_STAGES = [...ACTIVE_STAGES, ...NEG_STAGES]; }
+// 絞り込み用ダミー属性を決定論的に付与（memo/SPI3受検/年齢制限/過去応募）
+APPLICANTS.forEach(function(a){
+  var n = parseInt((a.id||'').replace(/[^0-9]/g,''),10) || 0;
+  a.spi3 = (n%3===0) ? 'done' : (n%3===1 ? 'target' : 'none');   // 受検済み/対象者/未受検
+  a.age_limit = (n%5===0) ? 'out' : 'in';                         // 指定外/指定内
+  a.past_application = (n%4===0);                                 // 過去応募あり
+  a.memo = (n%7===0) ? '前回選考で辞退。再応募の経緯あり。' : (n%7===3 ? '電話連絡済み。書類再送依頼。' : '');
+});
 const JOBS  = [...new Set(APPLICANTS.map(a=>a.job))];
 const STAFF = [...new Set(APPLICANTS.map(a=>a.staff))];
 
@@ -31954,16 +31973,11 @@ function init(){
   if(loginAvHeader) loginAvHeader.src = loginUrl;
   if(loginAvMenu) loginAvMenu.src = loginUrl;
 
-  // Populate dropdowns
-  const jobSel = document.getElementById('flt-job');
-  JOBS.forEach(j=>{const o=document.createElement('option');o.value=j;o.textContent=j;jobSel.appendChild(o);});
-  const stSel = document.getElementById('flt-stage');
-  ACTIVE_STAGES.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.label;stSel.appendChild(o);});
-  const ng = document.createElement('optgroup'); ng.label='対象外・辞退';
-  NEG_STAGES.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.label;ng.appendChild(o);});
-  stSel.appendChild(ng);
-  const staffSel = document.getElementById('flt-staff');
-  STAFF.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;staffSel.appendChild(o);});
+  // 応募職種：複数選択チップ（求人は複数選択可）
+  const jobChips = document.getElementById('flt-job-chips');
+  if(jobChips){
+    jobChips.innerHTML = JOBS.map((j,i)=>`<label class="fd-check"><input type="checkbox" value="${j}" onchange="this.closest('.fd-check').classList.toggle('is-checked',this.checked);applyFilter()"><span>${j}</span></label>`).join('');
+  }
 
   renderStepMeter();
   renderKanban();
@@ -32074,8 +32088,11 @@ function filterByStage(sid){
 // ── FILTER ──
 function toggleFilter(){document.getElementById('filter-drawer').classList.toggle('open');}
 function resetFilter(){
-  document.getElementById('srch-kw').value='';
-  document.querySelectorAll('.sel-input').forEach(s=>s.value='');
+  const kwEl=document.getElementById('srch-kw'); if(kwEl) kwEl.value='';
+  document.querySelectorAll('#filter-drawer .sel-input').forEach(s=>{ s.value=''; });
+  document.querySelectorAll('#flt-job-chips input:checked').forEach(c=>{c.checked=false;var l=c.closest('.fd-check');if(l)l.classList.remove('is-checked');});
+  document.querySelectorAll('#filter-drawer .fd-radio-group input[value=""]').forEach(r=>r.checked=true);
+  const st=document.getElementById('flt-stage'); if(st) st.value='';
   stageFilter='';
   renderStepMeter();
   applyFilter();
@@ -32533,18 +32550,34 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
 function getFiltered(){
   const kw = document.getElementById('srch-kw').value.toLowerCase();
-  const job = document.getElementById('flt-job').value;
-  const stage = document.getElementById('flt-stage').value;
-  const staff = document.getElementById('flt-staff').value;
-  const docs = document.getElementById('flt-docs').value;
-  const esMin = parseInt(document.getElementById('flt-es').value)||0;
-  const type = document.getElementById('flt-type').value;
-  const result = APPLICANTS.filter(a=>
-    (!kw || a.name.toLowerCase().includes(kw) || a.id.toLowerCase().includes(kw)) &&
-    (!job || a.job===job) && (!stage || a.stage===stage) &&
-    (!staff || a.staff===staff) && (!docs || a.docs_status===docs) &&
-    a.es_score >= esMin && (!type || a.stage_type===type)
-  );
+  const stageEl = document.getElementById('flt-stage');
+  const stage = stageEl ? stageEl.value : '';
+  // 応募職種（複数選択）
+  const jobs = [...document.querySelectorAll('#flt-job-chips input:checked')].map(c=>c.value);
+  const sched = (document.getElementById('flt-sched')||{}).value || '';
+  const name = ((document.getElementById('flt-name')||{}).value || '').toLowerCase();
+  const memo = ((document.getElementById('flt-memo')||{}).value || '').toLowerCase();
+  const entry = ((document.getElementById('flt-entry')||{}).value || '').toLowerCase();
+  const gv = n => { const el=document.querySelector('input[name="'+n+'"]:checked'); return el?el.value:''; };
+  const agelimit = gv('flt-agelimit'), docs = gv('flt-docs'), spi3 = gv('flt-spi3'), past = gv('flt-past');
+  const result = APPLICANTS.filter(a=>{
+    if(kw && !a.name.toLowerCase().includes(kw) && !a.id.toLowerCase().includes(kw)) return false;
+    if(stage && a.stage!==stage) return false;
+    if(jobs.length && !jobs.includes(a.job)) return false;
+    if(name && !a.name.toLowerCase().includes(name)) return false;
+    if(memo && !(a.memo||'').toLowerCase().includes(memo)) return false;
+    if(entry && !a.id.toLowerCase().includes(entry)) return false;
+    if(agelimit && a.age_limit!==agelimit) return false;
+    if(docs){ const sub = a.docs_status==='complete'; if(docs==='submitted' && !sub) return false; if(docs==='unsubmitted' && sub) return false; }
+    if(spi3 && a.spi3!==spi3) return false;
+    if(past){ const has = !!a.past_application; if(past==='yes' && !has) return false; if(past==='no' && has) return false; }
+    if(sched){
+      const dfn = a.next_schedule && typeof a.next_schedule.days_from_now==='number' ? a.next_schedule.days_from_now : null;
+      if(sched==='none'){ if(dfn!==null && dfn>=0) return false; }
+      else { const lim=parseInt(sched,10); if(dfn===null || dfn<0 || dfn>lim) return false; }
+    }
+    return true;
+  });
   return applySortToList(result);
 }
 
