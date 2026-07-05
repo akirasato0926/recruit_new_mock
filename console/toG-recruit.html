@@ -426,7 +426,7 @@ body{display:flex;flex-direction:column}
    ═══════════════════════════════════════════════ */
 .step-panel{
   background:var(--n-0);border:1px solid var(--n-200);
-  border-radius:var(--r-md);padding:var(--sp-6);
+  border-radius:10px;padding:16px 20px;
   margin-bottom:var(--sp-4);
 }
 .step-panel-header{
@@ -448,7 +448,7 @@ body{display:flex;flex-direction:column}
 .step-stat-value.active{color:var(--g-700)}
 .step-stat-value.negative{color:var(--err-600)}
 
-.step-sections{display:flex;gap:var(--sp-4)}
+.step-sections{display:block}
 .step-section{display:flex;flex-direction:column}
 .step-section-main{flex:1}
 .step-section-neg{width:320px;flex-shrink:0}
@@ -459,7 +459,8 @@ body{display:flex;flex-direction:column}
 }
 .step-section-label.neg{border-bottom-color:var(--err-500);color:var(--err-600)}
 
-.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
+.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr) 12px repeat(4,1fr);gap:8px;align-items:stretch}
+.step-divider{background:var(--n-200);width:1px;align-self:stretch;margin:0 2px}
 .step-track-neg{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
 
 .step-cell{
@@ -472,9 +473,8 @@ body{display:flex;flex-direction:column}
 .step-cell:hover{background:#fafbfc;border-color:var(--n-300);box-shadow:var(--e-1)}
 /* 絞り込み中のアクティブ状態：グラデーション＋緑ボーダーで視覚的に示す */
 .step-cell.active{
-  background:#f0f9f3;
-  border-color:var(--g-600);border-width:2px;padding:9px 11px;
-  box-shadow:0 2px 8px rgba(17,90,54,.15), inset 0 0 0 1px rgba(17,90,54,.08);
+  background:var(--g-50);
+  border-color:var(--g-500);
 }
 .step-cell.active .step-cell-label{color:var(--g-800);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .step-cell.active .step-cell-num-big{color:var(--g-700);font-weight:700;line-height:1}
@@ -1697,6 +1697,7 @@ img, svg, video{max-width:100%;height:auto}
   .step-track::-webkit-scrollbar, .step-track-neg::-webkit-scrollbar{height:6px}
   .step-track::-webkit-scrollbar-thumb, .step-track-neg::-webkit-scrollbar-thumb{background:var(--n-300);border-radius:3px}
   .step-cell{min-width:128px;flex-shrink:0}
+  .step-divider{display:block;flex:0 0 1px;width:1px;align-self:stretch}
 
   /* ツールバー：折り返し */
   .toolbar{flex-wrap:wrap;gap:8px;padding:12px}
@@ -2273,7 +2274,7 @@ body{display:flex;flex-direction:column}
    ═══════════════════════════════════════════════ */
 .step-panel{
   background:var(--n-0);border:1px solid var(--n-200);
-  border-radius:var(--r-md);padding:var(--sp-6);
+  border-radius:10px;padding:16px 20px;
   margin-bottom:var(--sp-4);
 }
 .step-panel-header{
@@ -2295,7 +2296,7 @@ body{display:flex;flex-direction:column}
 .step-stat-value.active{color:var(--g-700)}
 .step-stat-value.negative{color:var(--err-600)}
 
-.step-sections{display:flex;gap:var(--sp-4)}
+.step-sections{display:block}
 .step-section{display:flex;flex-direction:column}
 .step-section-main{flex:1}
 .step-section-neg{width:320px;flex-shrink:0}
@@ -2306,7 +2307,8 @@ body{display:flex;flex-direction:column}
 }
 .step-section-label.neg{border-bottom-color:var(--err-500);color:var(--err-600)}
 
-.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
+.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr) 12px repeat(4,1fr);gap:8px;align-items:stretch}
+.step-divider{background:var(--n-200);width:1px;align-self:stretch;margin:0 2px}
 .step-track-neg{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
 
 .step-cell{
@@ -2319,9 +2321,8 @@ body{display:flex;flex-direction:column}
 .step-cell:hover{background:#fafbfc;border-color:var(--n-300);box-shadow:var(--e-1)}
 /* 絞り込み中のアクティブ状態：グラデーション＋緑ボーダーで視覚的に示す */
 .step-cell.active{
-  background:#f0f9f3;
-  border-color:var(--g-600);border-width:2px;padding:9px 11px;
-  box-shadow:0 2px 8px rgba(17,90,54,.15), inset 0 0 0 1px rgba(17,90,54,.08);
+  background:var(--g-50);
+  border-color:var(--g-500);
 }
 .step-cell.active .step-cell-label{color:var(--g-800);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .step-cell.active .step-cell-num-big{color:var(--g-700);font-weight:700;line-height:1}
@@ -3544,6 +3545,7 @@ img, svg, video{max-width:100%;height:auto}
   .step-track::-webkit-scrollbar, .step-track-neg::-webkit-scrollbar{height:6px}
   .step-track::-webkit-scrollbar-thumb, .step-track-neg::-webkit-scrollbar-thumb{background:var(--n-300);border-radius:3px}
   .step-cell{min-width:128px;flex-shrink:0}
+  .step-divider{display:block;flex:0 0 1px;width:1px;align-self:stretch}
 
   /* ツールバー：折り返し */
   .toolbar{flex-wrap:wrap;gap:8px;padding:12px}
@@ -5331,7 +5333,7 @@ body{display:flex;flex-direction:column}
    ═══════════════════════════════════════════════ */
 .step-panel{
   background:var(--n-0);border:1px solid var(--n-200);
-  border-radius:var(--r-md);padding:var(--sp-6);
+  border-radius:10px;padding:16px 20px;
   margin-bottom:var(--sp-4);
 }
 .step-panel-header{
@@ -5353,7 +5355,7 @@ body{display:flex;flex-direction:column}
 .step-stat-value.active{color:var(--g-700)}
 .step-stat-value.negative{color:var(--err-600)}
 
-.step-sections{display:flex;gap:var(--sp-4)}
+.step-sections{display:block}
 .step-section{display:flex;flex-direction:column}
 .step-section-main{flex:1}
 .step-section-neg{width:320px;flex-shrink:0}
@@ -5364,7 +5366,8 @@ body{display:flex;flex-direction:column}
 }
 .step-section-label.neg{border-bottom-color:var(--err-500);color:var(--err-600)}
 
-.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
+.step-track{display:grid;grid-template-columns:1.1fr repeat(7,1fr) 12px repeat(4,1fr);gap:8px;align-items:stretch}
+.step-divider{background:var(--n-200);width:1px;align-self:stretch;margin:0 2px}
 .step-track-neg{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-1);flex:1;align-items:stretch}
 
 .step-cell{
@@ -5377,9 +5380,8 @@ body{display:flex;flex-direction:column}
 .step-cell:hover{background:#fafbfc;border-color:var(--n-300);box-shadow:var(--e-1)}
 /* 絞り込み中のアクティブ状態：グラデーション＋緑ボーダーで視覚的に示す */
 .step-cell.active{
-  background:#f0f9f3;
-  border-color:var(--g-600);border-width:2px;padding:9px 11px;
-  box-shadow:0 2px 8px rgba(17,90,54,.15), inset 0 0 0 1px rgba(17,90,54,.08);
+  background:var(--g-50);
+  border-color:var(--g-500);
 }
 .step-cell.active .step-cell-label{color:var(--g-800);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .step-cell.active .step-cell-num-big{color:var(--g-700);font-weight:700;line-height:1}
@@ -6602,6 +6604,7 @@ img, svg, video{max-width:100%;height:auto}
   .step-track::-webkit-scrollbar, .step-track-neg::-webkit-scrollbar{height:6px}
   .step-track::-webkit-scrollbar-thumb, .step-track-neg::-webkit-scrollbar-thumb{background:var(--n-300);border-radius:3px}
   .step-cell{min-width:128px;flex-shrink:0}
+  .step-divider{display:block;flex:0 0 1px;width:1px;align-self:stretch}
 
   /* ツールバー：折り返し */
   .toolbar{flex-wrap:wrap;gap:8px;padding:12px}
@@ -19366,16 +19369,9 @@ body.on-login-page{overflow:hidden}
 <main class="main">
 <div class="main-inner">
 
-  <!-- STEP METER：通常＋ネガティブを別枠で -->
+  <!-- STEP METER：採用ステップ別カード（成績管理と統一） -->
   <div class="step-panel">
-    <div class="step-sections">
-      <div class="step-section step-section-main">
-        <div class="step-track" id="step-track"></div>
-      </div>
-      <div class="step-section step-section-neg">
-        <div class="step-track-neg" id="step-track-neg"></div>
-      </div>
-    </div>
+    <div class="step-track" id="step-track"></div>
   </div>
 
   <style id="am-toolbar-css">
@@ -32041,11 +32037,8 @@ function renderStepMeter(){
         <div class="step-cell-unit">名</div>
       </div>
     </div>`;
-  track.innerHTML = allCell + activeCells;
-  
   const SHORT_NEG = {'選考対象外':'対象外','不合格':'不合格','選考辞退':'選考辞退','内定辞退':'内定辞退'};
-  const trackNeg = document.getElementById('step-track-neg');
-  trackNeg.innerHTML = NEG_STAGES.map(s=>{
+  const negCells = NEG_STAGES.map(s=>{
     const n = APPLICANTS.filter(a=>a.stage===s.id).length;
     const active = stageFilter===s.id ? 'active' : '';
     const label = SHORT_NEG[s.label] || s.label;
@@ -32058,6 +32051,7 @@ function renderStepMeter(){
         </div>
       </div>`;
   }).join('');
+  track.innerHTML = allCell + activeCells + '<div class="step-divider"></div>' + negCells;
 }
 
 function filterByStage(sid){
@@ -32570,7 +32564,7 @@ function switchView(v){
 function switchKanban(type){
   currentKanban = type;
   document.querySelectorAll('.kh-tab').forEach(el=>el.classList.remove('active'));
-  document.getElementById('kh-'+type).classList.add('active');
+  var _khBtn=document.getElementById(type==='active'?'kh-active':'kh-neg'); if(_khBtn) _khBtn.classList.add('active');
   document.getElementById('kh-title').textContent = type==='active' ? '選考進行中カンバン' : '対象外・辞退カンバン';
   document.getElementById('kh-sub').textContent = type==='active' ? 'カードをクリックして応募者詳細を確認。ひとりずつ丁寧に向き合うための選考管理。' : '選考辞退・内定辞退・選考対象外となった応募者の一覧。次回採用の改善に活かします。';
   renderKanban();
