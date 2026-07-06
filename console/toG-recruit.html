@@ -596,7 +596,7 @@ body{display:flex;flex-direction:column}
 .v-btn svg{width:14px;height:14px}
 
 .search-inp{
-  flex:1;min-width:240px;padding:8px 14px 8px 38px;
+  flex:1;min-width:360px;padding:8px 14px 8px 38px;
   border:1px solid var(--n-300);border-radius:var(--r-sm);
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:14px;line-height:1.4;
   outline:none;color:var(--n-800);background:var(--n-0);
@@ -2456,7 +2456,7 @@ body{display:flex;flex-direction:column}
 .v-btn svg{width:14px;height:14px}
 
 .search-inp{
-  flex:1;min-width:240px;padding:8px 14px 8px 38px;
+  flex:1;min-width:360px;padding:8px 14px 8px 38px;
   border:1px solid var(--n-300);border-radius:var(--r-sm);
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:14px;line-height:1.4;
   outline:none;color:var(--n-800);background:var(--n-0);
@@ -5515,7 +5515,7 @@ body{display:flex;flex-direction:column}
 .v-btn svg{width:14px;height:14px}
 
 .search-inp{
-  flex:1;min-width:240px;padding:8px 14px 8px 38px;
+  flex:1;min-width:360px;padding:8px 14px 8px 38px;
   border:1px solid var(--n-300);border-radius:var(--r-sm);
   font-family:'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;font-size:14px;line-height:1.4;
   outline:none;color:var(--n-800);background:var(--n-0);
@@ -19397,16 +19397,6 @@ body.on-login-page{overflow:hidden}
   </style>
   <!-- TOOLBAR -->
   <div class="toolbar">
-    <div class="view-switch">
-      <button class="v-btn active" id="vb-kanban" onclick="switchView('kanban')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="11" y="3" width="6" height="12" rx="1"/><rect x="19" y="3" width="2" height="8" rx="1"/></svg>
-        カンバン
-      </button>
-      <button class="v-btn" id="vb-table" onclick="switchView('table')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-        一覧
-      </button>
-    </div>
     <input type="text" class="search-inp" id="srch-kw" placeholder="氏名・応募者IDで検索" oninput="applyFilter()">
     <div class="sep"></div>
     <button class="btn" onclick="toggleFilter()">
@@ -19557,27 +19547,8 @@ body.on-login-page{overflow:hidden}
     </div>
   </div>
 
-  <!-- KANBAN -->
-  <div class="view active" id="view-kanban">
-    <div class="kanban-panel">
-      <div class="kanban-header">
-        <div>
-          <div class="kh-title" id="kh-title">選考進行中カンバン</div>
-          <div class="kh-sub" id="kh-sub">カードをクリックして応募者詳細を確認。ひとりずつ丁寧に向き合うための選考管理。</div>
-        </div>
-        <div class="kh-tabs">
-          <button class="kh-tab active" id="kh-active" onclick="switchKanban('active')">選考進行中</button>
-          <button class="kh-tab neg" id="kh-neg" onclick="switchKanban('negative')">対象外・辞退</button>
-        </div>
-      </div>
-      <div class="kanban-wrap">
-        <div class="kanban" id="kanban-board"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- TABLE -->
-  <div class="view" id="view-table">
+  <div class="view active" id="view-table">
     <div class="tbl-panel">
       <table class="tbl">
         <thead>
@@ -31996,11 +31967,8 @@ function init(){
   }
 
   renderStepMeter();
-  renderKanban();
   renderTable();
   updateStats();
-  // デフォルトビューを一覧（テーブル）に設定
-  switchView(currentView);
 }
 
 // ── 応募者プロフィール写真（profileフォルダの実写真10枚を圧縮(200px JPEG)してbase64埋め込み）──
@@ -32603,19 +32571,19 @@ function applyFilter(){
 }
 
 function switchView(v){
-  currentView = v;
-  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.v-btn').forEach(el=>el.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
-  document.getElementById('vb-'+v).classList.add('active');
+  // カンバン廃止により常に一覧（テーブル）を表示
+  currentView = 'table';
+  const vt = document.getElementById('view-table');
+  if(vt) vt.classList.add('active');
 }
 
 function switchKanban(type){
+  // カンバン廃止: 状態のみ保持し、DOM操作は要素が存在する場合のみ
   currentKanban = type;
   document.querySelectorAll('.kh-tab').forEach(el=>el.classList.remove('active'));
   var _khBtn=document.getElementById(type==='active'?'kh-active':'kh-neg'); if(_khBtn) _khBtn.classList.add('active');
-  document.getElementById('kh-title').textContent = type==='active' ? '選考進行中カンバン' : '対象外・辞退カンバン';
-  document.getElementById('kh-sub').textContent = type==='active' ? 'カードをクリックして応募者詳細を確認。ひとりずつ丁寧に向き合うための選考管理。' : '選考辞退・内定辞退・選考対象外となった応募者の一覧。次回採用の改善に活かします。';
+  var _khTitle=document.getElementById('kh-title'); if(_khTitle) _khTitle.textContent = type==='active' ? '選考進行中カンバン' : '対象外・辞退カンバン';
+  var _khSub=document.getElementById('kh-sub'); if(_khSub) _khSub.textContent = type==='active' ? 'カードをクリックして応募者詳細を確認。ひとりずつ丁寧に向き合うための選考管理。' : '選考辞退・内定辞退・選考対象外となった応募者の一覧。次回採用の改善に活かします。';
   renderKanban();
 }
 
@@ -32741,8 +32709,9 @@ document.addEventListener('change', function(e){
 
 // ── KANBAN ──
 function renderKanban(){
-  const filtered = getFiltered();
   const board = document.getElementById('kanban-board');
+  if(!board) return; // カンバン廃止
+  const filtered = getFiltered();
   const stages = currentKanban==='active' ? ACTIVE_STAGES : NEG_STAGES;
   board.className = 'kanban' + (currentKanban==='negative' ? ' neg' : '');
   board.innerHTML = stages.map(stage=>{
