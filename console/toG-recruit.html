@@ -21349,6 +21349,8 @@ body.on-login-page{overflow:hidden}
   .appeval-doc-sec h5{font-size:12px;font-weight:700;color:#115A36;margin:0 0 5px}
   .appeval-doc-sec p{font-size:13px;color:#333;line-height:1.85;margin:0}
   .appeval-doc-meta{font-size:12px;color:#767676;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #E6EDE9}
+  .appeval-anal{margin-top:16px;padding-top:14px;border-top:1px solid #E6EDE9}
+  .appeval-anal-head{font-size:12px;font-weight:700;color:#115A36;margin-bottom:10px}
   .appeval-qa{margin-bottom:12px}
   .appeval-qa-q{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:3px}
   .appeval-qa-a{font-size:13px;color:#333;line-height:1.8;padding-left:14px;border-left:2px solid #E0E6E3}
@@ -54847,6 +54849,50 @@ window.toggleLoginPassword = function(btn){
     return { summary: summary, features: features, points: finalPoints, questions: questions };
   }
 
+  // 書類選考 / WEB面接タブの分析（評価できる点・さらに確認が必要な点）
+  function buildStageAnalysis(applicantId, sheet){
+    const stg = sheet.stage;
+    const ratios = evalItemRatios(applicantId, [stg]).sort((a,b)=>b.ratio-a.ratio);
+    if(!ratios.length) return '';
+    const isDoc = sheet.method==='document';
+    const src = isDoc ? '書類選考' : 'WEB面接';
+    const strong = ratios.filter(r=>r.ratio>=0.68);
+    const weak = ratios.filter(r=>r.ratio<0.65);
+    const good = [], need = [];
+    strong.slice(0,3).forEach(function(r){
+      good.push(r.name + (isDoc
+        ? 'について、経験や実績に基づく具体的な記述があり、この点は評価できる。'
+        : 'について、面接で具体例を交えた説明があり、この点は評価できる。'));
+    });
+    if(!good.length){
+      good.push(isDoc
+        ? '必要事項に記載漏れはなく、志望動機・職務経歴・自己PRが一通り整理して記載されている。'
+        : '基本的な受け答えは成立しており、志望理由や経験の説明に大きな破綻は見られない。');
+    }
+    // 志望動機の一貫性は共通の加点観点
+    good.push(isDoc
+      ? '志望動機が自身の経歴・関心分野と結びつけて記載されており、応募の背景が読み取れる。'
+      : '志望動機と職務経歴を結びつけて説明しており、応募の一貫性が確認できる。');
+    weak.slice(0,3).forEach(function(r){
+      need.push(r.name + (isDoc
+        ? 'に関する記述が一般的な表現にとどまっており、事実に基づく裏づけ（具体的な行動・成果）の確認が必要。'
+        : 'に関する回答が抽象的で、当時の状況・自身の役割まで踏み込めておらず、対面での深掘りが必要。'));
+    });
+    need.push(isDoc
+      ? '自己PRに、他の応募者にも当てはまる一般的な表現が含まれており、具体的なエピソードによる裏づけの確認が必要。'
+      : 'オンライン形式のため、人柄・熱意・傾聴姿勢といった非言語面の見極めが難しく、対面での確認が必要。');
+    if(need.length < 2){
+      need.push(isDoc
+        ? '公共市の具体的な施策・地域課題への言及が浅く、志望度の深さを対面で確認したい。'
+        : '逆質問や公共市の施策への言及がやや浅く、志望度の深さを対面で確認したい。');
+    }
+    const g = good.slice(0,4), n = need.slice(0,4);
+    return '<div class="appeval-anal"><div class="appeval-anal-head">'+src+'の分析</div><div class="appeval-ai-grid">'
+      + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">評価できるポイント</div><ul>'+g.map(function(x){return '<li>'+escapeHtml(x)+'</li>';}).join('')+'</ul></div>'
+      + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">さらに確認が必要なポイント（弱い・抽象的な点）</div><ul>'+n.map(function(x){return '<li>'+escapeHtml(x)+'</li>';}).join('')+'</ul></div>'
+      + '</div></div>';
+  }
+
   // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
   function buildStageExtra(applicantId, sheet){
     if(!sheet) return '';
@@ -54857,7 +54903,8 @@ window.toggleLoginPassword = function(btn){
       if(!evs.length) return '';
       const label = sheet.method==='document' ? '提出書類の内容（エントリーシート・履歴書）' : 'WEB面接の記録';
       const inner = sheet.method==='document' ? buildDocumentSummaryHTML(a) : buildWebSummaryHTML(a);
-      return '<div class="appeval-note"><div class="appeval-note-label">'+label+'</div><div class="appeval-doc">'+inner+'</div></div>';
+      const analysis = buildStageAnalysis(applicantId, sheet);
+      return '<div class="appeval-note"><div class="appeval-note-label">'+label+'</div><div class="appeval-doc">'+inner+'</div>'+analysis+'</div>';
     }
     if(sheet.method==='inperson'){
       const ai = buildAIAnalysis(applicantId);
