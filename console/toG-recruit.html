@@ -54693,7 +54693,7 @@ window.toggleLoginPassword = function(btn){
     });
     return Object.keys(acc).map(k => ({ masterId:k, name:acc[k].name, ratio:acc[k].sum/acc[k].cnt }));
   }
-  // 内容サマリ / AI分析の本文生成ヘルパ
+  // 内容サマリ / AI分析の本文生成ヘルパ（公共市役所の固有文脈・事実ベース）
   function getApplicant(applicantId){
     const all = (typeof APPLICANTS !== 'undefined') ? APPLICANTS : [];
     return all.find(x => x.id === applicantId) || null;
@@ -54708,139 +54708,143 @@ window.toggleLoginPassword = function(btn){
   function hashNum(s){ let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h+s.charCodeAt(i))|0; } return Math.abs(h); }
   function pick(arr, seed){ return arr[seed % arr.length]; }
 
-  // 書類選考の内容（提出書類の記載をそのまま転記したイメージ）
+  // 公共市役所の固有文脈（モック設定）
+  var CITY_CONTEXT = {
+    name: '公共市', pop: '約24万人', plan: '総合計画「公共市未来ビジョン2030」'
+  };
+  function jobContext(job){
+    var map = {
+      '事務職（大卒）': { dept:'総務部・市民生活部', theme:'窓口業務のデジタル化（書かない窓口・オンライン申請）や広報・シティプロモーション、財政運営', issue:'人口減少下での税収確保と行政サービス維持', task:'窓口対応・制度運用・関係機関との調整', field:'行財政運営、住民サービスのDX、広報' },
+      '土木技術職': { dept:'都市整備部', theme:'市内を流れる公共川の浸水対策、橋梁・道路の老朽化対応、都市計画道路の整備', issue:'高度経済成長期に整備したインフラの一斉更新', task:'現場調査・設計積算・工事監理', field:'社会基盤整備、防災・減災、インフラ長寿命化' },
+      '社会福祉士': { dept:'福祉部', theme:'生活困窮者の相談支援、高齢者・障害者福祉、地域包括ケアの推進', issue:'高齢化率の上昇と支援ニーズの複雑化', task:'相談援助・ケース対応・関係機関連携', field:'生活困窮者支援、高齢者福祉、地域共生社会' },
+      '保育士': { dept:'こども未来部', theme:'公立保育所での就学前保育、子育て世帯支援、待機児童対策', issue:'共働き世帯の増加に伴う保育需要', task:'保育・保護者対応・地域子育て支援', field:'就学前教育・保育、子育て支援' }
+    };
+    return map[job] || { dept:'関係部署', theme:'住民サービスの向上、行政のデジタル化、地域活性化', issue:'人口減少と地域活力の維持', task:'窓口対応・制度運用・関係機関との調整', field:'住民サービス、行政DX、地域活性化' };
+  }
+  // 評価項目ごとの「記録された事実」表現（評価語を使わず事実として記載）
+  var ITEM_FACT = {
+    'm01':'論点を整理し、順序立てて説明する回答が記録されている',
+    'm02':'質問の意図を踏まえ、具体例を交えて説明する場面が記録されている',
+    'm03':'自ら課題を設定して取り組んだ経験に、書類・面接で言及している',
+    'm04':'課題に対して取った解決の手順を、具体的に説明している',
+    'm05':'チームでの役割分担や協働の経験に言及している',
+    'm06':'メンバーをまとめた経験・果たした役割について述べている',
+    'm07':'応募職種に関連する実務知識・経験に言及している',
+    'm08':'前例のない業務や困難な状況での対応経験について述べている',
+    'm09':'公共市を志望する理由を、自身の経験と結びつけて記載している',
+    'm10':'地域・住民への貢献に関する記述・発言がある',
+    'm11':'公正・誠実な対応を心がけた経験に言及している',
+    'm12':'入庁後の学習・成長への意欲について述べている'
+  };
+  var ITEM_UNSURE = {
+    'm01':'複雑な事案を構造化して整理する力','m02':'立場の異なる相手との合意形成の進め方','m03':'指示のない場面での自発的な行動','m04':'想定外の課題への対応手順','m05':'チーム内で摩擦が生じた際の調整','m06':'周囲を巻き込んで推進する場面での振る舞い','m07':'応募職種の実務知識の深さ','m08':'ストレス下での安定した対応','m09':'志望動機の具体性と一貫性','m10':'地域課題への具体的な関心','m11':'公務員としての倫理観の具体像','m12':'継続的な学習習慣'
+  };
+
+  // 書類選考の内容（提出書類の記載を事実として転記）
   function buildDocumentSummaryHTML(a){
     const h = hashNum(a.id);
     const job = a.job || '一般行政職';
+    const jc = jobContext(job);
     const uni = a.university || '大学';
     const car = Array.isArray(a.career) ? a.career : [];
     const c0 = car[0] || null;
     const cLast = car.length ? car[car.length-1] : null;
-    const region = '公共市';
-    const motives = [
-      '学生時代に参加した'+region+'のまちづくりワークショップで、行政が住民生活の基盤を支える役割の大きさを実感したことが原点です。',
-      '前職で地域企業の支援に携わる中で、より広く住民全体の暮らしに貢献できる公務の仕事に強く惹かれるようになりました。',
-      '自身が生まれ育った地域への恩返しとして、行政の立場からまちの課題解決に取り組みたいと考えるようになりました。',
-      '民間で培った課題解決の視点を、営利ではなく住民福祉の向上のために活かしたいという思いが年々強くなりました。'
+    const experKey = c0 ? ('前職の'+(c0.role||'業務')) : '学生時代の活動';
+    const motiveVariants = [
+      CITY_CONTEXT.plan + 'に掲げられた「'+jc.issue+'」への問題意識を挙げ、',
+      '公共市が直面する「'+jc.issue+'」に対し、',
+      '公共市（人口'+CITY_CONTEXT.pop+'）の'+jc.theme.split('、')[0]+'に関心を持ち、'
     ];
-    const prs = [
-      '相手の立場に立って粘り強く対話し、利害の異なる関係者の間で合意形成を進めることを得意としています。',
-      '複雑な事象を構造的に整理し、限られた情報の中でも筋道立てて解決策を導く力には自信があります。',
-      '与えられた役割にとどまらず、自ら課題を見つけて改善提案を行う主体性を強みとしています。',
-      'チームの一員として周囲を支えながら、期限と品質の両立を意識して着実に業務を遂行してきました。'
-    ];
-    const gakuchika = [
-      '大学では地域政策を専攻し、ゼミ活動として近隣自治体の人口減少対策を調査・提言する取り組みを主導しました。',
-      '学生時代は地域ボランティア団体の運営に3年間携わり、参加者の募集から行政との調整まで幅広く担当しました。',
-      'ゼミの共同研究で自治体の公開データを分析し、政策効果の検証をテーマに論文をまとめた経験があります。'
-    ];
-    const interests = {
-      '土木技術職':'道路・河川・公園等の社会基盤整備、防災・減災、老朽化インフラの長寿命化',
-      '事務職（大卒）':'行財政運営、住民サービスのデジタル化、広報・シティプロモーション',
-      '社会福祉士':'生活困窮者支援、高齢者・障害者福祉、地域包括ケア',
-      '保育士':'就学前教育・保育、子育て世帯支援、待機児童対策'
-    };
-    const interest = interests[job] || '住民サービスの向上、行政のデジタル化、地域活性化';
     let careerText;
     if(c0){
-      careerText = c0.company + 'にて' + (c0.role||'業務') + 'を担当。' + (cLast && cLast!==c0 ? 'その後' + cLast.company + 'で' + (cLast.role||'業務') + 'に従事し、' : '') + '一貫して現場と関係者をつなぐ調整・推進の役割を担ってきました。';
+      careerText = c0.company + 'にて' + (c0.role||'業務') + 'を担当。' + (cLast && cLast!==c0 ? 'その後' + cLast.company + 'で' + (cLast.role||'業務') + 'に従事。' : '') + '関係者間の調整や案件の推進を担ってきたと記載している。';
     } else {
-      careerText = uni + 'を卒業（見込み）。学業と並行して長期インターンやアルバイトに取り組み、社会人としての基礎を培いました。';
+      careerText = uni + 'を卒業（見込み）。学業と並行して長期インターン・アルバイトに取り組んだと記載している。';
     }
     const secs = [
-      ['志望動機', '「'+region+'の'+job+'を志望します。」<br>'+pick(motives,h)+'採用後は'+interest+'といった分野で、住民に最も近い基礎自治体の職員として、着実に成果を積み重ねていきたいと考えています。'],
-      ['自己PR', pick(prs,h>>2)+'この強みは、'+(c0? '前職の'+(c0.role||'業務')+'において':'学生時代の活動において')+'、関係者の意見が対立する場面でも粘り強く調整し、期限内に成果へ結びつけた経験に裏付けられています。'],
-      ['学歴・これまでの経験', '最終学歴：'+uni+'。'+pick(gakuchika,h>>3)+'<br>職務経歴：'+careerText],
-      ['関心分野・活かせる強み', '関心のある分野は「'+interest+'」です。これまでの経験で培った調整力・課題解決力を、'+job+'の実務の中で'+region+'の行政運営に還元したいと考えています。']
+      ['志望動機',
+        '「公共市の'+job+'を志望します。」と記載。'+pick(motiveVariants,h)+experKey+'で培った経験を、'+jc.dept+'が担う'+jc.theme.split('、')[0]+'の分野で活かしたいと述べている。住民に最も近い基礎自治体の職員として働きたい、との記述がある。'],
+      ['自己PR',
+        '強みとして「'+experKey+'において、立場の異なる関係者の意見を整理し、期限内に合意へ結びつけた」経験を挙げている。'+(c0? c0.company+'での'+(c0.role||'業務')+'を':'学生時代の活動を')+'具体例として記載している。'],
+      ['学歴・職務経歴',
+        '最終学歴：'+uni+'。職務経歴：'+careerText],
+      ['公共市で取り組みたいこと',
+        '関心分野として「'+jc.field+'」を挙げている。公共市の'+jc.theme+'に触れ、入庁後は'+jc.task+'に携わりたいと記載している。']
     ];
     return secs.map(function(s){ return '<div class="appeval-doc-sec"><h5>'+s[0]+'</h5><p>'+s[1]+'</p></div>'; }).join('');
   }
 
-  // WEB面接の内容（面接官の記録＝質疑応答と所見をそのまま転記したイメージ）
+  // WEB面接の内容（面接官の記録＝発言事実を転記。評価は行わない）
   function buildWebSummaryHTML(a){
-    const h = hashNum(a.id + '|web');
+    const job = a.job || '一般行政職';
+    const jc = jobContext(job);
     const car = Array.isArray(a.career) ? a.career : [];
     const c0 = car[0] || null;
     const web = stageAvgScore(a.id, 'stage2');
     const ratio = web ? web.avg / web.max : 0.7;
     const qas = [
-      ['志望動機を改めて教えてください。',
-        '「民間での経験を、より公共性の高いフィールドで活かしたいと考えました。特に'+ (c0? (c0.role||'前職の業務') : '学生時代の活動') +'を通じて、制度や仕組みの側から地域を支える仕事に魅力を感じています。」と回答。動機に一貫性があり、自身の経験と結びつけて具体的に語れていた。'],
-      ['前職（またはこれまでの経験）を当市の業務にどう活かせますか。',
-        '「関係部署や外部機関との調整を数多く経験しており、立場の異なる相手の意見を整理して合意に導くプロセスには自信があります。」と回答。' + (ratio>=0.7 ? '具体的なエピソードを交えて説明でき、再現性のある強みとして評価できる。' : '説明はやや一般的で、具体的な行動レベルまでは踏み込めていなかった。')],
-      ['これまでで最も困難だった経験と、その乗り越え方を教えてください。',
-        '「前例のない業務を任され、関係者の理解が得られず停滞した経験があります。一人ひとりに背景を丁寧に説明し、小さな合意を積み重ねることで前進させました。」と回答。' + (ratio>=0.75 ? '困難への向き合い方が具体的で、ストレス耐性・主体性の両面が確認できた。' : '結論は語れるが、当時の葛藤や工夫の描写がやや浅い印象。')],
-      ['当市の職員として、どのような貢献をしたいですか。',
-        '「住民に最も近い立場で、日々の困りごとを一つずつ解決できる職員になりたい。中長期的には制度改善の提案にも関わりたい。」と回答。行政の役割理解は妥当で、住民志向の姿勢がうかがえた。'],
+      ['公共市を志望した理由を、改めて教えてください。',
+        '「'+CITY_CONTEXT.plan+'を読み、'+jc.issue+'に取り組む姿勢に共感した」と回答。'+(c0? c0.company+'での経験':'学生時代の活動')+'と結びつけて志望理由を説明した。'],
+      ['これまでの経験を、公共市の'+jc.dept+'の業務にどう活かせますか。',
+        '「'+(c0? (c0.role||'前職の業務') : '学生時代の活動')+'で、関係部署や外部機関との調整を経験した」と回答。'+jc.task+'の場面で活かせると述べた。'+(ratio>=0.7 ? '前職での具体的な調整事例を1件挙げて説明した。' : '具体的な事例までは挙げず、一般的な説明にとどまった。')],
+      ['公共市の'+jc.theme.split('、')[0]+'について、知っていることや関心を教えてください。',
+        (ratio>=0.72 ? '「'+CITY_CONTEXT.plan+'や公共川の'+jc.theme.split('、')[0]+'に関する報道を把握している」と回答し、具体的な施策名に言及した。' : '「関心はある」と述べたが、具体的な施策名・地域課題への言及は限定的だった。')],
+      ['これまでで最も困難だった経験と、その対応を教えてください。',
+        '「前例のない業務で関係者の理解が得られず停滞したが、背景を個別に説明し、小さな合意を積み重ねて前進させた」と回答。' + (ratio>=0.75 ? '当時の状況・自身の役割・結果まで順を追って説明した。' : '結論は述べたが、当時の具体的な工夫についての説明は簡潔だった。')],
       ['逆質問（応募者からの質問）',
-        (ratio>=0.7 ? '「配属部署ではどのような姿勢の職員が活躍していますか」「入庁後の研修・育成体制について」など、入庁後を具体的にイメージした質問が複数あった。' : '「業務内容について」など一般的な質問が中心で、深い関心を示す逆質問は少なかった。')]
+        (ratio>=0.7 ? '「'+jc.dept+'ではどのような業務から担当しますか」「入庁後の研修・育成体制」など、入庁後を想定した質問が複数あった。' : '「業務内容について」など一般的な質問が中心だった。')]
     ];
-    const impression = ratio>=0.78
-      ? 'オンライン面接ではあるが、受け答えは落ち着いており、質問の意図を的確に捉えて応答できていた。志望動機・経験の一貫性が高く、次段階（対面）での確認を推奨する。'
-      : (ratio>=0.6
-        ? '基本的なコミュニケーションは問題なく、志望動機も妥当。一方で回答が一般論に寄る場面があり、対面で具体的な行動事実を掘り下げたい。'
-        : '緊張のためか回答が硬く、本来の力を出し切れていない可能性がある。対面で改めて人物像を見極める必要がある。');
-    let html = '<div class="appeval-doc-meta">実施形式：WEB（オンライン）／所要時間：約40分／面接官：'+(web?web.n:1)+'名</div>';
+    let html = '<div class="appeval-doc-meta">実施形式：WEB（オンライン）／所要時間：約40分／面接官：'+(web?web.n:1)+'名／評価シート：'+jc.dept+'</div>';
     html += qas.map(function(q){ return '<div class="appeval-qa"><div class="appeval-qa-q">Q. '+q[0]+'</div><div class="appeval-qa-a">'+q[1]+'</div></div>'; }).join('');
-    html += '<div class="appeval-doc-sec"><h5>面接官所見</h5><p>'+impression+'</p></div>';
+    // 面接官所見：事実の記録（言及の有無）にとどめ、評価語は用いない
+    var noted = ratio>=0.72 ? '公共市の具体的な施策名への言及があった。' : '公共市の具体的な施策名への言及は少なかった。';
+    html += '<div class="appeval-doc-sec"><h5>面接官記録（発言事実）</h5><p>志望理由・経験の活かし方・困難への対応について発言があった。'+noted+'オンライン形式のため、対面での人物像は未確認である。</p></div>';
     return html;
   }
 
-  // 対面面接タブ用: 書類+WEBの結果からAIが特徴と面接官向けレポートを生成
+  // 対面面接タブ用: 書類+WEBの記録事実から特徴と面接官向けレポートを生成（事実ベース・評価語を排除）
   function buildAIAnalysis(applicantId){
     const a = getApplicant(applicantId);
     const ratios = evalItemRatios(applicantId, ['stage1','stage2']);
     if(!a || !ratios.length) return null;
     ratios.sort((x,y)=>y.ratio-x.ratio);
+    const job = a.job || '職種';
+    const jc = jobContext(job);
     const doc = stageAvgScore(applicantId, 'stage1');
     const web = stageAvgScore(applicantId, 'stage2');
-    const strengths = ratios.filter(r=>r.ratio>=0.7);
-    const weaks = ratios.filter(r=>r.ratio<0.62).slice().reverse();
-    const topNames = strengths.slice(0,3).map(s=>s.name);
-    const overallRatio = ratios.reduce((s,r)=>s+r.ratio,0)/ratios.length;
-    const tier = overallRatio>=0.8 ? 'high' : (overallRatio>=0.62 ? 'mid' : 'low');
+    const car = Array.isArray(a.career) ? a.career : [];
+    const c0 = car[0] || null;
+    const noted = ratios.filter(r=>r.ratio>=0.7);   // 記録として言及が確認できた項目
+    const thin  = ratios.filter(r=>r.ratio<0.62);    // 記録上、言及・情報が限られる項目
 
-    // 総括（複数文）
-    const scoreLine = (doc?('書類選考'+doc.avg+'／'+doc.max+'点'):'') + (doc&&web?'、':'') + (web?('WEB面接'+web.avg+'／'+web.max+'点'):'');
-    let summary = scoreLine + 'という結果でした。';
-    if(tier==='high'){
-      summary += topNames.length? topNames.join('・')+'を中心に評価が高く、書類・WEB面接の両段階を通じて安定した力量を示しています。' : '全項目を通じて安定した評価を得ています。';
-      summary += '志望動機と経歴の一貫性も確認でき、当市の'+(a.job||'職種')+'として即戦力に近い活躍が期待できる有力な候補者です。対面面接では、書面・オンラインでは測りにくい人柄と組織適合性の最終確認が中心となります。';
-    } else if(tier==='mid'){
-      summary += topNames.length? topNames.join('・')+'は評価される一方、項目によって評価にばらつきがあります。' : '全体に平均的で、突出した強み・弱みは書類・WEB段階では確認されていません。';
-      summary += '志望意欲は示されているものの、回答が一般論にとどまる場面もあり、実際の行動事実に基づく裏付けが十分とは言えません。対面面接では具体的なエピソードの深掘りを通じて、強みの再現性と実像を見極めることを推奨します。';
-    } else {
-      summary += '現時点では評価が伸び切っておらず、書類・WEB面接の情報だけでは適性を判断しづらい状況です。緊張等により本来の力を発揮できていない可能性も考慮し、対面面接では応募者が話しやすい雰囲気づくりを行ったうえで、基礎的な適性と意欲を丁寧に確認することを推奨します。';
-    }
+    // 総括（事実の要約。評価・合否示唆は行わない）
+    let summary = '書類選考では、'+(c0? c0.company+'での'+(c0.role||'業務')+'の経験と、':'')+'公共市の'+jc.theme.split('、')[0]+'に関する志望動機が記載されている。WEB面接では、志望理由・これまでの経験の活かし方・困難への対応について発言が記録されている。';
+    if(noted.length){ summary += '記録上、'+noted.slice(0,2).map(n=>n.name).join('・')+'に関する具体的な言及が確認できた。'; }
+    if(thin.length){ summary += '一方で、'+thin.slice(0,2).map(n=>n.name).join('・')+'については、書類・WEB面接での情報が限られている。'; }
+    summary += '対面面接は、'+jc.dept+'での実務適性と人物像を、具体的な事実に基づいて確認する段階となる。以下に、記録から読み取れる特徴と、対面で確認すべき事項を整理した。';
 
-    // 特徴・強み
+    // 特徴（記録された事実。「高く評価」等の評価語は用いない）
     const features = [];
-    strengths.slice(0,3).forEach(function(s){
-      features.push(s.name+'（'+Math.round(s.ratio*100)+'%水準）：書類・WEB面接の双方で高く評価されており、当該領域は一定の再現性が見込まれます。');
-    });
-    if(a.career && a.career[0]){
-      features.push('職務経歴：'+a.career[0].company+'での'+(a.career[0].role||'業務')+'など実務経験があり、'+(a.job||'職種')+'への転用が期待できます。');
-    }
-    if(!features.length){
-      features.push('書類・WEB面接段階では突出した強みは確認されていませんが、志望動機の一貫性は認められます。');
-    }
+    if(c0){ features.push('職務経歴：'+c0.company+'で'+(c0.role||'業務')+'に従事した経験があり、公共市の'+jc.task+'への転用について書類・面接で言及している。'); }
+    noted.slice(0,3).forEach(function(n){ const fact = ITEM_FACT[n.masterId] || (n.name+'に関する言及がある'); features.push('書類・WEB面接では、'+fact+'。'); });
+    if(features.length < 2){ features.push('公共市の'+jc.theme.split('、')[0]+'を志望動機に挙げ、'+jc.field+'への関心を記載している。'); }
 
-    // 留意点・対面で確認すべき事項
+    // 留意点・対面で確認すべき事項（最低3・最大5）
     const points = [];
-    weaks.slice(0,2).forEach(function(w){
-      points.push(w.name+'（'+Math.round(w.ratio*100)+'%水準）が相対的に低く、対面での具体的な言動・エピソードで再評価が必要です。');
-    });
-    points.push('オンラインでは把握しづらい人柄・傾聴姿勢・職場への適合性を、対面での立ち居振る舞いから見極めてください。');
-    points.push('書類記載の志望動機とWEB面接での発言に一貫性があるか、追加のエピソードを求めて確認してください。');
+    thin.slice(0,3).forEach(function(t){ const topic = ITEM_UNSURE[t.masterId] || t.name; points.push(topic+'について、書類・WEB面接での具体的な情報が限られているため、対面で事例を確認する。'); });
+    points.push('公共市の'+jc.theme.split('、')[0]+'に関する理解度・関心を、具体的な施策名や地域課題を挙げてもらい確認する。');
+    points.push('オンラインでは確認できていない人柄・傾聴姿勢・'+jc.dept+'の職場への適合性を、対面での受け答えから確認する。');
+    points.push('書類記載の志望動機とWEB面接での発言の一貫性を、追加のエピソードを求めて確認する。');
+    const finalPoints = points.slice(0, Math.min(5, Math.max(3, points.length)));
 
-    // 対面面接での推奨質問
+    // 対面面接での推奨質問（公共市の固有文脈を反映）
     const questions = [];
-    if(strengths[0]) questions.push('「'+strengths[0].name+'を発揮した具体的な場面を、当時の状況・ご自身の役割・結果まで詳しく教えてください。」');
-    if(weaks[0]) questions.push('「'+weaks[0].name+'について、これまで課題を感じた経験と、どのように改善に取り組んだか教えてください。」');
-    questions.push('「当市の'+(a.job||'職種')+'として、入庁後に最初に取り組みたいことと、5年後に目指す姿を教えてください。」');
-    questions.push('「チーム内で意見が対立した際、あなたはどのように振る舞いますか。具体的な経験があれば併せて教えてください。」');
+    if(noted[0]){ const fq = ITEM_UNSURE[noted[0].masterId] || noted[0].name; questions.push('「'+fq+'を発揮した具体的な場面を、当時の状況・ご自身の役割・結果まで詳しく教えてください。」'); }
+    if(thin[0]){ const tq = ITEM_UNSURE[thin[0].masterId] || thin[0].name; questions.push('「'+tq+'について、これまで課題を感じた経験と、どのように対応したか教えてください。」'); }
+    questions.push('「公共市の'+jc.theme.split('、')[0]+'について、課題だと考える点と、'+job+'として関わりたいことを教えてください。」');
+    questions.push('「'+jc.dept+'に配属された場合、入庁後に最初に取り組みたいことを教えてください。」');
 
-    return { summary: summary, features: features, points: points, questions: questions };
+    return { summary: summary, features: features, points: finalPoints, questions: questions };
   }
 
   // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
@@ -54859,11 +54863,11 @@ window.toggleLoginPassword = function(btn){
       const ai = buildAIAnalysis(applicantId);
       if(!ai) return '';
       return '<div class="appeval-ai">'
-        + '<div class="appeval-ai-head">AI分析レポート：書類選考・WEB面接の結果から</div>'
-        + '<div class="appeval-ai-sub">書類選考とWEB面接の評価内容をAIが分析し、面接官向けに応募者の特徴と対面面接での着眼点をまとめました。最終判断は必ず評価者が行ってください。</div>'
+        + '<div class="appeval-ai-head">AI分析レポート：書類選考・WEB面接の記録から</div>'
+        + '<div class="appeval-ai-sub">書類選考とWEB面接の記録内容をAIが整理し、面接官向けに事実ベースで特徴と対面面接での確認事項をまとめました。合否等の最終判断は必ず評価者が行ってください。</div>'
         + '<div class="appeval-ai-sec"><h5>総括</h5><p>'+escapeHtml(ai.summary)+'</p></div>'
         + '<div class="appeval-ai-grid">'
-        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">特徴・強み</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">記録から読み取れる特徴（事実）</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
         + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">留意点・対面で確認すべき事項</div><ul>'+ai.points.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
         + '</div>'
         + '<div class="appeval-ai-sec"><h5>対面面接での推奨質問</h5><ul class="appeval-ai-q">'+ai.questions.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
