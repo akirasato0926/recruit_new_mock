@@ -21350,6 +21350,30 @@ body.on-login-page{overflow:hidden}
   .appeval-doc-sec p{font-size:13px;color:#333;line-height:1.85;margin:0}
   .appeval-doc-meta{font-size:12px;color:#767676;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #E6EDE9}
   .appeval-anal{margin-top:16px;padding-top:14px;border-top:1px solid #E6EDE9}
+  /* 応募条件（受験資格）の適合判定パネル */
+  .appeval-cond{margin-bottom:16px;border:1px solid #E6E6E6;border-radius:10px;overflow:hidden}
+  .appeval-cond-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:#F2F2F2;font-size:13px;font-weight:700;color:#1A1A1A}
+  .appeval-cond-list{padding:6px 16px}
+  .appeval-cond-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #EFEFEF}
+  .appeval-cond-row:last-child{border-bottom:none}
+  .appeval-cond-main{min-width:0}
+  .appeval-cond-label{font-size:13px;font-weight:700;color:#1A1A1A;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .appeval-cond-detail{font-size:12px;color:#767676;margin-top:3px}
+  .appeval-cond-req{font-size:11px;font-weight:700;color:#B3261E;background:#FDEEEE;border-radius:4px;padding:2px 7px}
+  .appeval-cond-opt{font-size:11px;font-weight:700;color:#767676;background:#F2F2F2;border-radius:4px;padding:2px 7px}
+  .appeval-cond-badge{flex:none;font-size:12px;font-weight:700;border-radius:999px;padding:4px 12px;white-space:nowrap}
+  .appeval-cond-badge.pass{background:#E6F5EC;color:#115A36}
+  .appeval-cond-badge.fail{background:#FDEEEE;color:#B3261E}
+  .appeval-cond-badge.unknown{background:#F2F2F2;color:#4D4D4D}
+  .appeval-cond-note{font-size:12px;color:#767676;line-height:1.6;padding:10px 16px 12px;border-top:1px solid #EFEFEF}
+  /* 作成モーダル: 応募条件エディタ */
+  .eval-cond-item{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #E6E6E6;border-radius:8px;margin-bottom:8px;background:#fff}
+  .eval-cond-fields{display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:1;min-width:0}
+  .eval-cond-sel{height:36px;border:1px solid #D7DEDA;border-radius:8px;padding:0 10px;font-size:13px;font-family:inherit;background:#fff;cursor:pointer}
+  .eval-cond-num{width:72px;height:36px;border:1px solid #D7DEDA;border-radius:8px;padding:0 10px;font-size:13px;font-family:inherit;text-align:right}
+  .eval-cond-txt{font-size:13px;color:#4D4D4D}
+  .eval-cond-del{flex:none;width:30px;height:30px;border:none;background:none;color:#9AA3A0;font-size:20px;cursor:pointer;border-radius:6px;line-height:1}
+  .eval-cond-del:hover{background:#FDEEEE;color:#B3261E}
   .appeval-anal-head{font-size:12px;font-weight:700;color:#115A36;margin-bottom:10px}
   .appeval-qa{margin-bottom:12px}
   .appeval-qa-q{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:3px}
@@ -31958,6 +31982,14 @@ APPLICANTS.forEach(function(a){
   a.age_limit = (n%5===0) ? 'out' : 'in';                         // 指定外/指定内
   a.past_application = (n%4===0);                                 // 過去応募あり
   a.memo = (n%7===0) ? '前回選考で辞退。再応募の経緯あり。' : (n%7===3 ? '電話連絡済み。書類再送依頼。' : '');
+  // 応募条件判定用: 生年月日（応募日基準で年齢が a.age になるよう1/1生まれで設定）
+  var _ay = parseInt((a.applied_date||'2026/01/01').split('/')[0],10) || 2026;
+  a.birth_date = { y: _ay - (a.age||30), m: 1, d: 1 };
+  // 職歴の雇用形態（大半を正社員に、一部を契約・公務員・派遣に）
+  if(Array.isArray(a.career)){
+    var _ets = ['正社員','正社員','正社員','契約社員','公務員','派遣社員'];
+    a.career.forEach(function(c, ci){ if(!c.employment_type){ c.employment_type = _ets[(n+ci) % _ets.length]; } });
+  }
 });
 const JOBS  = [...new Set(APPLICANTS.map(a=>a.job))];
 const STAFF = [...new Set(APPLICANTS.map(a=>a.staff))];
@@ -53689,6 +53721,10 @@ window.toggleLoginPassword = function(btn){
         { masterId:'m04', weight:20, gradeCount:5, grades: gradesFromMaster('m04', 20) },
         { masterId:'m01', weight:20, gradeCount:5, grades: gradesFromMaster('m01', 20) }
       ],
+      conditions: [
+        { id:'cond_age',    type:'age',    operator:'lte', value:35, unit:'歳',   required:true },
+        { id:'cond_tenure', type:'tenure', operator:'gte', value:24, unit:'ヶ月', employmentTypes:['正社員'], required:true }
+      ],
       createdAt: '2026-04-12',
       checked: false
     },
@@ -53764,6 +53800,7 @@ window.toggleLoginPassword = function(btn){
       method: '',
       methodOther: '',
       items: [], // { masterId, weight, gradeCount, grades:[{score, desc}, ...] (index0=最高) }
+      conditions: [], // 応募条件（受験資格）: { id, type:'age'|'tenure', operator, value, value2, unit, employmentTypes, required }
       createdAt: todayStr()
     };
   }
@@ -54009,6 +54046,23 @@ window.toggleLoginPassword = function(btn){
         </div>
       </section>
 
+      <!-- 応募条件（受験資格） -->
+      <section class="eval-section">
+        <div class="eval-sec-title">応募条件（受験資格）の判定</div>
+        <div class="eval-help" style="margin-top:0;margin-bottom:10px">
+          募集要項の受験資格を設定すると、応募者ごとに適合/不適合を自動判定します（基準日は応募日）。年齢要件・職歴要件に対応しています。
+        </div>
+        <div class="eval-cond-list" id="eval-cond-list">
+          ${(draftSheet.conditions && draftSheet.conditions.length)
+            ? draftSheet.conditions.map((c,i)=>renderCondition(c,i)).join('')
+            : `<div class="eval-item-empty">応募条件が未設定です。「条件を追加」から年齢要件・職歴要件を設定できます（任意）。</div>`}
+        </div>
+        <button class="eval-add-item-btn" id="eval-add-cond-btn" onclick="evalAddCondition()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          条件を追加
+        </button>
+      </section>
+
       <!-- 評価項目 -->
       <section class="eval-section">
         <div class="eval-sec-title">評価項目・配点（最大10項目）</div>
@@ -54168,6 +54222,64 @@ window.toggleLoginPassword = function(btn){
   }
 
   // ─────────── 評価項目 操作 ───────────
+  // 応募条件（受験資格）1件の編集UI
+  function renderCondition(c, i){
+    const isAge = c.type === 'age';
+    const isTenure = c.type === 'tenure';
+    const et = (c.employmentTypes && c.employmentTypes.length) ? c.employmentTypes[0] : 'all';
+    const typeSel = '<select class="eval-cond-sel" onchange="evalUpdateCondition('+i+',\'type\',this.value)">'
+      + '<option value="age"'+(isAge?' selected':'')+'>年齢要件</option>'
+      + '<option value="tenure"'+(isTenure?' selected':'')+'>職歴要件</option></select>';
+    let body;
+    if(isAge){
+      body = '<span class="eval-cond-txt">応募日時点で</span>'
+        + '<input type="number" class="eval-cond-num" value="'+(c.value!=null?c.value:35)+'" min="0" max="99" onchange="evalUpdateCondition('+i+',\'value\',this.value)">'
+        + '<span class="eval-cond-txt">歳</span>'
+        + '<select class="eval-cond-sel" onchange="evalUpdateCondition('+i+',\'operator\',this.value)">'
+        + '<option value="lte"'+(c.operator==='lte'?' selected':'')+'>以下</option>'
+        + '<option value="gte"'+(c.operator==='gte'?' selected':'')+'>以上</option></select>';
+    } else {
+      body = '<select class="eval-cond-sel" onchange="evalUpdateCondition('+i+',\'employmentType\',this.value)">'
+        + '<option value="all"'+(et==='all'?' selected':'')+'>雇用形態問わず</option>'
+        + '<option value="正社員"'+(et==='正社員'?' selected':'')+'>正社員</option>'
+        + '<option value="契約社員"'+(et==='契約社員'?' selected':'')+'>契約社員</option>'
+        + '<option value="公務員"'+(et==='公務員'?' selected':'')+'>公務員</option></select>'
+        + '<span class="eval-cond-txt">として通算</span>'
+        + '<input type="number" class="eval-cond-num" value="'+(c.value!=null?c.value:24)+'" min="0" max="600" onchange="evalUpdateCondition('+i+',\'value\',this.value)">'
+        + '<span class="eval-cond-txt">ヶ月</span>'
+        + '<select class="eval-cond-sel" onchange="evalUpdateCondition('+i+',\'operator\',this.value)">'
+        + '<option value="gte"'+(c.operator==='gte'?' selected':'')+'>以上</option>'
+        + '<option value="lte"'+(c.operator==='lte'?' selected':'')+'>以下</option></select>';
+    }
+    const reqSel = '<select class="eval-cond-sel" onchange="evalUpdateCondition('+i+',\'required\',this.value)">'
+      + '<option value="true"'+(c.required!==false?' selected':'')+'>必須</option>'
+      + '<option value="false"'+(c.required===false?' selected':'')+'>歓迎</option></select>';
+    return '<div class="eval-cond-item"><div class="eval-cond-fields">'+typeSel+body+reqSel+'</div>'
+      + '<button class="eval-cond-del" onclick="evalRemoveCondition('+i+')" title="削除">×</button></div>';
+  }
+  window.evalAddCondition = function(){
+    if(!draftSheet.conditions) draftSheet.conditions = [];
+    draftSheet.conditions.push({ id:'cond_'+Date.now().toString(36), type:'age', operator:'lte', value:35, unit:'歳', required:true });
+    renderEvalMain();
+  };
+  window.evalRemoveCondition = function(idx){
+    draftSheet.conditions.splice(idx, 1);
+    renderEvalMain();
+  };
+  window.evalUpdateCondition = function(idx, field, val){
+    const c = draftSheet.conditions[idx]; if(!c) return;
+    if(field==='type'){
+      c.type = val;
+      if(val==='age'){ c.operator='lte'; c.value=35; c.unit='歳'; delete c.employmentTypes; }
+      else { c.operator='gte'; c.value=24; c.unit='ヶ月'; c.employmentTypes=['正社員']; }
+      renderEvalMain(); return;
+    }
+    if(field==='operator'){ c.operator = val; return; }
+    if(field==='value'){ c.value = parseInt(val,10)||0; return; }
+    if(field==='required'){ c.required = (val==='true'); return; }
+    if(field==='employmentType'){ c.employmentTypes = (val==='all') ? [] : [val]; return; }
+  };
+
   window.evalAddItem = function(){
     if(draftSheet.items.length >= 10) return;
     draftSheet.items.push({
@@ -54894,6 +55006,81 @@ window.toggleLoginPassword = function(btn){
       + '</div></div>';
   }
 
+  // ─────────── 応募条件（受験資格）の適合判定 ───────────
+  function calcAgeAt(birth, atDateStr){
+    if(!birth || !atDateStr) return null;
+    var p = atDateStr.split('/'); if(p.length<3) return null;
+    var ay=parseInt(p[0],10), am=parseInt(p[1],10), ad=parseInt(p[2],10);
+    var age = ay - birth.y - ((am < birth.m || (am===birth.m && ad < birth.d)) ? 1 : 0);
+    return age;
+  }
+  function parsePeriodMonths(period, atDateStr){
+    // "2014年4月〜2019年3月" / "2023年10月〜現在" を月数に換算（〜現在は応募日まで）
+    if(!period) return 0;
+    var parts = period.split('〜'); if(parts.length<2) return 0;
+    var sm = parts[0].match(/(\d{4})年(\d{1,2})月/); if(!sm) return 0;
+    var sy=parseInt(sm[1],10), smo=parseInt(sm[2],10);
+    var ey, emo;
+    if(/現在/.test(parts[1])){
+      var ap=(atDateStr||'2026/01/01').split('/'); ey=parseInt(ap[0],10); emo=parseInt(ap[1],10);
+    } else {
+      var em = parts[1].match(/(\d{4})年(\d{1,2})月/); if(!em) return 0; ey=parseInt(em[1],10); emo=parseInt(em[2],10);
+    }
+    var months = (ey*12+emo) - (sy*12+smo);
+    return months>0 ? months : 0;
+  }
+  function tenureMonths(a, employmentTypes){
+    if(!Array.isArray(a.career)) return 0;
+    var total=0;
+    a.career.forEach(function(c){
+      if(!employmentTypes || employmentTypes.length===0 || employmentTypes.indexOf(c.employment_type)>=0){
+        total += parsePeriodMonths(c.period, a.applied_date);
+      }
+    });
+    return total;
+  }
+  function opText(op){ return op==='lte'?'以下':op==='gte'?'以上':op==='between'?'の範囲':'と一致'; }
+  // 1条件の判定 → { status:'pass'|'fail'|'unknown', label, actual, detail }
+  function judgeCondition(a, cond){
+    if(cond.type==='age'){
+      var age = calcAgeAt(a.birth_date, a.applied_date);
+      var label = '年齢要件：応募日時点で' + cond.value + cond.unit + opText(cond.operator);
+      if(age==null) return { status:'unknown', label:label, detail:'生年月日が未登録のため判定できません。' };
+      var ok = cond.operator==='lte' ? age<=cond.value : cond.operator==='gte' ? age>=cond.value : true;
+      return { status: ok?'pass':'fail', label:label, detail:'応募日（'+(a.applied_date||'-')+'）時点の年齢：'+age+'歳' };
+    }
+    if(cond.type==='tenure'){
+      var ets = cond.employmentTypes||[];
+      var m = tenureMonths(a, ets);
+      var etLabel = ets.length? ets.join('・')+'として' : '';
+      var label = '職歴要件：'+etLabel+'の通算職務経験が' + cond.value + cond.unit + opText(cond.operator);
+      var ok = cond.operator==='gte' ? m>=cond.value : cond.operator==='lte' ? m<=cond.value : true;
+      return { status: ok?'pass':'fail', label:label, detail:'該当職歴の通算：'+m+'ヶ月（応募日基準）' };
+    }
+    return { status:'unknown', label:(cond.label||'条件'), detail:'この条件は自動判定に対応していません。' };
+  }
+  function buildConditionPanel(applicantId, sheet){
+    if(!sheet || !Array.isArray(sheet.conditions) || !sheet.conditions.length) return '';
+    var a = getApplicant(applicantId); if(!a) return '';
+    var rows = sheet.conditions.map(function(c){
+      var r = judgeCondition(a, c);
+      var badge = r.status==='pass' ? '<span class="appeval-cond-badge pass">適合</span>'
+                : r.status==='fail' ? '<span class="appeval-cond-badge fail">不適合</span>'
+                : '<span class="appeval-cond-badge unknown">判定不可</span>';
+      var req = c.required ? '<span class="appeval-cond-req">必須</span>' : '<span class="appeval-cond-opt">歓迎</span>';
+      return '<div class="appeval-cond-row"><div class="appeval-cond-main"><div class="appeval-cond-label">'+req+escapeHtml(r.label)+'</div><div class="appeval-cond-detail">'+escapeHtml(r.detail)+'</div></div>'+badge+'</div>';
+    }).join('');
+    // 総合（必須要件がすべてpassか）
+    var reqs = sheet.conditions.filter(function(c){return c.required;}).map(function(c){return judgeCondition(a,c).status;});
+    var hasFail = reqs.indexOf('fail')>=0, hasUnknown = reqs.indexOf('unknown')>=0;
+    var overall = hasFail ? '<span class="appeval-cond-badge fail">要件未充足あり</span>'
+                : hasUnknown ? '<span class="appeval-cond-badge unknown">未判定あり</span>'
+                : '<span class="appeval-cond-badge pass">全必須要件を充足</span>';
+    return '<div class="appeval-cond"><div class="appeval-cond-head"><span>応募条件（受験資格）の適合判定</span>'+overall+'</div>'
+      + '<div class="appeval-cond-list">'+rows+'</div>'
+      + '<div class="appeval-cond-note">※ 基準日は応募日。判定は募集要項の受験資格を機械的に照合した補助表示です。合否等の最終判断は評価者が行ってください。</div></div>';
+  }
+
   // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
   function buildStageExtra(applicantId, sheet){
     if(!sheet) return '';
@@ -54905,7 +55092,8 @@ window.toggleLoginPassword = function(btn){
       const label = sheet.method==='document' ? '提出書類の内容（エントリーシート・履歴書）' : 'WEB面接の記録';
       const inner = sheet.method==='document' ? buildDocumentSummaryHTML(a) : buildWebSummaryHTML(a);
       const analysis = buildStageAnalysis(applicantId, sheet);
-      return '<div class="appeval-note"><div class="appeval-note-label">'+label+'</div><div class="appeval-doc">'+inner+'</div>'+analysis+'</div>';
+      const condPanel = buildConditionPanel(applicantId, sheet);
+      return condPanel + '<div class="appeval-note"><div class="appeval-note-label">'+label+'</div><div class="appeval-doc">'+inner+'</div>'+analysis+'</div>';
     }
     if(sheet.method==='inperson'){
       const ai = buildAIAnalysis(applicantId);
