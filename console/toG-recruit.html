@@ -21259,6 +21259,8 @@ body.on-login-page{overflow:hidden}
   function defaultReq(){ return [
     { id:'rq_age', type:'age', operator:'lte', value:35, unit:'歳', required:true },
     { id:'rq_ten', type:'tenure', operator:'gte', value:24, unit:'ヶ月', employmentTypes:['正社員'], required:false },
+    { id:'rq_edu', type:'education', operator:'gte', value:'大学', required:true },
+    { id:'rq_lic', type:'license', operator:'includes', value:'普通自動車第一種免許', required:true },
     { id:'rq_past', type:'past_application', required:true }
   ]; }
   function collectReqJobs(){
@@ -32129,18 +32131,37 @@ APPLICANTS.forEach(function(a){
   a.public_service_experience = _pub || (n%6===0);
 });
 
-// ─── デモ用: アラート件数を制御（対象外=全員, 応募受付80のうち7名） ───
+// ─── デモ用: アラート件数と種類を制御（対象外=全員, 応募受付80のうち7名を1ページ目に散在） ───
 (function controlAlerts(){
-  // 既定サンプル要件（年齢≤35・過去応募不可が必須）に対し、まず全員を非アラート化
+  // 必須要件（年齢≤35・学歴 大学以上・普通自動車第一種免許・過去応募不可）に対し、まず全員を「全項目適合」に正規化
   APPLICANTS.forEach(function(a){
-    if(a.age > 35){ a.age = 32; var y=parseInt((a.applied_date||'2026/01/01').split('/')[0],10)||2026; a.birth_date={y:y-32,m:1,d:1}; }
+    a.age = 30;
+    var y = parseInt((a.applied_date||'2026/01/01').split('/')[0],10) || 2026;
+    a.birth_date = { y:y-30, m:1, d:1 };
+    a.education_level = '大学';
+    if(!Array.isArray(a.licenses)) a.licenses = [];
+    if(a.licenses.indexOf('普通自動車第一種免許')<0) a.licenses.push('普通自動車第一種免許');
     a.past_application = false;
   });
-  // 対象外(rejected)10名: 全員に何かしらのアラート（過去応募あり）
-  APPLICANTS.filter(function(a){return a.stage==='rejected';}).forEach(function(a){ a.past_application = true; });
-  // 応募受付(applied)80名のうち先頭7名にアラート（過去応募あり）
+  // 特定の必須要件を不適合にする（フラグ種別を付与）
+  function applyFailure(a, type){
+    if(!a) return;
+    if(type==='age'){ a.age = 38; var y=parseInt((a.applied_date||'2026/01/01').split('/')[0],10)||2026; a.birth_date={y:y-38,m:1,d:1}; }
+    else if(type==='education'){ a.education_level = '短大'; }
+    else if(type==='license'){ a.licenses = (a.licenses||[]).filter(function(x){return x!=='普通自動車第一種免許';}); }
+    else if(type==='past'){ a.past_application = true; }
+  }
+  var TYPES = ['age','education','license','past'];
+  // 対象外(rejected)10名: 全員にランダムな種類のアラート（一部は2種類）
+  APPLICANTS.filter(function(a){return a.stage==='rejected';}).forEach(function(a,k){
+    applyFailure(a, TYPES[k % TYPES.length]);
+    if(k % 3 === 0) applyFailure(a, TYPES[(k+2) % TYPES.length]);   // 一部は複数フラグ
+  });
+  // 応募受付(applied)80名のうち7名にアラート。1ページ目(先頭30件)内に散在させる
   var app = APPLICANTS.filter(function(a){return a.stage==='applied';});
-  for(var k=0; k<7 && k<app.length; k++){ app[k].past_application = true; }
+  var positions = [2, 6, 11, 15, 20, 25, 28];          // 先頭30件内で散在
+  var flags     = ['past','age','license','education','age','past','license'];
+  positions.forEach(function(pos, k){ applyFailure(app[pos], flags[k]); });
 })();
 const JOBS  = [...new Set(APPLICANTS.map(a=>a.job))];
 const STAFF = [...new Set(APPLICANTS.map(a=>a.staff))];
@@ -53886,6 +53907,8 @@ window.toggleLoginPassword = function(btn){
       conditions: [
         { id:'cond_age',    type:'age',       operator:'lte', value:35, unit:'歳',   required:true },
         { id:'cond_tenure', type:'tenure',    operator:'gte', value:24, unit:'ヶ月', employmentTypes:['正社員'], required:false },
+        { id:'cond_edu',    type:'education',        operator:'gte', value:'大学', required:true },
+        { id:'cond_lic',    type:'license',          operator:'includes', value:'普通自動車第一種免許', required:true },
         { id:'cond_past',   type:'past_application', required:true }
       ],
       createdAt: '2026-04-12',
