@@ -32079,6 +32079,29 @@ const NEG_STAGES = [
 let ALL_STAGES = [...ACTIVE_STAGES, ...NEG_STAGES];
 function rebuildStages(){ ALL_STAGES = [...ACTIVE_STAGES, ...NEG_STAGES]; }
 // 絞り込み用ダミー属性を決定論的に付与（memo/SPI3受検/年齢制限/過去応募）
+// ─── デモ用: 応募者を115名の指定分布に再構成 ───
+(function reshapeApplicants(){
+  if(APPLICANTS.length > 115) APPLICANTS.length = 115;
+  var plan = [
+    ['applied', 80], ['round1', 10], ['round2', 5], ['round3', 5],
+    ['rejected', 10], ['declined_screening', 5]
+  ];
+  var i = 0;
+  plan.forEach(function(p){
+    var stg = p[0], cnt = p[1];
+    for(var k=0; k<cnt && i<APPLICANTS.length; k++){
+      var a = APPLICANTS[i++];
+      a.stage = stg;
+      var neg = (stg==='rejected' || stg==='declined_screening');
+      a.stage_type = neg ? 'negative' : 'active';
+      if(stg==='applied'){ a.job='事務職（大卒）'; a.job_id='administrative'; }
+      if(stg==='rejected'){ a.negative_reason='選考対象外'; a.negative_date='2026/04/10'; }
+      else if(stg==='declined_screening'){ a.negative_reason='選考辞退（一次面接前）'; a.negative_date='2026/04/12'; }
+      else { a.negative_reason=null; a.negative_date=null; }
+    }
+  });
+})();
+
 APPLICANTS.forEach(function(a){
   var n = parseInt((a.id||'').replace(/[^0-9]/g,''),10) || 0;
   a.spi3 = (n%3===0) ? 'done' : (n%3===1 ? 'target' : 'none');   // 受検済み/対象者/未受検
@@ -32105,6 +32128,20 @@ APPLICANTS.forEach(function(a){
   var _pub = Array.isArray(a.career) && a.career.some(function(c){ return /役場|役所|県庁|市役所|町役場|村役場|庁|公務員/.test((c.company||'')+(c.employment_type||'')); });
   a.public_service_experience = _pub || (n%6===0);
 });
+
+// ─── デモ用: アラート件数を制御（対象外=全員, 応募受付80のうち7名） ───
+(function controlAlerts(){
+  // 既定サンプル要件（年齢≤35・過去応募不可が必須）に対し、まず全員を非アラート化
+  APPLICANTS.forEach(function(a){
+    if(a.age > 35){ a.age = 32; var y=parseInt((a.applied_date||'2026/01/01').split('/')[0],10)||2026; a.birth_date={y:y-32,m:1,d:1}; }
+    a.past_application = false;
+  });
+  // 対象外(rejected)10名: 全員に何かしらのアラート（過去応募あり）
+  APPLICANTS.filter(function(a){return a.stage==='rejected';}).forEach(function(a){ a.past_application = true; });
+  // 応募受付(applied)80名のうち先頭7名にアラート（過去応募あり）
+  var app = APPLICANTS.filter(function(a){return a.stage==='applied';});
+  for(var k=0; k<7 && k<app.length; k++){ app[k].past_application = true; }
+})();
 const JOBS  = [...new Set(APPLICANTS.map(a=>a.job))];
 const STAFF = [...new Set(APPLICANTS.map(a=>a.staff))];
 
