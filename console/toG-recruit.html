@@ -21361,13 +21361,29 @@ body.on-login-page{overflow:hidden}
 
   /* モーダル本体 */
   .modal.modal-appeval{
-    width:min(1080px, calc(100vw - 40px));
+    width:min(1240px, calc(100vw - 40px));
     max-height:calc(100vh - 40px);
   }
   .appeval-modal-body{
     padding:0;overflow:hidden;flex:1;min-height:0;
     display:flex;flex-direction:column;
   }
+  /* 選考内容サマリ */
+  .appeval-note{margin-bottom:16px;padding:14px 16px;background:#F5F9F7;border:1px solid #DCEBE2;border-radius:10px}
+  .appeval-note-label{font-size:12px;font-weight:700;color:#115A36;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .appeval-note-label svg{width:14px;height:14px}
+  .appeval-note-text{font-size:13px;color:#333;line-height:1.7}
+  /* AI分析カード（対面面接タブ） */
+  .appeval-ai{margin-bottom:16px;padding:16px 18px;background:#F5F9F7;border:1px solid #C5E6D4;border-left:3px solid #115A36;border-radius:10px}
+  .appeval-ai-head{font-size:14px;font-weight:700;color:#115A36;display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .appeval-ai-head svg{width:16px;height:16px}
+  .appeval-ai-sub{font-size:12px;color:#5F6B65;line-height:1.6;margin-bottom:14px}
+  .appeval-ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.appeval-ai-grid{grid-template-columns:1fr}}
+  .appeval-ai-col-title{font-size:12px;font-weight:700;color:#1A1A1A;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #DCEBE2}
+  .appeval-ai-col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .appeval-ai-col li{font-size:13px;color:#333;line-height:1.6;padding-left:18px;position:relative}
+  .appeval-ai-col li::before{content:'';position:absolute;left:2px;top:8px;width:6px;height:6px;border-radius:50%;background:#115A36}
   /* 応募者ヘッダー */
   .appeval-applicant{
     display:flex;align-items:center;gap:14px;
@@ -53692,7 +53708,7 @@ window.toggleLoginPassword = function(btn){
     },
     {
       id: 'es_002',
-      name: '2次選考: WEB面接評価シート（一次面接）',
+      name: '2次選考: WEB面接評価シート',
       stage: 'stage2',
       method: 'web',
       methodOther: '',
@@ -53708,34 +53724,19 @@ window.toggleLoginPassword = function(btn){
     },
     {
       id: 'es_003',
-      name: '3次選考: グループディスカッション評価シート',
+      name: '3次選考: 対面面接評価シート',
       stage: 'stage3',
-      method: 'gd',
-      methodOther: '',
-      items: [
-        { masterId:'m05', weight:25, gradeCount:5, grades: gradesFromMaster('m05', 25) },
-        { masterId:'m06', weight:25, gradeCount:5, grades: gradesFromMaster('m06', 25) },
-        { masterId:'m02', weight:25, gradeCount:5, grades: gradesFromMaster('m02', 25) },
-        { masterId:'m04', weight:25, gradeCount:5, grades: gradesFromMaster('m04', 25) }
-      ],
-      createdAt: '2026-05-02',
-      checked: false
-    },
-    {
-      id: 'es_004',
-      name: '最終選考: 対面面接評価シート',
-      stage: 'stage4',
       method: 'inperson',
       methodOther: '',
       items: [
-        { masterId:'m09', weight:20, gradeCount:5, grades: gradesFromMaster('m09', 20) },
-        { masterId:'m10', weight:20, gradeCount:5, grades: gradesFromMaster('m10', 20) },
+        { masterId:'m02', weight:20, gradeCount:5, grades: gradesFromMaster('m02', 20) },
+        { masterId:'m05', weight:20, gradeCount:5, grades: gradesFromMaster('m05', 20) },
         { masterId:'m11', weight:15, gradeCount:5, grades: gradesFromMaster('m11', 15) },
-        { masterId:'m02', weight:15, gradeCount:5, grades: gradesFromMaster('m02', 15) },
-        { masterId:'m06', weight:15, gradeCount:5, grades: gradesFromMaster('m06', 15) },
-        { masterId:'m07', weight:15, gradeCount:5, grades: gradesFromMaster('m07', 15) }
+        { masterId:'m03', weight:15, gradeCount:5, grades: gradesFromMaster('m03', 15) },
+        { masterId:'m10', weight:15, gradeCount:5, grades: gradesFromMaster('m10', 15) },
+        { masterId:'m08', weight:15, gradeCount:5, grades: gradesFromMaster('m08', 15) }
       ],
-      createdAt: '2026-05-15',
+      createdAt: '2026-05-02',
       checked: false
     }
   ];
@@ -54467,7 +54468,9 @@ window.toggleLoginPassword = function(btn){
     const stageMap = { 'stage1':1, 'stage2':2, 'stage3':3, 'stage4':4 };
     for(const sheet of sheets){
       const sheetStage = stageMap[sheet.stage] || 0;
-      if(sheetStage === 0 || sheetStage > reachedStage) continue;
+      // 対面面接(3次)は「面接前」状態としてダミー評価を生成しない（書類・WEBのみ入力済み）
+      const cappedReached = Math.min(reachedStage, 2);
+      if(sheetStage === 0 || sheetStage > cappedReached) continue;
       // 1〜3名の評価者でダミー評価を生成
       const rand = seededRand(applicantId + '|' + sheet.id);
       const evaluatorCount = sheetStage === 1 ? 1 : (sheetStage >= 3 ? (rand() > 0.5 ? 3 : 2) : 2);
@@ -54565,9 +54568,17 @@ window.toggleLoginPassword = function(btn){
     const sortedSheets = [...sheets].sort((a,b) => (stageOrder[a.stage] || 99) - (stageOrder[b.stage] || 99));
     // 評価ありシートのうち最も進んだステージのもの、なければ先頭
     const sheetsWithEvals = sortedSheets.filter(s => (evalsByApp[s.id] || []).length > 0);
-    currentSheetId = sheetsWithEvals.length > 0
-      ? sheetsWithEvals[sheetsWithEvals.length - 1].id
-      : (sortedSheets[0] ? sortedSheets[0].id : null);
+    // 評価済みの次に控えるシート（対面面接=AI分析タブ）を優先表示
+    const maxEvaluated = sheetsWithEvals.reduce((mx,s)=>Math.max(mx, stageOrder[s.stage]||0), 0);
+    // 書類・WEBの両方が完了している場合のみ、次の対面面接（AI分析）タブを初期表示
+    const upcoming = (maxEvaluated >= 2)
+      ? sortedSheets.find(s => (evalsByApp[s.id]||[]).length===0 && (stageOrder[s.stage]||99)===maxEvaluated+1)
+      : null;
+    currentSheetId = upcoming
+      ? upcoming.id
+      : (sheetsWithEvals.length > 0
+          ? sheetsWithEvals[sheetsWithEvals.length - 1].id
+          : (sortedSheets[0] ? sortedSheets[0].id : null));
     draftEvaluations = {};
     newEvalState = null;
     renderApplicantEvalModal();
@@ -54677,6 +54688,85 @@ window.toggleLoginPassword = function(btn){
     renderApplicantEvalModal();
   };
 
+  // ─────────── 選考内容サマリ / AI分析ジェネレータ ───────────
+  // 指定ステージ群の評価から、評価項目ごとの平均得点比率を集計
+  function evalItemRatios(applicantId, stages){
+    const sheets = window.getAllEvalSheets() || [];
+    const byApp = applicantEvals[applicantId] || {};
+    const acc = {};
+    sheets.forEach(sh => {
+      if(stages && stages.indexOf(sh.stage) === -1) return;
+      const evs = byApp[sh.id] || [];
+      if(!evs.length) return;
+      (sh.items || []).forEach(it => {
+        const w = Number(it.weight) || 0; if(!w) return;
+        let sum = 0, cnt = 0;
+        evs.forEach(ev => { const rec = (ev.itemScores||[]).find(x => x.masterId === it.masterId); if(rec){ sum += Number(rec.score)||0; cnt++; } });
+        if(cnt){ const ratio = (sum/cnt)/w; const m = getMaster(it.masterId); const key = it.masterId;
+          if(!acc[key]) acc[key] = { sum:0, cnt:0, name: m ? m.name : it.masterId };
+          acc[key].sum += ratio; acc[key].cnt++; }
+      });
+    });
+    return Object.keys(acc).map(k => ({ masterId:k, name:acc[k].name, ratio:acc[k].sum/acc[k].cnt }));
+  }
+  // 書類選考 / WEB面接 の内容サマリ文
+  function buildStageSummaryText(applicantId, sheet){
+    const evs = (applicantEvals[applicantId]||{})[sheet.id] || [];
+    if(!evs.length) return '';
+    const ratios = evalItemRatios(applicantId, [sheet.stage]).sort((a,b)=>b.ratio-a.ratio);
+    const top = ratios[0], low = ratios[ratios.length-1];
+    const avg = (evs.reduce((s,e)=>s+evalTotalScore(e),0)/evs.length).toFixed(1);
+    const max = sheetMaxScore(sheet);
+    const src = sheet.method==='document' ? '提出書類（エントリーシート・履歴書）' : 'WEB面接';
+    let t = src + 'を' + evs.length + '名の評価者が確認。平均' + avg + '／' + max + '点。';
+    if(top) t += '「' + top.name + '」（' + Math.round(top.ratio*100) + '%水準）が最も高く評価された。';
+    if(low && low.masterId !== (top&&top.masterId)) t += 'ー方で「' + low.name + '」（' + Math.round(low.ratio*100) + '%水準）は相対的に評価が伸びていない。';
+    return t;
+  }
+  // 対面面接タブ用: 書類+WEBの結果からAIが特徴と確認ポイントを生成
+  function buildAIAnalysis(applicantId){
+    const ratios = evalItemRatios(applicantId, ['stage1','stage2']);
+    if(!ratios.length) return null;
+    ratios.sort((a,b)=>b.ratio-a.ratio);
+    const strengths = ratios.filter(r=>r.ratio>=0.7).slice(0,3);
+    const weaks = ratios.filter(r=>r.ratio<0.6).slice().reverse().slice(0,2);
+    const features = [];
+    strengths.forEach(s=> features.push(s.name+'が高く評価されており（書類・WEB面接で'+Math.round(s.ratio*100)+'%水準）、当該領域は一定の力量が見込める'));
+    if(!strengths.length){
+      const t0 = ratios[0];
+      features.push('全体に平均的な評価で、書類・WEB面接段階では突出した強みは確認されていない'+(t0?('（最高は「'+t0.name+'」）'):''));
+    }
+    features.push('書類記載の志望動機とWEB面接での受け答えから、'+(strengths.length>=2?'意欲・適性ともに一定の水準':'意欲は示されるが実像の見極めは対面が必要')+'と推察される');
+    const points = [];
+    weaks.forEach(w=> points.push(w.name+'は書類・WEB面接で評価が伸びず（'+Math.round(w.ratio*100)+'%水準）、対面での具体的な言動・エピソードで再確認する'));
+    points.push('オンラインでは把握しづらい人柄・傾聴姿勢・職場への適合性を対面で見極める');
+    points.push('志望動機と実際の発言に一貫性があるか、深掘り質問で確認する');
+    return { features: features.slice(0,3), points: points.slice(0,4) };
+  }
+  function iconInfo(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'; }
+  function iconAI(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.6 4.8L18 8l-4.4 1.6L12 14l-1.6-4.4L6 8l4.4-1.2L12 2z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></svg>'; }
+  // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
+  function buildStageExtra(applicantId, sheet){
+    if(!sheet) return '';
+    if(sheet.method==='document' || sheet.method==='web'){
+      const s = buildStageSummaryText(applicantId, sheet);
+      if(!s) return '';
+      return '<div class="appeval-note"><div class="appeval-note-label">'+iconInfo()+'選考内容サマリ</div><div class="appeval-note-text">'+escapeHtml(s)+'</div></div>';
+    }
+    if(sheet.method==='inperson'){
+      const ai = buildAIAnalysis(applicantId);
+      if(!ai) return '';
+      return '<div class="appeval-ai">'
+        + '<div class="appeval-ai-head">'+iconAI()+'AI分析：書類選考・WEB面接の結果から</div>'
+        + '<div class="appeval-ai-sub">書類選考とWEB面接の評価をAIが分析し、この応募者の特徴と、対面面接で重点的に確認すべきポイントを提示します。最終判断は必ず評価者が行ってください。</div>'
+        + '<div class="appeval-ai-grid">'
+        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">応募者の特徴</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">対面面接で重点的に確認すべきポイント</div><ul>'+ai.points.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '</div></div>';
+    }
+    return '';
+  }
+
   // ─────────── シート内容描画 ───────────
   function renderSheetContent(sheetId){
     const sheet = getSheet(sheetId);
@@ -54758,7 +54848,8 @@ window.toggleLoginPassword = function(btn){
       `;
     }
 
-    return `<div class="appeval-main">${summaryHtml}${cardsHtml}${addRowHtml}</div>`;
+    const extraHtml = buildStageExtra(currentApplicantId, sheet);
+    return `<div class="appeval-main">${summaryHtml}${extraHtml}${cardsHtml}${addRowHtml}</div>`;
   }
 
   // ─────────── 評価カード描画（閲覧/編集） ───────────
