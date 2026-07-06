@@ -54619,7 +54619,6 @@ window.toggleLoginPassword = function(btn){
           <div class="appeval-applicant-meta">
             <span>受験番号: <strong>${escapeHtml(a.id)}</strong></span>
             <span>職種: <strong>${escapeHtml(a.job || '')}</strong></span>
-            <span>担当: <strong>${escapeHtml(a.staff || '')}</strong></span>
           </div>
         </div>
         <span class="appeval-applicant-stage">${escapeHtml(stageLabel)}</span>
@@ -54776,32 +54775,34 @@ window.toggleLoginPassword = function(btn){
     return secs.map(function(s){ return '<div class="appeval-doc-sec"><h5>'+s[0]+'</h5><p>'+s[1]+'</p></div>'; }).join('');
   }
 
-  // WEB面接の内容（面接官の記録＝発言事実を転記。評価は行わない）
+  // WEB面接の内容（書類選考と同じセクション観点で、面接でのやり取りを文章化）
   function buildWebSummaryHTML(a){
+    const h = hashNum(a.id + '|web');
     const job = a.job || '一般行政職';
     const jc = jobContext(job);
     const car = Array.isArray(a.career) ? a.career : [];
     const c0 = car[0] || null;
+    const experKey = c0 ? ('前職の'+(c0.role||'業務')) : '学生時代の活動';
     const web = stageAvgScore(a.id, 'stage2');
     const ratio = web ? web.avg / web.max : 0.7;
-    const qas = [
-      ['公共市を志望した理由を、改めて教えてください。',
-        '「'+CITY_CONTEXT.plan+'を読み、'+jc.issue+'に取り組む姿勢に共感した」と回答。'+(c0? c0.company+'での経験':'学生時代の活動')+'と結びつけて志望理由を説明した。'],
-      ['これまでの経験を、公共市の'+jc.dept+'の業務にどう活かせますか。',
-        '「'+(c0? (c0.role||'前職の業務') : '学生時代の活動')+'で、関係部署や外部機関との調整を経験した」と回答。'+jc.task+'の場面で活かせると述べた。'+(ratio>=0.7 ? '前職での具体的な調整事例を1件挙げて説明した。' : '具体的な事例までは挙げず、一般的な説明にとどまった。')],
-      ['公共市の'+jc.theme.split('、')[0]+'について、知っていることや関心を教えてください。',
-        (ratio>=0.72 ? '「'+CITY_CONTEXT.plan+'や公共川の'+jc.theme.split('、')[0]+'に関する報道を把握している」と回答し、具体的な施策名に言及した。' : '「関心はある」と述べたが、具体的な施策名・地域課題への言及は限定的だった。')],
-      ['これまでで最も困難だった経験と、その対応を教えてください。',
-        '「前例のない業務で関係者の理解が得られず停滞したが、背景を個別に説明し、小さな合意を積み重ねて前進させた」と回答。' + (ratio>=0.75 ? '当時の状況・自身の役割・結果まで順を追って説明した。' : '結論は述べたが、当時の具体的な工夫についての説明は簡潔だった。')],
-      ['逆質問（応募者からの質問）',
-        (ratio>=0.7 ? '「'+jc.dept+'ではどのような業務から担当しますか」「入庁後の研修・育成体制」など、入庁後を想定した質問が複数あった。' : '「業務内容について」など一般的な質問が中心だった。')]
+    const theme0 = jc.theme.split('、')[0];
+
+    const secs = [
+      ['志望動機（面接での説明）',
+        '志望理由について、「'+CITY_CONTEXT.plan+'を読み、'+jc.issue+'に取り組む姿勢に共感した」と説明。'+experKey+'での経験と結びつけて、公共市の'+jc.dept+'で働きたい理由を述べた。書類の記載内容と大きな相違はなかった。'],
+      ['これまでの経験と強み（面接での説明）',
+        '「'+(c0? (c0.role||'前職の業務') : '学生時代の活動')+'で、関係部署や外部機関との調整を経験した」と説明し、公共市の'+jc.task+'に活かせると述べた。'+(ratio>=0.7 ? '前職での調整事例を1件挙げ、当時の状況・自身の役割・結果まで具体的に説明した。' : '説明はやや一般的で、具体的な行動レベルまでは踏み込まなかった。')+'困難だった経験としては「前例のない業務で関係者の理解が得られず停滞したが、背景を個別に説明して合意を積み重ねた」と述べた。'],
+      ['公共市・職務への理解（面接での説明）',
+        (ratio>=0.72
+          ? '公共市の'+theme0+'について、「'+CITY_CONTEXT.plan+'や、市の'+theme0+'に関する報道を把握している」と述べ、具体的な施策名に言及した。'
+          : '公共市の'+theme0+'について、「関心はある」と述べたが、具体的な施策名や地域課題への言及は限定的だった。')
+        +job+'の役割については、住民に最も近い立場での対応と、中長期的な制度改善への関与に触れた。'],
+      ['入庁後の展望・逆質問（面接での説明）',
+        '入庁後に取り組みたいこととして、'+jc.task+'を通じて住民の困りごとを一つずつ解決したいと述べた。'
+        +(ratio>=0.7 ? '逆質問では「'+jc.dept+'ではどのような業務から担当するか」「入庁後の研修・育成体制」など、入庁後を想定した質問が複数あった。' : '逆質問は「業務内容について」など一般的な内容が中心だった。')
+        +'なお、オンライン形式のため、対面での人物像・雰囲気は未確認である。']
     ];
-    let html = '<div class="appeval-doc-meta">実施形式：WEB（オンライン）／所要時間：約40分／面接官：'+(web?web.n:1)+'名／評価シート：'+jc.dept+'</div>';
-    html += qas.map(function(q){ return '<div class="appeval-qa"><div class="appeval-qa-q">Q. '+q[0]+'</div><div class="appeval-qa-a">'+q[1]+'</div></div>'; }).join('');
-    // 面接官所見：事実の記録（言及の有無）にとどめ、評価語は用いない
-    var noted = ratio>=0.72 ? '公共市の具体的な施策名への言及があった。' : '公共市の具体的な施策名への言及は少なかった。';
-    html += '<div class="appeval-doc-sec"><h5>面接官記録（発言事実）</h5><p>志望理由・経験の活かし方・困難への対応について発言があった。'+noted+'オンライン形式のため、対面での人物像は未確認である。</p></div>';
-    return html;
+    return secs.map(function(s){ return '<div class="appeval-doc-sec"><h5>'+s[0]+'</h5><p>'+s[1]+'</p></div>'; }).join('');
   }
 
   // 対面面接タブ用: 書類+WEBの記録事実から特徴と面接官向けレポートを生成（事実ベース・評価語を排除）
