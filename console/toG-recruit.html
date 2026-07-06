@@ -21160,6 +21160,14 @@ body.on-login-page{overflow:hidden}
      ═══════════════════════════════════════════════ -->
 <style>
   #senko-modal .senko-body{padding:18px 24px;overflow-y:auto;flex:1;min-height:0;display:flex;flex-direction:column;gap:14px}
+  #senko-modal .senko-req{border:1px solid #C5E6D4;border-radius:10px;padding:14px 16px;background:#F7FAF8}
+  #senko-modal .senko-req-head{font-size:13px;font-weight:700;color:#115A36;margin-bottom:6px}
+  #senko-modal .senko-req-note{font-size:12px;color:#5F6B65;line-height:1.6;margin-bottom:12px}
+  #senko-modal .senko-req-block{background:#fff;border:1px solid #E6E6E6;border-radius:8px;padding:12px;margin-bottom:10px}
+  #senko-modal .senko-req-block:last-child{margin-bottom:0}
+  #senko-modal .senko-req-job{font-size:12px;font-weight:700;color:#1A1A1A;margin-bottom:8px}
+  #senko-modal .senko-req-add{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#115A36;background:#E6F5EC;border:1px solid #C5E6D4;border-radius:8px;padding:7px 12px;cursor:pointer;font-family:inherit;margin-top:2px}
+  #senko-modal .senko-req-add:hover{background:#D9EFE2}
   #senko-modal .senko-step{border:1px solid var(--n-200);border-radius:10px;padding:14px 16px;background:#fff}
   #senko-modal .senko-step-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
   #senko-modal .senko-step-badge{font-size:13px;font-weight:700;color:#fff;background:#115A36;border-radius:6px;padding:4px 12px}
@@ -21237,6 +21245,66 @@ body.on-login-page{overflow:hidden}
   var DEF_SCORE=20;
   var steps=[newStep()];
   function newStep(){ return {method:'',other:'',items:[],pickerOpen:false,openCat:-1}; }
+  // 応募要件（受験資格）: 求人ごと
+  var reqJobs = [];            // 選択中応募者の求人（職種）一覧
+  var reqByJob = {};           // { 求人名: [condition...] }
+  var EMP_OPTS = [['all','雇用形態問わず'],['正社員','正社員'],['契約社員','契約社員'],['公務員','公務員']];
+  function defaultReq(){ return [
+    { id:'rq_age', type:'age', operator:'lte', value:35, unit:'歳', required:true },
+    { id:'rq_ten', type:'tenure', operator:'gte', value:24, unit:'ヶ月', employmentTypes:['正社員'], required:true }
+  ]; }
+  function collectReqJobs(){
+    reqJobs = []; 
+    try{
+      if(typeof selectedIds!=='undefined' && typeof APPLICANTS!=='undefined'){
+        var seen={};
+        APPLICANTS.forEach(function(a){ if(selectedIds.has(a.id) && !seen[a.job]){ seen[a.job]=1; reqJobs.push(a.job); } });
+      }
+    }catch(e){}
+    if(!reqJobs.length) reqJobs=['（対象求人）'];
+    reqJobs.forEach(function(job){
+      if(!reqByJob[job]){
+        var pre = (typeof window!=='undefined' && window.JOB_REQUIREMENTS && window.JOB_REQUIREMENTS[job]) ? JSON.parse(JSON.stringify(window.JOB_REQUIREMENTS[job])) : defaultReq();
+        reqByJob[job] = pre;
+      }
+    });
+  }
+  function senkoCondRow(ji, c, i){
+    var job=reqJobs[ji]; var isAge=c.type==='age';
+    var et=(c.employmentTypes&&c.employmentTypes.length)?c.employmentTypes[0]:'all';
+    var typeSel='<select class="eval-cond-sel" onchange="senkoUpdateCond('+ji+','+i+',\'type\',this.value)"><option value="age"'+(isAge?' selected':'')+'>年齢要件</option><option value="tenure"'+(!isAge?' selected':'')+'>職歴要件</option></select>';
+    var bodyH;
+    if(isAge){
+      bodyH='<span class="eval-cond-txt">応募日時点で</span><input type="number" class="eval-cond-num" value="'+(c.value!=null?c.value:35)+'" min="0" max="99" onchange="senkoUpdateCond('+ji+','+i+',\'value\',this.value)"><span class="eval-cond-txt">歳</span>'
+        +'<select class="eval-cond-sel" onchange="senkoUpdateCond('+ji+','+i+',\'operator\',this.value)"><option value="lte"'+(c.operator==='lte'?' selected':'')+'>以下</option><option value="gte"'+(c.operator==='gte'?' selected':'')+'>以上</option></select>';
+    } else {
+      var eOpts=EMP_OPTS.map(function(o){return '<option value="'+o[0]+'"'+(et===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('');
+      bodyH='<select class="eval-cond-sel" onchange="senkoUpdateCond('+ji+','+i+',\'employmentType\',this.value)">'+eOpts+'</select><span class="eval-cond-txt">として通算</span><input type="number" class="eval-cond-num" value="'+(c.value!=null?c.value:24)+'" min="0" max="600" onchange="senkoUpdateCond('+ji+','+i+',\'value\',this.value)"><span class="eval-cond-txt">ヶ月</span>'
+        +'<select class="eval-cond-sel" onchange="senkoUpdateCond('+ji+','+i+',\'operator\',this.value)"><option value="gte"'+(c.operator==='gte'?' selected':'')+'>以上</option><option value="lte"'+(c.operator==='lte'?' selected':'')+'>以下</option></select>';
+    }
+    var reqSel='<select class="eval-cond-sel" onchange="senkoUpdateCond('+ji+','+i+',\'required\',this.value)"><option value="true"'+(c.required!==false?' selected':'')+'>必須</option><option value="false"'+(c.required===false?' selected':'')+'>歓迎</option></select>';
+    return '<div class="eval-cond-item"><div class="eval-cond-fields">'+typeSel+bodyH+reqSel+'</div><button class="eval-cond-del" onclick="senkoRemoveCond('+ji+','+i+')" title="削除">×</button></div>';
+  }
+  function senkoReqSection(){
+    var blocks=reqJobs.map(function(job,ji){
+      var conds=reqByJob[job]||[];
+      var rows = conds.length ? conds.map(function(c,i){return senkoCondRow(ji,c,i);}).join('') : '<div class="eval-item-empty">応募要件が未設定です。「条件を追加」から設定してください。</div>';
+      return '<div class="senko-req-block"><div class="senko-req-job">求人：'+esc(job)+'</div>'+rows
+        +'<button class="senko-req-add" onclick="senkoAddCond('+ji+')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>条件を追加</button></div>';
+    }).join('');
+    return '<div class="senko-req"><div class="senko-req-head">応募要件（受験資格）／求人ごと</div>'
+      +'<div class="senko-req-note">選択中の応募者が応募した求人ごとに受験資格を設定します。設定した要件は、各応募者の選考評価シート（書類選考）で適合判定に使用されます（基準日は応募日）。</div>'
+      +blocks+'</div>';
+  }
+  window.senkoAddCond=function(ji){ var job=reqJobs[ji]; if(!reqByJob[job])reqByJob[job]=[]; reqByJob[job].push({id:'rq_'+Date.now().toString(36),type:'age',operator:'lte',value:35,unit:'歳',required:true}); render(); };
+  window.senkoRemoveCond=function(ji,i){ var job=reqJobs[ji]; reqByJob[job].splice(i,1); render(); };
+  window.senkoUpdateCond=function(ji,i,field,val){ var job=reqJobs[ji]; var c=reqByJob[job][i]; if(!c)return;
+    if(field==='type'){ c.type=val; if(val==='age'){c.operator='lte';c.value=35;c.unit='歳';delete c.employmentTypes;} else {c.operator='gte';c.value=24;c.unit='ヶ月';c.employmentTypes=['正社員'];} render(); return; }
+    if(field==='operator'){ c.operator=val; return; }
+    if(field==='value'){ c.value=parseInt(val,10)||0; return; }
+    if(field==='required'){ c.required=(val==='true'); return; }
+    if(field==='employmentType'){ c.employmentTypes=(val==='all')?[]:[val]; return; }
+  };
   function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
   function render(){
     var body=document.getElementById('senko-body'); if(!body) return;
@@ -21277,10 +21345,11 @@ body.on-login-page{overflow:hidden}
     html+='<button class="senko-add" onclick="senkoAddStep()"'+(canAdd?'':' disabled')+'>'
       +'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
       +(canAdd?'選考ステップを追加（最大4次）':'最大4次まで設定済み')+'</button>';
-    body.innerHTML=html;
+    body.innerHTML=senkoReqSection()+html;
   }
   window.openSenkoMgmtModal=function(){
     steps=[newStep()];
+    reqByJob={}; collectReqJobs();
     var n=document.getElementById('sb-n'); var cnt=n?n.textContent:'0';
     var tc=document.getElementById('senko-target-count'); if(tc) tc.textContent=cnt;
     render();
@@ -21305,8 +21374,9 @@ body.on-login-page{overflow:hidden}
   window.senkoAddCustom=function(i){ var inp=document.getElementById('senko-custom-'+i); if(!inp) return; var val=(inp.value||'').trim(); if(!val) return; if(!steps[i].items.some(function(x){return x.name===val;})) steps[i].items.push({name:val,score:DEF_SCORE}); steps[i].pickerOpen=true; render(); };
   window.senkoSubmit=function(){
     for(var i=0;i<steps.length;i++){ if(!steps[i].method){ alert((i+1)+'次選考の試験区分を選択してください'); return; } if(steps[i].items.length===0){ alert((i+1)+'次選考の評価項目を1つ以上設定してください'); return; } }
+    if(typeof window!=='undefined'){ window.JOB_REQUIREMENTS = window.JOB_REQUIREMENTS || {}; reqJobs.forEach(function(job){ window.JOB_REQUIREMENTS[job] = JSON.parse(JSON.stringify(reqByJob[job]||[])); }); }
     var cnt=(document.getElementById('senko-target-count')||{}).textContent||'0';
-    if(typeof showToast==='function'){ showToast('選考管理（'+steps.length+'段階）を作成し、'+cnt+'名に適用しました'); } else { alert('選考管理（'+steps.length+'段階）を作成しました'); }
+    if(typeof showToast==='function'){ showToast('選考管理（'+steps.length+'段階）と応募要件を作成し、'+cnt+'名に適用しました'); } else { alert('選考管理（'+steps.length+'段階）を作成しました'); }
     window.closeSenkoMgmtModal();
   };
 })();
@@ -55059,10 +55129,21 @@ window.toggleLoginPassword = function(btn){
     }
     return { status:'unknown', label:(cond.label||'条件'), detail:'この条件は自動判定に対応していません。' };
   }
+  function resolveConditions(a, sheet){
+    // 求人ごとに設定された応募要件（選考管理の作成で設定）を優先。なければシートのサンプル条件
+    if(typeof window!=='undefined' && window.JOB_REQUIREMENTS && window.JOB_REQUIREMENTS[a.job] && window.JOB_REQUIREMENTS[a.job].length){
+      return window.JOB_REQUIREMENTS[a.job];
+    }
+    return (sheet && Array.isArray(sheet.conditions)) ? sheet.conditions : [];
+  }
   function buildConditionPanel(applicantId, sheet){
-    if(!sheet || !Array.isArray(sheet.conditions) || !sheet.conditions.length) return '';
+    // 受験資格は書類選考（1次）で確認
+    if(!sheet || sheet.method!=='document') return '';
     var a = getApplicant(applicantId); if(!a) return '';
-    var rows = sheet.conditions.map(function(c){
+    var conditions = resolveConditions(a, sheet);
+    if(!conditions.length) return '';
+    var fromJob = (typeof window!=='undefined' && window.JOB_REQUIREMENTS && window.JOB_REQUIREMENTS[a.job] && window.JOB_REQUIREMENTS[a.job].length);
+    var rows = conditions.map(function(c){
       var r = judgeCondition(a, c);
       var badge = r.status==='pass' ? '<span class="appeval-cond-badge pass">適合</span>'
                 : r.status==='fail' ? '<span class="appeval-cond-badge fail">不適合</span>'
@@ -55071,14 +55152,15 @@ window.toggleLoginPassword = function(btn){
       return '<div class="appeval-cond-row"><div class="appeval-cond-main"><div class="appeval-cond-label">'+req+escapeHtml(r.label)+'</div><div class="appeval-cond-detail">'+escapeHtml(r.detail)+'</div></div>'+badge+'</div>';
     }).join('');
     // 総合（必須要件がすべてpassか）
-    var reqs = sheet.conditions.filter(function(c){return c.required;}).map(function(c){return judgeCondition(a,c).status;});
+    var reqs = conditions.filter(function(c){return c.required;}).map(function(c){return judgeCondition(a,c).status;});
     var hasFail = reqs.indexOf('fail')>=0, hasUnknown = reqs.indexOf('unknown')>=0;
     var overall = hasFail ? '<span class="appeval-cond-badge fail">要件未充足あり</span>'
                 : hasUnknown ? '<span class="appeval-cond-badge unknown">未判定あり</span>'
                 : '<span class="appeval-cond-badge pass">全必須要件を充足</span>';
+    var srcNote = fromJob ? '「選考管理の作成」で設定した求人「'+escapeHtml(a.job||'')+'」の受験資格を照合しています。' : '募集要項の受験資格（サンプル）を照合しています。';
     return '<div class="appeval-cond"><div class="appeval-cond-head"><span>応募条件（受験資格）の適合判定</span>'+overall+'</div>'
       + '<div class="appeval-cond-list">'+rows+'</div>'
-      + '<div class="appeval-cond-note">※ 基準日は応募日。判定は募集要項の受験資格を機械的に照合した補助表示です。合否等の最終判断は評価者が行ってください。</div></div>';
+      + '<div class="appeval-cond-note">※ '+srcNote+'基準日は応募日。判定は受験資格を機械的に照合した補助表示です。合否等の最終判断は評価者が行ってください。</div></div>';
   }
 
   // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
