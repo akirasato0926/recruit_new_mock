@@ -21345,7 +21345,7 @@ body.on-login-page{overflow:hidden}
   .appeval-note-label svg{width:14px;height:14px}
   .appeval-note-text{font-size:13px;color:#333;line-height:1.7}
   /* AI分析カード（対面面接タブ） */
-  .appeval-ai{margin-bottom:16px;padding:16px 18px;background:#F5F9F7;border:1px solid #C5E6D4;border-left:3px solid #115A36;border-radius:10px}
+  .appeval-ai{margin-bottom:16px;padding:16px 18px;background:#F7FAF8;border:1px solid #E6E6E6;border-radius:10px}
   .appeval-ai-head{font-size:14px;font-weight:700;color:#115A36;display:flex;align-items:center;gap:8px;margin-bottom:4px}
   .appeval-ai-head svg{width:16px;height:16px}
   .appeval-ai-sub{font-size:12px;color:#5F6B65;line-height:1.6;margin-bottom:14px}
@@ -54726,7 +54726,7 @@ window.toggleLoginPassword = function(btn){
       const ai = buildAIAnalysis(applicantId);
       if(!ai) return '';
       return '<div class="appeval-ai">'
-        + '<div class="appeval-ai-head">'+iconAI()+'AI分析：書類選考・WEB面接の結果から</div>'
+        + '<div class="appeval-ai-head">AI分析：書類選考・WEB面接の結果から</div>'
         + '<div class="appeval-ai-sub">書類選考とWEB面接の評価をAIが分析し、この応募者の特徴と、対面面接で重点的に確認すべきポイントを提示します。最終判断は必ず評価者が行ってください。</div>'
         + '<div class="appeval-ai-grid">'
         + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">応募者の特徴</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
