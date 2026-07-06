@@ -21344,6 +21344,21 @@ body.on-login-page{overflow:hidden}
   .appeval-note-label{font-size:12px;font-weight:700;color:#115A36;margin-bottom:6px;display:flex;align-items:center;gap:6px}
   .appeval-note-label svg{width:14px;height:14px}
   .appeval-note-text{font-size:13px;color:#333;line-height:1.7}
+  /* 内容サマリ本文（書類/WEB） */
+  .appeval-doc{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+  .appeval-doc-sec h5{font-size:12px;font-weight:700;color:#115A36;margin:0 0 5px}
+  .appeval-doc-sec p{font-size:13px;color:#333;line-height:1.85;margin:0}
+  .appeval-doc-meta{font-size:12px;color:#767676;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #E6EDE9}
+  .appeval-qa{margin-bottom:12px}
+  .appeval-qa-q{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:3px}
+  .appeval-qa-a{font-size:13px;color:#333;line-height:1.8;padding-left:14px;border-left:2px solid #E0E6E3}
+  /* AI分析 詳細 */
+  .appeval-ai-sec{margin-top:14px}
+  .appeval-ai-sec:first-of-type{margin-top:2px}
+  .appeval-ai-sec h5{font-size:12px;font-weight:700;color:#1A1A1A;margin:0 0 6px;padding-bottom:6px;border-bottom:1px solid #DCEBE2}
+  .appeval-ai-sec p{font-size:13px;color:#333;line-height:1.9;margin:0}
+  .appeval-ai-q{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+  .appeval-ai-q li{font-size:13px;color:#1A4D33;line-height:1.7;background:#fff;border:1px solid #DCEBE2;border-radius:8px;padding:9px 12px}
   /* AI分析カード（対面面接タブ） */
   .appeval-ai{margin-bottom:16px;padding:16px 18px;background:#F7FAF8;border:1px solid #E6E6E6;border-radius:10px}
   .appeval-ai-head{font-size:14px;font-weight:700;color:#115A36;display:flex;align-items:center;gap:8px;margin-bottom:4px}
@@ -54678,60 +54693,181 @@ window.toggleLoginPassword = function(btn){
     });
     return Object.keys(acc).map(k => ({ masterId:k, name:acc[k].name, ratio:acc[k].sum/acc[k].cnt }));
   }
-  // 書類選考 / WEB面接 の内容サマリ文
-  function buildStageSummaryText(applicantId, sheet){
-    const evs = (applicantEvals[applicantId]||{})[sheet.id] || [];
-    if(!evs.length) return '';
-    const ratios = evalItemRatios(applicantId, [sheet.stage]).sort((a,b)=>b.ratio-a.ratio);
-    const top = ratios[0], low = ratios[ratios.length-1];
-    const avg = (evs.reduce((s,e)=>s+evalTotalScore(e),0)/evs.length).toFixed(1);
-    const max = sheetMaxScore(sheet);
-    const src = sheet.method==='document' ? '提出書類（エントリーシート・履歴書）' : 'WEB面接';
-    let t = src + 'を' + evs.length + '名の評価者が確認。平均' + avg + '／' + max + '点。';
-    if(top) t += '「' + top.name + '」（' + Math.round(top.ratio*100) + '%水準）が最も高く評価された。';
-    if(low && low.masterId !== (top&&top.masterId)) t += 'ー方で「' + low.name + '」（' + Math.round(low.ratio*100) + '%水準）は相対的に評価が伸びていない。';
-    return t;
+  // 内容サマリ / AI分析の本文生成ヘルパ
+  function getApplicant(applicantId){
+    const all = (typeof APPLICANTS !== 'undefined') ? APPLICANTS : [];
+    return all.find(x => x.id === applicantId) || null;
   }
-  // 対面面接タブ用: 書類+WEBの結果からAIが特徴と確認ポイントを生成
-  function buildAIAnalysis(applicantId){
-    const ratios = evalItemRatios(applicantId, ['stage1','stage2']);
-    if(!ratios.length) return null;
-    ratios.sort((a,b)=>b.ratio-a.ratio);
-    const strengths = ratios.filter(r=>r.ratio>=0.7).slice(0,3);
-    const weaks = ratios.filter(r=>r.ratio<0.6).slice().reverse().slice(0,2);
-    const features = [];
-    strengths.forEach(s=> features.push(s.name+'が高く評価されており（書類・WEB面接で'+Math.round(s.ratio*100)+'%水準）、当該領域は一定の力量が見込める'));
-    if(!strengths.length){
-      const t0 = ratios[0];
-      features.push('全体に平均的な評価で、書類・WEB面接段階では突出した強みは確認されていない'+(t0?('（最高は「'+t0.name+'」）'):''));
+  function sheetByStage(stg){ return (window.getAllEvalSheets()||[]).find(s => s.stage === stg) || null; }
+  function stageAvgScore(applicantId, stg){
+    const sh = sheetByStage(stg); if(!sh) return null;
+    const evs = (applicantEvals[applicantId]||{})[sh.id] || [];
+    if(!evs.length) return null;
+    return { avg: Math.round(evs.reduce((s,e)=>s+evalTotalScore(e),0)/evs.length), max: sheetMaxScore(sh), n: evs.length };
+  }
+  function hashNum(s){ let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h+s.charCodeAt(i))|0; } return Math.abs(h); }
+  function pick(arr, seed){ return arr[seed % arr.length]; }
+
+  // 書類選考の内容（提出書類の記載をそのまま転記したイメージ）
+  function buildDocumentSummaryHTML(a){
+    const h = hashNum(a.id);
+    const job = a.job || '一般行政職';
+    const uni = a.university || '大学';
+    const car = Array.isArray(a.career) ? a.career : [];
+    const c0 = car[0] || null;
+    const cLast = car.length ? car[car.length-1] : null;
+    const region = '公共市';
+    const motives = [
+      '学生時代に参加した'+region+'のまちづくりワークショップで、行政が住民生活の基盤を支える役割の大きさを実感したことが原点です。',
+      '前職で地域企業の支援に携わる中で、より広く住民全体の暮らしに貢献できる公務の仕事に強く惹かれるようになりました。',
+      '自身が生まれ育った地域への恩返しとして、行政の立場からまちの課題解決に取り組みたいと考えるようになりました。',
+      '民間で培った課題解決の視点を、営利ではなく住民福祉の向上のために活かしたいという思いが年々強くなりました。'
+    ];
+    const prs = [
+      '相手の立場に立って粘り強く対話し、利害の異なる関係者の間で合意形成を進めることを得意としています。',
+      '複雑な事象を構造的に整理し、限られた情報の中でも筋道立てて解決策を導く力には自信があります。',
+      '与えられた役割にとどまらず、自ら課題を見つけて改善提案を行う主体性を強みとしています。',
+      'チームの一員として周囲を支えながら、期限と品質の両立を意識して着実に業務を遂行してきました。'
+    ];
+    const gakuchika = [
+      '大学では地域政策を専攻し、ゼミ活動として近隣自治体の人口減少対策を調査・提言する取り組みを主導しました。',
+      '学生時代は地域ボランティア団体の運営に3年間携わり、参加者の募集から行政との調整まで幅広く担当しました。',
+      'ゼミの共同研究で自治体の公開データを分析し、政策効果の検証をテーマに論文をまとめた経験があります。'
+    ];
+    const interests = {
+      '土木技術職':'道路・河川・公園等の社会基盤整備、防災・減災、老朽化インフラの長寿命化',
+      '事務職（大卒）':'行財政運営、住民サービスのデジタル化、広報・シティプロモーション',
+      '社会福祉士':'生活困窮者支援、高齢者・障害者福祉、地域包括ケア',
+      '保育士':'就学前教育・保育、子育て世帯支援、待機児童対策'
+    };
+    const interest = interests[job] || '住民サービスの向上、行政のデジタル化、地域活性化';
+    let careerText;
+    if(c0){
+      careerText = c0.company + 'にて' + (c0.role||'業務') + 'を担当。' + (cLast && cLast!==c0 ? 'その後' + cLast.company + 'で' + (cLast.role||'業務') + 'に従事し、' : '') + '一貫して現場と関係者をつなぐ調整・推進の役割を担ってきました。';
+    } else {
+      careerText = uni + 'を卒業（見込み）。学業と並行して長期インターンやアルバイトに取り組み、社会人としての基礎を培いました。';
     }
-    features.push('書類記載の志望動機とWEB面接での受け答えから、'+(strengths.length>=2?'意欲・適性ともに一定の水準':'意欲は示されるが実像の見極めは対面が必要')+'と推察される');
-    const points = [];
-    weaks.forEach(w=> points.push(w.name+'は書類・WEB面接で評価が伸びず（'+Math.round(w.ratio*100)+'%水準）、対面での具体的な言動・エピソードで再確認する'));
-    points.push('オンラインでは把握しづらい人柄・傾聴姿勢・職場への適合性を対面で見極める');
-    points.push('志望動機と実際の発言に一貫性があるか、深掘り質問で確認する');
-    return { features: features.slice(0,3), points: points.slice(0,4) };
+    const secs = [
+      ['志望動機', '「'+region+'の'+job+'を志望します。」<br>'+pick(motives,h)+'採用後は'+interest+'といった分野で、住民に最も近い基礎自治体の職員として、着実に成果を積み重ねていきたいと考えています。'],
+      ['自己PR', pick(prs,h>>2)+'この強みは、'+(c0? '前職の'+(c0.role||'業務')+'において':'学生時代の活動において')+'、関係者の意見が対立する場面でも粘り強く調整し、期限内に成果へ結びつけた経験に裏付けられています。'],
+      ['学歴・これまでの経験', '最終学歴：'+uni+'。'+pick(gakuchika,h>>3)+'<br>職務経歴：'+careerText],
+      ['関心分野・活かせる強み', '関心のある分野は「'+interest+'」です。これまでの経験で培った調整力・課題解決力を、'+job+'の実務の中で'+region+'の行政運営に還元したいと考えています。']
+    ];
+    return secs.map(function(s){ return '<div class="appeval-doc-sec"><h5>'+s[0]+'</h5><p>'+s[1]+'</p></div>'; }).join('');
   }
-  function iconInfo(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'; }
-  function iconAI(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l1.6 4.8L18 8l-4.4 1.6L12 14l-1.6-4.4L6 8l4.4-1.2L12 2z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15z"/></svg>'; }
+
+  // WEB面接の内容（面接官の記録＝質疑応答と所見をそのまま転記したイメージ）
+  function buildWebSummaryHTML(a){
+    const h = hashNum(a.id + '|web');
+    const car = Array.isArray(a.career) ? a.career : [];
+    const c0 = car[0] || null;
+    const web = stageAvgScore(a.id, 'stage2');
+    const ratio = web ? web.avg / web.max : 0.7;
+    const qas = [
+      ['志望動機を改めて教えてください。',
+        '「民間での経験を、より公共性の高いフィールドで活かしたいと考えました。特に'+ (c0? (c0.role||'前職の業務') : '学生時代の活動') +'を通じて、制度や仕組みの側から地域を支える仕事に魅力を感じています。」と回答。動機に一貫性があり、自身の経験と結びつけて具体的に語れていた。'],
+      ['前職（またはこれまでの経験）を当市の業務にどう活かせますか。',
+        '「関係部署や外部機関との調整を数多く経験しており、立場の異なる相手の意見を整理して合意に導くプロセスには自信があります。」と回答。' + (ratio>=0.7 ? '具体的なエピソードを交えて説明でき、再現性のある強みとして評価できる。' : '説明はやや一般的で、具体的な行動レベルまでは踏み込めていなかった。')],
+      ['これまでで最も困難だった経験と、その乗り越え方を教えてください。',
+        '「前例のない業務を任され、関係者の理解が得られず停滞した経験があります。一人ひとりに背景を丁寧に説明し、小さな合意を積み重ねることで前進させました。」と回答。' + (ratio>=0.75 ? '困難への向き合い方が具体的で、ストレス耐性・主体性の両面が確認できた。' : '結論は語れるが、当時の葛藤や工夫の描写がやや浅い印象。')],
+      ['当市の職員として、どのような貢献をしたいですか。',
+        '「住民に最も近い立場で、日々の困りごとを一つずつ解決できる職員になりたい。中長期的には制度改善の提案にも関わりたい。」と回答。行政の役割理解は妥当で、住民志向の姿勢がうかがえた。'],
+      ['逆質問（応募者からの質問）',
+        (ratio>=0.7 ? '「配属部署ではどのような姿勢の職員が活躍していますか」「入庁後の研修・育成体制について」など、入庁後を具体的にイメージした質問が複数あった。' : '「業務内容について」など一般的な質問が中心で、深い関心を示す逆質問は少なかった。')]
+    ];
+    const impression = ratio>=0.78
+      ? 'オンライン面接ではあるが、受け答えは落ち着いており、質問の意図を的確に捉えて応答できていた。志望動機・経験の一貫性が高く、次段階（対面）での確認を推奨する。'
+      : (ratio>=0.6
+        ? '基本的なコミュニケーションは問題なく、志望動機も妥当。一方で回答が一般論に寄る場面があり、対面で具体的な行動事実を掘り下げたい。'
+        : '緊張のためか回答が硬く、本来の力を出し切れていない可能性がある。対面で改めて人物像を見極める必要がある。');
+    let html = '<div class="appeval-doc-meta">実施形式：WEB（オンライン）／所要時間：約40分／面接官：'+(web?web.n:1)+'名</div>';
+    html += qas.map(function(q){ return '<div class="appeval-qa"><div class="appeval-qa-q">Q. '+q[0]+'</div><div class="appeval-qa-a">'+q[1]+'</div></div>'; }).join('');
+    html += '<div class="appeval-doc-sec"><h5>面接官所見</h5><p>'+impression+'</p></div>';
+    return html;
+  }
+
+  // 対面面接タブ用: 書類+WEBの結果からAIが特徴と面接官向けレポートを生成
+  function buildAIAnalysis(applicantId){
+    const a = getApplicant(applicantId);
+    const ratios = evalItemRatios(applicantId, ['stage1','stage2']);
+    if(!a || !ratios.length) return null;
+    ratios.sort((x,y)=>y.ratio-x.ratio);
+    const doc = stageAvgScore(applicantId, 'stage1');
+    const web = stageAvgScore(applicantId, 'stage2');
+    const strengths = ratios.filter(r=>r.ratio>=0.7);
+    const weaks = ratios.filter(r=>r.ratio<0.62).slice().reverse();
+    const topNames = strengths.slice(0,3).map(s=>s.name);
+    const overallRatio = ratios.reduce((s,r)=>s+r.ratio,0)/ratios.length;
+    const tier = overallRatio>=0.8 ? 'high' : (overallRatio>=0.62 ? 'mid' : 'low');
+
+    // 総括（複数文）
+    const scoreLine = (doc?('書類選考'+doc.avg+'／'+doc.max+'点'):'') + (doc&&web?'、':'') + (web?('WEB面接'+web.avg+'／'+web.max+'点'):'');
+    let summary = scoreLine + 'という結果でした。';
+    if(tier==='high'){
+      summary += topNames.length? topNames.join('・')+'を中心に評価が高く、書類・WEB面接の両段階を通じて安定した力量を示しています。' : '全項目を通じて安定した評価を得ています。';
+      summary += '志望動機と経歴の一貫性も確認でき、当市の'+(a.job||'職種')+'として即戦力に近い活躍が期待できる有力な候補者です。対面面接では、書面・オンラインでは測りにくい人柄と組織適合性の最終確認が中心となります。';
+    } else if(tier==='mid'){
+      summary += topNames.length? topNames.join('・')+'は評価される一方、項目によって評価にばらつきがあります。' : '全体に平均的で、突出した強み・弱みは書類・WEB段階では確認されていません。';
+      summary += '志望意欲は示されているものの、回答が一般論にとどまる場面もあり、実際の行動事実に基づく裏付けが十分とは言えません。対面面接では具体的なエピソードの深掘りを通じて、強みの再現性と実像を見極めることを推奨します。';
+    } else {
+      summary += '現時点では評価が伸び切っておらず、書類・WEB面接の情報だけでは適性を判断しづらい状況です。緊張等により本来の力を発揮できていない可能性も考慮し、対面面接では応募者が話しやすい雰囲気づくりを行ったうえで、基礎的な適性と意欲を丁寧に確認することを推奨します。';
+    }
+
+    // 特徴・強み
+    const features = [];
+    strengths.slice(0,3).forEach(function(s){
+      features.push(s.name+'（'+Math.round(s.ratio*100)+'%水準）：書類・WEB面接の双方で高く評価されており、当該領域は一定の再現性が見込まれます。');
+    });
+    if(a.career && a.career[0]){
+      features.push('職務経歴：'+a.career[0].company+'での'+(a.career[0].role||'業務')+'など実務経験があり、'+(a.job||'職種')+'への転用が期待できます。');
+    }
+    if(!features.length){
+      features.push('書類・WEB面接段階では突出した強みは確認されていませんが、志望動機の一貫性は認められます。');
+    }
+
+    // 留意点・対面で確認すべき事項
+    const points = [];
+    weaks.slice(0,2).forEach(function(w){
+      points.push(w.name+'（'+Math.round(w.ratio*100)+'%水準）が相対的に低く、対面での具体的な言動・エピソードで再評価が必要です。');
+    });
+    points.push('オンラインでは把握しづらい人柄・傾聴姿勢・職場への適合性を、対面での立ち居振る舞いから見極めてください。');
+    points.push('書類記載の志望動機とWEB面接での発言に一貫性があるか、追加のエピソードを求めて確認してください。');
+
+    // 対面面接での推奨質問
+    const questions = [];
+    if(strengths[0]) questions.push('「'+strengths[0].name+'を発揮した具体的な場面を、当時の状況・ご自身の役割・結果まで詳しく教えてください。」');
+    if(weaks[0]) questions.push('「'+weaks[0].name+'について、これまで課題を感じた経験と、どのように改善に取り組んだか教えてください。」');
+    questions.push('「当市の'+(a.job||'職種')+'として、入庁後に最初に取り組みたいことと、5年後に目指す姿を教えてください。」');
+    questions.push('「チーム内で意見が対立した際、あなたはどのように振る舞いますか。具体的な経験があれば併せて教えてください。」');
+
+    return { summary: summary, features: features, points: points, questions: questions };
+  }
+
   // タブごとの上部追加ブロック（書類/WEB=内容サマリ, 対面=AI分析）
   function buildStageExtra(applicantId, sheet){
     if(!sheet) return '';
+    const a = getApplicant(applicantId);
+    if(!a) return '';
     if(sheet.method==='document' || sheet.method==='web'){
-      const s = buildStageSummaryText(applicantId, sheet);
-      if(!s) return '';
-      return '<div class="appeval-note"><div class="appeval-note-label">'+iconInfo()+'選考内容サマリ</div><div class="appeval-note-text">'+escapeHtml(s)+'</div></div>';
+      const evs = (applicantEvals[applicantId]||{})[sheet.id] || [];
+      if(!evs.length) return '';
+      const label = sheet.method==='document' ? '提出書類の内容（エントリーシート・履歴書）' : 'WEB面接の記録';
+      const inner = sheet.method==='document' ? buildDocumentSummaryHTML(a) : buildWebSummaryHTML(a);
+      return '<div class="appeval-note"><div class="appeval-note-label">'+label+'</div><div class="appeval-doc">'+inner+'</div></div>';
     }
     if(sheet.method==='inperson'){
       const ai = buildAIAnalysis(applicantId);
       if(!ai) return '';
       return '<div class="appeval-ai">'
-        + '<div class="appeval-ai-head">AI分析：書類選考・WEB面接の結果から</div>'
-        + '<div class="appeval-ai-sub">書類選考とWEB面接の評価をAIが分析し、この応募者の特徴と、対面面接で重点的に確認すべきポイントを提示します。最終判断は必ず評価者が行ってください。</div>'
+        + '<div class="appeval-ai-head">AI分析レポート：書類選考・WEB面接の結果から</div>'
+        + '<div class="appeval-ai-sub">書類選考とWEB面接の評価内容をAIが分析し、面接官向けに応募者の特徴と対面面接での着眼点をまとめました。最終判断は必ず評価者が行ってください。</div>'
+        + '<div class="appeval-ai-sec"><h5>総括</h5><p>'+escapeHtml(ai.summary)+'</p></div>'
         + '<div class="appeval-ai-grid">'
-        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">応募者の特徴</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
-        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">対面面接で重点的に確認すべきポイント</div><ul>'+ai.points.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
-        + '</div></div>';
+        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">特徴・強み</div><ul>'+ai.features.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '<div class="appeval-ai-col"><div class="appeval-ai-col-title">留意点・対面で確認すべき事項</div><ul>'+ai.points.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '</div>'
+        + '<div class="appeval-ai-sec"><h5>対面面接での推奨質問</h5><ul class="appeval-ai-q">'+ai.questions.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')+'</ul></div>'
+        + '</div>';
     }
     return '';
   }
